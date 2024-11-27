@@ -186,9 +186,37 @@ public class Controlador {
 
     // Método para eliminar publicaciones por vistas
     public void eliminarPublicacionesPorVistas(List<Contenido> contenido, String rutaCSV, int umbralVistas) {
-        contenido.removeIf(c -> c.getVistas() < umbralVistas); // Eliminar publicaciones que no alcanzan el umbral
+       
+        if (contenido == null) {
+            System.out.println("La lista de contenido es nula. No se pueden eliminar publicaciones.");
+            return; 
+        }
+
+        if (umbralVistas < 0) {
+            System.err.println("El umbral de vistas debe ser un número positivo.");
+            return; 
+        }
+
+        System.out.println("Eliminando publicaciones con menos de " + umbralVistas + " vistas...");
+
+      
+        Iterator<Contenido> iterator = contenido.iterator();
+        int publicacionesEliminadas = 0;
+
+        while (iterator.hasNext()) {
+            Contenido c = iterator.next();
+           
+            if (c.getVistas() < umbralVistas) {
+                iterator.remove();
+                publicacionesEliminadas++;
+            }
+        }
+
+      
         guardarContenidoEnCSV(contenido, rutaCSV);
-        System.out.println("Se eliminaron publicaciones con menos de " + umbralVistas + " vistas.");
+
+        // Informar al usuario cuántas publicaciones fueron eliminadas
+        System.out.println("Se eliminaron " + publicacionesEliminadas + " publicaciones con menos de " + umbralVistas + " vistas.");
     }
 
     // Método para convertir colaboraciones a JSON
@@ -286,7 +314,8 @@ public class Controlador {
 
     // Método para generar un reporte de colaboraciones
     public void generarReporteColaboraciones(String rutaCSV, Creador[] creadores) {
-        try (CSVWriter writer = new CSVWriter(new FileWriter(rutaCSV))) {
+        try  {
+        	CSVWriter writer = new CSVWriter(new FileWriter(rutaCSV));
             String[] header = { "Fecha Inicio", "Fecha Fin", "Creador", "Colaborador", "Plataforma", "Temática", "Tipo", "Estado" };
             writer.writeNext(header);
 
