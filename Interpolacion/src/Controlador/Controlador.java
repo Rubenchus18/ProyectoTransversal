@@ -376,8 +376,7 @@ public class Controlador {
                 }
             }
 
-            Map<String, Object> creadorResumen
-            = new HashMap<>();
+            Map<String, Object> creadorResumen = new HashMap<>();
             creadorResumen.put("Creador", creadorNombre);
             creadorResumen.put("Plataforma con más vistas", plataformaMasVistas);
             creadorResumen.put("Plataforma con más interacciones", plataformaMasInteracciones);
@@ -388,9 +387,8 @@ public class Controlador {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             objectMapper.writeValue(new File(rutaJSON), resumen);
-            System.out.println("Resumen de rendimiento generado exitosamente en " + rutaJSON);
-        } catch (IOException e) {
-            System.err.println("Error al generar el resumen de rendimiento: " + e.getMessage());
+        } catch (Exception e) {
+        	e.printStackTrace();
         }
     }
 
@@ -423,7 +421,8 @@ public class Controlador {
 
     // Método para guardar contenido en un archivo CSV
     public void guardarContenidoEnCSV(List<Contenido> contenido, String rutaCSV) {
-        try (FileWriter writer = new FileWriter(rutaCSV)) {
+        try  {
+        	FileWriter writer = new FileWriter(rutaCSV);
             StatefulBeanToCsv<Contenido> beanToCsv = new StatefulBeanToCsvBuilder<Contenido>(writer).build();
             beanToCsv.write(contenido);
             writer.flush();
