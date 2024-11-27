@@ -32,16 +32,16 @@ public class Controlador {
 
             
             controlador.insertarNuevaColaboracion(null, null, null); 
-            controlador.exportarColaboracionesACSV(creadores, "files/nuevo.csv");
-            controlador.modificarPublicacion(contenido, "files/metricas_contenido.csv", null, null, null);
-            controlador.eliminarPublicacionesPorVistas(contenido, "files/metricas_contenido.csv", 3000);
+            controlador.exportarColaboracionesACSV(creadores, "nuevo.csv");
+            controlador.modificarPublicacion(contenido, "metricas_contenido.csv", null, null, null);
+            controlador.eliminarPublicacionesPorVistas(contenido, "metricas_contenido.csv", 3000);
             controlador.convertirColaboracionesAJSON(creadores);
-            controlador.generarInformeCreador("files/informe_creadores.json", creadores);
+            controlador.generarInformeCreador("informe_creadores.json", creadores);
             controlador.analizarCrecimientoSeguidores(creadores);
-            controlador.generarReporteColaboraciones("files/reporte_colaboraciones.csv", creadores);
+            controlador.generarReporteColaboraciones("reporte_colaboraciones.csv", creadores);
             controlador.analizarRendimientoContenido(contenido);
-            controlador.generarResumenRendimiento("files/resumen_rendimiento.json", creadores);
-            controlador.agregarPublicacion(contenido, null, "files/metricas_contenido.csv");
+            controlador.generarResumenRendimiento("resumen_rendimiento.json", creadores);
+            controlador.agregarPublicacion(contenido, null, "metricas_contenido.csv");
             controlador.convertirColaboracionesAJSON2(creadores);
         } catch (Exception e) {
             System.err.println("Error en la ejecución: " + e.getMessage());
@@ -130,7 +130,7 @@ public class Controlador {
                     plataforma.setImpactoVisualizaciones(plataforma.getImpactoVisualizaciones() + colaboracion.getImpactoVisualizaciones());
                 }
             }
-            crearCSV(creador1, "files/creadores.csv");
+            crearCSV(creador1, "creadores.csv");
         } else {
             System.err.println("Creador o colaboración no pueden ser nulos.");
         }
@@ -153,7 +153,7 @@ public class Controlador {
                     writer.writeNext(data);
                 }
             }
-            System.out.println("Colaboraciones exportadas exitosamente a " + rutaCSV);
+            System.out.println("Colaboraciones exportadas exitosamente a " + "files/"+rutaCSV);
         } catch (IOException e) {
             System.err.println("Error al exportar colaboraciones: " + e.getMessage());
         }
@@ -177,7 +177,7 @@ public class Controlador {
         }
 
         if (encontrado) {
-            guardarContenidoEnCSV (contenido, rutaCSV);
+            guardarContenidoEnCSV (contenido, "files/"+rutaCSV);
             System.out.println("Publicación con ID " + idPublicacion + " modificada exitosamente.");
         } else {
             System.out.println("No se encontró la publicación con ID " + idPublicacion + ".");
@@ -213,7 +213,7 @@ public class Controlador {
         }
 
       
-        guardarContenidoEnCSV(contenido, rutaCSV);
+        guardarContenidoEnCSV(contenido, "files/"+rutaCSV);
 
         // Informar al usuario cuántas publicaciones fueron eliminadas
         System.out.println("Se eliminaron " + publicacionesEliminadas + " publicaciones con menos de " + umbralVistas + " vistas.");
@@ -264,8 +264,8 @@ public class Controlador {
 
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            objectMapper.writeValue(new File(rutaJSON), informes);
-            System.out.println("Informe generado exitosamente en " + rutaJSON);
+            objectMapper.writeValue(new File("files/"+rutaJSON), informes);
+            System.out.println("Informe generado exitosamente en " + "files/"+rutaJSON);
         } catch (IOException e) {
             System.err.println("Error al generar el informe: " + e.getMessage());
         }
@@ -315,7 +315,7 @@ public class Controlador {
     // Método para generar un reporte de colaboraciones
     public void generarReporteColaboraciones(String rutaCSV, Creador[] creadores) {
         try  {
-        	CSVWriter writer = new CSVWriter(new FileWriter(rutaCSV));
+        	CSVWriter writer = new CSVWriter(new FileWriter("files/"+rutaCSV));
             String[] header = { "Fecha Inicio", "Fecha Fin", "Creador", "Colaborador", "Plataforma", "Temática", "Tipo", "Estado" };
             writer.writeNext(header);
 
@@ -334,7 +334,7 @@ public class Controlador {
                     writer.writeNext(data);
                 }
             }
-            System.out.println("Reporte de colaboraciones generado exitosamente en " + rutaCSV);
+            System.out.println("Reporte de colaboraciones generado exitosamente en " + "files/"+rutaCSV);
         } catch (IOException e) {
             System.err.println("Error al generar el reporte de colaboraciones: " + e.getMessage());
         }
@@ -415,7 +415,7 @@ public class Controlador {
 
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            objectMapper.writeValue(new File(rutaJSON), resumen);
+            objectMapper.writeValue(new File("files/"+rutaJSON), resumen);
         } catch (Exception e) {
         	e.printStackTrace();
         }
@@ -425,7 +425,7 @@ public class Controlador {
     public void agregarPublicacion(List<Contenido> contenido, Contenido nuevaPublicacion, String rutaCSV) {
         if (nuevaPublicacion != null) {
             contenido.add(nuevaPublicacion);
-            guardarContenidoEnCSV(contenido, rutaCSV);
+            guardarContenidoEnCSV(contenido, "files/"+rutaCSV);
             System.out.println("Publicación agregada exitosamente.");
         } else {
             System.err.println("La nueva publicación no puede ser nula.");
@@ -451,11 +451,11 @@ public class Controlador {
     // Método para guardar contenido en un archivo CSV
     public void guardarContenidoEnCSV(List<Contenido> contenido, String rutaCSV) {
         try  {
-        	FileWriter writer = new FileWriter(rutaCSV);
+        	FileWriter writer = new FileWriter("files/"+rutaCSV);
             StatefulBeanToCsv<Contenido> beanToCsv = new StatefulBeanToCsvBuilder<Contenido>(writer).build();
             beanToCsv.write(contenido);
             writer.flush();
-            System.out.println("Contenido guardado exitosamente en " + rutaCSV);
+            System.out.println("Contenido guardado exitosamente en " + "files/"+rutaCSV);
         } catch (IOException | CsvDataTypeMismatchException | CsvRequiredFieldEmptyException e) {
             System.err.println("Error al guardar contenido en CSV: " + e.getMessage());
         }
@@ -463,11 +463,11 @@ public class Controlador {
 
     // Método para crear un archivo CSV para un creador
     public void crearCSV(Creador creador, String rutaCSV) {
-        try (FileWriter fw = new FileWriter(rutaCSV)) {
+        try (FileWriter fw = new FileWriter("files/"+rutaCSV)) {
             StatefulBeanToCsv<Creador> beanToCsv = new StatefulBeanToCsvBuilder<Creador>(fw).build();
             beanToCsv.write(Arrays.asList(creador));
             fw.flush();
-            System.out.println("CSV creado exitosamente para el creador en " + rutaCSV);
+            System.out.println("CSV creado exitosamente para el creador en " + "files/"+rutaCSV);
         } catch (IOException | CsvDataTypeMismatchException | CsvRequiredFieldEmptyException e) {
             System.err.println("Error al crear CSV para el creador: " + e.getMessage());
         }
