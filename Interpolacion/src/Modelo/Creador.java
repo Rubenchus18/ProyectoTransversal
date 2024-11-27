@@ -59,7 +59,7 @@ public class Creador {
 		public void setColaboraciones(List<Colaboracion> colaboraciones) {
 			this.colaboraciones = colaboraciones;
 		}
-		@Override
+	
 		public String toString() {
 			return "Creador [id=" + id + ", nombre=" + nombre + ", pais=" + pais + ", tematica=" + tematica
 					+ ", seguidores_totales=" + seguidores_totales + ", estadisticas=" + estadisticas + ", plataformas="

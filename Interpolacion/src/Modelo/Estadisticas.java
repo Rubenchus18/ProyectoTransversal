@@ -23,7 +23,7 @@ public class Estadisticas {
 	public void setTasa_crecimiento_seguidores(int tasa_crecimiento_seguidores) {
 		this.tasa_crecimiento_seguidores = tasa_crecimiento_seguidores;
 	}
-	@Override
+	
 	public String toString() {
 		return "Estadisticas [interacciones_totales=" + interacciones_totales + ", promedio_vistas_mensuales="
 				+ promedio_vistas_mensuales + ", tasa_crecimiento_seguidores=" + tasa_crecimiento_seguidores + "]";

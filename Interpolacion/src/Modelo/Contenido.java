@@ -102,7 +102,7 @@ public class Contenido {
 		this.compartidos = compartidos;
 	}
 
-	@Override
+	
 	public String toString() {
 		return "Contenido [creador_id=" + creador_id + ", plataforma=" + plataforma + ", fecha=" + fecha
 				+ ", contenido=" + contenido + ", tipo=" + tipo + ", vistas=" + vistas + ", me_gustas=" + me_gustas
