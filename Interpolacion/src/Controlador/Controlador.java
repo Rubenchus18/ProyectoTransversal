@@ -2,7 +2,9 @@ package Controlador;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.opencsv.CSVWriter;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
@@ -17,81 +19,91 @@ import Modelo.Creador;
 import Modelo.Historico;
 import Modelo.InformeCreador;
 import Modelo.Plataforma;
+import Vsita.VistaStreamer;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.*;
 
-public class Controlador {
-    public static void main(String[] args) {
-        try {
-            Controlador controlador = new Controlador();
-            // Leer y mostrar datos de creadores
-            Creador[] creadores = controlador.leerYVisualizarDatos();
-            // Leer contenido desde un archivo CSV
-            List<Contenido> contenido = controlador.abrirCSV("files/metricas_contenido.csv");
+import javax.swing.DefaultListModel;
 
-            
-            controlador.insertarNuevaColaboracion(null, null, null); 
-            controlador.exportarColaboracionesACSV(creadores, "nuevo.csv");
-            controlador.modificarPublicacion(contenido, "metricas_contenido.csv", null, null, null);
-            controlador.eliminarPublicacionesPorVistas(contenido, "metricas_contenido.csv", 3000);
-            controlador.convertirColaboracionesAJSON(creadores);
-            controlador.generarInformeCreador("informe_creadores.json", creadores);
-            controlador.analizarCrecimientoSeguidores(creadores);
-            controlador.generarReporteColaboraciones("reporte_colaboraciones.csv", creadores);
-            controlador.analizarRendimientoContenido(contenido);
-            controlador.generarResumenRendimiento("resumen_rendimiento.json", creadores);
-            controlador.agregarPublicacion(contenido, null, "metricas_contenido.csv");
-            controlador.convertirColaboracionesAJSON2(creadores);
-        } catch (Exception e) {
-            System.err.println("Error en la ejecución: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-    
-    // Método para leer y mostrar datos de creadores desde un archivo JSON
-    public Creador[] leerYVisualizarDatos() throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        Creador[] creadores = objectMapper.readValue(new File("files/creadores.json"), Creador[].class);
-
-        for (Creador creador : creadores) {
-            mostrarDatosCreador(creador);
-        }
-        return creadores;
+public class Controlador implements ActionListener{
+	Controlador control;
+	VistaStreamer vista=new VistaStreamer();
+	DefaultListModel modelo=new DefaultListModel();
+	ObjectMapper objectMapper = new ObjectMapper();
+	List<Contenido> contenido=new ArrayList<Contenido>();
+	public Controlador(VistaStreamer vista) throws JsonParseException, JsonMappingException, IOException {
+		
+	
+		
+		
+		JsonNode rootnode = objectMapper.readTree(new File("files/creadores.json"));
+		ArrayNode streamernode=(ArrayNode)rootnode;
+		control.mostrarDatosCreador(streamernode);
+        contenido=abrirCSV("files/metricas_contenido.csv");
+	}
+    public void actionPerformed(ActionEvent e) {
+    	
     }
 
+//Metodos
     // Método auxiliar para mostrar datos de un creador
-    public void mostrarDatosCreador(Creador creador) {
-        System.out.println("ID: " + creador.getId());
-        System.out.println("Nombre: " + creador.getNombre());
-        System.out.println("País: " + creador.getPais());
-        System.out.println("Temática: " + creador.getTematica());
-        System.out.println("Seguidores Totales: " + creador.getSeguidores_totales());
-        System.out.println("Interacciones Totales: " + creador.getEstadisticas().getInteracciones_totales());
-        System.out.println("Promedio Vistas Mensuales: " + creador.getEstadisticas().getPromedio_vistas_mensuales());
-        System.out.println("Tasa Crecimiento Seguidores: " + creador.getEstadisticas().getTasa_crecimiento_seguidores());
-
-        for (Plataforma plataforma : creador.getPlataformas()) {
-            mostrarDatosPlataforma(plataforma);
+    public void mostrarDatosCreador(ArrayNode streamernode) {
+        System.out.println("ID: " + streamernode.get("id").asText());
+        System.out.println("Nombre: " + streamernode.get("nombre").asText());
+        System.out.println("País: " + streamernode.get("pais").asText());
+        System.out.println("Temática: " + streamernode.get("tematicas").asText());
+        System.out.println("Seguidores Totales: " + streamernode.get("seguidores_totales").asText());
+        System.out.println("Interacciones Totales: " + streamernode.get("estadisticas").get("interacciones_totales").asText());
+        System.out.println("Promedio Vistas Mensuales: " + streamernode.get("estadisticas").get("promedio_vistas_mensuales").asText());
+        System.out.println("Tasa Crecimiento Seguidores: " + streamernode.get("estadisticas").get("tasa_crecimiento_seguidores").asText());
+        for (JsonNode plataforma : streamernode.get("plataformas")) {
+        	System.out.println("  Plataforma: " + plataforma.get("nombre").asText());
+            System.out.println("  Usuario: " + plataforma.get("usuario").asText());
+            System.out.println("  Seguidores: " + plataforma.get("seguidores").asText());
+            System.out.println("  Fecha Creación: " + plataforma.get("fecha_creacion").asText());
+            for (JsonNode historico : plataforma.get("historico")) {
+                System.out.println("    Fecha: " + historico.get("Fecha"));
+                System.out.println("    Nuevos Seguidores: " + historico.get("nuevos_seguidores").asText());
+                System.out.println("    Interacciones: " + historico.get("interaciones").asText());
+            }
         }
-
-        for (Colaboracion colaboracion : creador.getColaboraciones()) {
-            mostrarDatosColaboracion(colaboracion);
+        System.out.println("  Plataforma: " + streamernode.get("nombre").asText());
+        System.out.println("  Usuario: " + streamernode.get("usuario").asText());
+        System.out.println("  Seguidores: " + streamernode.get("seguidores").asText());
+        System.out.println("  Fecha Creación: " + streamernode.get("fecha_creacion").asText());
+        for (JsonNode historico : streamernode.get("Historico")) {
+            System.out.println("    Fecha: " + historico.get("fecha").asText());
+            System.out.println("    Nuevos Seguidores: " + historico.get("nuevo_seguidores").asText());
+            System.out.println("    Interacciones: " + historico.get("interacciones").asText());
         }
-        System.out.println();
+        for (JsonNode colaboracion : streamernode.get("colaboraciones")) {
+        	 System.out.println("  Colaboración con: " + colaboracion.get("colaborador").asText());
+             System.out.println("    Temática: " + colaboracion.get("tematica").asText());
+             System.out.println("    Fecha Inicio: " + colaboracion.get("fecha_inicio").asText());
+             System.out.println("    Fecha Fin: " + colaboracion.get("fecha_fin").asText());
+             System.out.println("    Tipo: " + colaboracion.get("tipo").asText());
+             System.out.println("    Estado: " + colaboracion.get("estado").asText());
+        }
+    }
+    public List<Contenido> abrirCSV(String rutaCSV) {
+        List<Contenido> contenidoList = new ArrayList<>();
+        try  {
+        	  FileReader reader = new FileReader(rutaCSV);
+        	  CsvToBeanBuilder<Contenido>csvBuilder=new CsvToBeanBuilder<Contenido>(reader);
+        	  CsvToBean<Contenido>csv=csvBuilder.withType(Contenido.class).withIgnoreLeadingWhiteSpace(true).build();
+            contenidoList = csv.parse();
+        } catch (Exception e) {
+            System.out.println("Error al abrir el archivo CSV: " + e.getMessage());
+        }
+        return contenidoList;
     }
 
     // Método auxiliar para mostrar datos de una plataforma
     public void mostrarDatosPlataforma(Plataforma plataforma) {
-        System.out.println("  Plataforma: " + plataforma.getNombre());
-        System.out.println("  Usuario: " + plataforma.getUsuario());
-        System.out.println("  Seguidores: " + plataforma.getSeguidores());
-        System.out.println("  Fecha Creación: " + plataforma.getFecha_creacion());
-        for (Historico historico : plataforma.getHistorico()) {
-            System.out.println("    Fecha: " + historico.getFecha());
-            System.out.println("    Nuevos Seguidores: " + historico.getNuevos_seguidores());
-            System.out.println("    Interacciones: " + historico.getInteracciones());
-        }
+        
     }
 
     // Método auxiliar para mostrar datos de una colaboración
@@ -105,21 +117,10 @@ public class Controlador {
     }
 
     // Método para abrir un archivo CSV y leer contenido
-    public List<Contenido> abrirCSV(String rutaCSV) {
-        List<Contenido> contenidoList = new ArrayList<>();
-        try  {
-        	  FileReader reader = new FileReader(rutaCSV);
-            CsvToBean<Contenido> csvToBean = new CsvToBeanBuilder<Contenido>(reader)
-                    .withType(Contenido.class)
-                    .withIgnoreLeadingWhiteSpace(true)
-                    .build();
-            contenidoList = csvToBean.parse();
-        } catch (Exception e) {
-            System.err.println("Error al abrir el archivo CSV: " + e.getMessage());
-        }
-        return contenidoList;
+   
+    public void mostrarDatos(Creador[] creadores,List<Contenido>contenido) {
+    	
     }
-
     // Método para insertar una nueva colaboración
     public void insertarNuevaColaboracion(Creador creador1, Creador creador2, Colaboracion colaboracion) {
         if (creador1 != null && colaboracion != null) {
@@ -132,32 +133,36 @@ public class Controlador {
             }
             crearCSV(creador1, "creadores.csv");
         } else {
-            System.err.println("Creador o colaboración no pueden ser nulos.");
+            System.out.println("Creador o colaboración no pueden ser nulos.");
         }
     }
 
     // Método para exportar colaboraciones a un archivo CSV
     public void exportarColaboracionesACSV(Creador[] creadores, String rutaCSV) {
-        try (CSVWriter writer = new CSVWriter(new FileWriter(rutaCSV))) {
+        try (CSVWriter writer = new CSVWriter(new FileWriter("files/" + rutaCSV))) {
             String[] header = { "Fecha", "Creador", "Colaborador", "Impacto Seguidores", "Impacto Visualizaciones" };
             writer.writeNext(header);
             for (Creador creador : creadores) {
-                for (Colaboracion colaboracion : creador.getColaboraciones()) {
-                    String[] data = {
-                        colaboracion.getFecha_inicio(),
-                        creador.getNombre(),
-                        colaboracion.getColaborador(),
-                        String.valueOf(colaboracion.getImpactoSeguidores()),
-                        String.valueOf(colaboracion.getImpactoVisualizaciones())
-                    };
-                    writer.writeNext(data);
+                if (creador.getColaboraciones() != null) {
+                    for (Colaboracion colaboracion : creador.getColaboraciones()) {
+                        String[] data = {
+                            colaboracion.getFecha_inicio() != null ? colaboracion.getFecha_inicio() : "N/A",
+                            creador.getNombre(),
+                            colaboracion.getColaborador() != null ? colaboracion.getColaborador() : "N/A",
+                            String.valueOf(colaboracion.getImpactoSeguidores()),
+                            String.valueOf(colaboracion.getImpactoVisualizaciones())
+                        };
+                        writer.writeNext(data);
+                    }
                 }
             }
-            System.out.println("Colaboraciones exportadas exitosamente a " + "files/"+rutaCSV);
+
+            System.out.println("Colaboraciones exportadas exitosamente a " + "files/" + rutaCSV);
         } catch (IOException e) {
-            System.err.println("Error al exportar colaboraciones: " + e.getMessage());
+            System.out.println("Error al exportar colaboraciones: " + e.getMessage());
         }
     }
+
 
     // Método para modificar una publicación
     public void modificarPublicacion(List<Contenido> contenido, String rutaCSV, String idPublicacion, Integer nuevosMeGusta, Integer nuevosComentarios) {
@@ -193,7 +198,7 @@ public class Controlador {
         }
 
         if (umbralVistas < 0) {
-            System.err.println("El umbral de vistas debe ser un número positivo.");
+            System.out.println("El umbral de vistas debe ser un número positivo.");
             return; 
         }
 
@@ -230,7 +235,7 @@ public class Controlador {
             objectMapper.writeValue(new File("files/colaboraciones.json"), todasColaboraciones);
             System.out.println("Colaboraciones convertidas exitosamente a JSON.");
         } catch (IOException e) {
-            System.err.println("Error al convertir colaboraciones a JSON: " + e.getMessage());
+            System.out.println("Error al convertir colaboraciones a JSON: " + e.getMessage());
         }
     }
 
@@ -267,7 +272,7 @@ public class Controlador {
             objectMapper.writeValue(new File("files/"+rutaJSON), informes);
             System.out.println("Informe generado exitosamente en " + "files/"+rutaJSON);
         } catch (IOException e) {
-            System.err.println("Error al generar el informe: " + e.getMessage());
+            System.out.println("Error al generar el informe: " + e.getMessage());
         }
     }
 
@@ -336,7 +341,7 @@ public class Controlador {
             }
             System.out.println("Reporte de colaboraciones generado exitosamente en " + "files/"+rutaCSV);
         } catch (IOException e) {
-            System.err.println("Error al generar el reporte de colaboraciones: " + e.getMessage());
+            System.out.println("Error al generar el reporte de colaboraciones: " + e.getMessage());
         }
     }
 
@@ -428,7 +433,7 @@ public class Controlador {
             guardarContenidoEnCSV(contenido, "files/"+rutaCSV);
             System.out.println("Publicación agregada exitosamente.");
         } else {
-            System.err.println("La nueva publicación no puede ser nula.");
+            System.out.println("La nueva publicación no puede ser nula.");
         }
     }
     //Metodo convertir colaboradores a Json
@@ -457,7 +462,7 @@ public class Controlador {
             writer.flush();
             System.out.println("Contenido guardado exitosamente en " + "files/"+rutaCSV);
         } catch (IOException | CsvDataTypeMismatchException | CsvRequiredFieldEmptyException e) {
-            System.err.println("Error al guardar contenido en CSV: " + e.getMessage());
+            System.out.println("Error al guardar contenido en CSV: " + e.getMessage());
         }
     }
 
@@ -472,4 +477,17 @@ public class Controlador {
             System.err.println("Error al crear CSV para el creador: " + e.getMessage());
         }
     }
+    //METODOS
+    /*controlador.exportarColaboracionesACSV(creadores, "Colaboraciones.csv");
+    controlador.convertirColaboracionesAJSON(creadores);
+    controlador.modificarPublicacion(contenido, "metricas_contenido.csv", null, null, null);
+    controlador.eliminarPublicacionesPorVistas(contenido, "metricas_contenido.csv", 3000);
+    controlador.generarInformeCreador("informe_creadores.json", creadores);
+    controlador.analizarCrecimientoSeguidores(creadores);
+    controlador.generarReporteColaboraciones("reporte_colaboraciones.csv", creadores);
+    controlador.analizarRendimientoContenido(contenido);
+    controlador.generarResumenRendimiento("resumen_rendimiento.json", creadores);
+    controlador.agregarPublicacion(contenido, null, "metricas_contenido.csv");
+    controlador.convertirColaboracionesAJSON2(creadores);
+   controlador.insertarNuevaColaboracion(null, null, null);*/
 }

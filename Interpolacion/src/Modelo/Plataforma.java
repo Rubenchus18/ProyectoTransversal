@@ -8,8 +8,8 @@ public class Plataforma {
     private int seguidores;
     private String fecha_creacion;
     private List<Historico> historico;
-    private int impactoSeguidores; // Agregado para almacenar el impacto en seguidores
-    private int impactoVisualizaciones; // Agregado para almacenar el impacto en visualizaciones
+    private int impactoSeguidores; 
+    private int impactoVisualizaciones;
 
     public String getNombre() {
         return nombre;
