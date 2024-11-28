@@ -6,19 +6,20 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/Ruben/Downloads/Todo JSON Y CSV/commons-beanutils-1.9.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Ruben/Downloads/Todo JSON Y CSV/commons-collections4-4.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Ruben/Downloads/Todo JSON Y CSV/commons-logging-1.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Ruben/Downloads/Todo JSON Y CSV/commons-lang3-3.12.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Ruben/Downloads/Todo JSON Y CSV/opencsv-5.6.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Ruben/Downloads/Todo JSON Y CSV/jackson-annotations-2.9.9.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Ruben/Downloads/Todo JSON Y CSV/jackson-annotations-2.9.9-javadoc.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Ruben/Downloads/Todo JSON Y CSV/jackson-annotations-2.9.9-sources.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Ruben/Downloads/Todo JSON Y CSV/jackson-core-2.9.9.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Ruben/Downloads/Todo JSON Y CSV/jackson-core-2.9.9-javadoc.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Ruben/Downloads/Todo JSON Y CSV/jackson-core-2.9.9-sources.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Ruben/Downloads/Todo JSON Y CSV/jackson-databind-2.9.9.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Ruben/Downloads/Todo JSON Y CSV/jackson-databind-2.9.9-javadoc.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Ruben/Downloads/Todo JSON Y CSV/jackson-databind-2.9.9-sources.jar"/>
+	<classpathentry kind="src" path="Librerias"/>
+	<classpathentry kind="lib" path="C:/Users/Ruben/git/ProyectoTransversal/Interpolacion/Librerias/commons-beanutils-1.9.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ruben/git/ProyectoTransversal/Interpolacion/Librerias/commons-collections4-4.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ruben/git/ProyectoTransversal/Interpolacion/Librerias/commons-lang3-3.12.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ruben/git/ProyectoTransversal/Interpolacion/Librerias/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ruben/git/ProyectoTransversal/Interpolacion/Librerias/jackson-annotations-2.9.9.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ruben/git/ProyectoTransversal/Interpolacion/Librerias/jackson-annotations-2.9.9-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ruben/git/ProyectoTransversal/Interpolacion/Librerias/jackson-annotations-2.9.9-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ruben/git/ProyectoTransversal/Interpolacion/Librerias/jackson-core-2.9.9.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ruben/git/ProyectoTransversal/Interpolacion/Librerias/jackson-core-2.9.9-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ruben/git/ProyectoTransversal/Interpolacion/Librerias/jackson-core-2.9.9-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ruben/git/ProyectoTransversal/Interpolacion/Librerias/jackson-databind-2.9.9.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ruben/git/ProyectoTransversal/Interpolacion/Librerias/jackson-databind-2.9.9-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ruben/git/ProyectoTransversal/Interpolacion/Librerias/jackson-databind-2.9.9-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ruben/git/ProyectoTransversal/Interpolacion/Librerias/opencsv-5.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
