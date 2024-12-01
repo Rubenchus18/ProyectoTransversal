@@ -47,7 +47,7 @@ public class Controlador implements ActionListener{
     ObjectMapper objectMapper = new ObjectMapper();
     ArrayNode streamer = objectMapper.createArrayNode();
     List<Contenido> contenido=new ArrayList<Contenido>();
-    List<Contenido2> contenido2 = new ArrayList<>();
+  
     public Controlador(Vista vista) throws JsonParseException, JsonMappingException, IOException {
     	this.vista=vista;
     	this.vista.btnVerStreamer.addActionListener(this);
@@ -75,6 +75,8 @@ public class Controlador implements ActionListener{
     	this.vista.btnNewButtonAñadir.addActionListener(this);
     	this.vista.ModificarPublicaciones.addActionListener(this);
     	this.vista.btnNewButton_Modificarmegustas.addActionListener(this);
+    	this.vista.btneliminarminimo.addActionListener(this);
+    	this.vista.btnNewButtonEliminarminimovistas.addActionListener(this);
     			streamer=leer();
     			contenido=abrirCSV("files/metricas_contenido.csv");
                 agregarcomboxestado();
@@ -194,7 +196,7 @@ public class Controlador implements ActionListener{
         }
         if(e.getSource()==this.vista.btnNewButtonAñadir) {
         	try {
-        		añadirPublicacion(contenido2);
+        		añadirPublicacion(contenido);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -207,6 +209,9 @@ public class Controlador implements ActionListener{
         if(e.getSource()==this.vista.btnNewButton_Modificarmegustas) {
         	modificarPublicacion2(contenido);
         }
+       if(e.getSource()==this.vista.btnNewButtonEliminarminimovistas) {
+    	   eliminarPublicacionesPorLikes(contenido);
+       }
     }
 
 //Metodos
@@ -605,14 +610,10 @@ public class Controlador implements ActionListener{
                     }
                 }
             }
-
-    
             double tasaCrecimientoYoutube = calcularTasaCrecimiento(seguidoresYoutubeInicio, seguidoresYoutubeFin);
             double tasaCrecimientoTwitch = calcularTasaCrecimiento(seguidoresTwitchInicio, seguidoresTwitchFin);
             double tasaCrecimientoInstagram = calcularTasaCrecimiento(seguidoresInstagramInicio, seguidoresInstagramFin);
             double tasaCrecimientoTikTok = calcularTasaCrecimiento(seguidoresTikTokInicio, seguidoresTikTokFin);
-
-           
             modelo.addRow(new Object[]{
                 idCreador, 
                 nombreCreador, 
@@ -623,7 +624,6 @@ public class Controlador implements ActionListener{
             });
         }
     }
-
     public double calcularTasaCrecimiento(int seguidoresInicio, int seguidoresFin) {
         if (seguidoresInicio == 0) {
             return seguidoresFin > 0 ? 100.0 : 0.0; 
@@ -633,32 +633,23 @@ public class Controlador implements ActionListener{
 
     //8
     public void generarReporteColaboracionesCSV(ArrayNode streamer) throws IOException {
-        
         String csvFile = "files/reporte_colaboraciones.csv";
         List<String[]> contenidoList = new ArrayList<>();
-
-        // Agregar el encabezado al contenido
         String[] header = {"Fecha", "Plataforma", "Colaborador"};
         contenidoList.add(header);
         for (JsonNode creador : streamer) {
             ArrayNode colaboraciones = (ArrayNode) creador.path("colaboraciones");
-
             for (JsonNode colaboracion : colaboraciones) {
                 String fechaInicio = colaboracion.path("fecha_inicio").asText();
                 String colaboradorId = colaboracion.path("colaborador").asText();
-
                 ArrayNode plataformas = (ArrayNode) creador.path("plataformas");
                 for (JsonNode plataforma : plataformas) {
                     String nombrePlataforma = plataforma.path("nombre").asText();
-
-                    // Crear un arreglo de String y añadirlo a la lista
                     String[] data = {fechaInicio, nombrePlataforma, colaboradorId};
                     contenidoList.add(data);
                 }
             }
         }
-
-        // Llamar al método crearCSV para escribir en el archivo
         crearCSV8(contenidoList, csvFile);
         this.vista.lblmostrarsiseaexportado.setText("Exportado existosamente");
     }
@@ -673,7 +664,6 @@ public class Controlador implements ActionListener{
         ArrayNode resumen = objectMapper.createArrayNode();
 
         Map<String, Map<String, int[]>> rendimiento = new HashMap<>();
-
         for (Contenido cont : contenido) {
             String creadorId = cont.getCreador_id();
             String plataforma = cont.getPlataforma();
@@ -682,16 +672,11 @@ public class Controlador implements ActionListener{
             int meGusta = cont.getMe_gustas();
             int comentarios = cont.getComentarios();
             int compartidos = cont.getCompartidos();
-
             if (fecha.startsWith("2023")) {
                 rendimiento.putIfAbsent(creadorId, new HashMap<>());
                 rendimiento.get(creadorId).putIfAbsent(plataforma, new int[3]); 
-
-                
                 rendimiento.get(creadorId).get(plataforma)[0] += vistas;
-                
                 rendimiento.get(creadorId).get(plataforma)[1] += (meGusta + comentarios + compartidos);
-               
                 rendimiento.get(creadorId).get(plataforma)[2]++;
             }
         }
@@ -738,103 +723,108 @@ public class Controlador implements ActionListener{
     }
 
 //11
-    public void añadirPublicacion(List<Contenido2> contenido) throws IOException {
+    public void añadirPublicacion(List<Contenido> contenido) throws IOException {
         String id_creador = this.vista.textFieldidcreador1.getText();
         String plataforma = this.vista.textFieldplataforma2.getText();
         String fecha = this.vista.textFieldFecha2.getText();
         String contenidoTexto = this.vista.textFieldContenido2.getText();
         String tipo = this.vista.textFieldTipo2.getText();
+
         try {
-            Integer vistasTexto = Integer.parseInt(this.vista.textFieldVistas2.getText());
-            Integer me_gustaTexto = Integer.parseInt(this.vista.textFieldMeGsuta2.getText());
-            Integer comentariosTexto = Integer.parseInt(this.vista.textFieldComentarios2.getText());
-            Integer compartidosTexto = Integer.parseInt(this.vista.textFieldCompartidos2.getText());
-            Contenido2 nuevaPublicacion = new Contenido2(id_creador, plataforma, fecha, contenidoTexto, tipo,
-                    vistasTexto, me_gustaTexto, comentariosTexto, compartidosTexto);
-            contenido.add(nuevaPublicacion); 
-            
-            escribirEnCSV(nuevaPublicacion);
+            String vistasTextoStr = this.vista.textFieldVistas2.getText();
+            String me_gustaTextoStr = this.vista.textFieldMeGsuta2.getText();
+            String comentariosTextoStr = this.vista.textFieldComentarios2.getText();
+            String compartidosTextoStr = this.vista.textFieldCompartidos2.getText();
+
+            if (vistasTextoStr.isEmpty() || me_gustaTextoStr.isEmpty() || 
+                comentariosTextoStr.isEmpty() || compartidosTextoStr.isEmpty()) {
+                throw new NumberFormatException("Los campos numéricos no pueden estar vacíos.");
+            }
+
+            Integer vistasTexto = Integer.parseInt(vistasTextoStr);
+            Integer me_gustaTexto = Integer.parseInt(me_gustaTextoStr);
+            Integer comentariosTexto = Integer.parseInt(comentariosTextoStr);
+            Integer compartidosTexto = Integer.parseInt(compartidosTextoStr);
+            Contenido contenido1 = new Contenido();
+            contenido1.setCreador_id(id_creador);
+            contenido1.setPlataforma(plataforma);
+            contenido1.setFecha(fecha);
+            contenido1.setContenido(contenidoTexto);
+            contenido1.setTipo(tipo);
+            contenido1.setVistas(vistasTexto);
+            contenido1.setMe_gustas(me_gustaTexto);
+            contenido1.setComentarios(comentariosTexto);
+            contenido1.setCompartidos(compartidosTexto);
+
+         
+            contenido.add(contenido1);
+            crearCSV(contenido, "files/metricas_contenido.csv");
 
             this.vista.lblNewLabelCreado.setText("Publicación añadida con éxito.");
 
         } catch (NumberFormatException e) {
-            this.vista.lblNewLabelCreado.setText("Error: Asegúrate de que los campos numéricos estén correctamente llenos.");
-        } catch (IOException e) {
-            this.vista.lblNewLabelCreado.setText("Error al escribir en el archivo: " + e.getMessage());
+            this.vista.lblNewLabelCreado.setText("Error: " + e.getMessage());
         } catch (Exception e) {
             this.vista.lblNewLabelCreado.setText("Error: " + e.getMessage());
         }
     }
-    public void escribirEnCSV(Contenido2 publicacion) throws IOException {
-        String csvFile = "files/metricas_contenido.csv";
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(csvFile, true))) {
-            String linea = String.join(
-                    publicacion.getId_creador(),
-                    publicacion.getPlataforma(),
-                    publicacion.getFecha(),
-                    publicacion.getContenidoTexto(),
-                    publicacion.getTipo(),
-                    String.valueOf(publicacion.getVistasTexto()),
-                    String.valueOf(publicacion.getMe_gustaTexto()),
-                    String.valueOf(publicacion.getComentariosTexto()),
-                    String.valueOf(publicacion.getCompartidosTexto()));     
-            bw.write(linea);
-            bw.newLine();
-        }
-    }
-    
-   
+
     public void modificarPublicacion2(List<Contenido> contenido) {
         String id_creador = this.vista.textFieldid_creador3.getText();
         String fecha = this.vista.textFieldFechaContenido3.getText();
         String plataforma = this.vista.textFieldel_plataforma3.getText();
-        Integer me_gustaTexto =Integer.parseInt(this.vista.textField_megusta2.getText());
-        Integer comentariosTexto = Integer.parseInt(this.vista.textFieldComentarios2.getText());
-
+        
         try {
+            Integer me_gustaTexto = Integer.parseInt(this.vista.textField_megusta2.getText());
+            Integer comentariosTexto = Integer.parseInt(this.vista.textFieldComentarios2.getText());
+
             boolean encontrado = false;
             for (Contenido publicacion : contenido) {
-                if (publicacion.getCreador_id().equals(id_creador) &&publicacion.getFecha().equals(fecha) && publicacion.getPlataforma().equals(plataforma)) {
+                if (publicacion.getCreador_id().equals(id_creador) && 
+                    publicacion.getFecha().equals(fecha) && 
+                    publicacion.getPlataforma().equals(plataforma)) {
                     publicacion.setMe_gustas(me_gustaTexto);
                     publicacion.setComentarios(comentariosTexto);
                     encontrado = true;
                     break;
                 }
             }
+
             if (encontrado) {
-                System.out.println("Publicación modificada con éxito.");
+                crearCSV(contenido, "files/metricas_contenido.csv");
+                System.out.println("Publicación modificada y guardada con éxito.");
             } else {
                 System.out.println("No se encontró la publicación con los datos proporcionados.");
             }
 
-        } catch (NumberFormatException e) {
-            System.out.println("Error: Asegúrate de que los campos numéricos sean válidos.");
-        }
+        } catch (Exception  e) {
+           e.printStackTrace();
+        } 
     }
-    public void eliminarPublicacionesPorVistas(List<Contenido> contenido) {
-        String vistasTexto = this.vista.textFieldMinVistas.getText();
+    public void eliminarPublicacionesPorLikes(List<Contenido> contenido) {
+        String likesTexto = this.vista.textFieldMinVistas.getText(); 
         try {
-            int minVistas = Integer.parseInt(vistasTexto);
+            int minLikes = Integer.parseInt(likesTexto);
             Iterator<Contenido> iterator = contenido.iterator();
             boolean eliminadas = false;
 
             while (iterator.hasNext()) {
                 Contenido publicacion = iterator.next();
-                if (publicacion.getVistas() < minVistas) {
+                if (publicacion.getMe_gustas() < minLikes) {
                     iterator.remove(); 
                     eliminadas = true; 
                 }
             }
+            crearCSV(contenido, "files/metricas_contenido.csv");
             if (eliminadas) {
                 System.out.println("Publicaciones eliminadas con éxito.");
             } else {
                 System.out.println("No se encontraron publicaciones que eliminar.");
             }
-
-        } catch (NumberFormatException e) {
-            System.out.println("Error: Asegúrate de que el campo de vistas sea un número válido.");
+        }catch(Exception e){
+        	e.printStackTrace();
         }
-    }    
+    }
     //12
     public void convertirColaboracionesAJSON(ArrayNode streamer) throws IOException {
       

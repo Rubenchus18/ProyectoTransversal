@@ -178,6 +178,7 @@ public class Vista extends JFrame {
 	public JButton btnNewButtonEliminarminimovistas;
 	public JLabel lblNewLabel_Eliminar_MinimoVistas;
 	public JButton btnNewButtonAñadir;
+	public Object eliminarPublicacionesPorVistas;
 	/**
 	 * Launch the application.
 	 */
@@ -207,82 +208,303 @@ public class Vista extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		         panelModificarMeGusta_yComentarios = new JPanel();
-		         panelModificarMeGusta_yComentarios.setBackground(new Color(0, 0, 0));
-		         panelModificarMeGusta_yComentarios.setBounds(0, 0, 1657, 537);
-		         contentPane.add(panelModificarMeGusta_yComentarios);
-		         panelModificarMeGusta_yComentarios.setLayout(null);
-		         panelModificarMeGusta_yComentarios.setVisible(false);
-		         lblNewLabel_1 = new JLabel("StreamerFocus");
-		         lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		         lblNewLabel_1.setForeground(new Color(64, 128, 128));
-		         lblNewLabel_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		         lblNewLabel_1.setBounds(496, 11, 771, 99);
-		         panelModificarMeGusta_yComentarios.add(lblNewLabel_1);
+		           
+		           panel_Eliminar_Minimo_Visitas = new JPanel();
+		           panel_Eliminar_Minimo_Visitas.setBackground(new Color(0, 0, 0));
+		           panel_Eliminar_Minimo_Visitas.setBounds(0, 0, 1657, 537);
+		           contentPane.add(panel_Eliminar_Minimo_Visitas);
+		           panel_Eliminar_Minimo_Visitas.setLayout(null);
+		           panel_Eliminar_Minimo_Visitas.setVisible(false);
+		           lblNewLabel_8 = new JLabel("StreamerFocus");
+		           lblNewLabel_8.setHorizontalAlignment(SwingConstants.CENTER);
+		           lblNewLabel_8.setForeground(new Color(64, 128, 128));
+		           lblNewLabel_8.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		           lblNewLabel_8.setBounds(502, 11, 771, 99);
+		           panel_Eliminar_Minimo_Visitas.add(lblNewLabel_8);
+		           
+		           lblNewLabel_9 = new JLabel("Minimo de visitas");
+		           lblNewLabel_9.setHorizontalAlignment(SwingConstants.CENTER);
+		           lblNewLabel_9.setForeground(new Color(64, 128, 128));
+		           lblNewLabel_9.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		           lblNewLabel_9.setBounds(157, 145, 388, 99);
+		           panel_Eliminar_Minimo_Visitas.add(lblNewLabel_9);
+		           
+		           textFieldMinVistas = new JTextField();
+		           textFieldMinVistas.setBounds(157, 255, 388, 20);
+		           panel_Eliminar_Minimo_Visitas.add(textFieldMinVistas);
+		           textFieldMinVistas.setColumns(10);
+		           
+		           btnNewButtonEliminarminimovistas = new JButton("Eliminar");
+		           btnNewButtonEliminarminimovistas.addActionListener(new ActionListener() {
+		           	public void actionPerformed(ActionEvent e) {
+		           	}
+		           });
+		           btnNewButtonEliminarminimovistas.setBounds(157, 286, 388, 23);
+		           panel_Eliminar_Minimo_Visitas.add(btnNewButtonEliminarminimovistas);
+		           
+		           lblNewLabel_Eliminar_MinimoVistas = new JLabel("");
+		           lblNewLabel_Eliminar_MinimoVistas.setHorizontalAlignment(SwingConstants.CENTER);
+		           lblNewLabel_Eliminar_MinimoVistas.setForeground(new Color(64, 128, 128));
+		           lblNewLabel_Eliminar_MinimoVistas.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		           lblNewLabel_Eliminar_MinimoVistas.setBounds(157, 320, 388, 99);
+		           panel_Eliminar_Minimo_Visitas.add(lblNewLabel_Eliminar_MinimoVistas);
+		           panel_Eliminar_Minimo_Visitas.setVisible(false);
+		          
+		           panelAñadirNuevaPublicacion = new JPanel();
+		           panelAñadirNuevaPublicacion.setBackground(new Color(0, 0, 0));
+		           panelAñadirNuevaPublicacion.setBounds(0, 0, 1657, 548);
+		           contentPane.add(panelAñadirNuevaPublicacion);
+		           panelAñadirNuevaPublicacion.setLayout(null);
+		           panelAñadirNuevaPublicacion.setVisible(false);
+		           JLabel lblNewLabel_3_19 = new JLabel("StreamerFocus");
+		           lblNewLabel_3_19.setHorizontalAlignment(SwingConstants.CENTER);
+		           lblNewLabel_3_19.setForeground(new Color(64, 128, 128));
+		           lblNewLabel_3_19.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		           lblNewLabel_3_19.setBounds(503, 11, 771, 99);
+		           panelAñadirNuevaPublicacion.add(lblNewLabel_3_19);
+		           
+		           JLabel lblNewLabel_3_20 = new JLabel("Id_Creador");
+		           lblNewLabel_3_20.setHorizontalAlignment(SwingConstants.CENTER);
+		           lblNewLabel_3_20.setForeground(new Color(64, 128, 128));
+		           lblNewLabel_3_20.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		           lblNewLabel_3_20.setBounds(48, 113, 289, 99);
+		           panelAñadirNuevaPublicacion.add(lblNewLabel_3_20);
+		           
+		           textFieldidcreador1 = new JTextField();
+		           textFieldidcreador1.setBounds(58, 223, 244, 20);
+		           panelAñadirNuevaPublicacion.add(textFieldidcreador1);
+		           textFieldidcreador1.setColumns(10);
+		           
+		           JLabel lblNewLabel_3_20_1 = new JLabel("Plataforma");
+		           lblNewLabel_3_20_1.setHorizontalAlignment(SwingConstants.CENTER);
+		           lblNewLabel_3_20_1.setForeground(new Color(64, 128, 128));
+		           lblNewLabel_3_20_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		           lblNewLabel_3_20_1.setBounds(48, 254, 289, 99);
+		           panelAñadirNuevaPublicacion.add(lblNewLabel_3_20_1);
+		           
+		           textFieldplataforma2 = new JTextField();
+		           textFieldplataforma2.setColumns(10);
+		           textFieldplataforma2.setBounds(58, 334, 244, 20);
+		           panelAñadirNuevaPublicacion.add(textFieldplataforma2);
+		           
+		           JLabel lblNewLabel_3_20_1_1 = new JLabel("Fecha");
+		           lblNewLabel_3_20_1_1.setHorizontalAlignment(SwingConstants.CENTER);
+		           lblNewLabel_3_20_1_1.setForeground(new Color(64, 128, 128));
+		           lblNewLabel_3_20_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		           lblNewLabel_3_20_1_1.setBounds(392, 121, 289, 99);
+		           panelAñadirNuevaPublicacion.add(lblNewLabel_3_20_1_1);
+		           
+		           textFieldFecha2 = new JTextField();
+		           textFieldFecha2.setColumns(10);
+		           textFieldFecha2.setBounds(402, 223, 244, 20);
+		           panelAñadirNuevaPublicacion.add(textFieldFecha2);
+		           
+		           JLabel lblNewLabel_3_20_1_1_1 = new JLabel("Contenido");
+		           lblNewLabel_3_20_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
+		           lblNewLabel_3_20_1_1_1.setForeground(new Color(64, 128, 128));
+		           lblNewLabel_3_20_1_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		           lblNewLabel_3_20_1_1_1.setBounds(392, 254, 289, 99);
+		           panelAñadirNuevaPublicacion.add(lblNewLabel_3_20_1_1_1);
+		           
+		           textFieldContenido2 = new JTextField();
+		           textFieldContenido2.setColumns(10);
+		           textFieldContenido2.setBounds(392, 334, 254, 20);
+		           panelAñadirNuevaPublicacion.add(textFieldContenido2);
+		           
+		           JLabel lblNewLabel_3_20_1_1_2 = new JLabel("Tipo");
+		           lblNewLabel_3_20_1_1_2.setHorizontalAlignment(SwingConstants.CENTER);
+		           lblNewLabel_3_20_1_1_2.setForeground(new Color(64, 128, 128));
+		           lblNewLabel_3_20_1_1_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		           lblNewLabel_3_20_1_1_2.setBounds(721, 113, 289, 99);
+		           panelAñadirNuevaPublicacion.add(lblNewLabel_3_20_1_1_2);
+		           
+		           textFieldTipo2 = new JTextField();
+		           textFieldTipo2.setColumns(10);
+		           textFieldTipo2.setBounds(731, 223, 244, 20);
+		           panelAñadirNuevaPublicacion.add(textFieldTipo2);
+		           
+		           JLabel lblNewLabel_3_20_1_1_2_1 = new JLabel("Vistas");
+		           lblNewLabel_3_20_1_1_2_1.setHorizontalAlignment(SwingConstants.CENTER);
+		           lblNewLabel_3_20_1_1_2_1.setForeground(new Color(64, 128, 128));
+		           lblNewLabel_3_20_1_1_2_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		           lblNewLabel_3_20_1_1_2_1.setBounds(721, 254, 289, 99);
+		           panelAñadirNuevaPublicacion.add(lblNewLabel_3_20_1_1_2_1);
+		           
+		           textFieldVistas2 = new JTextField();
+		           textFieldVistas2.setColumns(10);
+		           textFieldVistas2.setBounds(731, 334, 244, 20);
+		           panelAñadirNuevaPublicacion.add(textFieldVistas2);
+		           
+		           JLabel lblNewLabel_3_20_1_1_2_2 = new JLabel("Me Gustas");
+		           lblNewLabel_3_20_1_1_2_2.setHorizontalAlignment(SwingConstants.CENTER);
+		           lblNewLabel_3_20_1_1_2_2.setForeground(new Color(64, 128, 128));
+		           lblNewLabel_3_20_1_1_2_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		           lblNewLabel_3_20_1_1_2_2.setBounds(1035, 121, 289, 99);
+		           panelAñadirNuevaPublicacion.add(lblNewLabel_3_20_1_1_2_2);
+		           
+		           textFieldMeGsuta2 = new JTextField();
+		           textFieldMeGsuta2.setColumns(10);
+		           textFieldMeGsuta2.setBounds(1045, 223, 244, 20);
+		           panelAñadirNuevaPublicacion.add(textFieldMeGsuta2);
+		           
+		           JLabel lblNewLabel_3_20_1_1_2_2_1 = new JLabel("Comentarios");
+		           lblNewLabel_3_20_1_1_2_2_1.setHorizontalAlignment(SwingConstants.CENTER);
+		           lblNewLabel_3_20_1_1_2_2_1.setForeground(new Color(64, 128, 128));
+		           lblNewLabel_3_20_1_1_2_2_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		           lblNewLabel_3_20_1_1_2_2_1.setBounds(1035, 254, 289, 99);
+		           panelAñadirNuevaPublicacion.add(lblNewLabel_3_20_1_1_2_2_1);
+		           
+		           textFieldComentarios2 = new JTextField();
+		           textFieldComentarios2.setColumns(10);
+		           textFieldComentarios2.setBounds(1045, 333, 244, 20);
+		           panelAñadirNuevaPublicacion.add(textFieldComentarios2);
+		           
+		           JLabel lblNewLabel_3_20_1_1_2_2_2 = new JLabel("Compartidos");
+		           lblNewLabel_3_20_1_1_2_2_2.setHorizontalAlignment(SwingConstants.CENTER);
+		           lblNewLabel_3_20_1_1_2_2_2.setForeground(new Color(64, 128, 128));
+		           lblNewLabel_3_20_1_1_2_2_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		           lblNewLabel_3_20_1_1_2_2_2.setBounds(1334, 121, 289, 99);
+		           panelAñadirNuevaPublicacion.add(lblNewLabel_3_20_1_1_2_2_2);
+		           
+		           textFieldCompartidos2 = new JTextField();
+		           textFieldCompartidos2.setColumns(10);
+		           textFieldCompartidos2.setBounds(1344, 223, 244, 20);
+		           panelAñadirNuevaPublicacion.add(textFieldCompartidos2);
+		           
+		            btnNewButtonAñadir = new JButton("Añadir");
+		            btnNewButtonAñadir.setBounds(1344, 333, 244, 23);
+		            panelAñadirNuevaPublicacion.add(btnNewButtonAñadir);
+		            
+		             lblNewLabelCreado = new JLabel("");
+		             lblNewLabelCreado.setHorizontalAlignment(SwingConstants.CENTER);
+		             lblNewLabelCreado.setForeground(new Color(64, 128, 128));
+		             lblNewLabelCreado.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		             lblNewLabelCreado.setBounds(459, 413, 804, 99);
+		             panelAñadirNuevaPublicacion.add(lblNewLabelCreado);
+		          panelModificarMeGusta_yComentarios = new JPanel();
+		          panelModificarMeGusta_yComentarios.setBackground(new Color(0, 0, 0));
+		          panelModificarMeGusta_yComentarios.setBounds(0, 0, 1657, 537);
+		          contentPane.add(panelModificarMeGusta_yComentarios);
+		          panelModificarMeGusta_yComentarios.setLayout(null);
+		          panelModificarMeGusta_yComentarios.setVisible(false);
+		          lblNewLabel_1 = new JLabel("StreamerFocus");
+		          lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		          lblNewLabel_1.setForeground(new Color(64, 128, 128));
+		          lblNewLabel_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		          lblNewLabel_1.setBounds(496, 11, 771, 99);
+		          panelModificarMeGusta_yComentarios.add(lblNewLabel_1);
+		          
+		          lblNewLabel_2 = new JLabel("ID_CREADOR");
+		          lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
+		          lblNewLabel_2.setForeground(new Color(64, 128, 128));
+		          lblNewLabel_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		          lblNewLabel_2.setBounds(10, 121, 343, 99);
+		          panelModificarMeGusta_yComentarios.add(lblNewLabel_2);
+		          
+		          textFieldid_creador3 = new JTextField();
+		          textFieldid_creador3.setBounds(10, 231, 343, 20);
+		          panelModificarMeGusta_yComentarios.add(textFieldid_creador3);
+		          textFieldid_creador3.setColumns(10);
+		          
+		          lblNewLabel_4 = new JLabel("Fecha");
+		          lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
+		          lblNewLabel_4.setForeground(new Color(64, 128, 128));
+		          lblNewLabel_4.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		          lblNewLabel_4.setBounds(10, 262, 343, 99);
+		          panelModificarMeGusta_yComentarios.add(lblNewLabel_4);
+		          
+		          textFieldFechaContenido3 = new JTextField();
+		          textFieldFechaContenido3.setColumns(10);
+		          textFieldFechaContenido3.setBounds(10, 372, 343, 20);
+		          panelModificarMeGusta_yComentarios.add(textFieldFechaContenido3);
+		          
+		          lblNewLabel_5 = new JLabel("Plataforma");
+		          lblNewLabel_5.setHorizontalAlignment(SwingConstants.CENTER);
+		          lblNewLabel_5.setForeground(new Color(64, 128, 128));
+		          lblNewLabel_5.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		          lblNewLabel_5.setBounds(478, 121, 343, 99);
+		          panelModificarMeGusta_yComentarios.add(lblNewLabel_5);
+		          
+		          textFieldel_plataforma3 = new JTextField();
+		          textFieldel_plataforma3.setColumns(10);
+		          textFieldel_plataforma3.setBounds(478, 231, 343, 20);
+		          panelModificarMeGusta_yComentarios.add(textFieldel_plataforma3);
+		          
+		          lblNewLabel_6 = new JLabel("Me Gustas");
+		          lblNewLabel_6.setHorizontalAlignment(SwingConstants.CENTER);
+		          lblNewLabel_6.setForeground(new Color(64, 128, 128));
+		          lblNewLabel_6.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		          lblNewLabel_6.setBounds(478, 262, 343, 99);
+		          panelModificarMeGusta_yComentarios.add(lblNewLabel_6);
+		          
+		          textField_megusta2 = new JTextField();
+		          textField_megusta2.setColumns(10);
+		          textField_megusta2.setBounds(478, 372, 343, 20);
+		          panelModificarMeGusta_yComentarios.add(textField_megusta2);
+		          
+		          lblNewLabel_7 = new JLabel("Comentarios");
+		          lblNewLabel_7.setHorizontalAlignment(SwingConstants.CENTER);
+		          lblNewLabel_7.setForeground(new Color(64, 128, 128));
+		          lblNewLabel_7.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		          lblNewLabel_7.setBounds(924, 121, 343, 99);
+		          panelModificarMeGusta_yComentarios.add(lblNewLabel_7);
+		          
+		          textField_ModificarComentarios = new JTextField();
+		          textField_ModificarComentarios.setColumns(10);
+		          textField_ModificarComentarios.setBounds(924, 231, 343, 20);
+		          panelModificarMeGusta_yComentarios.add(textField_ModificarComentarios);
+		          
+		          btnNewButton_Modificarmegustas = new JButton("Modificar");
+		          btnNewButton_Modificarmegustas.setBounds(924, 371, 343, 23);
+		          panelModificarMeGusta_yComentarios.add(btnNewButton_Modificarmegustas);
 		         
-		         lblNewLabel_2 = new JLabel("ID_CREADOR");
-		         lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-		         lblNewLabel_2.setForeground(new Color(64, 128, 128));
-		         lblNewLabel_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		         lblNewLabel_2.setBounds(10, 121, 343, 99);
-		         panelModificarMeGusta_yComentarios.add(lblNewLabel_2);
-		         
-		         textFieldid_creador3 = new JTextField();
-		         textFieldid_creador3.setBounds(10, 231, 343, 20);
-		         panelModificarMeGusta_yComentarios.add(textFieldid_creador3);
-		         textFieldid_creador3.setColumns(10);
-		         
-		         lblNewLabel_4 = new JLabel("Fecha");
-		         lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
-		         lblNewLabel_4.setForeground(new Color(64, 128, 128));
-		         lblNewLabel_4.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		         lblNewLabel_4.setBounds(10, 262, 343, 99);
-		         panelModificarMeGusta_yComentarios.add(lblNewLabel_4);
-		         
-		         textFieldFechaContenido3 = new JTextField();
-		         textFieldFechaContenido3.setColumns(10);
-		         textFieldFechaContenido3.setBounds(10, 372, 343, 20);
-		         panelModificarMeGusta_yComentarios.add(textFieldFechaContenido3);
-		         
-		         lblNewLabel_5 = new JLabel("Plataforma");
-		         lblNewLabel_5.setHorizontalAlignment(SwingConstants.CENTER);
-		         lblNewLabel_5.setForeground(new Color(64, 128, 128));
-		         lblNewLabel_5.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		         lblNewLabel_5.setBounds(478, 121, 343, 99);
-		         panelModificarMeGusta_yComentarios.add(lblNewLabel_5);
-		         
-		         textFieldel_plataforma3 = new JTextField();
-		         textFieldel_plataforma3.setColumns(10);
-		         textFieldel_plataforma3.setBounds(478, 231, 343, 20);
-		         panelModificarMeGusta_yComentarios.add(textFieldel_plataforma3);
-		         
-		         lblNewLabel_6 = new JLabel("Me Gustas");
-		         lblNewLabel_6.setHorizontalAlignment(SwingConstants.CENTER);
-		         lblNewLabel_6.setForeground(new Color(64, 128, 128));
-		         lblNewLabel_6.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		         lblNewLabel_6.setBounds(478, 262, 343, 99);
-		         panelModificarMeGusta_yComentarios.add(lblNewLabel_6);
-		         
-		         textField_megusta2 = new JTextField();
-		         textField_megusta2.setColumns(10);
-		         textField_megusta2.setBounds(478, 372, 343, 20);
-		         panelModificarMeGusta_yComentarios.add(textField_megusta2);
-		         
-		         lblNewLabel_7 = new JLabel("Comentarios");
-		         lblNewLabel_7.setHorizontalAlignment(SwingConstants.CENTER);
-		         lblNewLabel_7.setForeground(new Color(64, 128, 128));
-		         lblNewLabel_7.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		         lblNewLabel_7.setBounds(924, 121, 343, 99);
-		         panelModificarMeGusta_yComentarios.add(lblNewLabel_7);
-		         
-		         textField_ModificarComentarios = new JTextField();
-		         textField_ModificarComentarios.setColumns(10);
-		         textField_ModificarComentarios.setBounds(924, 231, 343, 20);
-		         panelModificarMeGusta_yComentarios.add(textField_ModificarComentarios);
-		         
-		         btnNewButton_Modificarmegustas = new JButton("Modificar");
-		         btnNewButton_Modificarmegustas.setBounds(924, 371, 343, 23);
-		         panelModificarMeGusta_yComentarios.add(btnNewButton_Modificarmegustas);
+		          panelEliminarpublicaciones = new JPanel();
+		          panelEliminarpublicaciones.setBackground(new Color(0, 0, 0));
+		          panelEliminarpublicaciones.setBounds(0, 0, 1657, 548);
+		          contentPane.add(panelEliminarpublicaciones);
+		          panelEliminarpublicaciones.setLayout(null);
+		          panelEliminarpublicaciones.setVisible(false);
+		          JLabel lblNewLabel_3_15 = new JLabel("StreamerFocus");
+		          lblNewLabel_3_15.setHorizontalAlignment(SwingConstants.CENTER);
+		          lblNewLabel_3_15.setForeground(new Color(64, 128, 128));
+		          lblNewLabel_3_15.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		          lblNewLabel_3_15.setBounds(500, 11, 771, 99);
+		          panelEliminarpublicaciones.add(lblNewLabel_3_15);
+		          panelEliminarpublicaciones.setVisible(false);
+		          JLabel lblNewLabel_3_15_1 = new JLabel("ID CREADOR");
+		          lblNewLabel_3_15_1.setHorizontalAlignment(SwingConstants.CENTER);
+		          lblNewLabel_3_15_1.setForeground(new Color(64, 128, 128));
+		          lblNewLabel_3_15_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		          lblNewLabel_3_15_1.setBounds(-21, 123, 691, 99);
+		          panelEliminarpublicaciones.add(lblNewLabel_3_15_1);
+		          
+		          textFieldidcreador = new JTextField();
+		          textFieldidcreador.setBounds(125, 233, 417, 20);
+		          panelEliminarpublicaciones.add(textFieldidcreador);
+		          textFieldidcreador.setColumns(10);
+		          
+		          JLabel lblNewLabel_3_15_1_1 = new JLabel("FECHA PUBLICACION");
+		          lblNewLabel_3_15_1_1.setHorizontalAlignment(SwingConstants.CENTER);
+		          lblNewLabel_3_15_1_1.setForeground(new Color(64, 128, 128));
+		          lblNewLabel_3_15_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		          lblNewLabel_3_15_1_1.setBounds(-21, 264, 691, 99);
+		          panelEliminarpublicaciones.add(lblNewLabel_3_15_1_1);
+		          
+		          textFieldfecha = new JTextField();
+		          textFieldfecha.setColumns(10);
+		          textFieldfecha.setBounds(125, 388, 417, 20);
+		          panelEliminarpublicaciones.add(textFieldfecha);
+		          
+		           btnEliminar2 = new JButton("Eliminar");
+		           btnEliminar2.setBounds(818, 317, 259, 23);
+		           panelEliminarpublicaciones.add(btnEliminar2);
+		           
+		           lblNewLabelConfirmar = new JLabel("");
+		           lblNewLabelConfirmar.setHorizontalAlignment(SwingConstants.CENTER);
+		           lblNewLabelConfirmar.setForeground(new Color(64, 128, 128));
+		           lblNewLabelConfirmar.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		           lblNewLabelConfirmar.setBounds(644, 180, 771, 99);
+		           panelEliminarpublicaciones.add(lblNewLabelConfirmar);
 		         
 		         panelprincipal = new JPanel();
 		         panelprincipal.setBackground(new Color(0, 0, 0));
@@ -421,175 +643,6 @@ public class Vista extends JFrame {
 		                    btnComparar = new JButton("Comparar");
 		                    btnComparar.setBounds(436, 23, 197, 66);
 		                    panelprincipal.add(btnComparar);
-		        
-		         panelAñadirNuevaPublicacion = new JPanel();
-		         panelAñadirNuevaPublicacion.setBackground(new Color(0, 0, 0));
-		         panelAñadirNuevaPublicacion.setBounds(0, 0, 1657, 548);
-		         contentPane.add(panelAñadirNuevaPublicacion);
-		         panelAñadirNuevaPublicacion.setLayout(null);
-		         panelAñadirNuevaPublicacion.setVisible(false);
-		         JLabel lblNewLabel_3_19 = new JLabel("StreamerFocus");
-		         lblNewLabel_3_19.setHorizontalAlignment(SwingConstants.CENTER);
-		         lblNewLabel_3_19.setForeground(new Color(64, 128, 128));
-		         lblNewLabel_3_19.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		         lblNewLabel_3_19.setBounds(503, 11, 771, 99);
-		         panelAñadirNuevaPublicacion.add(lblNewLabel_3_19);
-		         
-		         JLabel lblNewLabel_3_20 = new JLabel("Id_Creador");
-		         lblNewLabel_3_20.setHorizontalAlignment(SwingConstants.CENTER);
-		         lblNewLabel_3_20.setForeground(new Color(64, 128, 128));
-		         lblNewLabel_3_20.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		         lblNewLabel_3_20.setBounds(48, 113, 289, 99);
-		         panelAñadirNuevaPublicacion.add(lblNewLabel_3_20);
-		         
-		         textFieldidcreador1 = new JTextField();
-		         textFieldidcreador1.setBounds(58, 223, 244, 20);
-		         panelAñadirNuevaPublicacion.add(textFieldidcreador1);
-		         textFieldidcreador1.setColumns(10);
-		         
-		         JLabel lblNewLabel_3_20_1 = new JLabel("Plataforma");
-		         lblNewLabel_3_20_1.setHorizontalAlignment(SwingConstants.CENTER);
-		         lblNewLabel_3_20_1.setForeground(new Color(64, 128, 128));
-		         lblNewLabel_3_20_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		         lblNewLabel_3_20_1.setBounds(48, 254, 289, 99);
-		         panelAñadirNuevaPublicacion.add(lblNewLabel_3_20_1);
-		         
-		         textFieldplataforma2 = new JTextField();
-		         textFieldplataforma2.setColumns(10);
-		         textFieldplataforma2.setBounds(58, 334, 244, 20);
-		         panelAñadirNuevaPublicacion.add(textFieldplataforma2);
-		         
-		         JLabel lblNewLabel_3_20_1_1 = new JLabel("Fecha");
-		         lblNewLabel_3_20_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-		         lblNewLabel_3_20_1_1.setForeground(new Color(64, 128, 128));
-		         lblNewLabel_3_20_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		         lblNewLabel_3_20_1_1.setBounds(392, 121, 289, 99);
-		         panelAñadirNuevaPublicacion.add(lblNewLabel_3_20_1_1);
-		         
-		         textFieldFecha2 = new JTextField();
-		         textFieldFecha2.setColumns(10);
-		         textFieldFecha2.setBounds(402, 223, 244, 20);
-		         panelAñadirNuevaPublicacion.add(textFieldFecha2);
-		         
-		         JLabel lblNewLabel_3_20_1_1_1 = new JLabel("Contenido");
-		         lblNewLabel_3_20_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-		         lblNewLabel_3_20_1_1_1.setForeground(new Color(64, 128, 128));
-		         lblNewLabel_3_20_1_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		         lblNewLabel_3_20_1_1_1.setBounds(392, 254, 289, 99);
-		         panelAñadirNuevaPublicacion.add(lblNewLabel_3_20_1_1_1);
-		         
-		         textFieldContenido2 = new JTextField();
-		         textFieldContenido2.setColumns(10);
-		         textFieldContenido2.setBounds(392, 334, 254, 20);
-		         panelAñadirNuevaPublicacion.add(textFieldContenido2);
-		         
-		         JLabel lblNewLabel_3_20_1_1_2 = new JLabel("Tipo");
-		         lblNewLabel_3_20_1_1_2.setHorizontalAlignment(SwingConstants.CENTER);
-		         lblNewLabel_3_20_1_1_2.setForeground(new Color(64, 128, 128));
-		         lblNewLabel_3_20_1_1_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		         lblNewLabel_3_20_1_1_2.setBounds(721, 113, 289, 99);
-		         panelAñadirNuevaPublicacion.add(lblNewLabel_3_20_1_1_2);
-		         
-		         textFieldTipo2 = new JTextField();
-		         textFieldTipo2.setColumns(10);
-		         textFieldTipo2.setBounds(731, 223, 244, 20);
-		         panelAñadirNuevaPublicacion.add(textFieldTipo2);
-		         
-		         JLabel lblNewLabel_3_20_1_1_2_1 = new JLabel("Vistas");
-		         lblNewLabel_3_20_1_1_2_1.setHorizontalAlignment(SwingConstants.CENTER);
-		         lblNewLabel_3_20_1_1_2_1.setForeground(new Color(64, 128, 128));
-		         lblNewLabel_3_20_1_1_2_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		         lblNewLabel_3_20_1_1_2_1.setBounds(721, 254, 289, 99);
-		         panelAñadirNuevaPublicacion.add(lblNewLabel_3_20_1_1_2_1);
-		         
-		         textFieldVistas2 = new JTextField();
-		         textFieldVistas2.setColumns(10);
-		         textFieldVistas2.setBounds(731, 334, 244, 20);
-		         panelAñadirNuevaPublicacion.add(textFieldVistas2);
-		         
-		         JLabel lblNewLabel_3_20_1_1_2_2 = new JLabel("Me Gustas");
-		         lblNewLabel_3_20_1_1_2_2.setHorizontalAlignment(SwingConstants.CENTER);
-		         lblNewLabel_3_20_1_1_2_2.setForeground(new Color(64, 128, 128));
-		         lblNewLabel_3_20_1_1_2_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		         lblNewLabel_3_20_1_1_2_2.setBounds(1035, 121, 289, 99);
-		         panelAñadirNuevaPublicacion.add(lblNewLabel_3_20_1_1_2_2);
-		         
-		         textFieldMeGsuta2 = new JTextField();
-		         textFieldMeGsuta2.setColumns(10);
-		         textFieldMeGsuta2.setBounds(1045, 223, 244, 20);
-		         panelAñadirNuevaPublicacion.add(textFieldMeGsuta2);
-		         
-		         JLabel lblNewLabel_3_20_1_1_2_2_1 = new JLabel("Comentarios");
-		         lblNewLabel_3_20_1_1_2_2_1.setHorizontalAlignment(SwingConstants.CENTER);
-		         lblNewLabel_3_20_1_1_2_2_1.setForeground(new Color(64, 128, 128));
-		         lblNewLabel_3_20_1_1_2_2_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		         lblNewLabel_3_20_1_1_2_2_1.setBounds(1035, 254, 289, 99);
-		         panelAñadirNuevaPublicacion.add(lblNewLabel_3_20_1_1_2_2_1);
-		         
-		         textFieldComentarios2 = new JTextField();
-		         textFieldComentarios2.setColumns(10);
-		         textFieldComentarios2.setBounds(1045, 333, 244, 20);
-		         panelAñadirNuevaPublicacion.add(textFieldComentarios2);
-		         
-		         JLabel lblNewLabel_3_20_1_1_2_2_2 = new JLabel("Compartidos");
-		         lblNewLabel_3_20_1_1_2_2_2.setHorizontalAlignment(SwingConstants.CENTER);
-		         lblNewLabel_3_20_1_1_2_2_2.setForeground(new Color(64, 128, 128));
-		         lblNewLabel_3_20_1_1_2_2_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		         lblNewLabel_3_20_1_1_2_2_2.setBounds(1334, 121, 289, 99);
-		         panelAñadirNuevaPublicacion.add(lblNewLabel_3_20_1_1_2_2_2);
-		         
-		         textFieldCompartidos2 = new JTextField();
-		         textFieldCompartidos2.setColumns(10);
-		         textFieldCompartidos2.setBounds(1344, 223, 244, 20);
-		         panelAñadirNuevaPublicacion.add(textFieldCompartidos2);
-		         
-		          btnNewButtonAñadir = new JButton("Añadir");
-		         btnNewButtonAñadir.setBounds(1344, 333, 244, 23);
-		         panelAñadirNuevaPublicacion.add(btnNewButtonAñadir);
-		         
-		          lblNewLabelCreado = new JLabel("");
-		          lblNewLabelCreado.setHorizontalAlignment(SwingConstants.CENTER);
-		          lblNewLabelCreado.setForeground(new Color(64, 128, 128));
-		          lblNewLabelCreado.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		          lblNewLabelCreado.setBounds(459, 413, 804, 99);
-		          panelAñadirNuevaPublicacion.add(lblNewLabelCreado);
-		        
-		        panel_Eliminar_Minimo_Visitas = new JPanel();
-		        panel_Eliminar_Minimo_Visitas.setBackground(new Color(0, 0, 0));
-		        panel_Eliminar_Minimo_Visitas.setBounds(0, 0, 1657, 537);
-		        contentPane.add(panel_Eliminar_Minimo_Visitas);
-		        panel_Eliminar_Minimo_Visitas.setLayout(null);
-		        
-		        lblNewLabel_8 = new JLabel("StreamerFocus");
-		        lblNewLabel_8.setHorizontalAlignment(SwingConstants.CENTER);
-		        lblNewLabel_8.setForeground(new Color(64, 128, 128));
-		        lblNewLabel_8.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		        lblNewLabel_8.setBounds(502, 11, 771, 99);
-		        panel_Eliminar_Minimo_Visitas.add(lblNewLabel_8);
-		        
-		        lblNewLabel_9 = new JLabel("Minimo de visitas");
-		        lblNewLabel_9.setHorizontalAlignment(SwingConstants.CENTER);
-		        lblNewLabel_9.setForeground(new Color(64, 128, 128));
-		        lblNewLabel_9.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		        lblNewLabel_9.setBounds(157, 145, 388, 99);
-		        panel_Eliminar_Minimo_Visitas.add(lblNewLabel_9);
-		        
-		        textFieldMinVistas = new JTextField();
-		        textFieldMinVistas.setBounds(157, 255, 388, 20);
-		        panel_Eliminar_Minimo_Visitas.add(textFieldMinVistas);
-		        textFieldMinVistas.setColumns(10);
-		        
-		        btnNewButtonEliminarminimovistas = new JButton("Eliminar");
-		        btnNewButtonEliminarminimovistas.setBounds(157, 286, 388, 23);
-		        panel_Eliminar_Minimo_Visitas.add(btnNewButtonEliminarminimovistas);
-		        
-		        lblNewLabel_Eliminar_MinimoVistas = new JLabel("");
-		        lblNewLabel_Eliminar_MinimoVistas.setHorizontalAlignment(SwingConstants.CENTER);
-		        lblNewLabel_Eliminar_MinimoVistas.setForeground(new Color(64, 128, 128));
-		        lblNewLabel_Eliminar_MinimoVistas.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		        lblNewLabel_Eliminar_MinimoVistas.setBounds(157, 320, 388, 99);
-		        panel_Eliminar_Minimo_Visitas.add(lblNewLabel_Eliminar_MinimoVistas);
-		        panel_Eliminar_Minimo_Visitas.setVisible(false);
 		       
 		        panelcrecimientoseguidores = new JPanel();
 		       panelcrecimientoseguidores.setBackground(new Color(0, 0, 0));
@@ -644,54 +697,6 @@ public class Vista extends JFrame {
 		         lblNewLabel_3_4_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
 		         lblNewLabel_3_4_1_1.setBounds(10, 165, 1637, 99);
 		         panelMetrica.add(lblNewLabel_3_4_1_1);
-		      
-		       panelEliminarpublicaciones = new JPanel();
-		      panelEliminarpublicaciones.setBackground(new Color(0, 0, 0));
-		      panelEliminarpublicaciones.setBounds(0, 0, 1657, 548);
-		      contentPane.add(panelEliminarpublicaciones);
-		      panelEliminarpublicaciones.setLayout(null);
-		      panelEliminarpublicaciones.setVisible(false);
-		      JLabel lblNewLabel_3_15 = new JLabel("StreamerFocus");
-		      lblNewLabel_3_15.setHorizontalAlignment(SwingConstants.CENTER);
-		      lblNewLabel_3_15.setForeground(new Color(64, 128, 128));
-		      lblNewLabel_3_15.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		      lblNewLabel_3_15.setBounds(500, 11, 771, 99);
-		      panelEliminarpublicaciones.add(lblNewLabel_3_15);
-		      
-		      JLabel lblNewLabel_3_15_1 = new JLabel("ID CREADOR");
-		      lblNewLabel_3_15_1.setHorizontalAlignment(SwingConstants.CENTER);
-		      lblNewLabel_3_15_1.setForeground(new Color(64, 128, 128));
-		      lblNewLabel_3_15_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		      lblNewLabel_3_15_1.setBounds(-21, 123, 691, 99);
-		      panelEliminarpublicaciones.add(lblNewLabel_3_15_1);
-		      
-		      textFieldidcreador = new JTextField();
-		      textFieldidcreador.setBounds(125, 233, 417, 20);
-		      panelEliminarpublicaciones.add(textFieldidcreador);
-		      textFieldidcreador.setColumns(10);
-		      
-		      JLabel lblNewLabel_3_15_1_1 = new JLabel("FECHA PUBLICACION");
-		      lblNewLabel_3_15_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-		      lblNewLabel_3_15_1_1.setForeground(new Color(64, 128, 128));
-		      lblNewLabel_3_15_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		      lblNewLabel_3_15_1_1.setBounds(-21, 264, 691, 99);
-		      panelEliminarpublicaciones.add(lblNewLabel_3_15_1_1);
-		      
-		      textFieldfecha = new JTextField();
-		      textFieldfecha.setColumns(10);
-		      textFieldfecha.setBounds(125, 388, 417, 20);
-		      panelEliminarpublicaciones.add(textFieldfecha);
-		      
-		       btnEliminar2 = new JButton("Eliminar");
-		      btnEliminar2.setBounds(818, 317, 259, 23);
-		      panelEliminarpublicaciones.add(btnEliminar2);
-		      
-		      lblNewLabelConfirmar = new JLabel("");
-		      lblNewLabelConfirmar.setHorizontalAlignment(SwingConstants.CENTER);
-		      lblNewLabelConfirmar.setForeground(new Color(64, 128, 128));
-		      lblNewLabelConfirmar.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		      lblNewLabelConfirmar.setBounds(644, 180, 771, 99);
-		      panelEliminarpublicaciones.add(lblNewLabelConfirmar);
 		      
 		      panelmodificarpublicacion = new JPanel();
 		      panelmodificarpublicacion.setLayout(null);
