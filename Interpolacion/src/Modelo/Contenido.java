@@ -4,7 +4,7 @@ import com.opencsv.bean.CsvBindByName;
 
 public class Contenido {
 	@CsvBindByName(column="creador_id")
-	private Integer creador_id;
+	private String creador_id;
 	
 	@CsvBindByName(column="plataforma")
 	private String plataforma;
@@ -30,11 +30,13 @@ public class Contenido {
 	@CsvBindByName(column="compartidos")
 	private Integer compartidos;
 
-	public Integer getCreador_id() {
+	
+
+	public String getCreador_id() {
 		return creador_id;
 	}
 
-	public void setCreador_id(Integer creador_id) {
+	public void setCreador_id(String creador_id) {
 		this.creador_id = creador_id;
 	}
 

@@ -1,10 +1,33 @@
 package Controlador;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.swing.table.DefaultTableModel;
+
+import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.opencsv.CSVWriter;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
@@ -13,481 +36,850 @@ import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 
-import Modelo.Colaboracion;
 import Modelo.Contenido;
-import Modelo.Creador;
-import Modelo.Historico;
-import Modelo.InformeCreador;
-import Modelo.Plataforma;
-import Vsita.VistaStreamer;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.*;
-import java.util.*;
-
-import javax.swing.DefaultListModel;
+import Modelo.Contenido2;
+import Vsita.Vista;
 
 public class Controlador implements ActionListener{
-	Controlador control;
-	VistaStreamer vista=new VistaStreamer();
-	DefaultListModel modelo=new DefaultListModel();
-	ObjectMapper objectMapper = new ObjectMapper();
-	List<Contenido> contenido=new ArrayList<Contenido>();
-	public Controlador(VistaStreamer vista) throws JsonParseException, JsonMappingException, IOException {
-		
-	
-		
-		
-		JsonNode rootnode = objectMapper.readTree(new File("files/creadores.json"));
-		ArrayNode streamernode=(ArrayNode)rootnode;
-		control.mostrarDatosCreador(streamernode);
-        contenido=abrirCSV("files/metricas_contenido.csv");
-	}
+    Controlador control;
+    Vista vista=new Vista();
+    DefaultTableModel modelo=new DefaultTableModel() ;
+    ObjectMapper objectMapper = new ObjectMapper();
+    ArrayNode streamer = objectMapper.createArrayNode();
+    List<Contenido> contenido=new ArrayList<Contenido>();
+    List<Contenido2> contenido2 = new ArrayList<>();
+    public Controlador(Vista vista) throws JsonParseException, JsonMappingException, IOException {
+    	this.vista=vista;
+    	this.vista.btnVerStreamer.addActionListener(this);
+    	this.vista.btnVolverMostrarTodo.addActionListener(this);
+    	this.vista.btnVerMetrica.addActionListener(this);
+    	this.vista.btnVolverMetrica.addActionListener(this);
+    	this.vista.btnInsertarnuevoscolaboradores.addActionListener(this);
+    	this.vista.btnVolverInsertarColaboradores.addActionListener(this);
+    	this.vista.btnInsertarC.addActionListener(this);
+    	this.vista.btnExportarcolaboracionescsv.addActionListener(this);
+    	this.vista.btnCrearinformerJson6.addActionListener(this);
+    	this.vista.btnExportarColaboraciones.addActionListener(this);
+    	this.vista.btnComparar.addActionListener(this);
+    	this.vista.btnNewButton.addActionListener(this);
+    	this.vista.btnExportarSeguidores.addActionListener(this);
+    	this.vista.btnExportarcolaboracionesJSON12.addActionListener(this);
+    	this.vista.btnmodificarmegustaycomentarios.addActionListener(this);
+    	this.vista.btnmodificarpublicacion.addActionListener(this);
+    	this.vista.btnEliminar.addActionListener(this);
+    	this.vista.btnEliminar2.addActionListener(this);
+    	this.vista.btnResumerendimiento2023.addActionListener(this);
+    	this.vista.btnañadirpublicacion.addActionListener(this);
+    	this.vista.btneliminarminimo.addActionListener(this);
+    	this.vista.ModificarPublicaciones.addActionListener(this);
+    	this.vista.btnNewButtonAñadir.addActionListener(this);
+    	this.vista.ModificarPublicaciones.addActionListener(this);
+    	this.vista.btnNewButton_Modificarmegustas.addActionListener(this);
+    			streamer=leer();
+    			contenido=abrirCSV("files/metricas_contenido.csv");
+                agregarcomboxestado();
+                agregarcomboboxmodificar();
+        }
     public void actionPerformed(ActionEvent e) {
-    	
+    	 if (e.getSource() == this.vista.btnVerStreamer) {
+             this.vista.panelmostrartodo.setVisible(true);
+             this.vista.panelprincipal.setVisible(false);
+             mostrartodoconteido(streamer, contenido);
+         }
+         if (e.getSource() == this.vista.btnVolverMostrarTodo) {
+             this.vista.panelmostrartodo.setVisible(false);
+             this.vista.panelprincipal.setVisible(true);
+         }
+         if (e.getSource() == this.vista.btnVerMetrica) {
+                 this.vista.panelMetrica.setVisible(true);
+                 calcularPromedios(streamer,contenido);
+                 this.vista.panelprincipal.setVisible(false);
+
+         }
+         if (e.getSource() == this.vista.btnVolverMetrica) {
+             this.vista.panelMetrica.setVisible(false);
+             this.vista.panelprincipal.setVisible(true);
+         }
+         if (e.getSource() == this.vista.btnInsertarnuevoscolaboradores) {
+             this.vista.InsertarColaboradores.setVisible(true);
+             this.vista.panelprincipal.setVisible(false);
+         }
+         if (e.getSource() == this.vista.btnVolverInsertarColaboradores) {
+             this.vista.InsertarColaboradores.setVisible(false);
+             this.vista.panelprincipal.setVisible(true);
+         }
+         if (e.getSource() == this.vista.btnInsertarC) {
+             try {
+ 				agregarColaboracion(streamer);
+ 			} catch (Exception e1) {
+ 				e1.printStackTrace();
+ 			}
+         }if(e.getSource()==this.vista.btnExportarcolaboracionescsv) {
+         	exportarColaboracionesACSV(streamer, contenido);
+         }if(e.getSource()==this.vista.btnCrearinformerJson6) {
+ 				try {
+ 					generarInformeJSON(streamer);
+ 				} catch (IOException e1) {
+ 					e1.printStackTrace();
+ 				}
+         }
+         if(e.getSource()==this.vista.btnExportarColaboraciones) {
+         	try {
+         		generarReporteColaboracionesCSV(streamer);
+ 			} catch (IOException e1) {
+ 				e1.printStackTrace();
+ 			}
+         }
+         if(e.getSource()==this.vista.btnComparar) {
+         	this.vista.panelprincipal.setVisible(false);
+         	this.vista.panelComparativaRendimiendo.setVisible(true);
+         }
+         if(e.getSource()==this.vista.btnNewButton) {
+    	analisisComparativoRendimiento(contenido);
+         }
+         if(e.getSource()==this.vista.btnExportarSeguidores) {
+         	System.out.println("hola");
+ 				try {
+ 					crearResumenRendimientoJSON(contenido);
+ 				} catch (IOException e1) {
+ 					// TODO Auto-generated catch block
+ 					e1.printStackTrace();
+ 				}
+ 			
+         }
+         if(e.getSource()==this.vista.btnExportarcolaboracionesJSON12) {
+         	System.out.println("hora");
+         	try {
+ 				convertirColaboracionesAJSON(streamer);
+ 			} catch (IOException e1) {
+ 				// TODO Auto-generated catch block
+ 				e1.printStackTrace();
+ 			}
+         }
+         if(e.getSource()==this.vista.btnmodificarmegustaycomentarios) {
+         	this.vista.panelprincipal.setVisible(false);
+         	this.vista.panelmodificarpublicacion.setVisible(true);
+         }
+         if(e.getSource()==this.vista.btnmodificarpublicacion) {
+         	modificarPublicacion(contenido);
+         }
+         if(e.getSource()==this.vista.btnEliminar) {
+         	this.vista.panelprincipal.setVisible(false);
+         	this.vista.panelEliminarpublicaciones.setVisible(true);
+         }
+         if(e.getSource()==this.vista.btnEliminar2) {
+         	eliminarPublicacion(contenido);
+         }
+         if(e.getSource()==this.vista.btnResumerendimiento2023) {
+         	this.vista.panelprincipal.setVisible(false);
+         	this.vista.panelcrecimientoseguidores.setVisible(true);
+         	try {
+ 				analizarCrecimientoMensualSeguidores(streamer);
+ 			} catch (IOException e1) {
+ 				// TODO Auto-generated catch block
+ 				e1.printStackTrace();
+ 			}
+         }
+        if(e.getSource()==this.vista.btnañadirpublicacion) {
+     	   this.vista.panelprincipal.setVisible(false);
+     	   this.vista.panelAñadirNuevaPublicacion.setVisible(true);
+        }
+        if(e.getSource()==this.vista.btneliminarminimo) {
+     	   this.vista.panelprincipal.setVisible(false);
+     	   this.vista.panel_Eliminar_Minimo_Visitas.setVisible(true);
+        }
+        if(e.getSource()==this.vista.ModificarPublicaciones) {
+     	   this.vista.panelprincipal.setVisible(false);
+     	   this.vista.panelModificarMeGusta_yComentarios.setVisible(true);
+        }
+        if(e.getSource()==this.vista.btnNewButtonAñadir) {
+        	try {
+        		añadirPublicacion(contenido2);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+        }
+        if(e.getSource()==this.vista.ModificarPublicaciones) {
+        	 this.vista.panelprincipal.setVisible(false);
+       	   this.vista.ModificarPublicaciones.setVisible(true);
+        }
+        if(e.getSource()==this.vista.btnNewButton_Modificarmegustas) {
+        	modificarPublicacion2(contenido);
+        }
     }
 
 //Metodos
     // Método auxiliar para mostrar datos de un creador
-    public void mostrarDatosCreador(ArrayNode streamernode) {
-        System.out.println("ID: " + streamernode.get("id").asText());
-        System.out.println("Nombre: " + streamernode.get("nombre").asText());
-        System.out.println("País: " + streamernode.get("pais").asText());
-        System.out.println("Temática: " + streamernode.get("tematicas").asText());
-        System.out.println("Seguidores Totales: " + streamernode.get("seguidores_totales").asText());
-        System.out.println("Interacciones Totales: " + streamernode.get("estadisticas").get("interacciones_totales").asText());
-        System.out.println("Promedio Vistas Mensuales: " + streamernode.get("estadisticas").get("promedio_vistas_mensuales").asText());
-        System.out.println("Tasa Crecimiento Seguidores: " + streamernode.get("estadisticas").get("tasa_crecimiento_seguidores").asText());
-        for (JsonNode plataforma : streamernode.get("plataformas")) {
-        	System.out.println("  Plataforma: " + plataforma.get("nombre").asText());
-            System.out.println("  Usuario: " + plataforma.get("usuario").asText());
-            System.out.println("  Seguidores: " + plataforma.get("seguidores").asText());
-            System.out.println("  Fecha Creación: " + plataforma.get("fecha_creacion").asText());
-            for (JsonNode historico : plataforma.get("historico")) {
-                System.out.println("    Fecha: " + historico.get("Fecha"));
-                System.out.println("    Nuevos Seguidores: " + historico.get("nuevos_seguidores").asText());
-                System.out.println("    Interacciones: " + historico.get("interaciones").asText());
-            }
-        }
-        System.out.println("  Plataforma: " + streamernode.get("nombre").asText());
-        System.out.println("  Usuario: " + streamernode.get("usuario").asText());
-        System.out.println("  Seguidores: " + streamernode.get("seguidores").asText());
-        System.out.println("  Fecha Creación: " + streamernode.get("fecha_creacion").asText());
-        for (JsonNode historico : streamernode.get("Historico")) {
-            System.out.println("    Fecha: " + historico.get("fecha").asText());
-            System.out.println("    Nuevos Seguidores: " + historico.get("nuevo_seguidores").asText());
-            System.out.println("    Interacciones: " + historico.get("interacciones").asText());
-        }
-        for (JsonNode colaboracion : streamernode.get("colaboraciones")) {
-        	 System.out.println("  Colaboración con: " + colaboracion.get("colaborador").asText());
-             System.out.println("    Temática: " + colaboracion.get("tematica").asText());
-             System.out.println("    Fecha Inicio: " + colaboracion.get("fecha_inicio").asText());
-             System.out.println("    Fecha Fin: " + colaboracion.get("fecha_fin").asText());
-             System.out.println("    Tipo: " + colaboracion.get("tipo").asText());
-             System.out.println("    Estado: " + colaboracion.get("estado").asText());
-        }
+    
+    public void agregarcomboxestado() {
+    	this.vista.comboBoxEstadoColaboracion.addItem("Activo");
+    	this.vista.comboBoxEstadoColaboracion.addItem("Finalizada");
     }
-    public List<Contenido> abrirCSV(String rutaCSV) {
-        List<Contenido> contenidoList = new ArrayList<>();
-        try  {
-        	  FileReader reader = new FileReader(rutaCSV);
-        	  CsvToBeanBuilder<Contenido>csvBuilder=new CsvToBeanBuilder<Contenido>(reader);
-        	  CsvToBean<Contenido>csv=csvBuilder.withType(Contenido.class).withIgnoreLeadingWhiteSpace(true).build();
-            contenidoList = csv.parse();
-        } catch (Exception e) {
-            System.out.println("Error al abrir el archivo CSV: " + e.getMessage());
-        }
-        return contenidoList;
+    public void agregarcomboboxmodificar() {
+    	this.vista.comboBoxparaModificar.addItem("creador_id");
+    	this.vista.comboBoxparaModificar.addItem("plataforma");
+    	this.vista.comboBoxparaModificar.addItem("fecha");
+    	this.vista.comboBoxparaModificar.addItem("contenido");
+    	this.vista.comboBoxparaModificar.addItem("tipo");
+    	this.vista.comboBoxparaModificar.addItem("vistas");
+    	this.vista.comboBoxparaModificar.addItem("me_gusta");
+    	this.vista.comboBoxparaModificar.addItem("comentarios");
+    	this.vista.comboBoxparaModificar.addItem("compartidos");
     }
+    public  ArrayNode leer() throws JsonProcessingException, IOException {
+        DefaultTableModel modelo = new DefaultTableModel();
+        ObjectMapper objectMapper = new ObjectMapper();
+        File jsonfile=new File("files/creadores.json");
+        JsonNode rootNode=objectMapper.readTree(jsonfile);
+        ArrayNode streamer=(ArrayNode) rootNode;
+        return streamer;
+    }
+    
+    public List<Contenido> abrirCSV(String rutaCSV){
+		List<Contenido> contenido = null;
+		try  {
+			FileReader reader = new FileReader(rutaCSV);
+			
+			CsvToBeanBuilder<Contenido> csvBuilder = new CsvToBeanBuilder<Contenido>(reader);
+			CsvToBean<Contenido> csv = csvBuilder.withType(Contenido.class).withIgnoreLeadingWhiteSpace(true).build();
 
-    // Método auxiliar para mostrar datos de una plataforma
-    public void mostrarDatosPlataforma(Plataforma plataforma) {
-        
-    }
+			contenido = csv.parse();
 
-    // Método auxiliar para mostrar datos de una colaboración
-    public void mostrarDatosColaboracion(Colaboracion colaboracion) {
-        System.out.println("  Colaboración con: " + colaboracion.getColaborador());
-        System.out.println("    Temática: " + colaboracion.getTematica());
-        System.out.println("    Fecha Inicio: " + colaboracion.getFecha_inicio());
-        System.out.println("    Fecha Fin: " + colaboracion.getFecha_fin());
-        System.out.println("    Tipo: " + colaboracion.getTipo());
-        System.out.println("    Estado: " + colaboracion.getEstado());
-    }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		
+		return contenido;
+	}
+    //1
+    public void mostrartodoconteido(ArrayNode streamer, List<Contenido> contenido) {
+        modelo.setRowCount(0);
+        modelo.setColumnCount(0);
 
-    // Método para abrir un archivo CSV y leer contenido
-   
-    public void mostrarDatos(Creador[] creadores,List<Contenido>contenido) {
-    	
-    }
-    // Método para insertar una nueva colaboración
-    public void insertarNuevaColaboracion(Creador creador1, Creador creador2, Colaboracion colaboracion) {
-        if (creador1 != null && colaboracion != null) {
-            creador1.getColaboraciones().add(colaboracion);
-            for (Plataforma plataforma : creador1.getPlataformas()) {
-                if (plataforma.getNombre().equals(colaboracion.getPlataforma())) {
-                    plataforma.setImpactoSeguidores(plataforma.getImpactoSeguidores() + colaboracion.getImpactoSeguidores());
-                    plataforma.setImpactoVisualizaciones(plataforma.getImpactoVisualizaciones() + colaboracion.getImpactoVisualizaciones());
+        String[] nombre = {
+            "ID Creador", "Nombre_Creador", "País", "Temática", "Seguidores Totales",
+            "Plataforma", "Usuario", "Seguidores", "Fecha Creación", "Colaborador",
+            "Temática Colaboración", "Fecha Inicio Colaboración", "Fecha Fin Colaboración",
+            "Tipo Colaboración", "Estado Colaboración", "creador_id", "plataforma", "fecha", 
+            "contenido", "tipo", "vistas", "me gustas", "comentarios", "compartidos"
+        };
+
+        modelo.setColumnIdentifiers(nombre);
+        this.vista.tabla.setModel(modelo);
+
+        for (Contenido cont : contenido) {
+            for (JsonNode creatorNode : streamer) {
+                String creatorId = creatorNode.path("id").asText(null);
+                if (creatorId != null && creatorId.equals(cont.getCreador_id())) {
+                    // Se eliminó la línea de impresión a consola
+                    // System.out.println("Coincidencia encontrada para ID: " + creatorId);
+                    String idCreador = creatorNode.get("id").asText();
+                    String nombreCreador = creatorNode.get("nombre").asText();
+                    String pais = creatorNode.get("pais").asText();
+                    String tematica = creatorNode.get("tematica").asText();
+                    String seguidoresTotales = creatorNode.get("seguidores_totales").asText();
+
+                    // Iterar sobre las plataformas
+                    for (JsonNode plataforma : creatorNode.get("plataformas")) {
+                        String nombrePlataforma = plataforma.get("nombre").asText();
+                        String usuarioPlataforma = plataforma.get("usuario").asText();
+                        String seguidoresPlataforma = plataforma.get("seguidores").asText();
+                        String fechaCreacionPlataforma = plataforma.get("fecha_creacion").asText();
+
+                        // Iterar sobre las colaboraciones
+                        for (JsonNode colaboracion : creatorNode.get("colaboraciones")) {
+                            String colaborador = colaboracion.get("colaborador").asText();
+                            String tematicaColaboracion = colaboracion.get("tematica").asText();
+                            String fechaInicioColaboracion = colaboracion.get("fecha_inicio").asText();
+                            String fechaFinColaboracion = colaboracion.get("fecha_fin").asText();
+                            String tipoColaboracion = colaboracion.get("tipo").asText();
+                            String estadoColaboracion = colaboracion.get("estado").asText();
+
+                            // Crear fila con datos de Contenido
+                            Object[] fila = new Object[]{
+                                idCreador, nombreCreador, pais, tematica, seguidoresTotales,
+                                nombrePlataforma, usuarioPlataforma, seguidoresPlataforma,
+                                fechaCreacionPlataforma, colaborador, tematicaColaboracion,
+                                fechaInicioColaboracion, fechaFinColaboracion, tipoColaboracion,
+                                estadoColaboracion,
+                                cont.getCreador_id(), cont.getPlataforma(), cont.getFecha(),
+                                cont.getContenido(), cont.getTipo(), cont.getVistas(),
+                                cont.getMe_gustas(), cont.getComentarios(), cont.getCompartidos()
+                            };
+                            boolean existeContenido = false;
+                            for (int i = 0; i < modelo.getRowCount(); i++) {
+                                String idContenidoExistente = modelo.getValueAt(i, modelo.findColumn("creador_id")).toString();
+                                String plataformaExistente = modelo.getValueAt(i, modelo.findColumn("plataforma")).toString();
+                                if (idContenidoExistente.equals(cont.getCreador_id()) && plataformaExistente.equals(nombrePlataforma)) {
+                                    existeContenido = true;
+                                    break;
+                                }
+                            }
+                            if (!existeContenido) {
+                                modelo.addRow(fila);
+                            }
+                        }
+                    }
                 }
             }
-            crearCSV(creador1, "creadores.csv");
-        } else {
-            System.out.println("Creador o colaboración no pueden ser nulos.");
         }
     }
+    //2
+    public void calcularPromedios(ArrayNode streamer, List<Contenido> contenido) {
+        modelo.setRowCount(0);
+        modelo.setColumnCount(0);
+        String[] nombrePromedios = {
+            "ID Creador", "Nombre Creador", "Plataforma", "Promedio Vistas", "Promedio Me Gustas"
+        };
 
-    // Método para exportar colaboraciones a un archivo CSV
-    public void exportarColaboracionesACSV(Creador[] creadores, String rutaCSV) {
-        try (CSVWriter writer = new CSVWriter(new FileWriter("files/" + rutaCSV))) {
-            String[] header = { "Fecha", "Creador", "Colaborador", "Impacto Seguidores", "Impacto Visualizaciones" };
-            writer.writeNext(header);
-            for (Creador creador : creadores) {
-                if (creador.getColaboraciones() != null) {
-                    for (Colaboracion colaboracion : creador.getColaboraciones()) {
-                        String[] data = {
-                            colaboracion.getFecha_inicio() != null ? colaboracion.getFecha_inicio() : "N/A",
-                            creador.getNombre(),
-                            colaboracion.getColaborador() != null ? colaboracion.getColaborador() : "N/A",
-                            String.valueOf(colaboracion.getImpactoSeguidores()),
-                            String.valueOf(colaboracion.getImpactoVisualizaciones())
-                        };
-                        writer.writeNext(data);
+        modelo.setColumnIdentifiers(nombrePromedios);
+        this.vista.tableRendimiento.setModel(modelo); // Asegúrate de que tienes una tabla para mostrar promedios
+
+       
+
+     
+    }
+//3
+    public void agregarColaboracion(ArrayNode streamer) throws JsonGenerationException, JsonMappingException, IOException {
+    	 File file = new File("files/creadores.json");
+    	String idCreador1 = this.vista.textFieldCreador1.getText();
+        String colaborador = this.vista.textFieldNombreColaborador.getText();
+        String tematica = this.vista.textFieldTematica.getText();
+        String fechaInicio = this.vista.textFieldFechaInicio.getText();
+        String fechaFin = this.vista.textFieldFechaFin.getText();
+        String tipoColaboracion = this.vista.textFieldTipoColaboracion.getText();
+        String estadoColaboracion = (String) this.vista.comboBoxEstadoColaboracion.getSelectedItem();
+        
+        for (JsonNode creatorNode : streamer) {
+            String creatorId = creatorNode.get("id").asText();
+            if (creatorId != null && creatorId.equals(idCreador1)) {
+                ObjectNode nuevaColaboracion = objectMapper.createObjectNode();
+                nuevaColaboracion.put("colaborador", colaborador);
+                nuevaColaboracion.put("tematica", tematica);
+                nuevaColaboracion.put("fecha_inicio", fechaInicio);
+                nuevaColaboracion.put("fecha_fin", fechaFin);
+                nuevaColaboracion.put("tipo", tipoColaboracion);
+                nuevaColaboracion.put("estado", estadoColaboracion);
+                ((ArrayNode) creatorNode.get("colaboraciones")).add(nuevaColaboracion);
+                objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, streamer);
+                this.vista.lblConformar.setText("Colaboración añadida exitosamente.");
+              
+            }
+        }
+        this.vista.lblConformar.setText("Colaborador creado");
+    }
+
+   
+   
+ //4
+    public void exportarColaboracionesACSV(ArrayNode streamer, List<Contenido> contenido) {
+        String csvFile = "files/colaboraciones.csv";
+        List<String[]> contenidoList = new ArrayList<>();
+        List<String> comprobar = new ArrayList<>(); 
+
+        try {
+            String[] header = {"Fecha_Inicio", "Nombre_Creador", "Visualizaciones", "Compartidos"};
+            contenidoList.add(header);        
+            for (Contenido cont : contenido) {
+             
+                for (JsonNode creatorNode : streamer) {
+                    String creadorNombre = creatorNode.get("nombre").asText();
+                    if (creatorNode.has("colaboraciones")) {
+                        ArrayNode colaboraciones = (ArrayNode) creatorNode.path("colaboraciones");
+                        
+                        // Recorrer cada colaboración
+                        for (JsonNode colaboracion : colaboraciones) {
+                            String nombreColaborador = colaboracion.get("colaborador").asText(); 
+                            String fechaInicio = colaboracion.get("fecha_inicio").asText();
+                            String mirar = fechaInicio + "|" + creadorNombre + "|" + nombreColaborador;
+                            if (!comprobar.contains(mirar)) {
+                                comprobar.add(mirar); 
+                                String[] data = {
+                                    fechaInicio,
+                                    creadorNombre,
+                                    String.valueOf(cont.getVistas()), 
+                                    String.valueOf(cont.getCompartidos()) 
+                                };
+                                contenidoList.add(data); 
+                            }
+                        }
+                    }
+                }
+            }
+            crearCSV8(contenidoList, csvFile);
+            this.vista.lblmostrarsiseaexportado.setText("Exportado correctamente"); 
+        } catch (Exception e) {
+            e.printStackTrace(); // Para depuración
+            this.vista.lblmostrarsiseaexportado.setText("Exportado erróneo"); 
+        }
+    }
+    //5
+    public void modificarPublicacion(List<Contenido> contenido) {
+        String idStreamer = this.vista.textFieldidstreamer.getText();
+        String fecha = this.vista.textFieldfehca.getText();
+        String tipo = (String) this.vista.comboBoxparaModificar.getSelectedItem();
+        String nuevoDato = this.vista.textFieldDato.getText();
+        boolean modificada = false;
+
+        for (Contenido cont : contenido) {
+            if (cont.getCreador_id().equals(idStreamer) && cont.getFecha().equals(fecha)) {
+                switch (tipo.toLowerCase()) {
+                    case "me_gusta":
+                        cont.setMe_gustas(Integer.parseInt(nuevoDato));
+                        break;
+                    case "comentarios":
+                        cont.setComentarios(Integer.parseInt(nuevoDato)); 
+                        break;
+                    case "vistas":
+                        cont.setVistas(Integer.parseInt(nuevoDato)); 
+                        break;
+                    case "compartidos":
+                        cont.setCompartidos(Integer.parseInt(nuevoDato)); 
+                        break;
+                    case "tipo":
+                        cont.setTipo(nuevoDato);
+                        break;
+                    case "contenido":
+                        cont.setContenido(nuevoDato);
+                        break;
+                    case "fecha":
+                        cont.setFecha(nuevoDato); 
+                        break;
+                    case "plataforma":
+                        cont.setPlataforma(nuevoDato);
+                        break; 
+                    case "creador_id":
+                        cont.setCreador_id(nuevoDato);
+                        break; 
+                    default:
+                        System.out.println("Campo no reconocido: " + tipo);
+                        return;
+                }
+                modificada = true;
+                break; 
+            }
+        }
+        if (modificada) {
+            try {
+                crearCSV(contenido, "files/metricas_contenido.csv");
+               this.vista.lblNotificar.setText("Publicación modificada exitosamente.");
+            } catch (Exception e) {
+                e.printStackTrace();
+                this.vista.lblNotificar.setText("Error al escribir en el archivo CSV.");
+            }
+        } 
+    }
+    public void eliminarPublicacion(List<Contenido> contenido) {
+        String idStreamer = this.vista.textFieldidcreador.getText();
+        String fecha = this.vista.textFieldfecha.getText();
+        boolean eliminada = false;
+        Iterator<Contenido> iterator = contenido.iterator();
+        while (iterator.hasNext()) {
+            Contenido cont = iterator.next();
+            if (cont.getCreador_id().equals(idStreamer) && cont.getFecha().equals(fecha)) {
+                iterator.remove();
+                eliminada = true;
+                break; 
+            }
+        }
+        if (eliminada) {
+            try {
+                crearCSV(contenido, "files/metricas_contenido.csv"); 
+                this.vista.lblNewLabelConfirmar.setText("Publicación eliminada exitosamente.");
+            } catch (Exception e) {
+                e.printStackTrace();
+                this.vista.lblNewLabelConfirmar.setText("Error al escribir en el archivo CSV.");
+            }
+        } 
+    }
+    //6
+    public void generarInformeJSON(ArrayNode streamer) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        ArrayNode reporte = objectMapper.createArrayNode(); 
+
+        for (JsonNode creador : streamer) {
+            String nombre = creador.get("nombre").asText();
+            ArrayNode plataformas = (ArrayNode) creador.get("plataformas"); 
+            
+            int totalSeguidores = 0;
+            String mejorPlataforma = "";
+            int maxSeguidores = 0; 
+            int seguidoresYoutube = 0;
+            int seguidoresInstagram = 0;
+            int seguidoresTikTok = 0;
+            int seguidoresTwitch = 0;
+
+            for (JsonNode plataforma : plataformas) {
+                String nombrePlataforma = plataforma.get("nombre").asText();
+                int seguidores = plataforma.get("seguidores").asInt();
+                if (nombrePlataforma.equalsIgnoreCase("YouTube")) {
+                    seguidoresYoutube += seguidores;
+                } else if (nombrePlataforma.equalsIgnoreCase("Instagram")) {
+                    seguidoresInstagram += seguidores;
+                } else if (nombrePlataforma.equalsIgnoreCase("TikTok")) {
+                    seguidoresTikTok += seguidores;
+                } else if (nombrePlataforma.equalsIgnoreCase("Twitch")) {
+                    seguidoresTwitch += seguidores;
+                }
+                totalSeguidores += seguidores;
+                if (seguidores > maxSeguidores) {
+                    maxSeguidores = seguidores;
+                    mejorPlataforma = nombrePlataforma; 
+                }
+            }
+            ObjectNode creadorReporte = objectMapper.createObjectNode();
+            creadorReporte.put("nombre", nombre); 
+            creadorReporte.put("totalSeguidores", totalSeguidores); 
+            creadorReporte.put("mejorPlataforma", mejorPlataforma); 
+            creadorReporte.put("seguidoresYoutube", seguidoresYoutube);
+            creadorReporte.put("seguidoresInstagram", seguidoresInstagram);
+            creadorReporte.put("seguidoresTikTok", seguidoresTikTok);
+            creadorReporte.put("seguidoresTwitch", seguidoresTwitch);
+
+
+            reporte.add(creadorReporte);
+        }
+
+        objectMapper.writeValue(new File("files/reporte_creadores.json"), reporte);
+        this.vista.lblmostrarsiseaexportado.setText("Exportado correctamente");
+    }
+    //7
+    public void analizarCrecimientoMensualSeguidores(ArrayNode streamer) throws IOException {
+      
+        modelo.setRowCount(0);
+        modelo.setColumnCount(0);
+
+     
+        String[] nombre = {
+            "ID Creador", "Nombre_Creador", "Tasa de crecimiento en YouTube", 
+            "Tasa de crecimiento en Twitch", "Tasa de crecimiento en Instagram", 
+            "Tasa de crecimiento en TikTok"
+        };
+        modelo.setColumnIdentifiers(nombre);
+
+      
+        for (int i = 0; i < streamer.size(); i++) {
+            ObjectNode creador = (ObjectNode) streamer.get(i);
+            
+           
+            String idCreador = creador.get("id").asText();
+            String nombreCreador = creador.get("nombre").asText();
+
+          
+            int seguidoresYoutubeInicio = 0;
+            int seguidoresYoutubeFin = 0;
+            int seguidoresTwitchInicio = 0;
+            int seguidoresTwitchFin = 0;
+            int seguidoresInstagramInicio = 0;
+            int seguidoresInstagramFin = 0;
+            int seguidoresTikTokInicio = 0;
+            int seguidoresTikTokFin = 0;
+
+         
+            for (var plataforma : creador.get("plataformas")) {
+                String nombrePlataforma = plataforma.get("nombre").asText();
+                var historico = plataforma.get("historico");
+
+                if (historico.size() > 0) {
+                    seguidoresYoutubeInicio = historico.get(0).get("nuevos_seguidores").asInt();
+                    seguidoresYoutubeFin = historico.get(historico.size() - 1).get("nuevos_seguidores").asInt();
+ 
+                    switch (nombrePlataforma) {
+                        case "YouTube":
+                            seguidoresYoutubeInicio = plataforma.get("seguidores").asInt() - seguidoresYoutubeInicio;
+                            seguidoresYoutubeFin = plataforma.get("seguidores").asInt();
+                            break;
+                        case "Twitch":
+                            seguidoresTwitchInicio = plataforma.get("seguidores").asInt() - seguidoresYoutubeInicio;
+                            seguidoresTwitchFin = plataforma.get("seguidores").asInt();
+                            break;
+                        case "Instagram":
+                            seguidoresInstagramInicio = plataforma.get("seguidores").asInt() - seguidoresYoutubeInicio;
+                            seguidoresInstagramFin = plataforma.get("seguidores").asInt();
+                            break;
+                        case "TikTok":
+                            seguidoresTikTokInicio = plataforma.get("seguidores").asInt() - seguidoresYoutubeInicio;
+                            seguidoresTikTokFin = plataforma.get("seguidores").asInt();
+                            break;
                     }
                 }
             }
 
-            System.out.println("Colaboraciones exportadas exitosamente a " + "files/" + rutaCSV);
-        } catch (IOException e) {
-            System.out.println("Error al exportar colaboraciones: " + e.getMessage());
-        }
-    }
+    
+            double tasaCrecimientoYoutube = calcularTasaCrecimiento(seguidoresYoutubeInicio, seguidoresYoutubeFin);
+            double tasaCrecimientoTwitch = calcularTasaCrecimiento(seguidoresTwitchInicio, seguidoresTwitchFin);
+            double tasaCrecimientoInstagram = calcularTasaCrecimiento(seguidoresInstagramInicio, seguidoresInstagramFin);
+            double tasaCrecimientoTikTok = calcularTasaCrecimiento(seguidoresTikTokInicio, seguidoresTikTokFin);
 
-
-    // Método para modificar una publicación
-    public void modificarPublicacion(List<Contenido> contenido, String rutaCSV, String idPublicacion, Integer nuevosMeGusta, Integer nuevosComentarios) {
-        boolean encontrado = false;
-
-        for (Contenido c : contenido) {
-            if (c.getCreador_id().equals(idPublicacion)) {
-                if (nuevosMeGusta != null) {
-                    c.setMe_gustas(nuevosMeGusta);
-                }
-                if (nuevosComentarios != null) {
-                    c.setComentarios(nuevosComentarios);
-                }
-                encontrado = true;
-                break;
-            }
-        }
-
-        if (encontrado) {
-            guardarContenidoEnCSV (contenido, "files/"+rutaCSV);
-            System.out.println("Publicación con ID " + idPublicacion + " modificada exitosamente.");
-        } else {
-            System.out.println("No se encontró la publicación con ID " + idPublicacion + ".");
-        }
-    }
-
-    // Método para eliminar publicaciones por vistas
-    public void eliminarPublicacionesPorVistas(List<Contenido> contenido, String rutaCSV, int umbralVistas) {
-       
-        if (contenido == null) {
-            System.out.println("La lista de contenido es nula. No se pueden eliminar publicaciones.");
-            return; 
-        }
-
-        if (umbralVistas < 0) {
-            System.out.println("El umbral de vistas debe ser un número positivo.");
-            return; 
-        }
-
-        System.out.println("Eliminando publicaciones con menos de " + umbralVistas + " vistas...");
-
-      
-        Iterator<Contenido> iterator = contenido.iterator();
-        int publicacionesEliminadas = 0;
-
-        while (iterator.hasNext()) {
-            Contenido c = iterator.next();
            
-            if (c.getVistas() < umbralVistas) {
-                iterator.remove();
-                publicacionesEliminadas++;
-            }
-        }
-
-      
-        guardarContenidoEnCSV(contenido, "files/"+rutaCSV);
-
-        // Informar al usuario cuántas publicaciones fueron eliminadas
-        System.out.println("Se eliminaron " + publicacionesEliminadas + " publicaciones con menos de " + umbralVistas + " vistas.");
-    }
-
-    // Método para convertir colaboraciones a JSON
-    public void convertirColaboracionesAJSON(Creador[] creadores) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            List<Colaboracion> todasColaboraciones = new ArrayList<>();
-            for (Creador creador : creadores) {
-                todasColaboraciones.addAll(creador.getColaboraciones());
-            }
-            objectMapper.writeValue(new File("files/colaboraciones.json"), todasColaboraciones);
-            System.out.println("Colaboraciones convertidas exitosamente a JSON.");
-        } catch (IOException e) {
-            System.out.println("Error al convertir colaboraciones a JSON: " + e.getMessage());
+            modelo.addRow(new Object[]{
+                idCreador, 
+                nombreCreador, 
+                tasaCrecimientoYoutube, 
+                tasaCrecimientoTwitch, 
+                tasaCrecimientoInstagram, 
+                tasaCrecimientoTikTok
+            });
         }
     }
 
-    // Método para generar un informe del creador
-    public void generarInformeCreador(String rutaJSON, Creador[] creadores) {
-        List<InformeCreador> informes = new ArrayList<>();
+    public double calcularTasaCrecimiento(int seguidoresInicio, int seguidoresFin) {
+        if (seguidoresInicio == 0) {
+            return seguidoresFin > 0 ? 100.0 : 0.0; 
+        }
+        return ((double) (seguidoresFin - seguidoresInicio) / seguidoresInicio) * 100;
+    }
 
-        for (Creador creador : creadores) {
-            int totalSeguidores = 0;
-            String plataformaMayorInteraccion = "";
-            double maxInteraccionPromedio = 0;
+    //8
+    public void generarReporteColaboracionesCSV(ArrayNode streamer) throws IOException {
+        
+        String csvFile = "files/reporte_colaboraciones.csv";
+        List<String[]> contenidoList = new ArrayList<>();
 
-            for (Plataforma plataforma : creador.getPlataformas()) {
-                totalSeguidores += plataforma.getSeguidores();
-                double totalInteracciones = 0;
-                int cantidadRegistros = plataforma.getHistorico().size();
+        // Agregar el encabezado al contenido
+        String[] header = {"Fecha", "Plataforma", "Colaborador"};
+        contenidoList.add(header);
+        for (JsonNode creador : streamer) {
+            ArrayNode colaboraciones = (ArrayNode) creador.path("colaboraciones");
 
-                for (Historico historico : plataforma.getHistorico()) {
-                    totalInteracciones += historico.getInteracciones();
+            for (JsonNode colaboracion : colaboraciones) {
+                String fechaInicio = colaboracion.path("fecha_inicio").asText();
+                String colaboradorId = colaboracion.path("colaborador").asText();
+
+                ArrayNode plataformas = (ArrayNode) creador.path("plataformas");
+                for (JsonNode plataforma : plataformas) {
+                    String nombrePlataforma = plataforma.path("nombre").asText();
+
+                    // Crear un arreglo de String y añadirlo a la lista
+                    String[] data = {fechaInicio, nombrePlataforma, colaboradorId};
+                    contenidoList.add(data);
                 }
+            }
+        }
 
-                double interaccionPromedio = cantidadRegistros > 0 ? totalInteracciones / cantidadRegistros : 0;
+        // Llamar al método crearCSV para escribir en el archivo
+        crearCSV8(contenidoList, csvFile);
+        this.vista.lblmostrarsiseaexportado.setText("Exportado existosamente");
+    }
+    //9
+    public void analisisComparativoRendimiento(List<Contenido> contenido) {
+    
+     
+    }
+    //10
+    public static void crearResumenRendimientoJSON(List<Contenido> contenido) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        ArrayNode resumen = objectMapper.createArrayNode();
+
+        Map<String, Map<String, int[]>> rendimiento = new HashMap<>();
+
+        for (Contenido cont : contenido) {
+            String creadorId = cont.getCreador_id();
+            String plataforma = cont.getPlataforma();
+            String fecha = cont.getFecha();
+            int vistas = cont.getVistas();
+            int meGusta = cont.getMe_gustas();
+            int comentarios = cont.getComentarios();
+            int compartidos = cont.getCompartidos();
+
+            if (fecha.startsWith("2023")) {
+                rendimiento.putIfAbsent(creadorId, new HashMap<>());
+                rendimiento.get(creadorId).putIfAbsent(plataforma, new int[3]); 
+
+                
+                rendimiento.get(creadorId).get(plataforma)[0] += vistas;
+                
+                rendimiento.get(creadorId).get(plataforma)[1] += (meGusta + comentarios + compartidos);
+               
+                rendimiento.get(creadorId).get(plataforma)[2]++;
+            }
+        }
+
+       
+        for (String creadorId : rendimiento.keySet()) {
+            Map<String, int[]> plataformas = rendimiento.get(creadorId);
+            String mejorPlataformaVistas = "";
+            int maxVistas = 0;
+            String mejorPlataformaInteracciones = "";
+            double maxInteraccionPromedio = 0.0;
+
+            for (String plataforma : plataformas.keySet()) {
+                int vistas = plataformas.get(plataforma)[0];
+                int interacciones = plataformas.get(plataforma)[1];
+                int conteo = plataformas.get(plataforma)[2];
+
+              
+                if (vistas > maxVistas) {
+                    maxVistas = vistas;
+                    mejorPlataformaVistas = plataforma;
+                }
+                double interaccionPromedio = (double) interacciones / conteo;
+
+                
                 if (interaccionPromedio > maxInteraccionPromedio) {
                     maxInteraccionPromedio = interaccionPromedio;
-                    plataformaMayorInteraccion = plataforma.getNombre();
+                    mejorPlataformaInteracciones = plataforma;
                 }
             }
 
-            informes.add(new InformeCreador(creador.getNombre(), totalSeguidores, plataformaMayorInteraccion));
-        }
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            objectMapper.writeValue(new File("files/"+rutaJSON), informes);
-            System.out.println("Informe generado exitosamente en " + "files/"+rutaJSON);
-        } catch (IOException e) {
-            System.out.println("Error al generar el informe: " + e.getMessage());
-        }
-    }
-
-    // Método para analizar el crecimiento de seguidores
-    public void analizarCrecimientoSeguidores(Creador[] creadores) {
-        for (Creador creador : creadores) {
-            System.out.println("Creador: " + creador.getNombre());
-            for (Plataforma plataforma : creador.getPlataformas()) {
-                System.out.println("  Plataforma: " + plataforma.getNombre());
-                analizarHistoricoSeguidores(plataforma);
-            }
-        }
-    }
-
-    // Método auxiliar para analizar el histórico de seguidores
-    public void analizarHistoricoSeguidores(Plataforma plataforma) {
-        int seguidoresInicio = 0;
-        int seguidoresFin = 0;
-        double tasaCrecimientoEnero = 0;
-        double tasaCrecimientoFebrero = 0;
-        double tasaCrecimientoMarzo = 0;
-
-        for (Historico historico : plataforma.getHistorico()) {
-            String mes = historico.getFecha().split("-")[1]; 
-
-            if (mes.equals("01")) {
-                seguidoresInicio = historico.getNuevos_seguidores();
-            } else if (mes.equals("02")) {
-                seguidoresFin = historico.getNuevos_seguidores();
-                if (seguidoresInicio > 0) {
-                    tasaCrecimientoFebrero = ((double) (seguidoresFin - seguidoresInicio) / seguidoresInicio) * 100;
-                }
-            } else if (mes.equals("03")) {
-                seguidoresInicio = historico.getNuevos_seguidores();
-                if (seguidoresFin > 0) {
-                    tasaCrecimientoMarzo = ((double) (seguidoresInicio - seguidoresFin) / seguidoresFin) * 100;
-                }
-            }
-        }
-        System.out.printf("    T asa de Crecimiento en Enero: %.2f%%\n", tasaCrecimientoEnero);
-        System.out.printf("    Tasa de Crecimiento en Febrero: %.2f%%\n", tasaCrecimientoFebrero);
-        System.out.printf("    Tasa de Crecimiento en Marzo: %.2f%%\n", tasaCrecimientoMarzo);
-    }
-
-    // Método para generar un reporte de colaboraciones
-    public void generarReporteColaboraciones(String rutaCSV, Creador[] creadores) {
-        try  {
-        	CSVWriter writer = new CSVWriter(new FileWriter("files/"+rutaCSV));
-            String[] header = { "Fecha Inicio", "Fecha Fin", "Creador", "Colaborador", "Plataforma", "Temática", "Tipo", "Estado" };
-            writer.writeNext(header);
-
-            for (Creador creador : creadores) {
-                for (Colaboracion colaboracion : creador.getColaboraciones()) {
-                    String[] data = {
-                        colaboracion.getFecha_inicio(),
-                        colaboracion.getFecha_fin(),
-                        creador.getNombre(),
-                        colaboracion.getColaborador(),
-                        colaboracion.getPlataforma(),
-                        colaboracion.getTematica(),
-                        colaboracion.getTipo(),
-                        colaboracion.getEstado()
-                    };
-                    writer.writeNext(data);
-                }
-            }
-            System.out.println("Reporte de colaboraciones generado exitosamente en " + "files/"+rutaCSV);
-        } catch (IOException e) {
-            System.out.println("Error al generar el reporte de colaboraciones: " + e.getMessage());
-        }
-    }
-
-    // Método para analizar el rendimiento del contenido
-    public void analizarRendimientoContenido(List<Contenido> contenido) {
-        Map<String, Map<String, double[]>> rendimiento = new HashMap<>();
-
-        for (Contenido c : contenido) {
-            String tipoContenido = c.getTipo();
-            String plataforma = c.getPlataforma();
-
-            rendimiento.putIfAbsent(tipoContenido, new HashMap<>());
-            rendimiento.get(tipoContenido).putIfAbsent(plataforma, new double[3]); // [total vistas, total me gusta, cantidad]
-
-            rendimiento.get(tipoContenido).get(plataforma)[0] += c.getVistas();
-            rendimiento.get(tipoContenido).get(plataforma)[1] += c.getMe_gustas();
-            rendimiento.get(tipoContenido).get(plataforma)[2] += 1;
-        }
-
-        System.out.println("Análisis Comparativo de Rendimiento:");
-        for (String tipo : rendimiento.keySet()) {
-            System.out.println("Tipo de Contenido: " + tipo);
-            for (String plataforma : rendimiento.get(tipo).keySet()) {
-                double totalVistas = rendimiento.get(tipo).get(plataforma)[0];
-                double totalMeGusta = rendimiento.get(tipo).get(plataforma)[1];
-                double cantidad = rendimiento.get(tipo).get(plataforma)[2];
-
-                double promedioVistas = cantidad > 0 ? totalVistas / cantidad : 0;
-                double promedioMeGusta = cantidad > 0 ? totalMeGusta / cantidad : 0;
-
-                System.out.printf("  Plataforma: %s, Promedio Vistas: %.2f, Promedio Me Gusta: %.2f\n", plataforma, promedioVistas, promedioMeGusta);
-            }
-        }
-    }
-
-    // Método para generar un resumen de rendimiento
-    public void generarResumenRendimiento(String rutaJSON, Creador[] creadores) {
-        List<Map<String, Object>> resumen = new ArrayList<>();
-        for (Creador creador : creadores) {
-            String creadorNombre = creador.getNombre();
-            String plataformaMasVistas = "";
-            String plataformaMasInteracciones = "";
-            double maxVistas = 0;
-            double maxInteracciones = 0;
-
-            for (Plataforma plataforma : creador.getPlataformas()) {
-                double totalVistas = 0;
-                double totalInteracciones = 0;
-                int cantidadRegistros = plataforma.getHistorico().size();
-
-                for (Historico historico : plataforma.getHistorico()) {
-                    totalVistas += historico.getVistas();
-                    totalInteracciones += historico.getInteracciones();
-                }
-                double promedioVistas = cantidadRegistros > 0 ? totalVistas / cantidadRegistros : 0;
-                double promedioInteracciones = cantidadRegistros > 0 ? totalInteracciones / cantidadRegistros : 0;
-
-                if (promedioVistas > maxVistas) {
-                    maxVistas = promedioVistas;
-                    plataformaMasVistas = plataforma.getNombre();
-                }
-
-                if (promedioInteracciones > maxInteracciones) {
-                    maxInteracciones = promedioInteracciones;
-                    plataformaMasInteracciones = plataforma.getNombre();
-                }
-            }
-
-            Map<String, Object> creadorResumen = new HashMap<>();
-            creadorResumen.put("Creador", creadorNombre);
-            creadorResumen.put("Plataforma con más vistas", plataformaMasVistas);
-            creadorResumen.put("Plataforma con más interacciones", plataformaMasInteracciones);
+          
+            ObjectNode creadorResumen = objectMapper.createObjectNode();
+            creadorResumen.put("creador_id", creadorId);
+            creadorResumen.put("mejor_plataforma_vistas", mejorPlataformaVistas);
+            creadorResumen.put("max_vistas", maxVistas);
+            creadorResumen.put("mejor_plataforma_interacciones", mejorPlataformaInteracciones);
+            creadorResumen.put("max_interaccion_promedio", maxInteraccionPromedio);
 
             resumen.add(creadorResumen);
         }
+        objectMapper.writerWithDefaultPrettyPrinter().writeValue(new FileWriter("files/resume_rendimiento2023.json"), resumen);
+        
+    }
 
-        ObjectMapper objectMapper = new ObjectMapper();
+//11
+    public void añadirPublicacion(List<Contenido2> contenido) throws IOException {
+        String id_creador = this.vista.textFieldidcreador1.getText();
+        String plataforma = this.vista.textFieldplataforma2.getText();
+        String fecha = this.vista.textFieldFecha2.getText();
+        String contenidoTexto = this.vista.textFieldContenido2.getText();
+        String tipo = this.vista.textFieldTipo2.getText();
         try {
-            objectMapper.writeValue(new File("files/"+rutaJSON), resumen);
+            Integer vistasTexto = Integer.parseInt(this.vista.textFieldVistas2.getText());
+            Integer me_gustaTexto = Integer.parseInt(this.vista.textFieldMeGsuta2.getText());
+            Integer comentariosTexto = Integer.parseInt(this.vista.textFieldComentarios2.getText());
+            Integer compartidosTexto = Integer.parseInt(this.vista.textFieldCompartidos2.getText());
+            Contenido2 nuevaPublicacion = new Contenido2(id_creador, plataforma, fecha, contenidoTexto, tipo,
+                    vistasTexto, me_gustaTexto, comentariosTexto, compartidosTexto);
+            contenido.add(nuevaPublicacion); 
+            
+            escribirEnCSV(nuevaPublicacion);
+
+            this.vista.lblNewLabelCreado.setText("Publicación añadida con éxito.");
+
+        } catch (NumberFormatException e) {
+            this.vista.lblNewLabelCreado.setText("Error: Asegúrate de que los campos numéricos estén correctamente llenos.");
+        } catch (IOException e) {
+            this.vista.lblNewLabelCreado.setText("Error al escribir en el archivo: " + e.getMessage());
         } catch (Exception e) {
-        	e.printStackTrace();
+            this.vista.lblNewLabelCreado.setText("Error: " + e.getMessage());
         }
     }
-
-    // Método para agregar una nueva publicación
-    public void agregarPublicacion(List<Contenido> contenido, Contenido nuevaPublicacion, String rutaCSV) {
-        if (nuevaPublicacion != null) {
-            contenido.add(nuevaPublicacion);
-            guardarContenidoEnCSV(contenido, "files/"+rutaCSV);
-            System.out.println("Publicación agregada exitosamente.");
-        } else {
-            System.out.println("La nueva publicación no puede ser nula.");
+    public void escribirEnCSV(Contenido2 publicacion) throws IOException {
+        String csvFile = "files/metricas_contenido.csv";
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(csvFile, true))) {
+            String linea = String.join(
+                    publicacion.getId_creador(),
+                    publicacion.getPlataforma(),
+                    publicacion.getFecha(),
+                    publicacion.getContenidoTexto(),
+                    publicacion.getTipo(),
+                    String.valueOf(publicacion.getVistasTexto()),
+                    String.valueOf(publicacion.getMe_gustaTexto()),
+                    String.valueOf(publicacion.getComentariosTexto()),
+                    String.valueOf(publicacion.getCompartidosTexto()));     
+            bw.write(linea);
+            bw.newLine();
         }
     }
-    //Metodo convertir colaboradores a Json
-    public void convertirColaboracionesAJSON2(Creador[] creadores) {
-        List<Colaboracion> todasColaboraciones = new ArrayList<>();
+    
+   
+    public void modificarPublicacion2(List<Contenido> contenido) {
+        String id_creador = this.vista.textFieldid_creador3.getText();
+        String fecha = this.vista.textFieldFechaContenido3.getText();
+        String plataforma = this.vista.textFieldel_plataforma3.getText();
+        Integer me_gustaTexto =Integer.parseInt(this.vista.textField_megusta2.getText());
+        Integer comentariosTexto = Integer.parseInt(this.vista.textFieldComentarios2.getText());
 
-        for (Creador creador : creadores) {
-            todasColaboraciones.addAll(creador.getColaboraciones());
-        }
-
-        ObjectMapper objectMapper = new ObjectMapper();
         try {
-            objectMapper.writeValue(new File("files/colaboraciones.json"), todasColaboraciones);
-            System.out.println("Colaboraciones convertidas exitosamente a JSON y guardadas en colaboraciones.json");
+            boolean encontrado = false;
+            for (Contenido publicacion : contenido) {
+                if (publicacion.getCreador_id().equals(id_creador) &&publicacion.getFecha().equals(fecha) && publicacion.getPlataforma().equals(plataforma)) {
+                    publicacion.setMe_gustas(me_gustaTexto);
+                    publicacion.setComentarios(comentariosTexto);
+                    encontrado = true;
+                    break;
+                }
+            }
+            if (encontrado) {
+                System.out.println("Publicación modificada con éxito.");
+            } else {
+                System.out.println("No se encontró la publicación con los datos proporcionados.");
+            }
+
+        } catch (NumberFormatException e) {
+            System.out.println("Error: Asegúrate de que los campos numéricos sean válidos.");
+        }
+    }
+    public void eliminarPublicacionesPorVistas(List<Contenido> contenido) {
+        String vistasTexto = this.vista.textFieldMinVistas.getText();
+        try {
+            int minVistas = Integer.parseInt(vistasTexto);
+            Iterator<Contenido> iterator = contenido.iterator();
+            boolean eliminadas = false;
+
+            while (iterator.hasNext()) {
+                Contenido publicacion = iterator.next();
+                if (publicacion.getVistas() < minVistas) {
+                    iterator.remove(); 
+                    eliminadas = true; 
+                }
+            }
+            if (eliminadas) {
+                System.out.println("Publicaciones eliminadas con éxito.");
+            } else {
+                System.out.println("No se encontraron publicaciones que eliminar.");
+            }
+
+        } catch (NumberFormatException e) {
+            System.out.println("Error: Asegúrate de que el campo de vistas sea un número válido.");
+        }
+    }    
+    //12
+    public void convertirColaboracionesAJSON(ArrayNode streamer) throws IOException {
+      
+        ObjectMapper objectMapper = new ObjectMapper();
+        ArrayNode colaboracionesArray = objectMapper.createArrayNode();
+
+        for (JsonNode creador : streamer) {
+            String nombreCreador = creador.get("nombre").asText();
+            ArrayNode colaboraciones = (ArrayNode) creador.path("colaboraciones");
+
+            for (JsonNode colaboracion : colaboraciones) {
+                ObjectNode colaboracionJSON = objectMapper.createObjectNode();
+                colaboracionJSON.put("nombreCreador", nombreCreador);
+                colaboracionJSON.put("colaborador", colaboracion.path("colaborador").asText());
+                colaboracionJSON.put("tematica", colaboracion.path("tematica").asText());
+                colaboracionJSON.put("fechaInicio", colaboracion.path("fecha_inicio").asText());
+                colaboracionJSON.put("fechaFin", colaboracion.path("fecha_fin").asText());
+                colaboracionJSON.put("tipo", colaboracion.path("tipo").asText());
+                colaboracionJSON.put("estado", colaboracion.path("estado").asText());
+
+                colaboracionesArray.add(colaboracionJSON);
+            }
+        }
+    }
+    public void crearCSV(List<Contenido> misFutbolistas, String rutaCSV) {
+		try {
+            FileWriter fw = new FileWriter(rutaCSV);
+            StatefulBeanToCsv<Contenido> beanToCsv = new StatefulBeanToCsvBuilder<Contenido>(fw).build();
+            beanToCsv.write(misFutbolistas);
+            fw.flush();
+		}catch (IOException | CsvDataTypeMismatchException | CsvRequiredFieldEmptyException e) {
+            e.printStackTrace();
+        }
+	}
+    public void crearCSV8(List<String[]> contenido, String rutaCSV) {
+        try (FileWriter fw = new FileWriter(rutaCSV);
+             CSVWriter writer = new CSVWriter(fw)) {
+            for (String[] todo : contenido) {
+                writer.writeNext(todo);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    // Método para guardar contenido en un archivo CSV
-    public void guardarContenidoEnCSV(List<Contenido> contenido, String rutaCSV) {
-        try  {
-        	FileWriter writer = new FileWriter("files/"+rutaCSV);
-            StatefulBeanToCsv<Contenido> beanToCsv = new StatefulBeanToCsvBuilder<Contenido>(writer).build();
-            beanToCsv.write(contenido);
-            writer.flush();
-            System.out.println("Contenido guardado exitosamente en " + "files/"+rutaCSV);
-        } catch (IOException | CsvDataTypeMismatchException | CsvRequiredFieldEmptyException e) {
-            System.out.println("Error al guardar contenido en CSV: " + e.getMessage());
-        }
-    }
-
-    // Método para crear un archivo CSV para un creador
-    public void crearCSV(Creador creador, String rutaCSV) {
-        try (FileWriter fw = new FileWriter("files/"+rutaCSV)) {
-            StatefulBeanToCsv<Creador> beanToCsv = new StatefulBeanToCsvBuilder<Creador>(fw).build();
-            beanToCsv.write(Arrays.asList(creador));
-            fw.flush();
-            System.out.println("CSV creado exitosamente para el creador en " + "files/"+rutaCSV);
-        } catch (IOException | CsvDataTypeMismatchException | CsvRequiredFieldEmptyException e) {
-            System.err.println("Error al crear CSV para el creador: " + e.getMessage());
-        }
-    }
-    //METODOS
-    /*controlador.exportarColaboracionesACSV(creadores, "Colaboraciones.csv");
-    controlador.convertirColaboracionesAJSON(creadores);
-    controlador.modificarPublicacion(contenido, "metricas_contenido.csv", null, null, null);
-    controlador.eliminarPublicacionesPorVistas(contenido, "metricas_contenido.csv", 3000);
-    controlador.generarInformeCreador("informe_creadores.json", creadores);
-    controlador.analizarCrecimientoSeguidores(creadores);
-    controlador.generarReporteColaboraciones("reporte_colaboraciones.csv", creadores);
-    controlador.analizarRendimientoContenido(contenido);
-    controlador.generarResumenRendimiento("resumen_rendimiento.json", creadores);
-    controlador.agregarPublicacion(contenido, null, "metricas_contenido.csv");
-    controlador.convertirColaboracionesAJSON2(creadores);
-   controlador.insertarNuevaColaboracion(null, null, null);*/
+   
+  
 }
