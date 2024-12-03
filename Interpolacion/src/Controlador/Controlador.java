@@ -277,22 +277,16 @@ public class Controlador implements ActionListener{
             for (JsonNode creatorNode : streamer) {
                 String creatorId = creatorNode.path("id").asText(null);
                 if (creatorId != null && creatorId.equals(cont.getCreador_id())) {
-                    // Se eliminó la línea de impresión a consola
-                    // System.out.println("Coincidencia encontrada para ID: " + creatorId);
                     String idCreador = creatorNode.get("id").asText();
                     String nombreCreador = creatorNode.get("nombre").asText();
                     String pais = creatorNode.get("pais").asText();
                     String tematica = creatorNode.get("tematica").asText();
                     String seguidoresTotales = creatorNode.get("seguidores_totales").asText();
-
-                    // Iterar sobre las plataformas
                     for (JsonNode plataforma : creatorNode.get("plataformas")) {
                         String nombrePlataforma = plataforma.get("nombre").asText();
                         String usuarioPlataforma = plataforma.get("usuario").asText();
                         String seguidoresPlataforma = plataforma.get("seguidores").asText();
                         String fechaCreacionPlataforma = plataforma.get("fecha_creacion").asText();
-
-                        // Iterar sobre las colaboraciones
                         for (JsonNode colaboracion : creatorNode.get("colaboraciones")) {
                             String colaborador = colaboracion.get("colaborador").asText();
                             String tematicaColaboracion = colaboracion.get("tematica").asText();
@@ -300,8 +294,6 @@ public class Controlador implements ActionListener{
                             String fechaFinColaboracion = colaboracion.get("fecha_fin").asText();
                             String tipoColaboracion = colaboracion.get("tipo").asText();
                             String estadoColaboracion = colaboracion.get("estado").asText();
-
-                            // Crear fila con datos de Contenido
                             Object[] fila = new Object[]{
                                 idCreador, nombreCreador, pais, tematica, seguidoresTotales,
                                 nombrePlataforma, usuarioPlataforma, seguidoresPlataforma,
@@ -339,7 +331,7 @@ public class Controlador implements ActionListener{
         };
 
         modelo.setColumnIdentifiers(nombrePromedios);
-        this.vista.tableRendimiento.setModel(modelo); // Asegúrate de que tienes una tabla para mostrar promedios
+        this.vista.tableRendimiento.setModel(modelo); 
 
        
 
@@ -392,8 +384,6 @@ public class Controlador implements ActionListener{
                     String creadorNombre = creatorNode.get("nombre").asText();
                     if (creatorNode.has("colaboraciones")) {
                         ArrayNode colaboraciones = (ArrayNode) creatorNode.path("colaboraciones");
-                        
-                        // Recorrer cada colaboración
                         for (JsonNode colaboracion : colaboraciones) {
                             String nombreColaborador = colaboracion.get("colaborador").asText(); 
                             String fechaInicio = colaboracion.get("fecha_inicio").asText();
@@ -415,7 +405,7 @@ public class Controlador implements ActionListener{
             crearCSV8(contenidoList, csvFile);
             this.vista.lblmostrarsiseaexportado.setText("Exportado correctamente"); 
         } catch (Exception e) {
-            e.printStackTrace(); // Para depuración
+            e.printStackTrace(); 
             this.vista.lblmostrarsiseaexportado.setText("Exportado erróneo"); 
         }
     }
