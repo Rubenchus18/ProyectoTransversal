@@ -37,7 +37,6 @@ import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 
 import Modelo.Contenido;
-import Modelo.Contenido2;
 import Vsita.Vista;
 
 public class Controlador implements ActionListener{
@@ -332,7 +331,7 @@ public class Controlador implements ActionListener{
 
         modelo.setColumnIdentifiers(nombrePromedios);
         this.vista.tableRendimiento.setModel(modelo); 
-
+        
        
 
      
