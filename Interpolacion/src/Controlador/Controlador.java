@@ -84,6 +84,7 @@ public class Controlador implements ActionListener{
     public void actionPerformed(ActionEvent e) {
     	 if (e.getSource() == this.vista.btnVerStreamer) {
              this.vista.panelmostrartodo.setVisible(true);
+             vista.panelMenu.setVisible(false);
              this.vista.panelprincipal.setVisible(false);
              mostrartodoconteido(streamer, contenido);
          }
@@ -258,7 +259,7 @@ public class Controlador implements ActionListener{
 	}
     //1
     public void mostrartodoconteido(ArrayNode streamer, List<Contenido> contenido) {
-        modelo.setRowCount(0);
+    	modelo.setRowCount(0);
         modelo.setColumnCount(0);
 
         String[] nombre = {
