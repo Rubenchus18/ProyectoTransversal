@@ -115,7 +115,7 @@ public class Controlador implements ActionListener{
   
         }
     public void actionPerformed(ActionEvent e) {
-    	 
+    	 //si
     	if (e.getSource() == this.vista.btnVerStreamer) {
              this.vista.panelMostrarTodo.setVisible(true);
              vista.panelMenu.setVisible(false);
