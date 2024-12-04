@@ -83,9 +83,28 @@ public class Controlador implements ActionListener{
     	this.vista.btnNewButton_Modificarmegustas.addActionListener(this);
     	this.vista.btneliminarminimo.addActionListener(this);
     	this.vista.btnNewButtonEliminarminimovistas.addActionListener(this);
-        this.vista.listStreamers.addListSelectionListener(e -> mostrarDatosStreamer(streamer));
-    	this.vista.comboBoxPlataforma.addActionListener(e -> mostrarDatosPlataforma());
-    	 this.vista.comboBoxHistorial.addActionListener(e -> mostrarDatosHistorial());
+    	this.vista.listStreamers.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) { 
+                mostrarDatosStreamer(streamer);
+                actualizarComboBoxPlataformas(); 
+                vista.comboBoxHistorial.removeAllItems(); 
+                vista.lblHistNuevosSeguidores1Mostrar.setText("");
+                vista.lblHistInteracciones1Mostrar.setText("");
+                vista.lblHistFecha1Mostrar.setText("");
+                actualizarComboBoxHistorico();
+                mostrarDatosPlataforma(); 
+                mostrarDatosHistorial();
+            }
+        });
+
+    	  this.vista.comboBoxPlataforma.addActionListener(e -> {
+              mostrarDatosPlataforma();
+              actualizarComboBoxHistorico(); 
+              mostrarDatosHistorial(); 
+          });
+        this.vista.comboBoxHistorial.addActionListener(e -> {
+            mostrarDatosHistorial(); 
+        });
     	 streamer = leer();
          contenido = abrirCSV("files/metricas_contenido.csv");
          agregarcomboxestado();
@@ -288,7 +307,8 @@ public class Controlador implements ActionListener{
     public void mostrarDatosStreamer(ArrayNode streamer) {
         String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
         if (nombreSeleccionado != null) {
-            vista.comboBoxHistorial.removeAllItems();
+            vista.comboBoxPlataforma.removeAllItems(); // Limpiar el comboBox de plataformas
+            vista.comboBoxHistorial.removeAllItems(); // Limpiar el comboBox de historial
             Set<String> fechasUnicas = new HashSet<>(); 
             for (JsonNode creatorNode : streamer) {
                 String nombreCreador = creatorNode.get("nombre").asText();
@@ -311,9 +331,16 @@ public class Controlador implements ActionListener{
                     vista.lblPromedioVistasMensualesMostrar.setText(promedioVistasMensuales);
                     vista.lblTasaCrecimientoSeguidoresMostrar.setText(tasaCrecimientoSeguidores);
                     
+                    // Llenar el comboBox de plataformas
+                    for (JsonNode plataforma : creatorNode.get("plataformas")) {
+                        String nombrePlataforma = plataforma.get("nombre").asText();
+                        vista.comboBoxPlataforma.addItem(nombrePlataforma); // Agregar la plataforma al comboBox
+                    }
+
+                    // Llenar el comboBox de historial
                     for (JsonNode plataforma : creatorNode.get("plataformas")) {
                         for (JsonNode historico : plataforma.get("historico")) {
-                            String fechaHistorial = historico.get("fecha").asText();
+                            String fechaHistorial = historico.get ("fecha").asText();
                             if (fechasUnicas.add(fechaHistorial)) {
                                 vista.comboBoxHistorial.addItem(fechaHistorial);
                             }
@@ -325,57 +352,107 @@ public class Controlador implements ActionListener{
         }
     }
 
+    // Método para mostrar los datos de la plataforma seleccionada
     public void mostrarDatosPlataforma() {
         String plataformaSeleccionada = (String) vista.comboBoxPlataforma.getSelectedItem();
-        if (plataformaSeleccionada != null) {
+        String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
+        if (plataformaSeleccionada != null && nombreSeleccionado != null) {
             for (JsonNode creatorNode : streamer) {
-                for (JsonNode plataforma : creatorNode.get("plataformas")) {
-                    String nombrePlataforma = plataforma.get("nombre").asText();
-                    if (nombrePlataforma.equals(plataformaSeleccionada)) {
-                      
-                        String usuarioPlataforma = plataforma.get("usuario").asText();
-                        String seguidoresPlataforma = plataforma.get("seguidores").asText();
-                        String fechaCreacionPlataforma = plataforma.get("fecha_creacion").asText();
-                      
-                        vista.lblPlataformaUsuarioMostrar.setText(usuarioPlataforma);
-                        vista.lblPlataformaSeguidoresMostrar.setText(seguidoresPlataforma);
-                        vista.lblPlataformaFechaCreacionMostrar.setText(fechaCreacionPlataforma);
-                        
-                   
-                        
-                        break; 
+                String nombreCreador = creatorNode.get("nombre").asText();
+                if (nombreCreador.equals(nombreSeleccionado)) {
+                    for (JsonNode plataforma : creatorNode.get("plataformas")) {
+                        String nombrePlataforma = plataforma.get("nombre").asText();
+                        if (nombrePlataforma.equals(plataformaSeleccionada)) {
+                            String usuarioPlataforma = plataforma.get("usuario").asText();
+                            String seguidoresPlataforma = plataforma.get("seguidores").asText();
+                            String fechaCreacionPlataforma = plataforma.get("fecha_creacion").asText();
+                          
+                            vista.lblPlataformaUsuarioMostrar.setText(usuarioPlataforma);
+                            vista.lblPlataformaSeguidoresMostrar.setText(seguidoresPlataforma);
+                            vista.lblPlataformaFechaCreacionMostrar.setText(fechaCreacionPlataforma);
+                            break; 
+                        }
                     }
+                    break; 
+                }
+            }
+        }
+    }
+    private void actualizarComboBoxPlataformas() {
+        String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
+        vista.comboBoxPlataforma.removeAllItems(); // Limpiar el comboBox de plataformas
+
+        if (nombreSeleccionado != null) {
+            for (JsonNode creatorNode : streamer) {
+                String nombreCreador = creatorNode.get("nombre").asText();
+                if (nombreCreador.equals(nombreSeleccionado)) {
+                    for (JsonNode plataforma : creatorNode.get("plataformas")) {
+                        String nombrePlataforma = plataforma.get("nombre").asText();
+                        vista.comboBoxPlataforma.addItem(nombrePlataforma); // Agregar la plataforma al comboBox
+                    }
+                    break; // Salir del bucle una vez que se encuentra el streamer
+                }
+            }
+        }
+    }
+    public  void actualizarComboBoxHistorico() {
+        String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
+        String plataformaSeleccionada = (String) vista.comboBoxPlataforma.getSelectedItem();
+        vista.comboBoxHistorial.removeAllItems(); // Limpiar el comboBox de historial
+
+        if (nombreSeleccionado != null && plataformaSeleccionada != null) {
+            for (JsonNode creatorNode : streamer) {
+                String nombreCreador = creatorNode.get("nombre").asText();
+                if (nombreCreador.equals(nombreSeleccionado)) {
+                    for (JsonNode plataforma : creatorNode.get("plataformas")) {
+                        String nombrePlataforma = plataforma.get("nombre").asText();
+                        if (nombrePlataforma.equals(plataformaSeleccionada)) {
+                            for (JsonNode historico : plataforma.get("historico")) {
+                                String fechaHistorial = historico.get("fecha").asText();
+                                vista.comboBoxHistorial.addItem(fechaHistorial); 
+                            }
+                            break; 
+                        }
+                    }
+                    break; 
                 }
             }
         }
     }
     public void mostrarDatosHistorial() {
         String fechaSeleccionada = (String) vista.comboBoxHistorial.getSelectedItem();
-        if (fechaSeleccionada != null) {
-        
-            vista.lblHistNuevosSeguidores1Mostrar.setText("");
-            vista.lblHistInteracciones1Mostrar.setText("");
-            vista.lblHistFecha1Mostrar.setText("");
-         
-            for (JsonNode creatorNode : streamer) {
-                for (JsonNode plataforma : creatorNode.get("plataformas")) {
-                    for (JsonNode historico : plataforma.get("historico")) {
-                        String fechaHistorial = historico.get("fecha").asText();
-                        if (fechaSeleccionada.equals(fechaHistorial)) {
-                            String nuevosSeguidores = historico.get("nuevos_seguidores").asText();
-                            String interacciones = historico.get("interacciones").asText();
-                            String nuevosseguidores=historico.get("nuevos_seguidores").asText();
+        String plataformaSeleccionada = (String) vista.comboBoxPlataforma.getSelectedItem(); 
 
-                            vista.lblHistNuevosSeguidores1Mostrar.setText(nuevosSeguidores);
-                            vista.lblHistInteracciones1Mostrar.setText(interacciones);
-                            vista.lblHistFecha1Mostrar.setText(nuevosseguidores);
-                            return; 
+        // Limpiar los labels antes de mostrar nuevos datos
+        vista.lblHistNuevosSeguidores1Mostrar.setText("");
+        vista.lblHistInteracciones1Mostrar.setText("");
+        vista.lblHistFecha1Mostrar.setText("");
+
+        if (fechaSeleccionada != null && plataformaSeleccionada != null) {
+            for (JsonNode creatorNode : streamer) {
+                String nombreCreador = creatorNode.get("nombre").asText();
+                for (JsonNode plataforma : creatorNode.get("plataformas")) {
+                    String nombrePlataforma = plataforma.get("nombre").asText();
+                    if (nombrePlataforma.equals(plataformaSeleccionada)) {
+                        for (JsonNode historico : plataforma.get("historico")) {
+                            String fechaHistorial = historico.get("fecha").asText();
+                            if (fechaSeleccionada.equals(fechaHistorial)) {
+                                String nuevosSeguidores = historico.get("nuevos_seguidores").asText();
+                                String interacciones = historico.get("interacciones").asText();
+
+                                // Asignar los valores a los labels
+                                vista.lblHistNuevosSeguidores1Mostrar.setText(fechaSeleccionada);
+                                vista.lblHistInteracciones1Mostrar.setText(interacciones);
+                                vista.lblHistFecha1Mostrar.setText(nuevosSeguidores);
+                                return; // Salir del método una vez que se encuentra la fecha
+                            }
                         }
                     }
                 }
             }
         }
     }
+
     //2
     public void calcularPromedios(ArrayNode streamer, List<Contenido> contenido) {
         modelo2.setRowCount(0);
