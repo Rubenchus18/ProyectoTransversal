@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
+import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -48,7 +49,8 @@ import Vsita.Vista;
 public class Controlador implements ActionListener{
     Controlador control;
     Vista vista=new Vista();
-    DefaultTableModel modelo=new DefaultTableModel() ;
+    DefaultTableModel modelo2=new DefaultTableModel() ;
+    DefaultListModel modelo=new DefaultListModel();
     ObjectMapper objectMapper = new ObjectMapper();
     ArrayNode streamer = objectMapper.createArrayNode();
     List<Contenido> contenido=new ArrayList<Contenido>();
@@ -81,21 +83,23 @@ public class Controlador implements ActionListener{
     	this.vista.btnNewButton_Modificarmegustas.addActionListener(this);
     	this.vista.btneliminarminimo.addActionListener(this);
     	this.vista.btnNewButtonEliminarminimovistas.addActionListener(this);
-    			streamer=leer();
-    			contenido=abrirCSV("files/metricas_contenido.csv");
-                agregarcomboxestado();
-                agregarcomboboxmodificar();
+        this.vista.listStreamers.addListSelectionListener(e -> mostrarDatosStreamer(streamer));
+    	this.vista.comboBoxPlataforma.addActionListener(e -> mostrarDatosPlataforma());
+    	 this.vista.comboBoxHistorial.addActionListener(e -> mostrarDatosHistorial());
+    	 streamer = leer();
+         contenido = abrirCSV("files/metricas_contenido.csv");
+         agregarcomboxestado();
+         agregarcomboboxmodificar();
+         llenarJListStreamers(streamer);
+         agregarPlataformas();
+  
         }
     public void actionPerformed(ActionEvent e) {
-    	 if (e.getSource() == this.vista.btnVerStreamer) {
+    	 
+    	if (e.getSource() == this.vista.btnVerStreamer) {
              this.vista.panelMostrarTodo.setVisible(true);
              vista.panelMenu.setVisible(false);
              this.vista.panelprincipal.setVisible(false);
-             mostrartodoconteido(streamer, contenido);
-         }
-         if (e.getSource() == this.vista.btnVolverMostrarTodo) {
-             this.vista.panelMostrarTodo.setVisible(false);
-             this.vista.panelprincipal.setVisible(true);
          }
          if (e.getSource() == this.vista.btnVerMetrica) {
                  this.vista.panelMetrica.setVisible(true);
@@ -149,7 +153,7 @@ public class Controlador implements ActionListener{
  				try {
  					crearResumenRendimientoJSON(contenido);
  				} catch (IOException e1) {
- 					// TODO Auto-generated catch block
+ 					
  					e1.printStackTrace();
  				}
  			
@@ -159,7 +163,7 @@ public class Controlador implements ActionListener{
          	try {
  				convertirColaboracionesAJSON(streamer);
  			} catch (IOException e1) {
- 				// TODO Auto-generated catch block
+ 				
  				e1.printStackTrace();
  			}
          }
@@ -262,70 +266,110 @@ public class Controlador implements ActionListener{
 		
 		return contenido;
 	}
+    
+    public void agregarPlataformas() {
+        this.vista.comboBoxPlataforma.addItem("TikTok");
+        this.vista.comboBoxPlataforma.addItem("Twitch");
+        this.vista.comboBoxPlataforma.addItem("Instagram");
+        this.vista.comboBoxPlataforma.addItem("YouTube");
+    }
+    public void llenarJListStreamers(ArrayNode streamer) {
+        DefaultListModel<String> modelo = new DefaultListModel<>();
+        Set<String> nombresUnicos = new HashSet<>();
+        for (JsonNode creatorNode : streamer) {
+            String nombreCreador = creatorNode.get("nombre").asText();
+            if (nombresUnicos.add(nombreCreador)) {
+                modelo.addElement(nombreCreador);
+            }
+        }
+        this.vista.listStreamers.setModel(modelo); 
+    }
     //1
-    public void mostrartodoconteido(ArrayNode streamer, List<Contenido> contenido) {
-    	modelo.setRowCount(0);
-        modelo.setColumnCount(0);
-
-        String[] nombre = {
-            "ID Creador", "Nombre_Creador", "País", "Temática", "Seguidores Totales","Interaciones Totales","Promedio vistas mensuales","Tasa de crecimiento seguidores",
-            "Plataforma", "Usuario", "Seguidores", "Fecha Creación", "Colaborador",
-            "Temática Colaboración", "Fecha Inicio Colaboración", "Fecha Fin Colaboración",
-            "Tipo Colaboración", "Estado Colaboración", "creador_id", "plataforma", "fecha", 
-            "contenido", "tipo", "vistas", "me gustas", "comentarios", "compartidos"
-        };
-
-        modelo.setColumnIdentifiers(nombre);
-        this.vista.tabla.setModel(modelo);
-
-        for (Contenido cont : contenido) {
+    public void mostrarDatosStreamer(ArrayNode streamer) {
+        String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
+        if (nombreSeleccionado != null) {
+            vista.comboBoxHistorial.removeAllItems();
+            Set<String> fechasUnicas = new HashSet<>(); 
             for (JsonNode creatorNode : streamer) {
-                String creatorId = creatorNode.get("id").asText(null);
-                if (creatorId != null && creatorId.equals(cont.getCreador_id())) {
+                String nombreCreador = creatorNode.get("nombre").asText();
+                if (nombreCreador.equals(nombreSeleccionado)) {
                     String idCreador = creatorNode.get("id").asText();
-                    String nombreCreador = creatorNode.get("nombre").asText();
                     String pais = creatorNode.get("pais").asText();
                     String tematica = creatorNode.get("tematica").asText();
                     String seguidoresTotales = creatorNode.get("seguidores_totales").asText();
-                    JsonNode estadisticas=creatorNode.get("estadisticas");
-                    String interacciones_totales=estadisticas.get("interacciones_totales").asText();
-                    String promedio_vistas_mensuales=estadisticas.get("promedio_vistas_mensuales").asText();
-                    String tasa_crecimiento_seguidores=estadisticas.get("tasa_crecimiento_seguidores").asText();
+
+                    JsonNode estadisticas = creatorNode.get("estadisticas");
+                    String interaccionesTotales = estadisticas.get("interacciones_totales").asText();
+                    String promedioVistasMensuales = estadisticas.get("promedio_vistas_mensuales").asText();
+                    String tasaCrecimientoSeguidores = estadisticas.get("tasa_crecimiento_seguidores").asText();
+                    vista.lblIdMostrar.setText(idCreador);
+                    vista.lblNombreMostrar.setText(nombreCreador);
+                    vista.lblPaisMostrar.setText(pais);
+                    vista.lblTematicaMostrar.setText(tematica);
+                    vista.lblSeguidoresTotalesMostrar.setText(seguidoresTotales);
+                    vista.lblInteraccionesTotalesMostrar.setText(interaccionesTotales);
+                    vista.lblPromedioVistasMensualesMostrar.setText(promedioVistasMensuales);
+                    vista.lblTasaCrecimientoSeguidoresMostrar.setText(tasaCrecimientoSeguidores);
+                    
                     for (JsonNode plataforma : creatorNode.get("plataformas")) {
-                        String nombrePlataforma = plataforma.get("nombre").asText();
+                        for (JsonNode historico : plataforma.get("historico")) {
+                            String fechaHistorial = historico.get("fecha").asText();
+                            if (fechasUnicas.add(fechaHistorial)) {
+                                vista.comboBoxHistorial.addItem(fechaHistorial);
+                            }
+                        }
+                    }
+                    break; 
+                }
+            }
+        }
+    }
+
+    public void mostrarDatosPlataforma() {
+        String plataformaSeleccionada = (String) vista.comboBoxPlataforma.getSelectedItem();
+        if (plataformaSeleccionada != null) {
+            for (JsonNode creatorNode : streamer) {
+                for (JsonNode plataforma : creatorNode.get("plataformas")) {
+                    String nombrePlataforma = plataforma.get("nombre").asText();
+                    if (nombrePlataforma.equals(plataformaSeleccionada)) {
+                      
                         String usuarioPlataforma = plataforma.get("usuario").asText();
                         String seguidoresPlataforma = plataforma.get("seguidores").asText();
                         String fechaCreacionPlataforma = plataforma.get("fecha_creacion").asText();
-                        for (JsonNode colaboracion : creatorNode.get("colaboraciones")) {
-                            String colaborador = colaboracion.get("colaborador").asText();
-                            String tematicaColaboracion = colaboracion.get("tematica").asText();
-                            String fechaInicioColaboracion = colaboracion.get("fecha_inicio").asText();
-                            String fechaFinColaboracion = colaboracion.get("fecha_fin").asText();
-                            String tipoColaboracion = colaboracion.get("tipo").asText();
-                            String estadoColaboracion = colaboracion.get("estado").asText();
-                            Object[] fila = new Object[]{
-                                idCreador, nombreCreador, pais, tematica, seguidoresTotales,
-                                interacciones_totales,promedio_vistas_mensuales,tasa_crecimiento_seguidores,
-                                nombrePlataforma, usuarioPlataforma, seguidoresPlataforma,
-                                fechaCreacionPlataforma, colaborador, tematicaColaboracion,
-                                fechaInicioColaboracion, fechaFinColaboracion, tipoColaboracion,
-                                estadoColaboracion,
-                                cont.getCreador_id(), cont.getPlataforma(), cont.getFecha(),
-                                cont.getContenido(), cont.getTipo(), cont.getVistas(),
-                                cont.getMe_gustas(), cont.getComentarios(), cont.getCompartidos()
-                            };
-                            boolean existeContenido = false;
-                            for (int i = 0; i < modelo.getRowCount(); i++) {
-                                String idContenidoExistente = modelo.getValueAt(i, modelo.findColumn("creador_id")).toString();
-                                String plataformaExistente = modelo.getValueAt(i, modelo.findColumn("plataforma")).toString();
-                                if (idContenidoExistente.equals(cont.getCreador_id()) && plataformaExistente.equals(nombrePlataforma)) {
-                                    existeContenido = true;
-                                    break;
-                                }
-                            }
-                            if (!existeContenido) {
-                                modelo.addRow(fila);
-                            }
+                      
+                        vista.lblPlataformaUsuarioMostrar.setText(usuarioPlataforma);
+                        vista.lblPlataformaSeguidoresMostrar.setText(seguidoresPlataforma);
+                        vista.lblPlataformaFechaCreacionMostrar.setText(fechaCreacionPlataforma);
+                        
+                   
+                        
+                        break; 
+                    }
+                }
+            }
+        }
+    }
+    public void mostrarDatosHistorial() {
+        String fechaSeleccionada = (String) vista.comboBoxHistorial.getSelectedItem();
+        if (fechaSeleccionada != null) {
+        
+            vista.lblHistNuevosSeguidores1Mostrar.setText("");
+            vista.lblHistInteracciones1Mostrar.setText("");
+            vista.lblHistFecha1Mostrar.setText("");
+         
+            for (JsonNode creatorNode : streamer) {
+                for (JsonNode plataforma : creatorNode.get("plataformas")) {
+                    for (JsonNode historico : plataforma.get("historico")) {
+                        String fechaHistorial = historico.get("fecha").asText();
+                        if (fechaSeleccionada.equals(fechaHistorial)) {
+                            String nuevosSeguidores = historico.get("nuevos_seguidores").asText();
+                            String interacciones = historico.get("interacciones").asText();
+                            String nuevosseguidores=historico.get("nuevos_seguidores").asText();
+
+                            vista.lblHistNuevosSeguidores1Mostrar.setText(nuevosSeguidores);
+                            vista.lblHistInteracciones1Mostrar.setText(interacciones);
+                            vista.lblHistFecha1Mostrar.setText(nuevosseguidores);
+                            return; 
                         }
                     }
                 }
@@ -334,14 +378,14 @@ public class Controlador implements ActionListener{
     }
     //2
     public void calcularPromedios(ArrayNode streamer, List<Contenido> contenido) {
-        modelo.setRowCount(0);
-        modelo.setColumnCount(0);
+        modelo2.setRowCount(0);
+        modelo2.setColumnCount(0);
         String[] nombrePromedios = {
             "ID Creador", "Nombre Creador", "Plataforma", "Promedio Vistas", "Promedio Me Gustas"
         };
 
-        modelo.setColumnIdentifiers(nombrePromedios);
-        this.vista.tableRendimiento.setModel(modelo); 
+        modelo2.setColumnIdentifiers(nombrePromedios);
+        this.vista.tableRendimiento.setModel(modelo2); 
         
        
 
@@ -552,8 +596,8 @@ public class Controlador implements ActionListener{
     //7
     public void analizarCrecimientoMensualSeguidores(ArrayNode streamer) throws IOException {
       
-        modelo.setRowCount(0);
-        modelo.setColumnCount(0);
+        modelo2.setRowCount(0);
+        modelo2.setColumnCount(0);
 
      
         String[] nombre = {
@@ -561,7 +605,7 @@ public class Controlador implements ActionListener{
             "Tasa de crecimiento en Twitch", "Tasa de crecimiento en Instagram", 
             "Tasa de crecimiento en TikTok"
         };
-        modelo.setColumnIdentifiers(nombre);
+        modelo2.setColumnIdentifiers(nombre);
 
       
         for (int i = 0; i < streamer.size(); i++) {
@@ -614,7 +658,7 @@ public class Controlador implements ActionListener{
             double tasaCrecimientoTwitch = calcularTasaCrecimiento(seguidoresTwitchInicio, seguidoresTwitchFin);
             double tasaCrecimientoInstagram = calcularTasaCrecimiento(seguidoresInstagramInicio, seguidoresInstagramFin);
             double tasaCrecimientoTikTok = calcularTasaCrecimiento(seguidoresTikTokInicio, seguidoresTikTokFin);
-            modelo.addRow(new Object[]{
+            modelo2.addRow(new Object[]{
                 idCreador, 
                 nombreCreador, 
                 tasaCrecimientoYoutube, 

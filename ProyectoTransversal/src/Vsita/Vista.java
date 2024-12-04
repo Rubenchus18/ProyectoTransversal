@@ -248,7 +248,7 @@ public class Vista extends JFrame {
 	public JLabel lblHistNuevosSeguidores1Mostrar;
 	public JLabel lblHistInteracciones1Mostrar;
 	public JLabel lblHistorial;
-	public JComboBox comboBox;
+	public JComboBox comboBoxHistorial;
 	public JPanel panelHistorico;
 
 	/**
@@ -534,9 +534,9 @@ public class Vista extends JFrame {
 		lblHistorial.setBounds(10, 105, 101, 31);
 		panelYoutube.add(lblHistorial);
 
-		comboBox = new JComboBox();
-		comboBox.setBounds(129, 110, 151, 26);
-		panelYoutube.add(comboBox);
+		comboBoxHistorial = new JComboBox();
+		comboBoxHistorial.setBounds(129, 110, 151, 26);
+		panelYoutube.add(comboBoxHistorial);
 
 		panelHistorico = new JPanel();
 		panelHistorico.setBackground(new Color(0, 64, 128));
