@@ -93,6 +93,7 @@ public class Controlador implements ActionListener{
                 vista.lblHistFecha1Mostrar.setText("");
                 actualizarComboBoxHistorico();
                 mostrarDatosPlataforma(); 
+                actualizarComboBoxHistorico(); 
                 mostrarDatosHistorial();
             }
         });
@@ -241,10 +242,6 @@ public class Controlador implements ActionListener{
     	   eliminarPublicacionesPorLikes(contenido);
        }
     }
-
-//Metodos
-    // Método auxiliar para mostrar datos de un creador
-    
     public void agregarcomboxestado() {
     	this.vista.comboBoxEstadoColaboracion.addItem("Activo");
     	this.vista.comboBoxEstadoColaboracion.addItem("Finalizada");
@@ -307,8 +304,8 @@ public class Controlador implements ActionListener{
     public void mostrarDatosStreamer(ArrayNode streamer) {
         String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
         if (nombreSeleccionado != null) {
-            vista.comboBoxPlataforma.removeAllItems(); // Limpiar el comboBox de plataformas
-            vista.comboBoxHistorial.removeAllItems(); // Limpiar el comboBox de historial
+            vista.comboBoxPlataforma.removeAllItems(); 
+            vista.comboBoxHistorial.removeAllItems(); 
             Set<String> fechasUnicas = new HashSet<>(); 
             for (JsonNode creatorNode : streamer) {
                 String nombreCreador = creatorNode.get("nombre").asText();
@@ -330,14 +327,13 @@ public class Controlador implements ActionListener{
                     vista.lblInteraccionesTotalesMostrar.setText(interaccionesTotales);
                     vista.lblPromedioVistasMensualesMostrar.setText(promedioVistasMensuales);
                     vista.lblTasaCrecimientoSeguidoresMostrar.setText(tasaCrecimientoSeguidores);
-                    
-                    // Llenar el comboBox de plataformas
+
                     for (JsonNode plataforma : creatorNode.get("plataformas")) {
                         String nombrePlataforma = plataforma.get("nombre").asText();
-                        vista.comboBoxPlataforma.addItem(nombrePlataforma); // Agregar la plataforma al comboBox
+                        vista.comboBoxPlataforma.addItem(nombrePlataforma); 
                     }
 
-                    // Llenar el comboBox de historial
+               
                     for (JsonNode plataforma : creatorNode.get("plataformas")) {
                         for (JsonNode historico : plataforma.get("historico")) {
                             String fechaHistorial = historico.get ("fecha").asText();
@@ -352,7 +348,7 @@ public class Controlador implements ActionListener{
         }
     }
 
-    // Método para mostrar los datos de la plataforma seleccionada
+ 
     public void mostrarDatosPlataforma() {
         String plataformaSeleccionada = (String) vista.comboBoxPlataforma.getSelectedItem();
         String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
@@ -378,9 +374,9 @@ public class Controlador implements ActionListener{
             }
         }
     }
-    private void actualizarComboBoxPlataformas() {
+    public void actualizarComboBoxPlataformas() {
         String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
-        vista.comboBoxPlataforma.removeAllItems(); // Limpiar el comboBox de plataformas
+        vista.comboBoxPlataforma.removeAllItems(); 
 
         if (nombreSeleccionado != null) {
             for (JsonNode creatorNode : streamer) {
@@ -388,21 +384,22 @@ public class Controlador implements ActionListener{
                 if (nombreCreador.equals(nombreSeleccionado)) {
                     for (JsonNode plataforma : creatorNode.get("plataformas")) {
                         String nombrePlataforma = plataforma.get("nombre").asText();
-                        vista.comboBoxPlataforma.addItem(nombrePlataforma); // Agregar la plataforma al comboBox
+                        vista.comboBoxPlataforma.addItem(nombrePlataforma);
                     }
-                    break; // Salir del bucle una vez que se encuentra el streamer
+                    break;
                 }
             }
         }
     }
-    public  void actualizarComboBoxHistorico() {
+    public void actualizarComboBoxHistorico() {
         String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
         String plataformaSeleccionada = (String) vista.comboBoxPlataforma.getSelectedItem();
-        vista.comboBoxHistorial.removeAllItems(); // Limpiar el comboBox de historial
+        vista.comboBoxHistorial.removeAllItems(); 
 
         if (nombreSeleccionado != null && plataformaSeleccionada != null) {
             for (JsonNode creatorNode : streamer) {
                 String nombreCreador = creatorNode.get("nombre").asText();
+
                 if (nombreCreador.equals(nombreSeleccionado)) {
                     for (JsonNode plataforma : creatorNode.get("plataformas")) {
                         String nombrePlataforma = plataforma.get("nombre").asText();
@@ -411,7 +408,7 @@ public class Controlador implements ActionListener{
                                 String fechaHistorial = historico.get("fecha").asText();
                                 vista.comboBoxHistorial.addItem(fechaHistorial); 
                             }
-                            break; 
+                            break;
                         }
                     }
                     break; 
@@ -422,12 +419,9 @@ public class Controlador implements ActionListener{
     public void mostrarDatosHistorial() {
         String fechaSeleccionada = (String) vista.comboBoxHistorial.getSelectedItem();
         String plataformaSeleccionada = (String) vista.comboBoxPlataforma.getSelectedItem(); 
-
-        // Limpiar los labels antes de mostrar nuevos datos
         vista.lblHistNuevosSeguidores1Mostrar.setText("");
         vista.lblHistInteracciones1Mostrar.setText("");
         vista.lblHistFecha1Mostrar.setText("");
-
         if (fechaSeleccionada != null && plataformaSeleccionada != null) {
             for (JsonNode creatorNode : streamer) {
                 String nombreCreador = creatorNode.get("nombre").asText();
@@ -439,12 +433,10 @@ public class Controlador implements ActionListener{
                             if (fechaSeleccionada.equals(fechaHistorial)) {
                                 String nuevosSeguidores = historico.get("nuevos_seguidores").asText();
                                 String interacciones = historico.get("interacciones").asText();
-
-                                // Asignar los valores a los labels
-                                vista.lblHistNuevosSeguidores1Mostrar.setText(fechaSeleccionada);
+                                vista.lblHistNuevosSeguidores1Mostrar.setText(nuevosSeguidores);
                                 vista.lblHistInteracciones1Mostrar.setText(interacciones);
-                                vista.lblHistFecha1Mostrar.setText(nuevosSeguidores);
-                                return; // Salir del método una vez que se encuentra la fecha
+                                vista.lblHistFecha1Mostrar.setText(fechaSeleccionada);
+                                return; 
                             }
                         }
                     }
