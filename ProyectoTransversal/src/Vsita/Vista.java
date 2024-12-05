@@ -35,6 +35,8 @@ import javax.swing.JList;
 import javax.swing.border.MatteBorder;
 import javax.swing.UIManager;
 import javax.swing.BoxLayout;
+import javax.swing.Icon;
+
 import java.awt.BorderLayout;
 import javax.swing.JSeparator;
 
@@ -250,6 +252,17 @@ public class Vista extends JFrame {
 	public JLabel lblHistorial;
 	public JComboBox comboBoxHistorial;
 	public JPanel panelHistorico;
+	public JPanel panelExportacionDatos;
+	public JLabel lblExportacionDeDatos;
+	public JButton btnSalir_1;
+	public JPanel panelBotones_1;
+	public JButton btnExportaColaboracionesCSV;
+	public JButton btnExportarInfrome_reportejson;
+	public JButton btngenerarreportecsvcolaboraciones;
+	public JButton btnresumenrendimientojson;
+	public JButton btncolaboracionesajson;
+	public JLabel lblResultado;
+	public JLabel lblFallo;
 
 	/**
 	 * Launch the application.
@@ -280,7 +293,272 @@ public class Vista extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		contentPane.setLayout(null);
+		setLocationRelativeTo(null);
+		panelMenu = new JPanel();
+		panelMenu.setBackground(Color.ORANGE);
+		panelMenu.setBounds(0, 0, 1292, 765);
+		contentPane.add(panelMenu);
+		panelMenu.setLayout(null);
+
+		lblMenu = new JLabel("MENU");
+		lblMenu.setFont(new Font("Dialog", Font.BOLD, 99));
+		lblMenu.setForeground(SystemColor.controlText);
+		lblMenu.setHorizontalAlignment(SwingConstants.CENTER);
+		lblMenu.setBounds(0, 0, 1292, 146);
+		panelMenu.add(lblMenu);
+
+		panelBotones = new JPanel();
+		panelBotones.setBackground(Color.BLACK);
+		panelBotones.setBounds(154, 156, 1001, 579);
+		panelMenu.add(panelBotones);
+		panelBotones.setLayout(new GridLayout(3, 3, 0, 10));
+
+		btnVerStreamer = new JButton("Información General");
+		btnVerStreamer.setFont(new Font("Tahoma", Font.BOLD, 30));
+		btnVerStreamer.setForeground(Color.WHITE);
+		btnVerStreamer.setBackground(new Color(70, 130, 180));
+		btnVerStreamer.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+		panelBotones.add(btnVerStreamer);
+
+		// Botón de Información de Creador
+		btnInfoCreador = new JButton("Creador");
+		btnInfoCreador.setForeground(Color.WHITE);
+		btnInfoCreador.setFont(new Font("Tahoma", Font.BOLD, 30));
+		btnInfoCreador.setBackground(new Color(70, 130, 180)); // Cambia el color de fondo para más atractivo
+		btnInfoCreador.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2)); // Añadir borde
+		panelBotones.add(btnInfoCreador);
+
+		// Botón de Métricas
+		btnMetricas = new JButton("Exportacion");
+		btnMetricas.setForeground(Color.WHITE);
+		btnMetricas.setFont(new Font("Tahoma", Font.BOLD, 30));
+		btnMetricas.setBackground(new Color(70, 130, 180)); // Cambia el color de fondo para más atractivo
+		btnMetricas.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2)); // Añadir borde
+		panelBotones.add(btnMetricas);
+
+		panelExportacionDatos = new JPanel();
+		panelExportacionDatos.setBackground(Color.ORANGE);
+		panelExportacionDatos.setBounds(0, 0, 1292, 765);
+		contentPane.add(panelExportacionDatos);
+		panelExportacionDatos.setLayout(null);
+		panelExportacionDatos.setVisible(false);
+		lblExportacionDeDatos = new JLabel("Exportacion de datos");
+		lblExportacionDeDatos.setHorizontalAlignment(SwingConstants.CENTER);
+		lblExportacionDeDatos.setForeground(new Color(0, 0, 128));
+		lblExportacionDeDatos.setFont(new Font("Dialog", Font.BOLD, 75));
+		lblExportacionDeDatos.setBounds(71, 10, 1137, 99);
+		panelExportacionDatos.add(lblExportacionDeDatos);
+
+		btnSalir_1 = new JButton("");
+		btnSalir_1.setForeground(Color.WHITE);
+		btnSalir_1.setFont(new Font("Tahoma", Font.BOLD, 30));
+		btnSalir_1.setBackground(new Color(255, 204, 0));
+		btnSalir_1.setBounds(10, 26, 107, 74);
+		btnSalir_1.setIcon(new ImageIcon(asignarImagenSalir()));
+		panelExportacionDatos.add(btnSalir_1);
+
+		panelBotones_1 = new JPanel();
+		panelBotones_1.setBackground(Color.BLACK);
+		panelBotones_1.setBounds(147, 119, 1001, 508);
+		panelExportacionDatos.add(panelBotones_1);
+		panelBotones_1.setLayout(null);
+		panelBotones_1.setVisible(false);
+		btnExportaColaboracionesCSV = new JButton("Exportar a csv colaboraciones");
+		btnExportaColaboracionesCSV.setBounds(0, 104, 1001, 93);
+		btnExportaColaboracionesCSV.setForeground(Color.WHITE);
+		btnExportaColaboracionesCSV.setFont(new Font("Tahoma", Font.BOLD, 30));
+		btnExportaColaboracionesCSV.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+		btnExportaColaboracionesCSV.setBackground(new Color(70, 130, 180));
+		panelBotones_1.add(btnExportaColaboracionesCSV);
+
+		btnExportarInfrome_reportejson = new JButton("Exportar reportes json");
+		btnExportarInfrome_reportejson.setBounds(0, 310, 1001, 93);
+		btnExportarInfrome_reportejson.setForeground(Color.WHITE);
+		btnExportarInfrome_reportejson.setFont(new Font("Tahoma", Font.BOLD, 30));
+		btnExportarInfrome_reportejson.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+		btnExportarInfrome_reportejson.setBackground(new Color(70, 130, 180));
+		panelBotones_1.add(btnExportarInfrome_reportejson);
+
+		btngenerarreportecsvcolaboraciones = new JButton("Exportar reporte colaboraciones CSV");
+		btngenerarreportecsvcolaboraciones.setBounds(0, 207, 1001, 93);
+		btngenerarreportecsvcolaboraciones.setForeground(Color.WHITE);
+		btngenerarreportecsvcolaboraciones.setFont(new Font("Tahoma", Font.BOLD, 30));
+		btngenerarreportecsvcolaboraciones.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+		btngenerarreportecsvcolaboraciones.setBackground(new Color(70, 130, 180));
+		panelBotones_1.add(btngenerarreportecsvcolaboraciones);
+
+		btnresumenrendimientojson = new JButton("Exportar reporte colaboraciones CSV");
+		btnresumenrendimientojson.setForeground(Color.WHITE);
+		btnresumenrendimientojson.setFont(new Font("Tahoma", Font.BOLD, 30));
+		btnresumenrendimientojson.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+		btnresumenrendimientojson.setBackground(new Color(70, 130, 180));
+		btnresumenrendimientojson.setBounds(0, 0, 1001, 93);
+		panelBotones_1.add(btnresumenrendimientojson);
+
+		btncolaboracionesajson = new JButton("Exportar reporte colaboraciones CSV");
+		btncolaboracionesajson.setForeground(Color.WHITE);
+		btncolaboracionesajson.setFont(new Font("Tahoma", Font.BOLD, 30));
+		btncolaboracionesajson.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+		btncolaboracionesajson.setBackground(new Color(70, 130, 180));
+		btncolaboracionesajson.setBounds(0, 413, 1001, 93);
+		panelBotones_1.add(btncolaboracionesajson);
+
+		lblResultado = new JLabel("Exportado con existo en la carpeta files");
+		lblResultado.setBackground(Color.GREEN);
+		lblResultado.setHorizontalAlignment(SwingConstants.CENTER);
+		lblResultado.setForeground(Color.WHITE);
+		lblResultado.setFont(new Font("Dialog", Font.BOLD, 50));
+		lblResultado.setBounds(97, 634, 1137, 99);
+		lblResultado.setOpaque(true);
+		lblResultado.setVisible(false);
+		panelExportacionDatos.add(lblResultado);
+		
+		lblFallo = new JLabel("Error al exportar");
+		lblFallo.setForeground(Color.WHITE);
+		lblFallo.setBackground(Color.RED);
+		lblFallo.setBounds(97, 634, 1137, 99);
+		lblFallo.setOpaque(true);
+		lblFallo.setVisible(false);
+		panelExportacionDatos.add(lblFallo);
+		
+		
+		
+
+		panelprincipal = new JPanel();
+		panelprincipal.setBackground(new Color(0, 0, 0));
+		panelprincipal.setBounds(0, 0, 1311, 548);
+		contentPane.add(panelprincipal);
+		panelprincipal.setLayout(null);
+		panelprincipal.setVisible(false);
+		JLabel lblNewLabel_3 = new JLabel("StreamerFocus");
+		lblNewLabel_3.setBounds(503, 11, 771, 99);
+		panelprincipal.add(lblNewLabel_3);
+		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_3.setForeground(new Color(64, 128, 128));
+		lblNewLabel_3.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+
+		btnInsertarnuevoscolaboradores = new JButton("Insertar colaboradores");
+		btnInsertarnuevoscolaboradores.setBounds(322, 199, 197, 66);
+		panelprincipal.add(btnInsertarnuevoscolaboradores);
+
+		btnañadirpublicacion = new JButton("Añadir publicacion");
+		btnañadirpublicacion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnañadirpublicacion.setBounds(322, 286, 197, 66);
+		panelprincipal.add(btnañadirpublicacion);
+
+		ModificarPublicaciones = new JButton(" Publicaciones");
+		ModificarPublicaciones.setBounds(866, 286, 197, 66);
+		panelprincipal.add(ModificarPublicaciones);
+
+		btnResumerendimiento2023 = new JButton("Tasa de Crecimient");
+		btnResumerendimiento2023.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnResumerendimiento2023.setBounds(57, 366, 197, 66);
+		panelprincipal.add(btnResumerendimiento2023);
+
+		btnEliminar = new JButton("Eliminar Publicaciones");
+		btnEliminar.setBounds(593, 199, 197, 66);
+		panelprincipal.add(btnEliminar);
+
+		btnCrearinformerJson6 = new JButton("6");
+		btnCrearinformerJson6.setBounds(1145, 286, 154, 66);
+		panelprincipal.add(btnCrearinformerJson6);
+
+		btnExportarcolaboracionescsv = new JButton("4");
+		btnExportarcolaboracionescsv.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnExportarcolaboracionescsv.setBounds(1145, 199, 154, 66);
+		panelprincipal.add(btnExportarcolaboracionescsv);
+
+		btnVerMetrica = new JButton("Rendimiento");
+		btnVerMetrica.setBounds(57, 286, 197, 66);
+		panelprincipal.add(btnVerMetrica);
+
+		btnExportarSeguidores = new JButton("10");
+		btnExportarSeguidores.setBounds(1309, 199, 154, 66);
+		panelprincipal.add(btnExportarSeguidores);
+
+		btnmodificarmegustaycomentarios = new JButton("Modificar Publicacion");
+		btnmodificarmegustaycomentarios.setBounds(866, 199, 197, 66);
+		panelprincipal.add(btnmodificarmegustaycomentarios);
+
+		btnExportarColaboraciones = new JButton("8");
+		btnExportarColaboraciones.setBounds(1309, 286, 154, 66);
+		panelprincipal.add(btnExportarColaboraciones);
+
+		btnExportarcolaboracionesJSON12 = new JButton("12");
+		btnExportarcolaboracionesJSON12.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnExportarcolaboracionesJSON12.setBounds(1232, 366, 154, 66);
+		panelprincipal.add(btnExportarcolaboracionesJSON12);
+
+		JLabel lblNewLabel_3_1 = new JLabel("Ver  datos");
+		lblNewLabel_3_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_3_1.setForeground(new Color(64, 128, 128));
+		lblNewLabel_3_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		lblNewLabel_3_1.setBounds(57, 89, 197, 99);
+		panelprincipal.add(lblNewLabel_3_1);
+
+		JLabel lblNewLabel_3_1_1 = new JLabel("Añadir");
+		lblNewLabel_3_1_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_3_1_1.setForeground(new Color(64, 128, 128));
+		lblNewLabel_3_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		lblNewLabel_3_1_1.setBounds(322, 89, 197, 99);
+		panelprincipal.add(lblNewLabel_3_1_1);
+
+		JLabel lblNewLabel_3_1_1_1 = new JLabel("Eliminar");
+		lblNewLabel_3_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_3_1_1_1.setForeground(new Color(64, 128, 128));
+		lblNewLabel_3_1_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		lblNewLabel_3_1_1_1.setBounds(593, 89, 197, 99);
+		panelprincipal.add(lblNewLabel_3_1_1_1);
+
+		JLabel lblNewLabel_3_1_1_1_1 = new JLabel("Editar");
+		lblNewLabel_3_1_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_3_1_1_1_1.setForeground(new Color(64, 128, 128));
+		lblNewLabel_3_1_1_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		lblNewLabel_3_1_1_1_1.setBounds(866, 100, 197, 99);
+		panelprincipal.add(lblNewLabel_3_1_1_1_1);
+
+		JLabel lblNewLabel_3_1_1_2 = new JLabel("Exportar");
+		lblNewLabel_3_1_1_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_3_1_1_2.setForeground(new Color(64, 128, 128));
+		lblNewLabel_3_1_1_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		lblNewLabel_3_1_1_2.setBounds(1185, 89, 197, 99);
+		panelprincipal.add(lblNewLabel_3_1_1_2);
+
+		lblmostrarsiseaexportado = new JLabel("");
+		lblmostrarsiseaexportado.setHorizontalAlignment(SwingConstants.CENTER);
+		lblmostrarsiseaexportado.setForeground(new Color(64, 128, 128));
+		lblmostrarsiseaexportado.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		lblmostrarsiseaexportado.setBounds(571, 407, 651, 99);
+		panelprincipal.add(lblmostrarsiseaexportado);
+
+		btneliminarminimo = new JButton("Eliminar minimo");
+		btneliminarminimo.setBounds(593, 286, 197, 66);
+		panelprincipal.add(btneliminarminimo);
+
+		JLabel lblNewLabel_3_1_1_3 = new JLabel("Comparativa");
+		lblNewLabel_3_1_1_3.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_3_1_1_3.setForeground(new Color(64, 128, 128));
+		lblNewLabel_3_1_1_3.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		lblNewLabel_3_1_1_3.setBounds(-38, 11, 482, 99);
+		panelprincipal.add(lblNewLabel_3_1_1_3);
+
+		btnComparar = new JButton("Comparar");
+		btnComparar.setBounds(436, 23, 197, 66);
+		panelprincipal.add(btnComparar);
 
 		panelMostrarTodo = new JPanel();
 		panelMostrarTodo.setBackground(Color.ORANGE);
@@ -305,10 +583,7 @@ public class Vista extends JFrame {
 		btnSalir.setForeground(new Color(255, 255, 255));
 		btnSalir.setBackground(new Color(255, 204, 0));
 		btnSalir.setBounds(10, 25, 107, 74);
-		ImageIcon imagen = new ImageIcon(getClass().getResource("/img/Back-Button-PNG-Download-Image.png"));
-		Image img = imagen.getImage();
-		Image imgEscalada = img.getScaledInstance(btnSalir.getWidth(), btnSalir.getHeight(), Image.SCALE_SMOOTH);
-		btnSalir.setIcon(new ImageIcon(imgEscalada));
+		btnSalir.setIcon(new ImageIcon(asignarImagenSalir()));
 		btnSalir.setOpaque(false);
 		panelMostrarTodo.add(btnSalir);
 
@@ -595,182 +870,6 @@ public class Vista extends JFrame {
 		lblPlataforma.setFont(new Font("Tahoma", Font.BOLD, 22));
 		lblPlataforma.setBounds(10, 234, 606, 46);
 		panelInformacion.add(lblPlataforma);
-
-		panelMenu = new JPanel();
-		panelMenu.setBackground(Color.ORANGE);
-		panelMenu.setBounds(0, 0, 1292, 765);
-		contentPane.add(panelMenu);
-		panelMenu.setLayout(null);
-
-		lblMenu = new JLabel("MENU");
-		lblMenu.setFont(new Font("Dialog", Font.BOLD, 99));
-		lblMenu.setForeground(SystemColor.controlText);
-		lblMenu.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMenu.setBounds(0, 0, 1292, 146);
-		panelMenu.add(lblMenu);
-
-		panelBotones = new JPanel();
-		panelBotones.setBackground(Color.BLACK);
-		panelBotones.setBounds(154, 156, 1001, 579);
-		panelMenu.add(panelBotones);
-		panelBotones.setLayout(new GridLayout(3, 3, 0, 10));
-
-		btnVerStreamer = new JButton("Información General");
-		btnVerStreamer.setFont(new Font("Tahoma", Font.BOLD, 30));
-		btnVerStreamer.setForeground(Color.WHITE);
-		btnVerStreamer.setBackground(new Color(70, 130, 180));
-		btnVerStreamer.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
-		panelBotones.add(btnVerStreamer);
-
-		// Botón de Información de Creador
-		btnInfoCreador = new JButton("Creador");
-		btnInfoCreador.setForeground(Color.WHITE);
-		btnInfoCreador.setFont(new Font("Tahoma", Font.BOLD, 30));
-		btnInfoCreador.setBackground(new Color(70, 130, 180)); // Cambia el color de fondo para más atractivo
-		btnInfoCreador.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2)); // Añadir borde
-		panelBotones.add(btnInfoCreador);
-
-		// Botón de Métricas
-		btnMetricas = new JButton("Métricas");
-		btnMetricas.setForeground(Color.WHITE);
-		btnMetricas.setFont(new Font("Tahoma", Font.BOLD, 30));
-		btnMetricas.setBackground(new Color(70, 130, 180)); // Cambia el color de fondo para más atractivo
-		btnMetricas.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2)); // Añadir borde
-		panelBotones.add(btnMetricas);
-
-		panelprincipal = new JPanel();
-		panelprincipal.setBackground(new Color(0, 0, 0));
-		panelprincipal.setBounds(0, 0, 1657, 548);
-		contentPane.add(panelprincipal);
-		panelprincipal.setLayout(null);
-
-		JLabel lblNewLabel_3 = new JLabel("StreamerFocus");
-		lblNewLabel_3.setBounds(503, 11, 771, 99);
-		panelprincipal.add(lblNewLabel_3);
-		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_3.setForeground(new Color(64, 128, 128));
-		lblNewLabel_3.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-
-		btnInsertarnuevoscolaboradores = new JButton("Insertar colaboradores");
-		btnInsertarnuevoscolaboradores.setBounds(322, 199, 197, 66);
-		panelprincipal.add(btnInsertarnuevoscolaboradores);
-
-		btnañadirpublicacion = new JButton("Añadir publicacion");
-		btnañadirpublicacion.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnañadirpublicacion.setBounds(322, 286, 197, 66);
-		panelprincipal.add(btnañadirpublicacion);
-
-		ModificarPublicaciones = new JButton(" Publicaciones");
-		ModificarPublicaciones.setBounds(866, 286, 197, 66);
-		panelprincipal.add(ModificarPublicaciones);
-
-		btnResumerendimiento2023 = new JButton("Tasa de Crecimient");
-		btnResumerendimiento2023.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnResumerendimiento2023.setBounds(57, 366, 197, 66);
-		panelprincipal.add(btnResumerendimiento2023);
-
-		btnEliminar = new JButton("Eliminar Publicaciones");
-		btnEliminar.setBounds(593, 199, 197, 66);
-		panelprincipal.add(btnEliminar);
-
-		btnCrearinformerJson6 = new JButton("6");
-		btnCrearinformerJson6.setBounds(1145, 286, 154, 66);
-		panelprincipal.add(btnCrearinformerJson6);
-
-		btnExportarcolaboracionescsv = new JButton("4");
-		btnExportarcolaboracionescsv.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnExportarcolaboracionescsv.setBounds(1145, 199, 154, 66);
-		panelprincipal.add(btnExportarcolaboracionescsv);
-
-		btnVerMetrica = new JButton("Rendimiento");
-		btnVerMetrica.setBounds(57, 286, 197, 66);
-		panelprincipal.add(btnVerMetrica);
-
-		btnExportarSeguidores = new JButton("10");
-		btnExportarSeguidores.setBounds(1309, 199, 154, 66);
-		panelprincipal.add(btnExportarSeguidores);
-
-		btnmodificarmegustaycomentarios = new JButton("Modificar Publicacion");
-		btnmodificarmegustaycomentarios.setBounds(866, 199, 197, 66);
-		panelprincipal.add(btnmodificarmegustaycomentarios);
-
-		btnExportarColaboraciones = new JButton("8");
-		btnExportarColaboraciones.setBounds(1309, 286, 154, 66);
-		panelprincipal.add(btnExportarColaboraciones);
-
-		btnExportarcolaboracionesJSON12 = new JButton("12");
-		btnExportarcolaboracionesJSON12.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnExportarcolaboracionesJSON12.setBounds(1232, 366, 154, 66);
-		panelprincipal.add(btnExportarcolaboracionesJSON12);
-
-		JLabel lblNewLabel_3_1 = new JLabel("Ver  datos");
-		lblNewLabel_3_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_3_1.setForeground(new Color(64, 128, 128));
-		lblNewLabel_3_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		lblNewLabel_3_1.setBounds(57, 89, 197, 99);
-		panelprincipal.add(lblNewLabel_3_1);
-
-		JLabel lblNewLabel_3_1_1 = new JLabel("Añadir");
-		lblNewLabel_3_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_3_1_1.setForeground(new Color(64, 128, 128));
-		lblNewLabel_3_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		lblNewLabel_3_1_1.setBounds(322, 89, 197, 99);
-		panelprincipal.add(lblNewLabel_3_1_1);
-
-		JLabel lblNewLabel_3_1_1_1 = new JLabel("Eliminar");
-		lblNewLabel_3_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_3_1_1_1.setForeground(new Color(64, 128, 128));
-		lblNewLabel_3_1_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		lblNewLabel_3_1_1_1.setBounds(593, 89, 197, 99);
-		panelprincipal.add(lblNewLabel_3_1_1_1);
-
-		JLabel lblNewLabel_3_1_1_1_1 = new JLabel("Editar");
-		lblNewLabel_3_1_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_3_1_1_1_1.setForeground(new Color(64, 128, 128));
-		lblNewLabel_3_1_1_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		lblNewLabel_3_1_1_1_1.setBounds(866, 100, 197, 99);
-		panelprincipal.add(lblNewLabel_3_1_1_1_1);
-
-		JLabel lblNewLabel_3_1_1_2 = new JLabel("Exportar");
-		lblNewLabel_3_1_1_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_3_1_1_2.setForeground(new Color(64, 128, 128));
-		lblNewLabel_3_1_1_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		lblNewLabel_3_1_1_2.setBounds(1185, 89, 197, 99);
-		panelprincipal.add(lblNewLabel_3_1_1_2);
-
-		lblmostrarsiseaexportado = new JLabel("");
-		lblmostrarsiseaexportado.setHorizontalAlignment(SwingConstants.CENTER);
-		lblmostrarsiseaexportado.setForeground(new Color(64, 128, 128));
-		lblmostrarsiseaexportado.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		lblmostrarsiseaexportado.setBounds(571, 407, 651, 99);
-		panelprincipal.add(lblmostrarsiseaexportado);
-
-		btneliminarminimo = new JButton("Eliminar minimo");
-		btneliminarminimo.setBounds(593, 286, 197, 66);
-		panelprincipal.add(btneliminarminimo);
-
-		JLabel lblNewLabel_3_1_1_3 = new JLabel("Comparativa");
-		lblNewLabel_3_1_1_3.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_3_1_1_3.setForeground(new Color(64, 128, 128));
-		lblNewLabel_3_1_1_3.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		lblNewLabel_3_1_1_3.setBounds(-38, 11, 482, 99);
-		panelprincipal.add(lblNewLabel_3_1_1_3);
-
-		btnComparar = new JButton("Comparar");
-		btnComparar.setBounds(436, 23, 197, 66);
-		panelprincipal.add(btnComparar);
 
 		panel_Eliminar_Minimo_Visitas = new JPanel();
 		panel_Eliminar_Minimo_Visitas.setBackground(new Color(0, 0, 0));
@@ -1753,5 +1852,12 @@ public class Vista extends JFrame {
 		btnModificar.setBounds(1110, 361, 389, 23);
 		panelmodificarpublicaciones.add(btnModificar);
 
+	}
+
+	private Image asignarImagenSalir() {
+		ImageIcon imagen1 = new ImageIcon(getClass().getResource("/img/Back-Button-PNG-Download-Image.png"));
+		Image img1 = imagen1.getImage();
+		Image imgEscalada1 = img1.getScaledInstance(btnSalir_1.getWidth(), btnSalir_1.getHeight(), Image.SCALE_SMOOTH);
+		return imgEscalada1;
 	}
 }
