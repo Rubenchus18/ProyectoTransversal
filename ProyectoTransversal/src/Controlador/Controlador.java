@@ -519,49 +519,47 @@ public class Controlador implements ActionListener {
 
 	// 4
 	public void exportarColaboracionesACSV(ArrayNode streamer, List<Contenido> contenido) {
-		String csvFile = "files/colaboraciones.csv";
-		List<String[]> contenidoList = new ArrayList<>();
-		List<String> comprobar = new ArrayList<>();
+	    String csvFile = "files/colaboraciones.csv";
+	    List<String[]> contenidoList = new ArrayList<>();
+	    List<String> comprobar = new ArrayList<>();
 
-		try {
-			// Encabezados del CSV
-			String[] header = { "Fecha_Inicio", "Nombre_Creador", "Nombre_Colaborador", "Visualizaciones",
-					"Impacto_Seguidores" };
-			contenidoList.add(header);
+	    try {
+	        // Encabezados del CSV
+	        String[] header = { "Fecha_Inicio", "Nombre_Creador", "Nombre_Colaborador", 
+	                            "Seguidores_Totales", "Interacciones_Totales" };
+	        contenidoList.add(header);
 
-			// Iterar sobre los creadores
-			for (JsonNode creatorNode : streamer) {
-				String creadorNombre = creatorNode.get("nombre").asText();
-				if (creatorNode.has("colaboraciones")) {
-					ArrayNode colaboraciones = (ArrayNode) creatorNode.path("colaboraciones");
-					for (JsonNode colaboracion : colaboraciones) {
-						String nombreColaborador = colaboracion.get("colaborador").asText();
-						String fechaInicio = colaboracion.get("fecha_inicio").asText();
-						String mirar = fechaInicio + "|" + creadorNombre + "|" + nombreColaborador;
+	        // Iterar sobre los creadores
+	        for (JsonNode creatorNode : streamer) {
+	            String creadorNombre = creatorNode.get("nombre").asText();
+	            int seguidoresTotales = creatorNode.get("seguidores_totales").asInt();
+	            int interaccionesTotales = creatorNode.get("estadisticas").get("interacciones_totales").asInt();
 
-						if (!comprobar.contains(mirar)) {
-							comprobar.add(mirar);
-							Contenido contenidoCorrespondiente = encontrarContenidoPorColaboracion(contenido,
-									colaboracion);
-							if (contenidoCorrespondiente != null) {
-								// Obtener el impacto en seguidores y visualizaciones
-								int visualizaciones = contenidoCorrespondiente.getVistas();
-								int impactoSeguidores = contenidoCorrespondiente.getVistas();
+	            if (creatorNode.has("colaboraciones")) {
+	                ArrayNode colaboraciones = (ArrayNode) creatorNode.path("colaboraciones");
+	                for (JsonNode colaboracion : colaboraciones) {
+	                    String nombreColaborador = colaboracion.get("colaborador").asText();
+	                    String fechaInicio = colaboracion.get("fecha_inicio").asText();
+	                    String mirar = fechaInicio + "|" + creadorNombre + "|" + nombreColaborador;
 
-								String[] data = { fechaInicio, creadorNombre, nombreColaborador,
-										String.valueOf(visualizaciones), String.valueOf(impactoSeguidores) };
-								contenidoList.add(data);
-							}
-						}
-					}
-				}
-			}
-			crearCSV8(contenidoList, csvFile); // Método para crear el CSV
-			this.vista.lblResultado.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-			this.vista.lblFallo.setVisible(false);
-		}
+	                    if (!comprobar.contains(mirar)) {
+	                        comprobar.add(mirar);
+	                        
+	                        // Aquí no se necesita buscar contenido, ya que estamos usando datos del streamer
+	                        String[] data = { fechaInicio, creadorNombre, nombreColaborador, 
+	                                          String.valueOf(seguidoresTotales), 
+	                                          String.valueOf(interaccionesTotales) };
+	                        contenidoList.add(data);
+	                    }
+	                }
+	            }
+	        }
+	        crearCSV8(contenidoList, csvFile);
+	        this.vista.lblResultado.setVisible(true);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        this.vista.lblFallo.setVisible(false);
+	    }
 	}
 
 	public Contenido encontrarContenidoPorColaboracion(List<Contenido> contenido, JsonNode colaboracion) {
@@ -706,7 +704,7 @@ public class Controlador implements ActionListener {
 			reporte.add(creadorReporte);
 		}
 
-		objectMapper.writeValue(new File("files/reporte_creadores.json"), reporte);
+		objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File("files/reporte_creadores.json"), reporte);
 		this.vista.lblResultado.setVisible(true);
 	}
 
