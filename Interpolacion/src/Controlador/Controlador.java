@@ -37,7 +37,6 @@ import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 
 import Modelo.Contenido;
-import Modelo.Contenido2;
 import Vsita.Vista;
 
 public class Controlador implements ActionListener{
@@ -277,22 +276,16 @@ public class Controlador implements ActionListener{
             for (JsonNode creatorNode : streamer) {
                 String creatorId = creatorNode.path("id").asText(null);
                 if (creatorId != null && creatorId.equals(cont.getCreador_id())) {
-                    // Se eliminó la línea de impresión a consola
-                    // System.out.println("Coincidencia encontrada para ID: " + creatorId);
                     String idCreador = creatorNode.get("id").asText();
                     String nombreCreador = creatorNode.get("nombre").asText();
                     String pais = creatorNode.get("pais").asText();
                     String tematica = creatorNode.get("tematica").asText();
                     String seguidoresTotales = creatorNode.get("seguidores_totales").asText();
-
-                    // Iterar sobre las plataformas
                     for (JsonNode plataforma : creatorNode.get("plataformas")) {
                         String nombrePlataforma = plataforma.get("nombre").asText();
                         String usuarioPlataforma = plataforma.get("usuario").asText();
                         String seguidoresPlataforma = plataforma.get("seguidores").asText();
                         String fechaCreacionPlataforma = plataforma.get("fecha_creacion").asText();
-
-                        // Iterar sobre las colaboraciones
                         for (JsonNode colaboracion : creatorNode.get("colaboraciones")) {
                             String colaborador = colaboracion.get("colaborador").asText();
                             String tematicaColaboracion = colaboracion.get("tematica").asText();
@@ -300,8 +293,6 @@ public class Controlador implements ActionListener{
                             String fechaFinColaboracion = colaboracion.get("fecha_fin").asText();
                             String tipoColaboracion = colaboracion.get("tipo").asText();
                             String estadoColaboracion = colaboracion.get("estado").asText();
-
-                            // Crear fila con datos de Contenido
                             Object[] fila = new Object[]{
                                 idCreador, nombreCreador, pais, tematica, seguidoresTotales,
                                 nombrePlataforma, usuarioPlataforma, seguidoresPlataforma,
@@ -339,11 +330,7 @@ public class Controlador implements ActionListener{
         };
 
         modelo.setColumnIdentifiers(nombrePromedios);
-        this.vista.tableRendimiento.setModel(modelo); // Asegúrate de que tienes una tabla para mostrar promedios
-
-       
-
-     
+        this.vista.tableRendimiento.setModel(modelo);  
     }
 //3
     public void agregarColaboracion(ArrayNode streamer) throws JsonGenerationException, JsonMappingException, IOException {
@@ -369,31 +356,23 @@ public class Controlador implements ActionListener{
                 ((ArrayNode) creatorNode.get("colaboraciones")).add(nuevaColaboracion);
                 objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, streamer);
                 this.vista.lblConformar.setText("Colaboración añadida exitosamente.");
-              
             }
         }
         this.vista.lblConformar.setText("Colaborador creado");
     }
-
-   
-   
  //4
     public void exportarColaboracionesACSV(ArrayNode streamer, List<Contenido> contenido) {
         String csvFile = "files/colaboraciones.csv";
         List<String[]> contenidoList = new ArrayList<>();
         List<String> comprobar = new ArrayList<>(); 
-
         try {
             String[] header = {"Fecha_Inicio", "Nombre_Creador", "Visualizaciones", "Compartidos"};
             contenidoList.add(header);        
             for (Contenido cont : contenido) {
-             
                 for (JsonNode creatorNode : streamer) {
                     String creadorNombre = creatorNode.get("nombre").asText();
                     if (creatorNode.has("colaboraciones")) {
                         ArrayNode colaboraciones = (ArrayNode) creatorNode.path("colaboraciones");
-                        
-                        // Recorrer cada colaboración
                         for (JsonNode colaboracion : colaboraciones) {
                             String nombreColaborador = colaboracion.get("colaborador").asText(); 
                             String fechaInicio = colaboracion.get("fecha_inicio").asText();
@@ -415,7 +394,7 @@ public class Controlador implements ActionListener{
             crearCSV8(contenidoList, csvFile);
             this.vista.lblmostrarsiseaexportado.setText("Exportado correctamente"); 
         } catch (Exception e) {
-            e.printStackTrace(); // Para depuración
+            e.printStackTrace(); 
             this.vista.lblmostrarsiseaexportado.setText("Exportado erróneo"); 
         }
     }
@@ -458,7 +437,7 @@ public class Controlador implements ActionListener{
                         cont.setCreador_id(nuevoDato);
                         break; 
                     default:
-                        System.out.println("Campo no reconocido: " + tipo);
+                       
                         return;
                 }
                 modificada = true;
@@ -550,12 +529,10 @@ public class Controlador implements ActionListener{
         this.vista.lblmostrarsiseaexportado.setText("Exportado correctamente");
     }
     //7
-    public void analizarCrecimientoMensualSeguidores(ArrayNode streamer) throws IOException {
-      
+    public void analizarCrecimientoMensualSeguidores(ArrayNode streamer) throws IOException {      
         modelo.setRowCount(0);
         modelo.setColumnCount(0);
 
-     
         String[] nombre = {
             "ID Creador", "Nombre_Creador", "Tasa de crecimiento en YouTube", 
             "Tasa de crecimiento en Twitch", "Tasa de crecimiento en Instagram", 
@@ -566,12 +543,8 @@ public class Controlador implements ActionListener{
       
         for (int i = 0; i < streamer.size(); i++) {
             ObjectNode creador = (ObjectNode) streamer.get(i);
-            
-           
             String idCreador = creador.get("id").asText();
             String nombreCreador = creador.get("nombre").asText();
-
-          
             int seguidoresYoutubeInicio = 0;
             int seguidoresYoutubeFin = 0;
             int seguidoresTwitchInicio = 0;
@@ -580,8 +553,6 @@ public class Controlador implements ActionListener{
             int seguidoresInstagramFin = 0;
             int seguidoresTikTokInicio = 0;
             int seguidoresTikTokFin = 0;
-
-         
             for (var plataforma : creador.get("plataformas")) {
                 String nombrePlataforma = plataforma.get("nombre").asText();
                 var historico = plataforma.get("historico");
@@ -626,7 +597,11 @@ public class Controlador implements ActionListener{
     }
     public double calcularTasaCrecimiento(int seguidoresInicio, int seguidoresFin) {
         if (seguidoresInicio == 0) {
-            return seguidoresFin > 0 ? 100.0 : 0.0; 
+            if (seguidoresFin > 0) {
+                return 100.0;
+            } else {
+                return 0.0;
+            }
         }
         return ((double) (seguidoresFin - seguidoresInicio) / seguidoresInicio) * 100;
     }
@@ -693,15 +668,11 @@ public class Controlador implements ActionListener{
                 int vistas = plataformas.get(plataforma)[0];
                 int interacciones = plataformas.get(plataforma)[1];
                 int conteo = plataformas.get(plataforma)[2];
-
-              
                 if (vistas > maxVistas) {
                     maxVistas = vistas;
                     mejorPlataformaVistas = plataforma;
                 }
                 double interaccionPromedio = (double) interacciones / conteo;
-
-                
                 if (interaccionPromedio > maxInteraccionPromedio) {
                     maxInteraccionPromedio = interaccionPromedio;
                     mejorPlataformaInteracciones = plataforma;
@@ -715,7 +686,6 @@ public class Controlador implements ActionListener{
             creadorResumen.put("max_vistas", maxVistas);
             creadorResumen.put("mejor_plataforma_interacciones", mejorPlataformaInteracciones);
             creadorResumen.put("max_interaccion_promedio", maxInteraccionPromedio);
-
             resumen.add(creadorResumen);
         }
         objectMapper.writerWithDefaultPrettyPrinter().writeValue(new FileWriter("files/resume_rendimiento2023.json"), resumen);

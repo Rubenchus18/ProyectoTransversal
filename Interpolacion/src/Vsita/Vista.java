@@ -12,6 +12,8 @@ import javax.swing.JTree;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JList;
+
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.SwingConstants;
@@ -179,6 +181,8 @@ public class Vista extends JFrame {
 	public JLabel lblNewLabel_Eliminar_MinimoVistas;
 	public JButton btnNewButtonAñadir;
 	public Object eliminarPublicacionesPorVistas;
+	public JList listStreamers;
+	private JButton btnNewButtonAñadir_1;
 	/**
 	 * Launch the application.
 	 */
@@ -208,179 +212,628 @@ public class Vista extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		                
+		                panelmodificarpublicaciones = new JPanel();
+		                panelmodificarpublicaciones.setBackground(new Color(0, 0, 0));
+		                panelmodificarpublicaciones.setBounds(0, 0, 1657, 548);
+		                contentPane.add(panelmodificarpublicaciones);
+		                panelmodificarpublicaciones.setLayout(null);
+		                panelmodificarpublicaciones.setVisible(false);
+		                JLabel lblNewLabel_3_6 = new JLabel("StreamerFocus");
+		                lblNewLabel_3_6.setBounds(691, 11, 274, 67);
+		                lblNewLabel_3_6.setHorizontalAlignment(SwingConstants.CENTER);
+		                lblNewLabel_3_6.setForeground(new Color(64, 128, 128));
+		                lblNewLabel_3_6.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		                panelmodificarpublicaciones.add(lblNewLabel_3_6);
+		                
+		                textFieldidstreamermodificar = new JTextField();
+		                textFieldidstreamermodificar.setColumns(10);
+		                textFieldidstreamermodificar.setBounds(66, 189, 389, 20);
+		                panelmodificarpublicaciones.add(textFieldidstreamermodificar);
+		                
+		                JLabel lblNewLabel_3_3_2 = new JLabel("Id Streamer");
+		                lblNewLabel_3_3_2.setHorizontalAlignment(SwingConstants.CENTER);
+		                lblNewLabel_3_3_2.setForeground(new Color(64, 128, 128));
+		                lblNewLabel_3_3_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		                lblNewLabel_3_3_2.setBounds(66, 78, 389, 99);
+		                panelmodificarpublicaciones.add(lblNewLabel_3_3_2);
+		                
+		                JLabel lblNewLabel_3_3_2_1 = new JLabel("Plataforma");
+		                lblNewLabel_3_3_2_1.setHorizontalAlignment(SwingConstants.CENTER);
+		                lblNewLabel_3_3_2_1.setForeground(new Color(64, 128, 128));
+		                lblNewLabel_3_3_2_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		                lblNewLabel_3_3_2_1.setBounds(66, 230, 389, 99);
+		                panelmodificarpublicaciones.add(lblNewLabel_3_3_2_1);
+		                
+		                textFieldplataformastreamermodificar = new JTextField();
+		                textFieldplataformastreamermodificar.setColumns(10);
+		                textFieldplataformastreamermodificar.setBounds(66, 340, 389, 20);
+		                panelmodificarpublicaciones.add(textFieldplataformastreamermodificar);
+		                
+		                textFieldmegustastreamermodificar = new JTextField();
+		                textFieldmegustastreamermodificar.setColumns(10);
+		                textFieldmegustastreamermodificar.setBounds(563, 189, 389, 20);
+		                panelmodificarpublicaciones.add(textFieldmegustastreamermodificar);
+		                
+		                textFieldcomentariosstreamermodificar = new JTextField();
+		                textFieldcomentariosstreamermodificar.setColumns(10);
+		                textFieldcomentariosstreamermodificar.setBounds(563, 340, 389, 20);
+		                panelmodificarpublicaciones.add(textFieldcomentariosstreamermodificar);
+		                
+		                textFieldmoficarcompartidos = new JTextField();
+		                textFieldmoficarcompartidos.setColumns(10);
+		                textFieldmoficarcompartidos.setBounds(1110, 230, 389, 20);
+		                panelmodificarpublicaciones.add(textFieldmoficarcompartidos);
+		                
+		                JLabel lblNewLabel_3_3_2_2 = new JLabel("Me gusta");
+		                lblNewLabel_3_3_2_2.setHorizontalAlignment(SwingConstants.CENTER);
+		                lblNewLabel_3_3_2_2.setForeground(new Color(64, 128, 128));
+		                lblNewLabel_3_3_2_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		                lblNewLabel_3_3_2_2.setBounds(563, 78, 389, 99);
+		                panelmodificarpublicaciones.add(lblNewLabel_3_3_2_2);
+		                
+		                JLabel lblNewLabel_3_3_2_2_1 = new JLabel("Comentarios");
+		                lblNewLabel_3_3_2_2_1.setHorizontalAlignment(SwingConstants.CENTER);
+		                lblNewLabel_3_3_2_2_1.setForeground(new Color(64, 128, 128));
+		                lblNewLabel_3_3_2_2_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		                lblNewLabel_3_3_2_2_1.setBounds(563, 230, 389, 99);
+		                panelmodificarpublicaciones.add(lblNewLabel_3_3_2_2_1);
+		                
+		                JLabel textFieldcompartidosstreamermodificar = new JLabel("Compartidos");
+		                textFieldcompartidosstreamermodificar.setHorizontalAlignment(SwingConstants.CENTER);
+		                textFieldcompartidosstreamermodificar.setForeground(new Color(64, 128, 128));
+		                textFieldcompartidosstreamermodificar.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		                textFieldcompartidosstreamermodificar.setBounds(1110, 101, 389, 99);
+		                panelmodificarpublicaciones.add(textFieldcompartidosstreamermodificar);
+		                
+		                JButton btnModificar = new JButton("Modificar");
+		                btnModificar.setBounds(1110, 361, 389, 23);
+		                panelmodificarpublicaciones.add(btnModificar);
+		                
+		                panelprincipal = new JPanel();
+		                panelprincipal.setBackground(new Color(0, 0, 0));
+		                panelprincipal.setBounds(0, 0, 1657, 548);
+		                contentPane.add(panelprincipal);
+		                panelprincipal.setLayout(null);
+		                
+		                 btnVerStreamer = new JButton("Mirar Streamer");
+		                 btnVerStreamer.setBounds(57, 199, 197, 66);
+		                 panelprincipal.add(btnVerStreamer);
+		                 
+		                 JLabel lblNewLabel_3 = new JLabel("StreamerFocus");
+		                 lblNewLabel_3.setBounds(503, 11, 771, 99);
+		                 panelprincipal.add(lblNewLabel_3);
+		                 lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
+		                 lblNewLabel_3.setForeground(new Color(64, 128, 128));
+		                 lblNewLabel_3.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		                 
+		                 btnInsertarnuevoscolaboradores = new JButton("Insertar colaboradores");
+		                 btnInsertarnuevoscolaboradores.setBounds(322, 199, 197, 66);
+		                 panelprincipal.add(btnInsertarnuevoscolaboradores);
+		                 
+		                  btnañadirpublicacion = new JButton("Añadir publicacion");
+		                  btnañadirpublicacion.addActionListener(new ActionListener() {
+		                  	public void actionPerformed(ActionEvent e) {
+		                  	}
+		                  });
+		                  btnañadirpublicacion.setBounds(322, 286, 197, 66);
+		                  panelprincipal.add(btnañadirpublicacion);
+		                  
+		                  ModificarPublicaciones = new JButton(" Publicaciones");
+		                  ModificarPublicaciones.setBounds(866, 286, 197, 66);
+		                  panelprincipal.add(ModificarPublicaciones);
+		                  
+		                   btnResumerendimiento2023 = new JButton("Tasa de Crecimient");
+		                   btnResumerendimiento2023.addActionListener(new ActionListener() {
+		                   	public void actionPerformed(ActionEvent e) {
+		                   	}
+		                   });
+		                   btnResumerendimiento2023.setBounds(57, 366, 197, 66);
+		                   panelprincipal.add(btnResumerendimiento2023);
+		                   
+		                    btnEliminar = new JButton("Eliminar Publicaciones");
+		                    btnEliminar.setBounds(593, 199, 197, 66);
+		                    panelprincipal.add(btnEliminar);
+		                    
+		                     btnCrearinformerJson6 = new JButton("6");
+		                     btnCrearinformerJson6.setBounds(1145, 286, 154, 66);
+		                     panelprincipal.add(btnCrearinformerJson6);
+		                     
+		                     btnExportarcolaboracionescsv = new JButton("4");
+		                     btnExportarcolaboracionescsv.addActionListener(new ActionListener() {
+		                     	public void actionPerformed(ActionEvent e) {
+		                     	}
+		                     });
+		                     btnExportarcolaboracionescsv.setBounds(1145, 199, 154, 66);
+		                     panelprincipal.add(btnExportarcolaboracionescsv);
+		                     
+		                      btnVerMetrica = new JButton("Rendimiento");
+		                      btnVerMetrica.setBounds(57, 286, 197, 66);
+		                      panelprincipal.add(btnVerMetrica);
+		                      
+		                       btnExportarSeguidores = new JButton("10");
+		                       btnExportarSeguidores.setBounds(1309, 199, 154, 66);
+		                       panelprincipal.add(btnExportarSeguidores);
+		                       
+		                        btnmodificarmegustaycomentarios = new JButton("Modificar Publicacion");
+		                        btnmodificarmegustaycomentarios.setBounds(866, 199, 197, 66);
+		                        panelprincipal.add(btnmodificarmegustaycomentarios);
+		                        
+		                         btnExportarColaboraciones = new JButton("8");
+		                         btnExportarColaboraciones.setBounds(1309, 286, 154, 66);
+		                         panelprincipal.add(btnExportarColaboraciones);
+		                         
+		                          btnExportarcolaboracionesJSON12 = new JButton("12");
+		                          btnExportarcolaboracionesJSON12.addActionListener(new ActionListener() {
+		                          	public void actionPerformed(ActionEvent e) {
+		                          	}
+		                          });
+		                          btnExportarcolaboracionesJSON12.setBounds(1232, 366, 154, 66);
+		                          panelprincipal.add(btnExportarcolaboracionesJSON12);
+		                          
+		                          JLabel lblNewLabel_3_1 = new JLabel("Ver  datos");
+		                          lblNewLabel_3_1.setHorizontalAlignment(SwingConstants.CENTER);
+		                          lblNewLabel_3_1.setForeground(new Color(64, 128, 128));
+		                          lblNewLabel_3_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		                          lblNewLabel_3_1.setBounds(57, 89, 197, 99);
+		                          panelprincipal.add(lblNewLabel_3_1);
+		                          
+		                          JLabel lblNewLabel_3_1_1 = new JLabel("Añadir");
+		                          lblNewLabel_3_1_1.setHorizontalAlignment(SwingConstants.CENTER);
+		                          lblNewLabel_3_1_1.setForeground(new Color(64, 128, 128));
+		                          lblNewLabel_3_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		                          lblNewLabel_3_1_1.setBounds(322, 89, 197, 99);
+		                          panelprincipal.add(lblNewLabel_3_1_1);
+		                          
+		                          JLabel lblNewLabel_3_1_1_1 = new JLabel("Eliminar");
+		                          lblNewLabel_3_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
+		                          lblNewLabel_3_1_1_1.setForeground(new Color(64, 128, 128));
+		                          lblNewLabel_3_1_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		                          lblNewLabel_3_1_1_1.setBounds(593, 89, 197, 99);
+		                          panelprincipal.add(lblNewLabel_3_1_1_1);
+		                          
+		                          JLabel lblNewLabel_3_1_1_1_1 = new JLabel("Editar");
+		                          lblNewLabel_3_1_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
+		                          lblNewLabel_3_1_1_1_1.setForeground(new Color(64, 128, 128));
+		                          lblNewLabel_3_1_1_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		                          lblNewLabel_3_1_1_1_1.setBounds(866, 100, 197, 99);
+		                          panelprincipal.add(lblNewLabel_3_1_1_1_1);
+		                          
+		                          JLabel lblNewLabel_3_1_1_2 = new JLabel("Exportar");
+		                          lblNewLabel_3_1_1_2.setHorizontalAlignment(SwingConstants.CENTER);
+		                          lblNewLabel_3_1_1_2.setForeground(new Color(64, 128, 128));
+		                          lblNewLabel_3_1_1_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		                          lblNewLabel_3_1_1_2.setBounds(1185, 89, 197, 99);
+		                          panelprincipal.add(lblNewLabel_3_1_1_2);
+		                          
+		                           lblmostrarsiseaexportado = new JLabel("");
+		                           lblmostrarsiseaexportado.setHorizontalAlignment(SwingConstants.CENTER);
+		                           lblmostrarsiseaexportado.setForeground(new Color(64, 128, 128));
+		                           lblmostrarsiseaexportado.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		                           lblmostrarsiseaexportado.setBounds(571, 407, 651, 99);
+		                           panelprincipal.add(lblmostrarsiseaexportado);
+		                           
+		                           btneliminarminimo = new JButton("Eliminar minimo");
+		                           btneliminarminimo.setBounds(593, 286, 197, 66);
+		                           panelprincipal.add(btneliminarminimo);
+		                           
+		                           JLabel lblNewLabel_3_1_1_3 = new JLabel("Comparativa");
+		                           lblNewLabel_3_1_1_3.setHorizontalAlignment(SwingConstants.CENTER);
+		                           lblNewLabel_3_1_1_3.setForeground(new Color(64, 128, 128));
+		                           lblNewLabel_3_1_1_3.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		                           lblNewLabel_3_1_1_3.setBounds(-38, 11, 482, 99);
+		                           panelprincipal.add(lblNewLabel_3_1_1_3);
+		                           
+		                           btnComparar = new JButton("Comparar");
+		                           btnComparar.setBounds(436, 23, 197, 66);
+		                           panelprincipal.add(btnComparar);
+		                
+		                panelmodificarpublicacion = new JPanel();
+		                panelmodificarpublicacion.setLayout(null);
+		                panelmodificarpublicacion.setBackground(Color.BLACK);
+		                panelmodificarpublicacion.setBounds(0, 0, 1657, 548);
+		                contentPane.add(panelmodificarpublicacion);
+		                panelmodificarpublicacion.setVisible(false);
+		                lblNewLabel_3_10 = new JLabel("StreamerFocus");
+		                lblNewLabel_3_10.setHorizontalAlignment(SwingConstants.CENTER);
+		                lblNewLabel_3_10.setForeground(new Color(64, 128, 128));
+		                lblNewLabel_3_10.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		                lblNewLabel_3_10.setBounds(692, 11, 274, 67);
+		                panelmodificarpublicacion.add(lblNewLabel_3_10);
+		                
+		                textFieldidstreamer = new JTextField();
+		                textFieldidstreamer.setColumns(10);
+		                textFieldidstreamer.setBounds(66, 187, 389, 20);
+		                panelmodificarpublicacion.add(textFieldidstreamer);
+		                
+		                lblNewLabel_3_3_9 = new JLabel("Id Streamer");
+		                lblNewLabel_3_3_9.setHorizontalAlignment(SwingConstants.CENTER);
+		                lblNewLabel_3_3_9.setForeground(new Color(64, 128, 128));
+		                lblNewLabel_3_3_9.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		                lblNewLabel_3_3_9.setBounds(66, 72, 389, 99);
+		                panelmodificarpublicacion.add(lblNewLabel_3_3_9);
+		                
+		                lblNewLabel_3_3_2_9 = new JLabel("¿De que fecha?");
+		                lblNewLabel_3_3_2_9.setHorizontalAlignment(SwingConstants.CENTER);
+		                lblNewLabel_3_3_2_9.setForeground(new Color(64, 128, 128));
+		                lblNewLabel_3_3_2_9.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		                lblNewLabel_3_3_2_9.setBounds(609, 222, 389, 99);
+		                panelmodificarpublicacion.add(lblNewLabel_3_3_2_9);
+		                
+		                textFieldfehca = new JTextField();
+		                textFieldfehca.setColumns(10);
+		                textFieldfehca.setBounds(609, 338, 389, 20);
+		                panelmodificarpublicacion.add(textFieldfehca);
+		                
+		                btnmodificarpublicacion = new JButton("Modificar");
+		                btnmodificarpublicacion.setBounds(1476, 337, 89, 23);
+		                panelmodificarpublicacion.add(btnmodificarpublicacion);
+		                
+		                JLabel lblNewLabel_3_3_9_1 = new JLabel("¿Que quieres modificar?");
+		                lblNewLabel_3_3_9_1.setHorizontalAlignment(SwingConstants.CENTER);
+		                lblNewLabel_3_3_9_1.setForeground(new Color(64, 128, 128));
+		                lblNewLabel_3_3_9_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		                lblNewLabel_3_3_9_1.setBounds(76, 228, 452, 99);
+		                panelmodificarpublicacion.add(lblNewLabel_3_3_9_1);
+		                
+		                 comboBoxparaModificar = new JComboBox();
+		                 comboBoxparaModificar.setBounds(79, 337, 444, 22);
+		                 panelmodificarpublicacion.add(comboBoxparaModificar);
+		                 
+		                 lblNewLabel_3_3_2_10 = new JLabel("Dato");
+		                 lblNewLabel_3_3_2_10.setHorizontalAlignment(SwingConstants.CENTER);
+		                 lblNewLabel_3_3_2_10.setForeground(new Color(64, 128, 128));
+		                 lblNewLabel_3_3_2_10.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		                 lblNewLabel_3_3_2_10.setBounds(1025, 222, 389, 99);
+		                 panelmodificarpublicacion.add(lblNewLabel_3_3_2_10);
+		                 
+		                 textFieldDato = new JTextField();
+		                 textFieldDato.setColumns(10);
+		                 textFieldDato.setBounds(1025, 338, 389, 20);
+		                 panelmodificarpublicacion.add(textFieldDato);
+		                 
+		                 lblNotificar = new JLabel("");
+		                 lblNotificar.setHorizontalAlignment(SwingConstants.CENTER);
+		                 lblNotificar.setForeground(new Color(64, 128, 128));
+		                 lblNotificar.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		                 lblNotificar.setBounds(1234, 98, 389, 99);
+		                 panelmodificarpublicacion.add(lblNotificar);
+		               
+		                panelEliminarpublicaciones = new JPanel();
+		                panelEliminarpublicaciones.setBackground(new Color(0, 0, 0));
+		                panelEliminarpublicaciones.setBounds(0, 0, 1657, 548);
+		                contentPane.add(panelEliminarpublicaciones);
+		                panelEliminarpublicaciones.setLayout(null);
+		                panelEliminarpublicaciones.setVisible(false);
+		                JLabel lblNewLabel_3_15 = new JLabel("StreamerFocus");
+		                lblNewLabel_3_15.setHorizontalAlignment(SwingConstants.CENTER);
+		                lblNewLabel_3_15.setForeground(new Color(64, 128, 128));
+		                lblNewLabel_3_15.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		                lblNewLabel_3_15.setBounds(500, 11, 771, 99);
+		                panelEliminarpublicaciones.add(lblNewLabel_3_15);
+		                panelEliminarpublicaciones.setVisible(false);
+		                JLabel lblNewLabel_3_15_1 = new JLabel("ID CREADOR");
+		                lblNewLabel_3_15_1.setHorizontalAlignment(SwingConstants.CENTER);
+		                lblNewLabel_3_15_1.setForeground(new Color(64, 128, 128));
+		                lblNewLabel_3_15_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		                lblNewLabel_3_15_1.setBounds(-21, 123, 691, 99);
+		                panelEliminarpublicaciones.add(lblNewLabel_3_15_1);
+		                
+		                textFieldidcreador = new JTextField();
+		                textFieldidcreador.setBounds(125, 233, 417, 20);
+		                panelEliminarpublicaciones.add(textFieldidcreador);
+		                textFieldidcreador.setColumns(10);
+		                
+		                JLabel lblNewLabel_3_15_1_1 = new JLabel("FECHA PUBLICACION");
+		                lblNewLabel_3_15_1_1.setHorizontalAlignment(SwingConstants.CENTER);
+		                lblNewLabel_3_15_1_1.setForeground(new Color(64, 128, 128));
+		                lblNewLabel_3_15_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		                lblNewLabel_3_15_1_1.setBounds(-21, 264, 691, 99);
+		                panelEliminarpublicaciones.add(lblNewLabel_3_15_1_1);
+		                
+		                textFieldfecha = new JTextField();
+		                textFieldfecha.setColumns(10);
+		                textFieldfecha.setBounds(125, 388, 417, 20);
+		                panelEliminarpublicaciones.add(textFieldfecha);
+		                
+		                 btnEliminar2 = new JButton("Eliminar");
+		                 btnEliminar2.setBounds(818, 317, 259, 23);
+		                 panelEliminarpublicaciones.add(btnEliminar2);
+		                 
+		                 lblNewLabelConfirmar = new JLabel("");
+		                 lblNewLabelConfirmar.setHorizontalAlignment(SwingConstants.CENTER);
+		                 lblNewLabelConfirmar.setForeground(new Color(64, 128, 128));
+		                 lblNewLabelConfirmar.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		                 lblNewLabelConfirmar.setBounds(644, 180, 771, 99);
+		                 panelEliminarpublicaciones.add(lblNewLabelConfirmar);
+		              
+		               panelAñadirNuevaPublicacion = new JPanel();
+		               panelAñadirNuevaPublicacion.setBackground(new Color(0, 0, 0));
+		               panelAñadirNuevaPublicacion.setBounds(0, 0, 1657, 548);
+		               contentPane.add(panelAñadirNuevaPublicacion);
+		               panelAñadirNuevaPublicacion.setLayout(null);
+		               panelAñadirNuevaPublicacion.setVisible(false);
+		               JLabel lblNewLabel_3_19 = new JLabel("StreamerFocus");
+		               lblNewLabel_3_19.setHorizontalAlignment(SwingConstants.CENTER);
+		               lblNewLabel_3_19.setForeground(new Color(64, 128, 128));
+		               lblNewLabel_3_19.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		               lblNewLabel_3_19.setBounds(503, 11, 771, 99);
+		               panelAñadirNuevaPublicacion.add(lblNewLabel_3_19);
+		               
+		               JLabel lblNewLabel_3_20 = new JLabel("Id_Creador");
+		               lblNewLabel_3_20.setHorizontalAlignment(SwingConstants.CENTER);
+		               lblNewLabel_3_20.setForeground(new Color(64, 128, 128));
+		               lblNewLabel_3_20.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		               lblNewLabel_3_20.setBounds(48, 113, 289, 99);
+		               panelAñadirNuevaPublicacion.add(lblNewLabel_3_20);
+		               
+		               textFieldidcreador1 = new JTextField();
+		               textFieldidcreador1.setBounds(58, 223, 244, 20);
+		               panelAñadirNuevaPublicacion.add(textFieldidcreador1);
+		               textFieldidcreador1.setColumns(10);
+		               
+		               JLabel lblNewLabel_3_20_1 = new JLabel("Plataforma");
+		               lblNewLabel_3_20_1.setHorizontalAlignment(SwingConstants.CENTER);
+		               lblNewLabel_3_20_1.setForeground(new Color(64, 128, 128));
+		               lblNewLabel_3_20_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		               lblNewLabel_3_20_1.setBounds(48, 254, 289, 99);
+		               panelAñadirNuevaPublicacion.add(lblNewLabel_3_20_1);
+		               
+		               textFieldplataforma2 = new JTextField();
+		               textFieldplataforma2.setColumns(10);
+		               textFieldplataforma2.setBounds(58, 334, 244, 20);
+		               panelAñadirNuevaPublicacion.add(textFieldplataforma2);
+		               
+		               JLabel lblNewLabel_3_20_1_1 = new JLabel("Fecha");
+		               lblNewLabel_3_20_1_1.setHorizontalAlignment(SwingConstants.CENTER);
+		               lblNewLabel_3_20_1_1.setForeground(new Color(64, 128, 128));
+		               lblNewLabel_3_20_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		               lblNewLabel_3_20_1_1.setBounds(392, 121, 289, 99);
+		               panelAñadirNuevaPublicacion.add(lblNewLabel_3_20_1_1);
+		               
+		               textFieldFecha2 = new JTextField();
+		               textFieldFecha2.setColumns(10);
+		               textFieldFecha2.setBounds(402, 223, 244, 20);
+		               panelAñadirNuevaPublicacion.add(textFieldFecha2);
+		               
+		               JLabel lblNewLabel_3_20_1_1_1 = new JLabel("Contenido");
+		               lblNewLabel_3_20_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
+		               lblNewLabel_3_20_1_1_1.setForeground(new Color(64, 128, 128));
+		               lblNewLabel_3_20_1_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		               lblNewLabel_3_20_1_1_1.setBounds(392, 254, 289, 99);
+		               panelAñadirNuevaPublicacion.add(lblNewLabel_3_20_1_1_1);
+		               
+		               textFieldContenido2 = new JTextField();
+		               textFieldContenido2.setColumns(10);
+		               textFieldContenido2.setBounds(392, 334, 254, 20);
+		               panelAñadirNuevaPublicacion.add(textFieldContenido2);
+		               
+		               JLabel lblNewLabel_3_20_1_1_2 = new JLabel("Tipo");
+		               lblNewLabel_3_20_1_1_2.setHorizontalAlignment(SwingConstants.CENTER);
+		               lblNewLabel_3_20_1_1_2.setForeground(new Color(64, 128, 128));
+		               lblNewLabel_3_20_1_1_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		               lblNewLabel_3_20_1_1_2.setBounds(721, 113, 289, 99);
+		               panelAñadirNuevaPublicacion.add(lblNewLabel_3_20_1_1_2);
+		               
+		               textFieldTipo2 = new JTextField();
+		               textFieldTipo2.setColumns(10);
+		               textFieldTipo2.setBounds(731, 223, 244, 20);
+		               panelAñadirNuevaPublicacion.add(textFieldTipo2);
+		               
+		               JLabel lblNewLabel_3_20_1_1_2_1 = new JLabel("Vistas");
+		               lblNewLabel_3_20_1_1_2_1.setHorizontalAlignment(SwingConstants.CENTER);
+		               lblNewLabel_3_20_1_1_2_1.setForeground(new Color(64, 128, 128));
+		               lblNewLabel_3_20_1_1_2_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		               lblNewLabel_3_20_1_1_2_1.setBounds(721, 254, 289, 99);
+		               panelAñadirNuevaPublicacion.add(lblNewLabel_3_20_1_1_2_1);
+		               
+		               textFieldVistas2 = new JTextField();
+		               textFieldVistas2.setColumns(10);
+		               textFieldVistas2.setBounds(731, 334, 244, 20);
+		               panelAñadirNuevaPublicacion.add(textFieldVistas2);
+		               
+		               JLabel lblNewLabel_3_20_1_1_2_2 = new JLabel("Me Gustas");
+		               lblNewLabel_3_20_1_1_2_2.setHorizontalAlignment(SwingConstants.CENTER);
+		               lblNewLabel_3_20_1_1_2_2.setForeground(new Color(64, 128, 128));
+		               lblNewLabel_3_20_1_1_2_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		               lblNewLabel_3_20_1_1_2_2.setBounds(1035, 121, 289, 99);
+		               panelAñadirNuevaPublicacion.add(lblNewLabel_3_20_1_1_2_2);
+		               
+		               textFieldMeGsuta2 = new JTextField();
+		               textFieldMeGsuta2.setColumns(10);
+		               textFieldMeGsuta2.setBounds(1045, 223, 244, 20);
+		               panelAñadirNuevaPublicacion.add(textFieldMeGsuta2);
+		               
+		               JLabel lblNewLabel_3_20_1_1_2_2_1 = new JLabel("Comentarios");
+		               lblNewLabel_3_20_1_1_2_2_1.setHorizontalAlignment(SwingConstants.CENTER);
+		               lblNewLabel_3_20_1_1_2_2_1.setForeground(new Color(64, 128, 128));
+		               lblNewLabel_3_20_1_1_2_2_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		               lblNewLabel_3_20_1_1_2_2_1.setBounds(1035, 254, 289, 99);
+		               panelAñadirNuevaPublicacion.add(lblNewLabel_3_20_1_1_2_2_1);
+		               
+		               textFieldComentarios2 = new JTextField();
+		               textFieldComentarios2.setColumns(10);
+		               textFieldComentarios2.setBounds(1045, 333, 244, 20);
+		               panelAñadirNuevaPublicacion.add(textFieldComentarios2);
+		               
+		               JLabel lblNewLabel_3_20_1_1_2_2_2 = new JLabel("Compartidos");
+		               lblNewLabel_3_20_1_1_2_2_2.setHorizontalAlignment(SwingConstants.CENTER);
+		               lblNewLabel_3_20_1_1_2_2_2.setForeground(new Color(64, 128, 128));
+		               lblNewLabel_3_20_1_1_2_2_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		               lblNewLabel_3_20_1_1_2_2_2.setBounds(1334, 121, 289, 99);
+		               panelAñadirNuevaPublicacion.add(lblNewLabel_3_20_1_1_2_2_2);
+		               
+		               textFieldCompartidos2 = new JTextField();
+		               textFieldCompartidos2.setColumns(10);
+		               textFieldCompartidos2.setBounds(1344, 223, 244, 20);
+		               panelAñadirNuevaPublicacion.add(textFieldCompartidos2);
+		               
+		                btnNewButtonAñadir = new JButton("Añadir");
+		                btnNewButtonAñadir.setBounds(1344, 333, 244, 23);
+		                panelAñadirNuevaPublicacion.add(btnNewButtonAñadir);
+		                
+		                 lblNewLabelCreado = new JLabel("");
+		                 lblNewLabelCreado.setHorizontalAlignment(SwingConstants.CENTER);
+		                 lblNewLabelCreado.setForeground(new Color(64, 128, 128));
+		                 lblNewLabelCreado.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		                 lblNewLabelCreado.setBounds(459, 413, 804, 99);
+		                 panelAñadirNuevaPublicacion.add(lblNewLabelCreado);
+		                 
+		                 btnNewButtonAñadir_1 = new JButton("Añadir");
+		                 btnNewButtonAñadir_1.setBounds(1320, 330, 244, 23);
+		                 panelAñadirNuevaPublicacion.add(btnNewButtonAñadir_1);
+		              
+		              panel_Eliminar_Minimo_Visitas = new JPanel();
+		              panel_Eliminar_Minimo_Visitas.setBackground(new Color(0, 0, 0));
+		              panel_Eliminar_Minimo_Visitas.setBounds(0, 0, 1657, 537);
+		              contentPane.add(panel_Eliminar_Minimo_Visitas);
+		              panel_Eliminar_Minimo_Visitas.setLayout(null);
+		              panel_Eliminar_Minimo_Visitas.setVisible(false);
+		              lblNewLabel_8 = new JLabel("StreamerFocus");
+		              lblNewLabel_8.setHorizontalAlignment(SwingConstants.CENTER);
+		              lblNewLabel_8.setForeground(new Color(64, 128, 128));
+		              lblNewLabel_8.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		              lblNewLabel_8.setBounds(502, 11, 771, 99);
+		              panel_Eliminar_Minimo_Visitas.add(lblNewLabel_8);
+		              
+		              lblNewLabel_9 = new JLabel("Minimo de visitas");
+		              lblNewLabel_9.setHorizontalAlignment(SwingConstants.CENTER);
+		              lblNewLabel_9.setForeground(new Color(64, 128, 128));
+		              lblNewLabel_9.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		              lblNewLabel_9.setBounds(157, 145, 388, 99);
+		              panel_Eliminar_Minimo_Visitas.add(lblNewLabel_9);
+		              
+		              textFieldMinVistas = new JTextField();
+		              textFieldMinVistas.setBounds(157, 255, 388, 20);
+		              panel_Eliminar_Minimo_Visitas.add(textFieldMinVistas);
+		              textFieldMinVistas.setColumns(10);
+		              
+		              btnNewButtonEliminarminimovistas = new JButton("Eliminar");
+		              btnNewButtonEliminarminimovistas.addActionListener(new ActionListener() {
+		              	public void actionPerformed(ActionEvent e) {
+		              	}
+		              });
+		              btnNewButtonEliminarminimovistas.setBounds(157, 286, 388, 23);
+		              panel_Eliminar_Minimo_Visitas.add(btnNewButtonEliminarminimovistas);
+		              
+		              lblNewLabel_Eliminar_MinimoVistas = new JLabel("");
+		              lblNewLabel_Eliminar_MinimoVistas.setHorizontalAlignment(SwingConstants.CENTER);
+		              lblNewLabel_Eliminar_MinimoVistas.setForeground(new Color(64, 128, 128));
+		              lblNewLabel_Eliminar_MinimoVistas.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		              lblNewLabel_Eliminar_MinimoVistas.setBounds(157, 320, 388, 99);
+		              panel_Eliminar_Minimo_Visitas.add(lblNewLabel_Eliminar_MinimoVistas);
+		              panel_Eliminar_Minimo_Visitas.setVisible(false);
 		           
-		           panel_Eliminar_Minimo_Visitas = new JPanel();
-		           panel_Eliminar_Minimo_Visitas.setBackground(new Color(0, 0, 0));
-		           panel_Eliminar_Minimo_Visitas.setBounds(0, 0, 1657, 537);
-		           contentPane.add(panel_Eliminar_Minimo_Visitas);
-		           panel_Eliminar_Minimo_Visitas.setLayout(null);
-		           panel_Eliminar_Minimo_Visitas.setVisible(false);
-		           lblNewLabel_8 = new JLabel("StreamerFocus");
-		           lblNewLabel_8.setHorizontalAlignment(SwingConstants.CENTER);
-		           lblNewLabel_8.setForeground(new Color(64, 128, 128));
-		           lblNewLabel_8.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		           lblNewLabel_8.setBounds(502, 11, 771, 99);
-		           panel_Eliminar_Minimo_Visitas.add(lblNewLabel_8);
-		           
-		           lblNewLabel_9 = new JLabel("Minimo de visitas");
-		           lblNewLabel_9.setHorizontalAlignment(SwingConstants.CENTER);
-		           lblNewLabel_9.setForeground(new Color(64, 128, 128));
-		           lblNewLabel_9.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		           lblNewLabel_9.setBounds(157, 145, 388, 99);
-		           panel_Eliminar_Minimo_Visitas.add(lblNewLabel_9);
-		           
-		           textFieldMinVistas = new JTextField();
-		           textFieldMinVistas.setBounds(157, 255, 388, 20);
-		           panel_Eliminar_Minimo_Visitas.add(textFieldMinVistas);
-		           textFieldMinVistas.setColumns(10);
-		           
-		           btnNewButtonEliminarminimovistas = new JButton("Eliminar");
-		           btnNewButtonEliminarminimovistas.addActionListener(new ActionListener() {
-		           	public void actionPerformed(ActionEvent e) {
-		           	}
-		           });
-		           btnNewButtonEliminarminimovistas.setBounds(157, 286, 388, 23);
-		           panel_Eliminar_Minimo_Visitas.add(btnNewButtonEliminarminimovistas);
-		           
-		           lblNewLabel_Eliminar_MinimoVistas = new JLabel("");
-		           lblNewLabel_Eliminar_MinimoVistas.setHorizontalAlignment(SwingConstants.CENTER);
-		           lblNewLabel_Eliminar_MinimoVistas.setForeground(new Color(64, 128, 128));
-		           lblNewLabel_Eliminar_MinimoVistas.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		           lblNewLabel_Eliminar_MinimoVistas.setBounds(157, 320, 388, 99);
-		           panel_Eliminar_Minimo_Visitas.add(lblNewLabel_Eliminar_MinimoVistas);
-		           panel_Eliminar_Minimo_Visitas.setVisible(false);
-		          
-		           panelAñadirNuevaPublicacion = new JPanel();
-		           panelAñadirNuevaPublicacion.setBackground(new Color(0, 0, 0));
-		           panelAñadirNuevaPublicacion.setBounds(0, 0, 1657, 548);
-		           contentPane.add(panelAñadirNuevaPublicacion);
-		           panelAñadirNuevaPublicacion.setLayout(null);
-		           panelAñadirNuevaPublicacion.setVisible(false);
-		           JLabel lblNewLabel_3_19 = new JLabel("StreamerFocus");
-		           lblNewLabel_3_19.setHorizontalAlignment(SwingConstants.CENTER);
-		           lblNewLabel_3_19.setForeground(new Color(64, 128, 128));
-		           lblNewLabel_3_19.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		           lblNewLabel_3_19.setBounds(503, 11, 771, 99);
-		           panelAñadirNuevaPublicacion.add(lblNewLabel_3_19);
-		           
-		           JLabel lblNewLabel_3_20 = new JLabel("Id_Creador");
-		           lblNewLabel_3_20.setHorizontalAlignment(SwingConstants.CENTER);
-		           lblNewLabel_3_20.setForeground(new Color(64, 128, 128));
-		           lblNewLabel_3_20.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		           lblNewLabel_3_20.setBounds(48, 113, 289, 99);
-		           panelAñadirNuevaPublicacion.add(lblNewLabel_3_20);
-		           
-		           textFieldidcreador1 = new JTextField();
-		           textFieldidcreador1.setBounds(58, 223, 244, 20);
-		           panelAñadirNuevaPublicacion.add(textFieldidcreador1);
-		           textFieldidcreador1.setColumns(10);
-		           
-		           JLabel lblNewLabel_3_20_1 = new JLabel("Plataforma");
-		           lblNewLabel_3_20_1.setHorizontalAlignment(SwingConstants.CENTER);
-		           lblNewLabel_3_20_1.setForeground(new Color(64, 128, 128));
-		           lblNewLabel_3_20_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		           lblNewLabel_3_20_1.setBounds(48, 254, 289, 99);
-		           panelAñadirNuevaPublicacion.add(lblNewLabel_3_20_1);
-		           
-		           textFieldplataforma2 = new JTextField();
-		           textFieldplataforma2.setColumns(10);
-		           textFieldplataforma2.setBounds(58, 334, 244, 20);
-		           panelAñadirNuevaPublicacion.add(textFieldplataforma2);
-		           
-		           JLabel lblNewLabel_3_20_1_1 = new JLabel("Fecha");
-		           lblNewLabel_3_20_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-		           lblNewLabel_3_20_1_1.setForeground(new Color(64, 128, 128));
-		           lblNewLabel_3_20_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		           lblNewLabel_3_20_1_1.setBounds(392, 121, 289, 99);
-		           panelAñadirNuevaPublicacion.add(lblNewLabel_3_20_1_1);
-		           
-		           textFieldFecha2 = new JTextField();
-		           textFieldFecha2.setColumns(10);
-		           textFieldFecha2.setBounds(402, 223, 244, 20);
-		           panelAñadirNuevaPublicacion.add(textFieldFecha2);
-		           
-		           JLabel lblNewLabel_3_20_1_1_1 = new JLabel("Contenido");
-		           lblNewLabel_3_20_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-		           lblNewLabel_3_20_1_1_1.setForeground(new Color(64, 128, 128));
-		           lblNewLabel_3_20_1_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		           lblNewLabel_3_20_1_1_1.setBounds(392, 254, 289, 99);
-		           panelAñadirNuevaPublicacion.add(lblNewLabel_3_20_1_1_1);
-		           
-		           textFieldContenido2 = new JTextField();
-		           textFieldContenido2.setColumns(10);
-		           textFieldContenido2.setBounds(392, 334, 254, 20);
-		           panelAñadirNuevaPublicacion.add(textFieldContenido2);
-		           
-		           JLabel lblNewLabel_3_20_1_1_2 = new JLabel("Tipo");
-		           lblNewLabel_3_20_1_1_2.setHorizontalAlignment(SwingConstants.CENTER);
-		           lblNewLabel_3_20_1_1_2.setForeground(new Color(64, 128, 128));
-		           lblNewLabel_3_20_1_1_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		           lblNewLabel_3_20_1_1_2.setBounds(721, 113, 289, 99);
-		           panelAñadirNuevaPublicacion.add(lblNewLabel_3_20_1_1_2);
-		           
-		           textFieldTipo2 = new JTextField();
-		           textFieldTipo2.setColumns(10);
-		           textFieldTipo2.setBounds(731, 223, 244, 20);
-		           panelAñadirNuevaPublicacion.add(textFieldTipo2);
-		           
-		           JLabel lblNewLabel_3_20_1_1_2_1 = new JLabel("Vistas");
-		           lblNewLabel_3_20_1_1_2_1.setHorizontalAlignment(SwingConstants.CENTER);
-		           lblNewLabel_3_20_1_1_2_1.setForeground(new Color(64, 128, 128));
-		           lblNewLabel_3_20_1_1_2_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		           lblNewLabel_3_20_1_1_2_1.setBounds(721, 254, 289, 99);
-		           panelAñadirNuevaPublicacion.add(lblNewLabel_3_20_1_1_2_1);
-		           
-		           textFieldVistas2 = new JTextField();
-		           textFieldVistas2.setColumns(10);
-		           textFieldVistas2.setBounds(731, 334, 244, 20);
-		           panelAñadirNuevaPublicacion.add(textFieldVistas2);
-		           
-		           JLabel lblNewLabel_3_20_1_1_2_2 = new JLabel("Me Gustas");
-		           lblNewLabel_3_20_1_1_2_2.setHorizontalAlignment(SwingConstants.CENTER);
-		           lblNewLabel_3_20_1_1_2_2.setForeground(new Color(64, 128, 128));
-		           lblNewLabel_3_20_1_1_2_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		           lblNewLabel_3_20_1_1_2_2.setBounds(1035, 121, 289, 99);
-		           panelAñadirNuevaPublicacion.add(lblNewLabel_3_20_1_1_2_2);
-		           
-		           textFieldMeGsuta2 = new JTextField();
-		           textFieldMeGsuta2.setColumns(10);
-		           textFieldMeGsuta2.setBounds(1045, 223, 244, 20);
-		           panelAñadirNuevaPublicacion.add(textFieldMeGsuta2);
-		           
-		           JLabel lblNewLabel_3_20_1_1_2_2_1 = new JLabel("Comentarios");
-		           lblNewLabel_3_20_1_1_2_2_1.setHorizontalAlignment(SwingConstants.CENTER);
-		           lblNewLabel_3_20_1_1_2_2_1.setForeground(new Color(64, 128, 128));
-		           lblNewLabel_3_20_1_1_2_2_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		           lblNewLabel_3_20_1_1_2_2_1.setBounds(1035, 254, 289, 99);
-		           panelAñadirNuevaPublicacion.add(lblNewLabel_3_20_1_1_2_2_1);
-		           
-		           textFieldComentarios2 = new JTextField();
-		           textFieldComentarios2.setColumns(10);
-		           textFieldComentarios2.setBounds(1045, 333, 244, 20);
-		           panelAñadirNuevaPublicacion.add(textFieldComentarios2);
-		           
-		           JLabel lblNewLabel_3_20_1_1_2_2_2 = new JLabel("Compartidos");
-		           lblNewLabel_3_20_1_1_2_2_2.setHorizontalAlignment(SwingConstants.CENTER);
-		           lblNewLabel_3_20_1_1_2_2_2.setForeground(new Color(64, 128, 128));
-		           lblNewLabel_3_20_1_1_2_2_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		           lblNewLabel_3_20_1_1_2_2_2.setBounds(1334, 121, 289, 99);
-		           panelAñadirNuevaPublicacion.add(lblNewLabel_3_20_1_1_2_2_2);
-		           
-		           textFieldCompartidos2 = new JTextField();
-		           textFieldCompartidos2.setColumns(10);
-		           textFieldCompartidos2.setBounds(1344, 223, 244, 20);
-		           panelAñadirNuevaPublicacion.add(textFieldCompartidos2);
-		           
-		            btnNewButtonAñadir = new JButton("Añadir");
-		            btnNewButtonAñadir.setBounds(1344, 333, 244, 23);
-		            panelAñadirNuevaPublicacion.add(btnNewButtonAñadir);
+		            InsertarColaboradores = new JPanel();
+		            InsertarColaboradores.setBackground(new Color(0, 0, 0));
+		            InsertarColaboradores.setBounds(0, 0, 1657, 548);
+		            contentPane.add(InsertarColaboradores);
+		            InsertarColaboradores.setLayout(null);
+		            InsertarColaboradores.setVisible(false);
+		            JLabel lblNewLabel_3_3 = new JLabel("StreamerFocus");
+		            lblNewLabel_3_3.setHorizontalAlignment(SwingConstants.CENTER);
+		            lblNewLabel_3_3.setForeground(new Color(64, 128, 128));
+		            lblNewLabel_3_3.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
+		            lblNewLabel_3_3.setBounds(497, 11, 771, 99);
+		            InsertarColaboradores.add(lblNewLabel_3_3);
 		            
-		             lblNewLabelCreado = new JLabel("");
-		             lblNewLabelCreado.setHorizontalAlignment(SwingConstants.CENTER);
-		             lblNewLabelCreado.setForeground(new Color(64, 128, 128));
-		             lblNewLabelCreado.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		             lblNewLabelCreado.setBounds(459, 413, 804, 99);
-		             panelAñadirNuevaPublicacion.add(lblNewLabelCreado);
+		            textFieldCreador1 = new JTextField();
+		            textFieldCreador1.setBounds(64, 188, 389, 20);
+		            InsertarColaboradores.add(textFieldCreador1);
+		            textFieldCreador1.setColumns(10);
+		            
+		            JLabel lblNewLabel_3_3_1 = new JLabel("ID CREADOR");
+		            lblNewLabel_3_3_1.setHorizontalAlignment(SwingConstants.LEFT);
+		            lblNewLabel_3_3_1.setForeground(new Color(64, 128, 128));
+		            lblNewLabel_3_3_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		            lblNewLabel_3_3_1.setBounds(64, 107, 389, 70);
+		            InsertarColaboradores.add(lblNewLabel_3_3_1);
+		            
+		            JLabel lblNewLabel_3_3_1_1 = new JLabel("NOMBRE COLABORADOR");
+		            lblNewLabel_3_3_1_1.setHorizontalAlignment(SwingConstants.LEFT);
+		            lblNewLabel_3_3_1_1.setForeground(new Color(64, 128, 128));
+		            lblNewLabel_3_3_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		            lblNewLabel_3_3_1_1.setBounds(64, 219, 389, 61);
+		            InsertarColaboradores.add(lblNewLabel_3_3_1_1);
+		            
+		            textFieldNombreColaborador = new JTextField();
+		            textFieldNombreColaborador.setColumns(10);
+		            textFieldNombreColaborador.setBounds(64, 280, 389, 20);
+		            InsertarColaboradores.add(textFieldNombreColaborador);
+		            
+		            JLabel lblNewLabel_3_3_1_1_1 = new JLabel("TEMATICA");
+		            lblNewLabel_3_3_1_1_1.setHorizontalAlignment(SwingConstants.LEFT);
+		            lblNewLabel_3_3_1_1_1.setForeground(new Color(64, 128, 128));
+		            lblNewLabel_3_3_1_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		            lblNewLabel_3_3_1_1_1.setBounds(64, 311, 389, 61);
+		            InsertarColaboradores.add(lblNewLabel_3_3_1_1_1);
+		            
+		            textFieldTematica = new JTextField();
+		            textFieldTematica.setColumns(10);
+		            textFieldTematica.setBounds(64, 383, 389, 20);
+		            InsertarColaboradores.add(textFieldTematica);
+		            
+		            JLabel lblNewLabel_3_3_1_1_1_1 = new JLabel("FECHA FIN");
+		            lblNewLabel_3_3_1_1_1_1.setHorizontalAlignment(SwingConstants.LEFT);
+		            lblNewLabel_3_3_1_1_1_1.setForeground(new Color(64, 128, 128));
+		            lblNewLabel_3_3_1_1_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		            lblNewLabel_3_3_1_1_1_1.setBounds(583, 112, 389, 61);
+		            InsertarColaboradores.add(lblNewLabel_3_3_1_1_1_1);
+		            
+		            textFieldFechaInicio = new JTextField();
+		            textFieldFechaInicio.setColumns(10);
+		            textFieldFechaInicio.setBounds(583, 188, 389, 20);
+		            InsertarColaboradores.add(textFieldFechaInicio);
+		            
+		            JLabel lblNewLabel_3_3_1_1_1_1_1 = new JLabel("FECHA INICIO");
+		            lblNewLabel_3_3_1_1_1_1_1.setHorizontalAlignment(SwingConstants.LEFT);
+		            lblNewLabel_3_3_1_1_1_1_1.setForeground(new Color(64, 128, 128));
+		            lblNewLabel_3_3_1_1_1_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		            lblNewLabel_3_3_1_1_1_1_1.setBounds(583, 219, 389, 61);
+		            InsertarColaboradores.add(lblNewLabel_3_3_1_1_1_1_1);
+		            
+		            textFieldFechaFin = new JTextField();
+		            textFieldFechaFin.setColumns(10);
+		            textFieldFechaFin.setBounds(583, 280, 389, 20);
+		            InsertarColaboradores.add(textFieldFechaFin);
+		            
+		            JLabel lblNewLabel_3_3_1_1_1_1_1_1 = new JLabel("TIPO COLABORACION");
+		            lblNewLabel_3_3_1_1_1_1_1_1.setHorizontalAlignment(SwingConstants.LEFT);
+		            lblNewLabel_3_3_1_1_1_1_1_1.setForeground(new Color(64, 128, 128));
+		            lblNewLabel_3_3_1_1_1_1_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		            lblNewLabel_3_3_1_1_1_1_1_1.setBounds(583, 311, 389, 61);
+		            InsertarColaboradores.add(lblNewLabel_3_3_1_1_1_1_1_1);
+		            
+		            textFieldTipoColaboracion = new JTextField();
+		            textFieldTipoColaboracion.setColumns(10);
+		            textFieldTipoColaboracion.setBounds(583, 383, 389, 20);
+		            InsertarColaboradores.add(textFieldTipoColaboracion);
+		            
+		            comboBoxEstadoColaboracion = new JComboBox();
+		            comboBoxEstadoColaboracion.setBounds(1156, 279, 389, 22);
+		            InsertarColaboradores.add(comboBoxEstadoColaboracion);
+		            
+		            JLabel lblNewLabel_3_3_1_2 = new JLabel("ESTADO");
+		            lblNewLabel_3_3_1_2.setHorizontalAlignment(SwingConstants.LEFT);
+		            lblNewLabel_3_3_1_2.setForeground(new Color(64, 128, 128));
+		            lblNewLabel_3_3_1_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		            lblNewLabel_3_3_1_2.setBounds(1156, 191, 389, 70);
+		            InsertarColaboradores.add(lblNewLabel_3_3_1_2);
+		            
+	 btnInsertarC = new JButton("Insetar");
+	 btnInsertarC.setBounds(1156, 382, 389, 23);
+	 InsertarColaboradores.add(btnInsertarC);
+	 
+	 btnVolverInsertarColaboradores = new JButton("Volver");
+	 btnVolverInsertarColaboradores.setBounds(1568, 0, 89, 51);
+	 InsertarColaboradores.add(btnVolverInsertarColaboradores);
+	 
+	  lblConformar = new JLabel("");
+	  lblConformar.setHorizontalAlignment(SwingConstants.LEFT);
+	  lblConformar.setForeground(new Color(64, 128, 128));
+	  lblConformar.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+	  lblConformar.setBounds(428, 450, 712, 70);
+	  InsertarColaboradores.add(lblConformar);
 		          panelModificarMeGusta_yComentarios = new JPanel();
 		          panelModificarMeGusta_yComentarios.setBackground(new Color(0, 0, 0));
 		          panelModificarMeGusta_yComentarios.setBounds(0, 0, 1657, 537);
@@ -457,192 +910,6 @@ public class Vista extends JFrame {
 		          btnNewButton_Modificarmegustas = new JButton("Modificar");
 		          btnNewButton_Modificarmegustas.setBounds(924, 371, 343, 23);
 		          panelModificarMeGusta_yComentarios.add(btnNewButton_Modificarmegustas);
-		         
-		          panelEliminarpublicaciones = new JPanel();
-		          panelEliminarpublicaciones.setBackground(new Color(0, 0, 0));
-		          panelEliminarpublicaciones.setBounds(0, 0, 1657, 548);
-		          contentPane.add(panelEliminarpublicaciones);
-		          panelEliminarpublicaciones.setLayout(null);
-		          panelEliminarpublicaciones.setVisible(false);
-		          JLabel lblNewLabel_3_15 = new JLabel("StreamerFocus");
-		          lblNewLabel_3_15.setHorizontalAlignment(SwingConstants.CENTER);
-		          lblNewLabel_3_15.setForeground(new Color(64, 128, 128));
-		          lblNewLabel_3_15.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		          lblNewLabel_3_15.setBounds(500, 11, 771, 99);
-		          panelEliminarpublicaciones.add(lblNewLabel_3_15);
-		          panelEliminarpublicaciones.setVisible(false);
-		          JLabel lblNewLabel_3_15_1 = new JLabel("ID CREADOR");
-		          lblNewLabel_3_15_1.setHorizontalAlignment(SwingConstants.CENTER);
-		          lblNewLabel_3_15_1.setForeground(new Color(64, 128, 128));
-		          lblNewLabel_3_15_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		          lblNewLabel_3_15_1.setBounds(-21, 123, 691, 99);
-		          panelEliminarpublicaciones.add(lblNewLabel_3_15_1);
-		          
-		          textFieldidcreador = new JTextField();
-		          textFieldidcreador.setBounds(125, 233, 417, 20);
-		          panelEliminarpublicaciones.add(textFieldidcreador);
-		          textFieldidcreador.setColumns(10);
-		          
-		          JLabel lblNewLabel_3_15_1_1 = new JLabel("FECHA PUBLICACION");
-		          lblNewLabel_3_15_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-		          lblNewLabel_3_15_1_1.setForeground(new Color(64, 128, 128));
-		          lblNewLabel_3_15_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		          lblNewLabel_3_15_1_1.setBounds(-21, 264, 691, 99);
-		          panelEliminarpublicaciones.add(lblNewLabel_3_15_1_1);
-		          
-		          textFieldfecha = new JTextField();
-		          textFieldfecha.setColumns(10);
-		          textFieldfecha.setBounds(125, 388, 417, 20);
-		          panelEliminarpublicaciones.add(textFieldfecha);
-		          
-		           btnEliminar2 = new JButton("Eliminar");
-		           btnEliminar2.setBounds(818, 317, 259, 23);
-		           panelEliminarpublicaciones.add(btnEliminar2);
-		           
-		           lblNewLabelConfirmar = new JLabel("");
-		           lblNewLabelConfirmar.setHorizontalAlignment(SwingConstants.CENTER);
-		           lblNewLabelConfirmar.setForeground(new Color(64, 128, 128));
-		           lblNewLabelConfirmar.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		           lblNewLabelConfirmar.setBounds(644, 180, 771, 99);
-		           panelEliminarpublicaciones.add(lblNewLabelConfirmar);
-		         
-		         panelprincipal = new JPanel();
-		         panelprincipal.setBackground(new Color(0, 0, 0));
-		         panelprincipal.setBounds(0, 0, 1657, 548);
-		         contentPane.add(panelprincipal);
-		         panelprincipal.setLayout(null);
-		         
-		          btnVerStreamer = new JButton("Mirar Streamer");
-		          btnVerStreamer.setBounds(57, 199, 197, 66);
-		          panelprincipal.add(btnVerStreamer);
-		          
-		          JLabel lblNewLabel_3 = new JLabel("StreamerFocus");
-		          lblNewLabel_3.setBounds(503, 11, 771, 99);
-		          panelprincipal.add(lblNewLabel_3);
-		          lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
-		          lblNewLabel_3.setForeground(new Color(64, 128, 128));
-		          lblNewLabel_3.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		          
-		          btnInsertarnuevoscolaboradores = new JButton("Insertar colaboradores");
-		          btnInsertarnuevoscolaboradores.setBounds(322, 199, 197, 66);
-		          panelprincipal.add(btnInsertarnuevoscolaboradores);
-		          
-		           btnañadirpublicacion = new JButton("Añadir publicacion");
-		           btnañadirpublicacion.addActionListener(new ActionListener() {
-		           	public void actionPerformed(ActionEvent e) {
-		           	}
-		           });
-		           btnañadirpublicacion.setBounds(322, 286, 197, 66);
-		           panelprincipal.add(btnañadirpublicacion);
-		           
-		           ModificarPublicaciones = new JButton(" Publicaciones");
-		           ModificarPublicaciones.setBounds(866, 286, 197, 66);
-		           panelprincipal.add(ModificarPublicaciones);
-		           
-		            btnResumerendimiento2023 = new JButton("Tasa de Crecimient");
-		            btnResumerendimiento2023.addActionListener(new ActionListener() {
-		            	public void actionPerformed(ActionEvent e) {
-		            	}
-		            });
-		            btnResumerendimiento2023.setBounds(57, 366, 197, 66);
-		            panelprincipal.add(btnResumerendimiento2023);
-		            
-		             btnEliminar = new JButton("Eliminar Publicaciones");
-		             btnEliminar.setBounds(593, 199, 197, 66);
-		             panelprincipal.add(btnEliminar);
-		             
-		              btnCrearinformerJson6 = new JButton("6");
-		              btnCrearinformerJson6.setBounds(1145, 286, 154, 66);
-		              panelprincipal.add(btnCrearinformerJson6);
-		              
-		              btnExportarcolaboracionescsv = new JButton("4");
-		              btnExportarcolaboracionescsv.addActionListener(new ActionListener() {
-		              	public void actionPerformed(ActionEvent e) {
-		              	}
-		              });
-		              btnExportarcolaboracionescsv.setBounds(1145, 199, 154, 66);
-		              panelprincipal.add(btnExportarcolaboracionescsv);
-		              
-		               btnVerMetrica = new JButton("Rendimiento");
-		               btnVerMetrica.setBounds(57, 286, 197, 66);
-		               panelprincipal.add(btnVerMetrica);
-		               
-		                btnExportarSeguidores = new JButton("10");
-		                btnExportarSeguidores.setBounds(1309, 199, 154, 66);
-		                panelprincipal.add(btnExportarSeguidores);
-		                
-		                 btnmodificarmegustaycomentarios = new JButton("Modificar Publicacion");
-		                 btnmodificarmegustaycomentarios.setBounds(866, 199, 197, 66);
-		                 panelprincipal.add(btnmodificarmegustaycomentarios);
-		                 
-		                  btnExportarColaboraciones = new JButton("8");
-		                  btnExportarColaboraciones.setBounds(1309, 286, 154, 66);
-		                  panelprincipal.add(btnExportarColaboraciones);
-		                  
-		                   btnExportarcolaboracionesJSON12 = new JButton("12");
-		                   btnExportarcolaboracionesJSON12.addActionListener(new ActionListener() {
-		                   	public void actionPerformed(ActionEvent e) {
-		                   	}
-		                   });
-		                   btnExportarcolaboracionesJSON12.setBounds(1232, 366, 154, 66);
-		                   panelprincipal.add(btnExportarcolaboracionesJSON12);
-		                   
-		                   JLabel lblNewLabel_3_1 = new JLabel("Ver  datos");
-		                   lblNewLabel_3_1.setHorizontalAlignment(SwingConstants.CENTER);
-		                   lblNewLabel_3_1.setForeground(new Color(64, 128, 128));
-		                   lblNewLabel_3_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		                   lblNewLabel_3_1.setBounds(57, 89, 197, 99);
-		                   panelprincipal.add(lblNewLabel_3_1);
-		                   
-		                   JLabel lblNewLabel_3_1_1 = new JLabel("Añadir");
-		                   lblNewLabel_3_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-		                   lblNewLabel_3_1_1.setForeground(new Color(64, 128, 128));
-		                   lblNewLabel_3_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		                   lblNewLabel_3_1_1.setBounds(322, 89, 197, 99);
-		                   panelprincipal.add(lblNewLabel_3_1_1);
-		                   
-		                   JLabel lblNewLabel_3_1_1_1 = new JLabel("Eliminar");
-		                   lblNewLabel_3_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-		                   lblNewLabel_3_1_1_1.setForeground(new Color(64, 128, 128));
-		                   lblNewLabel_3_1_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		                   lblNewLabel_3_1_1_1.setBounds(593, 89, 197, 99);
-		                   panelprincipal.add(lblNewLabel_3_1_1_1);
-		                   
-		                   JLabel lblNewLabel_3_1_1_1_1 = new JLabel("Editar");
-		                   lblNewLabel_3_1_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-		                   lblNewLabel_3_1_1_1_1.setForeground(new Color(64, 128, 128));
-		                   lblNewLabel_3_1_1_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		                   lblNewLabel_3_1_1_1_1.setBounds(866, 100, 197, 99);
-		                   panelprincipal.add(lblNewLabel_3_1_1_1_1);
-		                   
-		                   JLabel lblNewLabel_3_1_1_2 = new JLabel("Exportar");
-		                   lblNewLabel_3_1_1_2.setHorizontalAlignment(SwingConstants.CENTER);
-		                   lblNewLabel_3_1_1_2.setForeground(new Color(64, 128, 128));
-		                   lblNewLabel_3_1_1_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		                   lblNewLabel_3_1_1_2.setBounds(1185, 89, 197, 99);
-		                   panelprincipal.add(lblNewLabel_3_1_1_2);
-		                   
-		                    lblmostrarsiseaexportado = new JLabel("");
-		                    lblmostrarsiseaexportado.setHorizontalAlignment(SwingConstants.CENTER);
-		                    lblmostrarsiseaexportado.setForeground(new Color(64, 128, 128));
-		                    lblmostrarsiseaexportado.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		                    lblmostrarsiseaexportado.setBounds(571, 407, 651, 99);
-		                    panelprincipal.add(lblmostrarsiseaexportado);
-		                    
-		                    btneliminarminimo = new JButton("Eliminar minimo");
-		                    btneliminarminimo.setBounds(593, 286, 197, 66);
-		                    panelprincipal.add(btneliminarminimo);
-		                    
-		                    JLabel lblNewLabel_3_1_1_3 = new JLabel("Comparativa");
-		                    lblNewLabel_3_1_1_3.setHorizontalAlignment(SwingConstants.CENTER);
-		                    lblNewLabel_3_1_1_3.setForeground(new Color(64, 128, 128));
-		                    lblNewLabel_3_1_1_3.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		                    lblNewLabel_3_1_1_3.setBounds(-38, 11, 482, 99);
-		                    panelprincipal.add(lblNewLabel_3_1_1_3);
-		                    
-		                    btnComparar = new JButton("Comparar");
-		                    btnComparar.setBounds(436, 23, 197, 66);
-		                    panelprincipal.add(btnComparar);
 		       
 		        panelcrecimientoseguidores = new JPanel();
 		       panelcrecimientoseguidores.setBackground(new Color(0, 0, 0));
@@ -697,77 +964,6 @@ public class Vista extends JFrame {
 		         lblNewLabel_3_4_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
 		         lblNewLabel_3_4_1_1.setBounds(10, 165, 1637, 99);
 		         panelMetrica.add(lblNewLabel_3_4_1_1);
-		      
-		      panelmodificarpublicacion = new JPanel();
-		      panelmodificarpublicacion.setLayout(null);
-		      panelmodificarpublicacion.setBackground(Color.BLACK);
-		      panelmodificarpublicacion.setBounds(0, 0, 1657, 548);
-		      contentPane.add(panelmodificarpublicacion);
-		      panelmodificarpublicacion.setVisible(false);
-		      lblNewLabel_3_10 = new JLabel("StreamerFocus");
-		      lblNewLabel_3_10.setHorizontalAlignment(SwingConstants.CENTER);
-		      lblNewLabel_3_10.setForeground(new Color(64, 128, 128));
-		      lblNewLabel_3_10.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		      lblNewLabel_3_10.setBounds(692, 11, 274, 67);
-		      panelmodificarpublicacion.add(lblNewLabel_3_10);
-		      
-		      textFieldidstreamer = new JTextField();
-		      textFieldidstreamer.setColumns(10);
-		      textFieldidstreamer.setBounds(66, 187, 389, 20);
-		      panelmodificarpublicacion.add(textFieldidstreamer);
-		      
-		      lblNewLabel_3_3_9 = new JLabel("Id Streamer");
-		      lblNewLabel_3_3_9.setHorizontalAlignment(SwingConstants.CENTER);
-		      lblNewLabel_3_3_9.setForeground(new Color(64, 128, 128));
-		      lblNewLabel_3_3_9.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		      lblNewLabel_3_3_9.setBounds(66, 72, 389, 99);
-		      panelmodificarpublicacion.add(lblNewLabel_3_3_9);
-		      
-		      lblNewLabel_3_3_2_9 = new JLabel("¿De que fecha?");
-		      lblNewLabel_3_3_2_9.setHorizontalAlignment(SwingConstants.CENTER);
-		      lblNewLabel_3_3_2_9.setForeground(new Color(64, 128, 128));
-		      lblNewLabel_3_3_2_9.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		      lblNewLabel_3_3_2_9.setBounds(609, 222, 389, 99);
-		      panelmodificarpublicacion.add(lblNewLabel_3_3_2_9);
-		      
-		      textFieldfehca = new JTextField();
-		      textFieldfehca.setColumns(10);
-		      textFieldfehca.setBounds(609, 338, 389, 20);
-		      panelmodificarpublicacion.add(textFieldfehca);
-		      
-		      btnmodificarpublicacion = new JButton("Modificar");
-		      btnmodificarpublicacion.setBounds(1476, 337, 89, 23);
-		      panelmodificarpublicacion.add(btnmodificarpublicacion);
-		      
-		      JLabel lblNewLabel_3_3_9_1 = new JLabel("¿Que quieres modificar?");
-		      lblNewLabel_3_3_9_1.setHorizontalAlignment(SwingConstants.CENTER);
-		      lblNewLabel_3_3_9_1.setForeground(new Color(64, 128, 128));
-		      lblNewLabel_3_3_9_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		      lblNewLabel_3_3_9_1.setBounds(76, 228, 452, 99);
-		      panelmodificarpublicacion.add(lblNewLabel_3_3_9_1);
-		      
-		       comboBoxparaModificar = new JComboBox();
-		       comboBoxparaModificar.setBounds(79, 337, 444, 22);
-		       panelmodificarpublicacion.add(comboBoxparaModificar);
-		       
-		       lblNewLabel_3_3_2_10 = new JLabel("Dato");
-		       lblNewLabel_3_3_2_10.setHorizontalAlignment(SwingConstants.CENTER);
-		       lblNewLabel_3_3_2_10.setForeground(new Color(64, 128, 128));
-		       lblNewLabel_3_3_2_10.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		       lblNewLabel_3_3_2_10.setBounds(1025, 222, 389, 99);
-		       panelmodificarpublicacion.add(lblNewLabel_3_3_2_10);
-		       
-		       textFieldDato = new JTextField();
-		       textFieldDato.setColumns(10);
-		       textFieldDato.setBounds(1025, 338, 389, 20);
-		       panelmodificarpublicacion.add(textFieldDato);
-		       
-		       lblNotificar = new JLabel("");
-		       lblNotificar.setHorizontalAlignment(SwingConstants.CENTER);
-		       lblNotificar.setForeground(new Color(64, 128, 128));
-		       lblNotificar.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		       lblNotificar.setBounds(1234, 98, 389, 99);
-		       panelmodificarpublicacion.add(lblNotificar);
 		     
 		      panelComparativaRendimiendo = new JPanel();
 		      panelComparativaRendimiendo.setBackground(new Color(0, 0, 0));
@@ -876,117 +1072,6 @@ public class Vista extends JFrame {
 		    
 		    btnVolverMostrarTodo.setBounds(1568, 0, 89, 51);
 		    panelmostrartodo.add(btnVolverMostrarTodo);
-		   
-		    InsertarColaboradores = new JPanel();
-		    InsertarColaboradores.setBackground(new Color(0, 0, 0));
-		    InsertarColaboradores.setBounds(0, 0, 1657, 548);
-		    contentPane.add(InsertarColaboradores);
-		    InsertarColaboradores.setLayout(null);
-		    InsertarColaboradores.setVisible(false);
-		    JLabel lblNewLabel_3_3 = new JLabel("StreamerFocus");
-		    lblNewLabel_3_3.setHorizontalAlignment(SwingConstants.CENTER);
-		    lblNewLabel_3_3.setForeground(new Color(64, 128, 128));
-		    lblNewLabel_3_3.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		    lblNewLabel_3_3.setBounds(497, 11, 771, 99);
-		    InsertarColaboradores.add(lblNewLabel_3_3);
-		    
-		    textFieldCreador1 = new JTextField();
-		    textFieldCreador1.setBounds(64, 188, 389, 20);
-		    InsertarColaboradores.add(textFieldCreador1);
-		    textFieldCreador1.setColumns(10);
-		    
-		    JLabel lblNewLabel_3_3_1 = new JLabel("ID CREADOR");
-		    lblNewLabel_3_3_1.setHorizontalAlignment(SwingConstants.LEFT);
-		    lblNewLabel_3_3_1.setForeground(new Color(64, 128, 128));
-		    lblNewLabel_3_3_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		    lblNewLabel_3_3_1.setBounds(64, 107, 389, 70);
-		    InsertarColaboradores.add(lblNewLabel_3_3_1);
-		    
-		    JLabel lblNewLabel_3_3_1_1 = new JLabel("NOMBRE COLABORADOR");
-		    lblNewLabel_3_3_1_1.setHorizontalAlignment(SwingConstants.LEFT);
-		    lblNewLabel_3_3_1_1.setForeground(new Color(64, 128, 128));
-		    lblNewLabel_3_3_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		    lblNewLabel_3_3_1_1.setBounds(64, 219, 389, 61);
-		    InsertarColaboradores.add(lblNewLabel_3_3_1_1);
-		    
-		    textFieldNombreColaborador = new JTextField();
-		    textFieldNombreColaborador.setColumns(10);
-		    textFieldNombreColaborador.setBounds(64, 280, 389, 20);
-		    InsertarColaboradores.add(textFieldNombreColaborador);
-		    
-		    JLabel lblNewLabel_3_3_1_1_1 = new JLabel("TEMATICA");
-		    lblNewLabel_3_3_1_1_1.setHorizontalAlignment(SwingConstants.LEFT);
-		    lblNewLabel_3_3_1_1_1.setForeground(new Color(64, 128, 128));
-		    lblNewLabel_3_3_1_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		    lblNewLabel_3_3_1_1_1.setBounds(64, 311, 389, 61);
-		    InsertarColaboradores.add(lblNewLabel_3_3_1_1_1);
-		    
-		    textFieldTematica = new JTextField();
-		    textFieldTematica.setColumns(10);
-		    textFieldTematica.setBounds(64, 383, 389, 20);
-		    InsertarColaboradores.add(textFieldTematica);
-		    
-		    JLabel lblNewLabel_3_3_1_1_1_1 = new JLabel("FECHA FIN");
-		    lblNewLabel_3_3_1_1_1_1.setHorizontalAlignment(SwingConstants.LEFT);
-		    lblNewLabel_3_3_1_1_1_1.setForeground(new Color(64, 128, 128));
-		    lblNewLabel_3_3_1_1_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		    lblNewLabel_3_3_1_1_1_1.setBounds(583, 112, 389, 61);
-		    InsertarColaboradores.add(lblNewLabel_3_3_1_1_1_1);
-		    
-		    textFieldFechaInicio = new JTextField();
-		    textFieldFechaInicio.setColumns(10);
-		    textFieldFechaInicio.setBounds(583, 188, 389, 20);
-		    InsertarColaboradores.add(textFieldFechaInicio);
-		    
-		    JLabel lblNewLabel_3_3_1_1_1_1_1 = new JLabel("FECHA INICIO");
-		    lblNewLabel_3_3_1_1_1_1_1.setHorizontalAlignment(SwingConstants.LEFT);
-		    lblNewLabel_3_3_1_1_1_1_1.setForeground(new Color(64, 128, 128));
-		    lblNewLabel_3_3_1_1_1_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		    lblNewLabel_3_3_1_1_1_1_1.setBounds(583, 219, 389, 61);
-		    InsertarColaboradores.add(lblNewLabel_3_3_1_1_1_1_1);
-		    
-		    textFieldFechaFin = new JTextField();
-		    textFieldFechaFin.setColumns(10);
-		    textFieldFechaFin.setBounds(583, 280, 389, 20);
-		    InsertarColaboradores.add(textFieldFechaFin);
-		    
-		    JLabel lblNewLabel_3_3_1_1_1_1_1_1 = new JLabel("TIPO COLABORACION");
-		    lblNewLabel_3_3_1_1_1_1_1_1.setHorizontalAlignment(SwingConstants.LEFT);
-		    lblNewLabel_3_3_1_1_1_1_1_1.setForeground(new Color(64, 128, 128));
-		    lblNewLabel_3_3_1_1_1_1_1_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		    lblNewLabel_3_3_1_1_1_1_1_1.setBounds(583, 311, 389, 61);
-		    InsertarColaboradores.add(lblNewLabel_3_3_1_1_1_1_1_1);
-		    
-		    textFieldTipoColaboracion = new JTextField();
-		    textFieldTipoColaboracion.setColumns(10);
-		    textFieldTipoColaboracion.setBounds(583, 383, 389, 20);
-		    InsertarColaboradores.add(textFieldTipoColaboracion);
-		    
-		    comboBoxEstadoColaboracion = new JComboBox();
-		    comboBoxEstadoColaboracion.setBounds(1156, 279, 389, 22);
-		    InsertarColaboradores.add(comboBoxEstadoColaboracion);
-		    
-		    JLabel lblNewLabel_3_3_1_2 = new JLabel("ESTADO");
-		    lblNewLabel_3_3_1_2.setHorizontalAlignment(SwingConstants.LEFT);
-		    lblNewLabel_3_3_1_2.setForeground(new Color(64, 128, 128));
-		    lblNewLabel_3_3_1_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		    lblNewLabel_3_3_1_2.setBounds(1156, 191, 389, 70);
-		    InsertarColaboradores.add(lblNewLabel_3_3_1_2);
-		    
-	 btnInsertarC = new JButton("Insetar");
-	 btnInsertarC.setBounds(1156, 382, 389, 23);
-	 InsertarColaboradores.add(btnInsertarC);
-	 
-	 btnVolverInsertarColaboradores = new JButton("Volver");
-	 btnVolverInsertarColaboradores.setBounds(1568, 0, 89, 51);
-	 InsertarColaboradores.add(btnVolverInsertarColaboradores);
-	 
-	  lblConformar = new JLabel("");
-	  lblConformar.setHorizontalAlignment(SwingConstants.LEFT);
-	  lblConformar.setForeground(new Color(64, 128, 128));
-	  lblConformar.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-	  lblConformar.setBounds(428, 450, 712, 70);
-	  InsertarColaboradores.add(lblConformar);
 		   
 		   paneleliminarminimo = new JPanel();
 		   paneleliminarminimo.setLayout(null);
@@ -1282,83 +1367,6 @@ public class Vista extends JFrame {
 		   btnEliminardatos = new JButton("Eliminar");
 		   btnEliminardatos.setBounds(1110, 361, 389, 23);
 		   paneleliminarpublicacion.add(btnEliminardatos);
-		   
-		   panelmodificarpublicaciones = new JPanel();
-		   panelmodificarpublicaciones.setBackground(new Color(0, 0, 0));
-		   panelmodificarpublicaciones.setBounds(0, 0, 1657, 548);
-		   contentPane.add(panelmodificarpublicaciones);
-		   panelmodificarpublicaciones.setLayout(null);
-		   panelmodificarpublicaciones.setVisible(false);
-		   JLabel lblNewLabel_3_6 = new JLabel("StreamerFocus");
-		   lblNewLabel_3_6.setBounds(691, 11, 274, 67);
-		   lblNewLabel_3_6.setHorizontalAlignment(SwingConstants.CENTER);
-		   lblNewLabel_3_6.setForeground(new Color(64, 128, 128));
-		   lblNewLabel_3_6.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		   panelmodificarpublicaciones.add(lblNewLabel_3_6);
-		   
-		   textFieldidstreamermodificar = new JTextField();
-		   textFieldidstreamermodificar.setColumns(10);
-		   textFieldidstreamermodificar.setBounds(66, 189, 389, 20);
-		   panelmodificarpublicaciones.add(textFieldidstreamermodificar);
-		   
-		   JLabel lblNewLabel_3_3_2 = new JLabel("Id Streamer");
-		   lblNewLabel_3_3_2.setHorizontalAlignment(SwingConstants.CENTER);
-		   lblNewLabel_3_3_2.setForeground(new Color(64, 128, 128));
-		   lblNewLabel_3_3_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		   lblNewLabel_3_3_2.setBounds(66, 78, 389, 99);
-		   panelmodificarpublicaciones.add(lblNewLabel_3_3_2);
-		   
-		   JLabel lblNewLabel_3_3_2_1 = new JLabel("Plataforma");
-		   lblNewLabel_3_3_2_1.setHorizontalAlignment(SwingConstants.CENTER);
-		   lblNewLabel_3_3_2_1.setForeground(new Color(64, 128, 128));
-		   lblNewLabel_3_3_2_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		   lblNewLabel_3_3_2_1.setBounds(66, 230, 389, 99);
-		   panelmodificarpublicaciones.add(lblNewLabel_3_3_2_1);
-		   
-		   textFieldplataformastreamermodificar = new JTextField();
-		   textFieldplataformastreamermodificar.setColumns(10);
-		   textFieldplataformastreamermodificar.setBounds(66, 340, 389, 20);
-		   panelmodificarpublicaciones.add(textFieldplataformastreamermodificar);
-		   
-		   textFieldmegustastreamermodificar = new JTextField();
-		   textFieldmegustastreamermodificar.setColumns(10);
-		   textFieldmegustastreamermodificar.setBounds(563, 189, 389, 20);
-		   panelmodificarpublicaciones.add(textFieldmegustastreamermodificar);
-		   
-		   textFieldcomentariosstreamermodificar = new JTextField();
-		   textFieldcomentariosstreamermodificar.setColumns(10);
-		   textFieldcomentariosstreamermodificar.setBounds(563, 340, 389, 20);
-		   panelmodificarpublicaciones.add(textFieldcomentariosstreamermodificar);
-		   
-		   textFieldmoficarcompartidos = new JTextField();
-		   textFieldmoficarcompartidos.setColumns(10);
-		   textFieldmoficarcompartidos.setBounds(1110, 230, 389, 20);
-		   panelmodificarpublicaciones.add(textFieldmoficarcompartidos);
-		   
-		   JLabel lblNewLabel_3_3_2_2 = new JLabel("Me gusta");
-		   lblNewLabel_3_3_2_2.setHorizontalAlignment(SwingConstants.CENTER);
-		   lblNewLabel_3_3_2_2.setForeground(new Color(64, 128, 128));
-		   lblNewLabel_3_3_2_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		   lblNewLabel_3_3_2_2.setBounds(563, 78, 389, 99);
-		   panelmodificarpublicaciones.add(lblNewLabel_3_3_2_2);
-		   
-		   JLabel lblNewLabel_3_3_2_2_1 = new JLabel("Comentarios");
-		   lblNewLabel_3_3_2_2_1.setHorizontalAlignment(SwingConstants.CENTER);
-		   lblNewLabel_3_3_2_2_1.setForeground(new Color(64, 128, 128));
-		   lblNewLabel_3_3_2_2_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		   lblNewLabel_3_3_2_2_1.setBounds(563, 230, 389, 99);
-		   panelmodificarpublicaciones.add(lblNewLabel_3_3_2_2_1);
-		   
-		   JLabel textFieldcompartidosstreamermodificar = new JLabel("Compartidos");
-		   textFieldcompartidosstreamermodificar.setHorizontalAlignment(SwingConstants.CENTER);
-		   textFieldcompartidosstreamermodificar.setForeground(new Color(64, 128, 128));
-		   textFieldcompartidosstreamermodificar.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 62));
-		   textFieldcompartidosstreamermodificar.setBounds(1110, 101, 389, 99);
-		   panelmodificarpublicaciones.add(textFieldcompartidosstreamermodificar);
-		   
-		   JButton btnModificar = new JButton("Modificar");
-		   btnModificar.setBounds(1110, 361, 389, 23);
-		   panelmodificarpublicaciones.add(btnModificar);
 
 	}
 }
