@@ -868,7 +868,42 @@ public class Controlador implements ActionListener {
 
 	// 9
 	public void analisisComparativoRendimiento(List<Contenido> contenido) {
+	    Map<String, Map<String, int[]>> resultados = new HashMap<>();
+	    for (Contenido c : contenido) {
+	        String tipo = c.getTipo(); 
+	        String plataforma = c.getPlataforma(); 
+	        int vistas = c.getVistas();
+	        int meGusta = c.getMe_gustas();
 
+	      
+	        resultados.putIfAbsent(tipo, new HashMap<>());
+	        resultados.get(tipo).putIfAbsent(plataforma, new int[2]); 
+
+	        resultados.get(tipo).get(plataforma)[0] += vistas;
+	        resultados.get(tipo).get(plataforma)[1] += meGusta;
+	    }
+	    for (String tipo : resultados.keySet()) {
+	        System.out.println("Tipo de Contenido: " + tipo);
+	        for (String plataforma : resultados.get(tipo).keySet()) {
+	            int totalVistas = resultados.get(tipo).get(plataforma)[0];
+	            int totalMeGusta = resultados.get(tipo).get(plataforma)[1];
+	            int conteo = 0;
+	            for (Contenido c : contenido) {
+	                if (c.getTipo().equals(tipo) && c.getPlataforma().equals(plataforma)) {
+	                    conteo++;
+	                }
+	            }
+	            if (conteo > 0) {
+	                double promedioVistas = (double) totalVistas / conteo;
+	                double promedioMeGusta = (double) totalMeGusta / conteo;
+
+	                System.out.println("Plataforma: " + plataforma + " | Promedio Vistas: " + promedioVistas + " | Promedio Me Gusta: " + promedioMeGusta);
+	            } else {
+	                System.out.println("Plataforma: " + plataforma + " | No hay datos suficientes para calcular promedios.");
+	            }
+	        }
+	        System.out.println();
+	    }
 	}
 
 	// 10
