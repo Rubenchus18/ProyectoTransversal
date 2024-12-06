@@ -81,6 +81,11 @@ public class Controlador implements ActionListener {
 		this.vista.comboBoxHistorial.addActionListener(this);
 		this.vista.btnInfoCreador.addActionListener(this);
 		this.vista.comboBoxelegiropciones.addActionListener(this);
+		this.vista.btnEliminarMinimoVistas.addActionListener(this);
+		this.vista.btnModificarLikeComentarios.addActionListener(this);
+		this.vista.btnInsertarColaborador.addActionListener(this);
+		this.vista.btnEliminarPorinteracion.addActionListener(this);
+		this.vista.btnAñadirPublicacion.addActionListener(this);
 		streamer = leer();
 		contenido = abrirCSV("files/metricas_contenido.csv");
 		agregarcomboxestado();
@@ -206,7 +211,7 @@ public class Controlador implements ActionListener {
 		}
 		if (e.getSource() == this.vista.btnExportarInfrome_reportejson) {
 			try {
-				generarInformeJSON(streamer);
+				crearResumenRendimientoJSON(contenido);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
@@ -233,6 +238,32 @@ public class Controlador implements ActionListener {
 			if (plataformaSeleccionada != null && vista.comboBoxHistorial.getSelectedIndex() > -1) {
 				String selec = (String) vista.comboBoxHistorial.getSelectedItem();
 				verHistorial(selec, plataformaSeleccionada);
+			}
+		}
+		if(e.getSource()==this.vista.btnEliminarMinimoVistas) {
+			eliminarPublicacionesPorLikes(contenido);
+		}
+		if(e.getSource()==this.vista.btnModificarLikeComentarios) {
+			modificarPublicacion2(contenido);
+		}
+		if(e.getSource()==this.vista.btnmodificarpublicacion) {
+			modificarPublicacion(contenido);
+		}
+		if(e.getSource()==this.vista.btnInsertarColaborador) {
+			try {
+				agregarColaboracion(streamer);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
+		if(e.getSource()==this.vista.btnEliminarPorinteracion) {
+			eliminarPublicacion(contenido);
+		}
+		if(e.getSource()==this.vista.btnAñadirPublicacion) {
+			try {
+				añadirPublicacion(contenido);
+			} catch (IOException e1) {
+				e1.printStackTrace();
 			}
 		}
 	}
