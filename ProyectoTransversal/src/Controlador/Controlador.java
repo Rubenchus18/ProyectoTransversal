@@ -1,5 +1,7 @@
 package Controlador;
 
+import java.awt.Color;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
@@ -21,6 +23,9 @@ import java.util.Vector;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -57,6 +62,7 @@ public class Controlador implements ActionListener {
 	List<Contenido> contenido = new ArrayList<Contenido>();
 	JsonNode creadorSeleccionado;
 	JsonNode plataformaSeleccionada;
+	ArrayList<ImageIcon> fotosIcon = new ArrayList<ImageIcon>();
 
 	public Controlador(Vista vista) throws JsonParseException, JsonMappingException, IOException {
 		this.vista = vista;
@@ -105,6 +111,7 @@ public class Controlador implements ActionListener {
 		agregarcomboboxmodificar();
 		llenarJListStreamers(streamer);
 		agregarPlataformas();
+		rellenarFotosIcon(fotosIcon);
 
 	}
 
@@ -296,8 +303,9 @@ public class Controlador implements ActionListener {
 		}
 
 		if (e.getSource() == this.vista.comboBoxHistorial) {
-			if (plataformaSeleccionada != null && vista.comboBoxHistorial.getSelectedItem() != null) {
-				verHistorial((String) vista.comboBoxHistorial.getSelectedItem(), plataformaSeleccionada);
+			if (plataformaSeleccionada != null && vista.comboBoxHistorial.getSelectedIndex() > -1) {
+				String selec = (String) vista.comboBoxHistorial.getSelectedItem();
+				verHistorial(selec, plataformaSeleccionada);
 			}
 		}
 	}
@@ -371,9 +379,9 @@ public class Controlador implements ActionListener {
 			return null;
 		}
 
-		String[] partes = nombreSeleccionado.split(" "); 
+		String[] partes = nombreSeleccionado.split(" ");
 		if (partes.length < 2) {
-			return null; 
+			return null;
 		}
 
 		String idCreadorSeleccionado = partes[1]; // "20"
@@ -411,14 +419,14 @@ public class Controlador implements ActionListener {
 		return creador;
 	}
 
-	private JsonNode verPlataforma(String plataformaSeleccionada, JsonNode creatorNode) {
-		String fechaSeleccionada = null;
-		if (vista.comboBoxHistorial.getSelectedIndex() > -1) {
-			fechaSeleccionada = (String) vista.comboBoxHistorial.getSelectedItem();
-		}
+	public JsonNode verPlataforma(String plataformaSeleccionada, JsonNode creatorNode) {
+
 		JsonNode plataformaSelecc = null;
 
 		if (plataformaSeleccionada != null) {
+
+			cambiarPlataforma(plataformaSeleccionada);
+
 			for (JsonNode plataforma : creatorNode.get("plataformas")) {
 				String nombrePlataforma = plataforma.get("nombre").asText();
 				if (nombrePlataforma.equals(plataformaSeleccionada)) {
@@ -430,6 +438,13 @@ public class Controlador implements ActionListener {
 					vista.lblPlataformaUsuarioMostrar.setText(usuarioPlataforma);
 					vista.lblPlataformaSeguidoresMostrar.setText(seguidoresPlataforma);
 					vista.lblPlataformaFechaCreacionMostrar.setText(fechaCreacionPlataforma);
+
+					rellenarComboHistorico(plataforma);
+
+					String fechaSeleccionada = null;
+					vista.comboBoxHistorial.setSelectedIndex(0);
+					fechaSeleccionada = (String) vista.comboBoxHistorial.getSelectedItem();
+
 					verHistorial(fechaSeleccionada, plataforma);
 					plataformaSelecc = plataforma;
 				}
@@ -438,39 +453,89 @@ public class Controlador implements ActionListener {
 		return plataformaSelecc;
 	}
 
-	private void verHistorial(String fechaSeleccionada, JsonNode plataforma) {
-		rellenarComboHistorico(plataforma);
-		if (fechaSeleccionada != null) {
-			vista.lblHistNuevosSeguidores1Mostrar.setText("");
-			vista.lblHistInteracciones1Mostrar.setText("");
-			vista.lblHistFecha1Mostrar.setText("");
+	public void cambiarPlataforma(String plataformaSeleccionada) {
+		// TODO Auto-generated method stub
+		if (plataformaSeleccionada.equalsIgnoreCase("Twitch")) {
+			vista.panelYoutube.setBackground(new Color(75, 0, 130));
+			vista.lblFotoPlataforma.setIcon(fotosIcon.get(2));
+		}
+		if (plataformaSeleccionada.equalsIgnoreCase("YouTube")) {
+			vista.panelYoutube.setBackground(new Color(204, 0, 0));
+			vista.lblFotoPlataforma.setIcon(fotosIcon.get(3));
+		}
+		if (plataformaSeleccionada.equalsIgnoreCase("Instagram")) {
+			vista.panelYoutube.setBackground(new Color(255, 0, 128));
+			vista.lblFotoPlataforma.setIcon(fotosIcon.get(0));
+		}
+		if (plataformaSeleccionada.equalsIgnoreCase("TikTok")) {
+			vista.panelYoutube.setBackground(Color.black);
+			vista.lblFotoPlataforma.setIcon(fotosIcon.get(1));
+		}
 
+	}
+
+	public void rellenarFotosIcon(ArrayList<ImageIcon> fotosIcon) {
+		ArrayList<String> rutas = new ArrayList<>(
+				Arrays.asList("/img/insta.png", "/img/tiktok.png", "/img/Twitch_logo.svg.png", "/img/youtu.png"));
+
+		JLabel label = vista.lblFotoPlataforma;
+		int width = vista.lblFotoPlataforma.getWidth();
+	    int height = vista.lblFotoPlataforma.getHeight();
+
+		for (String ruta : rutas) {
+			ImageIcon imagen = new ImageIcon(getClass().getResource(ruta));
+			Image img=imagen.getImage();
+			Image imgEscalada = img.getScaledInstance(width, height,
+					Image.SCALE_SMOOTH);
+			fotosIcon.add(new ImageIcon(imgEscalada));
+		}
+	}
+
+	public void verHistorial(String fechaSeleccionada, JsonNode plataforma) {
+		// Limpiar las etiquetas antes de cargar nueva información
+		vista.lblHistNuevosSeguidores1Mostrar.setText("");
+		vista.lblHistInteracciones1Mostrar.setText("");
+		vista.lblHistFecha1Mostrar.setText("");
+
+		// Rellenar comboBox con fechas únicas
+
+		if (fechaSeleccionada != null) {
 			for (JsonNode historico : plataforma.get("historico")) {
 				String fechaHistorial = historico.get("fecha").asText();
 				if (fechaSeleccionada.equals(fechaHistorial)) {
-					String fecha = historico.get("fecha").asText();
+					String nuevosSeguidores = historico.get("nuevos_seguidores").asText();
 					String interacciones = historico.get("interacciones").asText();
-					String nuevosseguidores = historico.get("nuevos_seguidores").asText();
+					String fecha = historico.get("fecha").asText();
 
-					vista.lblHistFecha1Mostrar.setText(nuevosseguidores);
+					// Mostrar la información correcta en las etiquetas correspondientes
+					vista.lblHistFecha1Mostrar.setText(fecha);
 					vista.lblHistInteracciones1Mostrar.setText(interacciones);
-					vista.lblHistNuevosSeguidores1Mostrar.setText(fecha);
+					vista.lblHistNuevosSeguidores1Mostrar.setText(nuevosSeguidores);
+					break; // Sal del bucle al encontrar la fecha
 				}
 			}
 		}
 	}
 
 	private void rellenarComboHistorico(JsonNode creatorNode) {
+		// Limpiar el comboBox antes de rellenar
 		vista.comboBoxHistorial.removeAllItems();
 		Set<String> fechasUnicas = new HashSet<>();
+
+		// Recopilar fechas únicas
 		for (JsonNode historico : creatorNode.get("historico")) {
 			String fechaHistorial = historico.get("fecha").asText();
-			fechasUnicas.add(fechaHistorial); 
+			fechasUnicas.add(fechaHistorial);
 		}
-		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
-		vista.comboBoxHistorial.setModel(model);
+
+		// Rellenar el comboBox
 		for (String fecha : fechasUnicas) {
-			model.addElement(fecha); 
+			vista.comboBoxHistorial.addItem(fecha);
+		}
+
+		// Solo seleccionar el primer elemento si no está vacío
+		if (!fechasUnicas.isEmpty()) {
+			vista.comboBoxHistorial.setSelectedIndex(0);
 		}
 	}
 
@@ -519,47 +584,47 @@ public class Controlador implements ActionListener {
 
 	// 4
 	public void exportarColaboracionesACSV(ArrayNode streamer, List<Contenido> contenido) {
-	    String csvFile = "files/colaboraciones.csv";
-	    List<String[]> contenidoList = new ArrayList<>();
-	    List<String> comprobar = new ArrayList<>();
+		String csvFile = "files/colaboraciones.csv";
+		List<String[]> contenidoList = new ArrayList<>();
+		List<String> comprobar = new ArrayList<>();
 
-	    try {
-	        // Encabezados del CSV
-	        String[] header = { "Fecha_Inicio", "Nombre_Creador", "Nombre_Colaborador", 
-	                            "Seguidores_Totales", "Interacciones_Totales" };
-	        contenidoList.add(header);
+		try {
+			// Encabezados del CSV
+			String[] header = { "Fecha_Inicio", "Nombre_Creador", "Nombre_Colaborador", "Seguidores_Totales",
+					"Interacciones_Totales" };
+			contenidoList.add(header);
 
-	        // Iterar sobre los creadores
-	        for (JsonNode creatorNode : streamer) {
-	            String creadorNombre = creatorNode.get("nombre").asText();
-	            int seguidoresTotales = creatorNode.get("seguidores_totales").asInt();
-	            int interaccionesTotales = creatorNode.get("estadisticas").get("interacciones_totales").asInt();
+			// Iterar sobre los creadores
+			for (JsonNode creatorNode : streamer) {
+				String creadorNombre = creatorNode.get("nombre").asText();
+				int seguidoresTotales = creatorNode.get("seguidores_totales").asInt();
+				int interaccionesTotales = creatorNode.get("estadisticas").get("interacciones_totales").asInt();
 
-	            if (creatorNode.has("colaboraciones")) {
-	                ArrayNode colaboraciones = (ArrayNode) creatorNode.path("colaboraciones");
-	                for (JsonNode colaboracion : colaboraciones) {
-	                    String nombreColaborador = colaboracion.get("colaborador").asText();
-	                    String fechaInicio = colaboracion.get("fecha_inicio").asText();
-	                    String mirar = fechaInicio + "|" + creadorNombre + "|" + nombreColaborador;
+				if (creatorNode.has("colaboraciones")) {
+					ArrayNode colaboraciones = (ArrayNode) creatorNode.path("colaboraciones");
+					for (JsonNode colaboracion : colaboraciones) {
+						String nombreColaborador = colaboracion.get("colaborador").asText();
+						String fechaInicio = colaboracion.get("fecha_inicio").asText();
+						String mirar = fechaInicio + "|" + creadorNombre + "|" + nombreColaborador;
 
-	                    if (!comprobar.contains(mirar)) {
-	                        comprobar.add(mirar);
-	                        
-	                        // Aquí no se necesita buscar contenido, ya que estamos usando datos del streamer
-	                        String[] data = { fechaInicio, creadorNombre, nombreColaborador, 
-	                                          String.valueOf(seguidoresTotales), 
-	                                          String.valueOf(interaccionesTotales) };
-	                        contenidoList.add(data);
-	                    }
-	                }
-	            }
-	        }
-	        crearCSV8(contenidoList, csvFile);
-	        this.vista.lblResultado.setVisible(true);
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        this.vista.lblFallo.setVisible(false);
-	    }
+						if (!comprobar.contains(mirar)) {
+							comprobar.add(mirar);
+
+							// Aquí no se necesita buscar contenido, ya que estamos usando datos del
+							// streamer
+							String[] data = { fechaInicio, creadorNombre, nombreColaborador,
+									String.valueOf(seguidoresTotales), String.valueOf(interaccionesTotales) };
+							contenidoList.add(data);
+						}
+					}
+				}
+			}
+			crearCSV8(contenidoList, csvFile);
+			this.vista.lblResultado.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.vista.lblFallo.setVisible(false);
+		}
 	}
 
 	public Contenido encontrarContenidoPorColaboracion(List<Contenido> contenido, JsonNode colaboracion) {
