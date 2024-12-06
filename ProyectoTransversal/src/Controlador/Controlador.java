@@ -68,32 +68,6 @@ public class Controlador implements ActionListener {
 		this.vista = vista;
 		this.vista.btnVerStreamer.addActionListener(this);
 		this.vista.btnVolverMostrarTodo.addActionListener(this);
-		this.vista.btnVerMetrica.addActionListener(this);
-		this.vista.btnVolverMetrica.addActionListener(this);
-		this.vista.btnInsertarnuevoscolaboradores.addActionListener(this);
-		this.vista.btnVolverInsertarColaboradores.addActionListener(this);
-		this.vista.btnInsertarC.addActionListener(this);
-		this.vista.btnExportarcolaboracionescsv.addActionListener(this);
-		this.vista.btnCrearinformerJson6.addActionListener(this);
-		this.vista.btnExportarColaboraciones.addActionListener(this);
-		this.vista.btnComparar.addActionListener(this);
-		this.vista.btnNewButton.addActionListener(this);
-		this.vista.btnExportarSeguidores.addActionListener(this);
-		this.vista.btnExportarcolaboracionesJSON12.addActionListener(this);
-		this.vista.btnmodificarmegustaycomentarios.addActionListener(this);
-		this.vista.btnmodificarpublicacion.addActionListener(this);
-		this.vista.btnEliminar.addActionListener(this);
-		this.vista.btnEliminar2.addActionListener(this);
-		this.vista.btnResumerendimiento2023.addActionListener(this);
-		this.vista.btnañadirpublicacion.addActionListener(this);
-		this.vista.btneliminarminimo.addActionListener(this);
-		this.vista.ModificarPublicaciones.addActionListener(this);
-		this.vista.btnNewButtonAñadir.addActionListener(this);
-		this.vista.ModificarPublicaciones.addActionListener(this);
-		this.vista.btnNewButton_Modificarmegustas.addActionListener(this);
-		this.vista.btneliminarminimo.addActionListener(this);
-		this.vista.btnNewButtonEliminarminimovistas.addActionListener(this);
-		this.vista.btnNewButtonEliminarminimovistas.addActionListener(this);
 		this.vista.btnSalir_1.addActionListener(this);
 		this.vista.btnMetricas.addActionListener(this);
 		this.vista.btnSalir.addActionListener(this);
@@ -105,22 +79,88 @@ public class Controlador implements ActionListener {
 		this.vista.listStreamers.addListSelectionListener(e -> creadorSeleccionado = mostrarDatosStreamer(streamer));
 		this.vista.comboBoxPlataforma.addActionListener(this);
 		this.vista.comboBoxHistorial.addActionListener(this);
+		this.vista.btnInfoCreador.addActionListener(this);
+		this.vista.comboBoxelegiropciones.addActionListener(this);
 		streamer = leer();
 		contenido = abrirCSV("files/metricas_contenido.csv");
 		agregarcomboxestado();
 		agregarcomboboxmodificar();
 		llenarJListStreamers(streamer);
+		llenarJlistStreamer(streamer);
 		agregarPlataformas();
+		agregarcomboxopciones();
 		rellenarFotosIcon(fotosIcon);
-
+		
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		// Nuevo
+		 if (e.getSource() == this.vista.comboBoxelegiropciones) {
+		        String selectedOption = (String) this.vista.comboBoxelegiropciones.getSelectedItem();
+
+		        this.vista.panelInsertarColaboradores.setVisible(true);
+		        this.vista.panelEliminarpubli.setVisible(false);
+		        this.vista.panelañadirpublicion.setVisible(false);
+		        this.vista.paneleliminarminimovistas.setVisible(false);
+		        this.vista.panelModificarPublicacion.setVisible(false);
+		        this.vista.panelmodificarLikesComentarios.setVisible(false);
+		        switch (selectedOption) {
+		            case "Insertar colaboraciones":
+		                this.vista.panelInsertarColaboradores.setVisible(true);
+		                this.vista.panelañadirpublicion.setVisible(false);
+		                this.vista.panelEliminarpubli.setVisible(false);
+		                this.vista.paneleliminarminimovistas.setVisible(false);
+				        this.vista.panelModificarPublicacion.setVisible(false);
+				        this.vista.panelmodificarLikesComentarios.setVisible(false);
+		                break;
+		            case "Añadir publicaciones":
+		                this.vista.panelInsertarColaboradores.setVisible(false);
+		                this.vista.panelañadirpublicion.setVisible(true);
+		                this.vista.panelEliminarpubli.setVisible(false);
+		                this.vista.paneleliminarminimovistas.setVisible(false);
+				        this.vista.panelModificarPublicacion.setVisible(false);
+				        this.vista.panelmodificarLikesComentarios.setVisible(false);
+		                break;
+		            case "Eliminar publicaciones":
+		            	 this.vista.panelInsertarColaboradores.setVisible(false);
+			                this.vista.panelañadirpublicion.setVisible(false);
+			                this.vista.panelEliminarpubli.setVisible(true);
+			                this.vista.paneleliminarminimovistas.setVisible(false);
+					        this.vista.panelModificarPublicacion.setVisible(false);
+					        this.vista.panelmodificarLikesComentarios.setVisible(false);
+		                break;
+		            case "Eliminar minimo de vistas":
+		            	 this.vista.panelInsertarColaboradores.setVisible(false);
+			                this.vista.panelañadirpublicion.setVisible(false);
+			                this.vista.panelEliminarpubli.setVisible(false);
+			                this.vista.paneleliminarminimovistas.setVisible(true);
+					        this.vista.panelModificarPublicacion.setVisible(false);
+					        this.vista.panelmodificarLikesComentarios.setVisible(false);
+		            	break;
+		            case "Modificar publicacion":
+		            	 this.vista.panelInsertarColaboradores.setVisible(false);
+			                this.vista.panelañadirpublicion.setVisible(false);
+			                this.vista.panelEliminarpubli.setVisible(false);
+			                this.vista.paneleliminarminimovistas.setVisible(false);
+					        this.vista.panelModificarPublicacion.setVisible(true);
+					        this.vista.panelmodificarLikesComentarios.setVisible(false);
+		            	break;
+		            case "Modificar Like y Visualizaciones":
+		            	 this.vista.panelInsertarColaboradores.setVisible(false);
+			                this.vista.panelañadirpublicion.setVisible(false);
+			                this.vista.panelEliminarpubli.setVisible(false);
+			                this.vista.paneleliminarminimovistas.setVisible(false);
+					        this.vista.panelModificarPublicacion.setVisible(false);
+					        this.vista.panelmodificarLikesComentarios.setVisible(true);
+		            	break;
+		            default:
+		                break;
+		        }
+		    }
 		if (e.getSource() == this.vista.btnVerStreamer) {
 			this.vista.panelMostrarTodo.setVisible(true);
 			vista.panelMenu.setVisible(false);
-			this.vista.panelprincipal.setVisible(false);
+			
 			this.vista.panelBotones.setVisible(false);
 		}
 		if (e.getSource() == this.vista.btnSalir) {
@@ -131,14 +171,12 @@ public class Controlador implements ActionListener {
 		}
 		if (e.getSource() == this.vista.btnMetricas) {
 			this.vista.panelMenu.setVisible(false);
-			this.vista.panelprincipal.setVisible(false);
 			this.vista.panelBotones.setVisible(false);
 			this.vista.panelExportacionDatos.setVisible(true);
 			this.vista.panelBotones_1.setVisible(true);
 		}
 		if (e.getSource() == this.vista.btnSalir_1) {
 			this.vista.panelMenu.setVisible(true);
-			this.vista.panelprincipal.setVisible(false);
 			this.vista.panelBotones.setVisible(true);
 			this.vista.panelExportacionDatos.setVisible(false);
 			this.vista.panelBotones_1.setVisible(false);
@@ -175,125 +213,9 @@ public class Controlador implements ActionListener {
 				e1.printStackTrace();
 			}
 		}
-		// Antiguo
-		if (e.getSource() == this.vista.btnVerMetrica) {
-			this.vista.panelMetrica.setVisible(true);
-			calcularPromedios(streamer, contenido);
-			this.vista.panelprincipal.setVisible(false);
-
-		}
-		if (e.getSource() == this.vista.btnVolverMetrica) {
-			this.vista.panelMetrica.setVisible(false);
-			this.vista.panelprincipal.setVisible(true);
-		}
-		if (e.getSource() == this.vista.btnInsertarnuevoscolaboradores) {
-			this.vista.InsertarColaboradores.setVisible(true);
-			this.vista.panelprincipal.setVisible(false);
-		}
-		if (e.getSource() == this.vista.btnVolverInsertarColaboradores) {
-			this.vista.InsertarColaboradores.setVisible(false);
-			this.vista.panelprincipal.setVisible(true);
-		}
-		if (e.getSource() == this.vista.btnInsertarC) {
-			try {
-				agregarColaboracion(streamer);
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
-		}
-		if (e.getSource() == this.vista.btnExportarcolaboracionescsv) {
-			exportarColaboracionesACSV(streamer, contenido);
-		}
-		if (e.getSource() == this.vista.btnCrearinformerJson6) {
-			try {
-				generarInformeJSON(streamer);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		}
-		if (e.getSource() == this.vista.btnExportarColaboraciones) {
-			try {
-				generarReporteColaboracionesCSV(streamer);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		}
-		if (e.getSource() == this.vista.btnComparar) {
-			this.vista.panelprincipal.setVisible(false);
-			this.vista.panelComparativaRendimiendo.setVisible(true);
-		}
-		if (e.getSource() == this.vista.btnNewButton) {
-			analisisComparativoRendimiento(contenido);
-		}
-		if (e.getSource() == this.vista.btnExportarSeguidores) {
-			try {
-				crearResumenRendimientoJSON(contenido);
-			} catch (IOException e1) {
-
-				e1.printStackTrace();
-			}
-
-		}
-		if (e.getSource() == this.vista.btnExportarcolaboracionesJSON12) {
-			System.out.println("hora");
-			try {
-				convertirColaboracionesAJSON(streamer);
-			} catch (IOException e1) {
-
-				e1.printStackTrace();
-			}
-		}
-		if (e.getSource() == this.vista.btnmodificarmegustaycomentarios) {
-			this.vista.panelprincipal.setVisible(false);
-			this.vista.panelmodificarpublicacion.setVisible(true);
-		}
-		if (e.getSource() == this.vista.btnmodificarpublicacion) {
-			modificarPublicacion(contenido);
-		}
-		if (e.getSource() == this.vista.btnEliminar) {
-			this.vista.panelprincipal.setVisible(false);
-			this.vista.panelEliminarpublicaciones.setVisible(true);
-		}
-		if (e.getSource() == this.vista.btnEliminar2) {
-			eliminarPublicacion(contenido);
-		}
-		if (e.getSource() == this.vista.btnResumerendimiento2023) {
-			this.vista.panelprincipal.setVisible(false);
-			this.vista.panelcrecimientoseguidores.setVisible(true);
-			try {
-				analizarCrecimientoMensualSeguidores(streamer);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		}
-		if (e.getSource() == this.vista.btnañadirpublicacion) {
-			this.vista.panelprincipal.setVisible(false);
-			this.vista.panelAñadirNuevaPublicacion.setVisible(true);
-		}
-		if (e.getSource() == this.vista.btneliminarminimo) {
-			this.vista.panelprincipal.setVisible(false);
-			this.vista.panel_Eliminar_Minimo_Visitas.setVisible(true);
-		}
-		if (e.getSource() == this.vista.ModificarPublicaciones) {
-			this.vista.panelprincipal.setVisible(false);
-			this.vista.panelModificarMeGusta_yComentarios.setVisible(true);
-		}
-		if (e.getSource() == this.vista.btnNewButtonAñadir) {
-			try {
-				añadirPublicacion(contenido);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		}
-		if (e.getSource() == this.vista.ModificarPublicaciones) {
-			this.vista.panelprincipal.setVisible(false);
-			this.vista.ModificarPublicaciones.setVisible(true);
-		}
-		if (e.getSource() == this.vista.btnNewButton_Modificarmegustas) {
-			modificarPublicacion2(contenido);
-		}
-		if (e.getSource() == this.vista.btnNewButtonEliminarminimovistas) {
-			eliminarPublicacionesPorLikes(contenido);
+		if(e.getSource()==this.vista.btnInfoCreador) {
+			this.vista.panelMenu.setVisible(false);
+			this.vista.panelModifcar.setVisible(true);
 		}
 		if (e.getSource() == this.vista.comboBoxPlataforma) {
 			if (vista.comboBoxPlataforma.getSelectedItem() != null && creadorSeleccionado != null) {
@@ -301,7 +223,6 @@ public class Controlador implements ActionListener {
 						creadorSeleccionado);
 			}
 		}
-
 		if (e.getSource() == this.vista.comboBoxHistorial) {
 			if (plataformaSeleccionada != null && vista.comboBoxHistorial.getSelectedIndex() > -1) {
 				String selec = (String) vista.comboBoxHistorial.getSelectedItem();
@@ -326,7 +247,14 @@ public class Controlador implements ActionListener {
 		this.vista.comboBoxparaModificar.addItem("comentarios");
 		this.vista.comboBoxparaModificar.addItem("compartidos");
 	}
-
+	public void agregarcomboxopciones() {
+		this.vista.comboBoxelegiropciones.addItem("Insertar colaboraciones");
+		this.vista.comboBoxelegiropciones.addItem("Añadir publicaciones");
+		this.vista.comboBoxelegiropciones.addItem("Eliminar publicaciones");
+		this.vista.comboBoxelegiropciones.addItem("Eliminar minimo de vistas");
+		this.vista.comboBoxelegiropciones.addItem("Modificar publicacion");
+		this.vista.comboBoxelegiropciones.addItem("Modificar Like y Visualizaciones");
+	}
 	public ArrayNode leer() throws JsonProcessingException, IOException {
 		DefaultTableModel modelo = new DefaultTableModel();
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -335,6 +263,7 @@ public class Controlador implements ActionListener {
 		ArrayNode streamer = (ArrayNode) rootNode;
 		return streamer;
 	}
+	
 
 	public List<Contenido> abrirCSV(String rutaCSV) {
 		List<Contenido> contenido = null;
@@ -371,7 +300,17 @@ public class Controlador implements ActionListener {
 		}
 		this.vista.listStreamers.setModel(modelo);
 	}
-
+	public void llenarJlistStreamer(ArrayNode streamer) {
+		DefaultListModel<String> modelo = new DefaultListModel<>();
+		modelo.setSize(0);
+		for (JsonNode creatorNode : streamer) {
+			String nombreCreador = creatorNode.get("nombre").asText();
+			String idCreador = creatorNode.get("id").asText();
+			String elementoJlist = "Id: " + idCreador + " Nombre: " + nombreCreador;
+			modelo.addElement(elementoJlist);
+		}
+		this.vista.liststreamer.setModel(modelo);
+	}
 	// 1
 	public JsonNode mostrarDatosStreamer(ArrayNode streamer) {
 		String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
@@ -517,23 +456,21 @@ public class Controlador implements ActionListener {
 		}
 	}
 
-	private void rellenarComboHistorico(JsonNode creatorNode) {
-		// Limpiar el comboBox antes de rellenar
+	public void rellenarComboHistorico(JsonNode creatorNode) {
+		
 		vista.comboBoxHistorial.removeAllItems();
 		Set<String> fechasUnicas = new HashSet<>();
 
-		// Recopilar fechas únicas
+	
 		for (JsonNode historico : creatorNode.get("historico")) {
 			String fechaHistorial = historico.get("fecha").asText();
 			fechasUnicas.add(fechaHistorial);
 		}
 
-		// Rellenar el comboBox
 		for (String fecha : fechasUnicas) {
 			vista.comboBoxHistorial.addItem(fecha);
 		}
 
-		// Solo seleccionar el primer elemento si no está vacío
 		if (!fechasUnicas.isEmpty()) {
 			vista.comboBoxHistorial.setSelectedIndex(0);
 		}
@@ -547,7 +484,7 @@ public class Controlador implements ActionListener {
 				"Promedio Me Gustas" };
 
 		modelo2.setColumnIdentifiers(nombrePromedios);
-		this.vista.tableRendimiento.setModel(modelo2);
+	
 
 	}
 
@@ -575,11 +512,11 @@ public class Controlador implements ActionListener {
 				nuevaColaboracion.put("estado", estadoColaboracion);
 				((ArrayNode) creatorNode.get("colaboraciones")).add(nuevaColaboracion);
 				objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, streamer);
-				this.vista.lblConformar.setText("Colaboración añadida exitosamente.");
+				System.out.println("Colaboración añadida exitosamente.");
 
 			}
 		}
-		this.vista.lblConformar.setText("Colaborador creado");
+		System.out.println("Colaborador creado");
 	}
 
 	// 4
@@ -690,10 +627,10 @@ public class Controlador implements ActionListener {
 		if (modificada) {
 			try {
 				crearCSV(contenido, "files/metricas_contenido.csv");
-				this.vista.lblNotificar.setText("Publicación modificada exitosamente.");
+				System.out.println("Publicación modificada exitosamente.");
 			} catch (Exception e) {
 				e.printStackTrace();
-				this.vista.lblNotificar.setText("Error al escribir en el archivo CSV.");
+				System.out.println("Error al escribir en el archivo CSV.");
 			}
 		}
 	}
@@ -714,10 +651,10 @@ public class Controlador implements ActionListener {
 		if (eliminada) {
 			try {
 				crearCSV(contenido, "files/metricas_contenido.csv");
-				this.vista.lblNewLabelConfirmar.setText("Publicación eliminada exitosamente.");
+				System.out.println("Publicación eliminada exitosamente.");
 			} catch (Exception e) {
 				e.printStackTrace();
-				this.vista.lblNewLabelConfirmar.setText("Error al escribir en el archivo CSV.");
+				System.out.println("Error al escribir en el archivo CSV.");
 			}
 		}
 	}
@@ -1013,12 +950,12 @@ public class Controlador implements ActionListener {
 			contenido.add(contenido1);
 			crearCSV(contenido, "files/metricas_contenido.csv");
 
-			this.vista.lblNewLabelCreado.setText("Publicación añadida con éxito.");
+			System.out.println("Publicación añadida con éxito.");
 
 		} catch (NumberFormatException e) {
-			this.vista.lblNewLabelCreado.setText("Error: " + e.getMessage());
+			System.out.println("Error: " + e.getMessage());
 		} catch (Exception e) {
-			this.vista.lblNewLabelCreado.setText("Error: " + e.getMessage());
+			System.out.println("Error: " + e.getMessage());
 		}
 	}
 
@@ -1029,7 +966,7 @@ public class Controlador implements ActionListener {
 
 		try {
 			Integer me_gustaTexto = Integer.parseInt(this.vista.textField_megusta2.getText());
-			Integer comentariosTexto = Integer.parseInt(this.vista.textFieldComentarios2.getText());
+			Integer comentariosTexto = Integer.parseInt(this.vista.textFieldComentarios3.getText());
 
 			boolean encontrado = false;
 			for (Contenido publicacion : contenido) {
