@@ -190,6 +190,7 @@ public class Vista extends JFrame {
 	public JLabel lblStreamer;
 	public JComboBox comboBoxEstadoColaboracion;
 	public JComboBox comboBoxparaModificar;
+	public JLabel lblCreado;
 	/**
 	 * Launch the application.
 	 */
@@ -656,6 +657,13 @@ public class Vista extends JFrame {
 		 lblStreamer.setFont(new Font("Dialog", Font.BOLD, 40));
 		 lblStreamer.setBounds(63, 266, 352, 125);
 		 panelModifcar.add(lblStreamer);
+		 
+		  lblCreado = new JLabel("");
+		 lblCreado.setHorizontalAlignment(SwingConstants.CENTER);
+		 lblCreado.setForeground(SystemColor.controlText);
+		 lblCreado.setFont(new Font("Dialog", Font.BOLD, 40));
+		 lblCreado.setBounds(482, 627, 758, 125);
+		 panelModifcar.add(lblCreado);
 		
 		panelMenu = new JPanel();
 		panelMenu.setBackground(Color.ORANGE);

@@ -112,6 +112,7 @@ public class Controlador implements ActionListener {
 		                this.vista.paneleliminarminimovistas.setVisible(false);
 				        this.vista.panelModificarPublicacion.setVisible(false);
 				        this.vista.panelmodificarLikesComentarios.setVisible(false);
+				        this.vista.lblCreado.setText("");
 		                break;
 		            case "Añadir publicaciones":
 		                this.vista.panelInsertarColaboradores.setVisible(false);
@@ -120,6 +121,7 @@ public class Controlador implements ActionListener {
 		                this.vista.paneleliminarminimovistas.setVisible(false);
 				        this.vista.panelModificarPublicacion.setVisible(false);
 				        this.vista.panelmodificarLikesComentarios.setVisible(false);
+				        this.vista.lblCreado.setText("");
 		                break;
 		            case "Eliminar publicaciones":
 		            	 this.vista.panelInsertarColaboradores.setVisible(false);
@@ -128,6 +130,7 @@ public class Controlador implements ActionListener {
 			                this.vista.paneleliminarminimovistas.setVisible(false);
 					        this.vista.panelModificarPublicacion.setVisible(false);
 					        this.vista.panelmodificarLikesComentarios.setVisible(false);
+					        this.vista.lblCreado.setText("");
 		                break;
 		            case "Eliminar minimo de vistas":
 		            	 this.vista.panelInsertarColaboradores.setVisible(false);
@@ -136,6 +139,7 @@ public class Controlador implements ActionListener {
 			                this.vista.paneleliminarminimovistas.setVisible(true);
 					        this.vista.panelModificarPublicacion.setVisible(false);
 					        this.vista.panelmodificarLikesComentarios.setVisible(false);
+					        this.vista.lblCreado.setText("");
 		            	break;
 		            case "Modificar publicacion":
 		            	 this.vista.panelInsertarColaboradores.setVisible(false);
@@ -144,6 +148,7 @@ public class Controlador implements ActionListener {
 			                this.vista.paneleliminarminimovistas.setVisible(false);
 					        this.vista.panelModificarPublicacion.setVisible(true);
 					        this.vista.panelmodificarLikesComentarios.setVisible(false);
+					        this.vista.lblCreado.setText("");
 		            	break;
 		            case "Modificar Like y Visualizaciones":
 		            	 this.vista.panelInsertarColaboradores.setVisible(false);
@@ -152,6 +157,7 @@ public class Controlador implements ActionListener {
 			                this.vista.paneleliminarminimovistas.setVisible(false);
 					        this.vista.panelModificarPublicacion.setVisible(false);
 					        this.vista.panelmodificarLikesComentarios.setVisible(true);
+					        this.vista.lblCreado.setText("");
 		            	break;
 		            default:
 		                break;
@@ -512,11 +518,11 @@ public class Controlador implements ActionListener {
 				nuevaColaboracion.put("estado", estadoColaboracion);
 				((ArrayNode) creatorNode.get("colaboraciones")).add(nuevaColaboracion);
 				objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, streamer);
-				System.out.println("Colaboración añadida exitosamente.");
+				this.vista.lblCreado.setText("Colaboración añadida exitosamente.");
 
 			}
 		}
-		System.out.println("Colaborador creado");
+	
 	}
 
 	// 4
@@ -526,12 +532,9 @@ public class Controlador implements ActionListener {
 		List<String> comprobar = new ArrayList<>();
 
 		try {
-			// Encabezados del CSV
 			String[] header = { "Fecha_Inicio", "Nombre_Creador", "Nombre_Colaborador", "Seguidores_Totales",
 					"Interacciones_Totales" };
 			contenidoList.add(header);
-
-			// Iterar sobre los creadores
 			for (JsonNode creatorNode : streamer) {
 				String creadorNombre = creatorNode.get("nombre").asText();
 				int seguidoresTotales = creatorNode.get("seguidores_totales").asInt();
@@ -546,9 +549,6 @@ public class Controlador implements ActionListener {
 
 						if (!comprobar.contains(mirar)) {
 							comprobar.add(mirar);
-
-							// Aquí no se necesita buscar contenido, ya que estamos usando datos del
-							// streamer
 							String[] data = { fechaInicio, creadorNombre, nombreColaborador,
 									String.valueOf(seguidoresTotales), String.valueOf(interaccionesTotales) };
 							contenidoList.add(data);
@@ -627,10 +627,10 @@ public class Controlador implements ActionListener {
 		if (modificada) {
 			try {
 				crearCSV(contenido, "files/metricas_contenido.csv");
-				System.out.println("Publicación modificada exitosamente.");
+				this.vista.lblCreado.setText("Publicación modificada exitosamente.");
 			} catch (Exception e) {
 				e.printStackTrace();
-				System.out.println("Error al escribir en el archivo CSV.");
+				this.vista.lblCreado.setText("Error al escribir en el archivo CSV.");
 			}
 		}
 	}
@@ -651,10 +651,10 @@ public class Controlador implements ActionListener {
 		if (eliminada) {
 			try {
 				crearCSV(contenido, "files/metricas_contenido.csv");
-				System.out.println("Publicación eliminada exitosamente.");
+				this.vista.lblCreado.setText("Publicación eliminada exitosamente.");
 			} catch (Exception e) {
 				e.printStackTrace();
-				System.out.println("Error al escribir en el archivo CSV.");
+				this.vista.lblCreado.setText("Error al escribir en el archivo CSV.");
 			}
 		}
 	}
@@ -950,12 +950,12 @@ public class Controlador implements ActionListener {
 			contenido.add(contenido1);
 			crearCSV(contenido, "files/metricas_contenido.csv");
 
-			System.out.println("Publicación añadida con éxito.");
+			this.vista.lblCreado.setText("Publicación añadida con éxito.");
 
 		} catch (NumberFormatException e) {
-			System.out.println("Error: " + e.getMessage());
+			this.vista.lblCreado.setText("Error: " + e.getMessage());
 		} catch (Exception e) {
-			System.out.println("Error: " + e.getMessage());
+			this.vista.lblCreado.setText("Error: " + e.getMessage());
 		}
 	}
 
@@ -981,9 +981,9 @@ public class Controlador implements ActionListener {
 
 			if (encontrado) {
 				crearCSV(contenido, "files/metricas_contenido.csv");
-				System.out.println("Publicación modificada y guardada con éxito.");
+				this.vista.lblCreado.setText("Publicación modificada y guardada con éxito.");
 			} else {
-				System.out.println("No se encontró la publicación con los datos proporcionados.");
+				this.vista.lblCreado.setText("No se encontró la publicación con los datos proporcionados.");
 			}
 
 		} catch (Exception e) {
@@ -1007,9 +1007,9 @@ public class Controlador implements ActionListener {
 			}
 			crearCSV(contenido, "files/metricas_contenido.csv");
 			if (eliminadas) {
-				System.out.println("Publicaciones eliminadas con éxito.");
+				this.vista.lblCreado.setText("Publicaciones eliminadas con éxito.");
 			} else {
-				System.out.println("No se encontraron publicaciones que eliminar.");
+				this.vista.lblCreado.setText("No se encontraron publicaciones que eliminar.");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
