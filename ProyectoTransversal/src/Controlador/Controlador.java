@@ -90,6 +90,7 @@ public class Controlador implements ActionListener {
 		this.vista.btncolaboracionesajson.addActionListener(this);
 		this.vista.listStreamers.addListSelectionListener(e -> creadorSeleccionado = mostrarDatosStreamer(streamer));
 		this.vista.listColabs.addListSelectionListener(e -> verColaboracion(creadorSeleccionado));
+		this.vista.listMetricas.addListSelectionListener(e -> verMetricas());
 		this.vista.comboBoxPlataforma.addActionListener(this);
 		this.vista.comboBoxHistorial.addActionListener(this);
 		this.vista.btnInfoCreador.addActionListener(this);
@@ -105,6 +106,9 @@ public class Controlador implements ActionListener {
 		this.vista.btnmodificarpublicacionenespecifico.addActionListener(this);
 		this.vista.btnModificarLikes.addActionListener(this);
 		this.vista.btnSalirInfoGen.addActionListener(this);
+		this.vista.btnSalirInfoGen2.addActionListener(this);
+		this.vista.btnMetricasContenido.addActionListener(this);
+
 		streamer = leer();
 		contenido = abrirCSV("files/metricas_contenido.csv");
 		agregarcomboxestado();
@@ -299,8 +303,19 @@ public class Controlador implements ActionListener {
 				vista.panelMostrarTodo.setVisible(false);
 			}
 		}
-		if(vista.btnSalirInfoGen==e.getSource()) {
-			salirInfoGeneral();
+		if (vista.btnSalirInfoGen == e.getSource()) {
+			salirInfoGeneral(vista.btnSalirInfoGen);
+		}
+		if (e.getSource() == vista.btnMetricasContenido) {
+			if (creadorSeleccionado != null) {
+				llenarMetricasContenido(creadorSeleccionado);
+				this.vista.panelMostrarMetricasCSV.setVisible(true);
+				vista.panelMostrarTodo.setVisible(false);
+			}
+		}
+
+		if (vista.btnSalirInfoGen2 == e.getSource()) {
+			salirInfoGeneral(vista.btnSalirInfoGen2);
 		}
 
 		if (e.getSource() == vista.btnJoptionPaint) {
@@ -309,16 +324,30 @@ public class Controlador implements ActionListener {
 
 	}
 
-	private void salirInfoGeneral() {
-		this.vista.panelMostrarColabs.setVisible(false);
-		vista.panelMostrarTodo.setVisible(true);
-		// Establecemos los valores en los elementos de la interfaz
-		vista.lblIdMostrarColaborador.setText(""); // Colaborador
-		vista.lblTematicaMostrar2.setText(""); // Temática
-		vista.lblMostrarFechaInicio.setText(""); // Fecha de inicio
-		vista.lblFechaFinMostrar.setText(""); // Fecha de fin
-		vista.lblTipoColabMostrar.setText(""); // Tipo
-		vista.lblEstadoColabMostrar.setText("");
+	private void salirInfoGeneral(JButton botonPasado) {
+		JButton boton = botonPasado;
+		if (boton == vista.btnSalirInfoGen2) {
+			this.vista.panelMostrarMetricasCSV.setVisible(false);
+			vista.panelMostrarTodo.setVisible(true);
+			vista.lblContenidoMetricaMostrar.setText("");
+			vista.lblMostrarPlataformaMetrica.setText("");
+			vista.lblTipoContenidoMetricaMostrar.setText("");
+			vista.lblFechaMetricaMostrar.setText("");
+			vista.lblVistasMetricasMostrar.setText("");
+			vista.lblMeGustaMetricasMostrar.setText("");
+			vista.lblCompartidosMetricasMostrar.setText("");
+			vista.lblComentariosMetricasMostrar.setText("");
+		} else if (boton == vista.btnSalirInfoGen) {
+			this.vista.panelMostrarColabs.setVisible(false);
+			vista.panelMostrarTodo.setVisible(true);
+			// Establecemos los valores en los elementos de la interfaz
+			vista.lblIdMostrarColaborador.setText(""); // Colaborador
+			vista.lblTematicaMostrar2.setText(""); // Temática
+			vista.lblMostrarFechaInicio.setText(""); // Fecha de inicio
+			vista.lblFechaFinMostrar.setText(""); // Fecha de fin
+			vista.lblTipoColabMostrar.setText(""); // Tipo
+			vista.lblEstadoColabMostrar.setText("");
+		}
 	}
 
 	public void agregarcomboxestado() {
@@ -421,6 +450,73 @@ public class Controlador implements ActionListener {
 			modelo.addElement(elementoJlist);
 		}
 		this.vista.listColabs.setModel(modelo);
+	}
+
+	public void llenarMetricasContenido(JsonNode creadorSeleccionado) {
+
+		DefaultListModel<String> modelo = new DefaultListModel<>();
+		modelo.setSize(0);
+		String idCreador = creadorSeleccionado.get("id").asText();
+
+		if (idCreador != null) {
+			for (Contenido conten : contenido) {
+				String idCreadorMetrica = conten.getCreador_id();
+				if (idCreadorMetrica.equalsIgnoreCase(idCreador)) {
+					String contenido = conten.getContenido();
+					String tipocontenido = conten.getTipo();
+					String elementoJlist = contenido + ", tipo: " + tipocontenido;
+					modelo.addElement(elementoJlist);
+
+				}
+			}
+			this.vista.listMetricas.setModel(modelo);
+		}
+
+	}
+
+	public void verMetricas() {
+		// Supongamos que el valor seleccionado es algo como este:
+		String metricaSeleccionada = (String) vista.listMetricas.getSelectedValue();
+
+		if (metricaSeleccionada == null || metricaSeleccionada.trim().isEmpty()) {
+			// Manejar el caso donde el nombre seleccionado es nulo o vacío
+			return;
+		}
+
+		// Dividimos por la coma para separar las partes
+		String[] partes = metricaSeleccionada.split(",");
+		// Validamos que tenga al menos dos partes
+		if (partes.length < 2) {
+			System.out.println("Formato inválido.");
+			return;
+		}
+
+		// Extraemos la primera parte, que corresponde a la colaboración
+		String contenidoSeleccionado = partes[0].trim();
+
+		if (contenido != null) {
+			for (Contenido conten : contenido) {
+				String contenidoMetrica = conten.getContenido();
+				if (contenidoMetrica.equalsIgnoreCase(contenidoSeleccionado)) {
+					String tipocontenido = conten.getTipo();
+					String plataforma = conten.getPlataforma();
+					String fecha = conten.getFecha();
+					String vistas = String.valueOf(conten.getVistas());
+					String meGusta = String.valueOf(conten.getMe_gustas());
+					String comentarios = String.valueOf(conten.getComentarios());
+					String compartidos = String.valueOf(conten.getCompartidos());
+
+					vista.lblContenidoMetricaMostrar.setText(contenidoMetrica);
+					vista.lblMostrarPlataformaMetrica.setText(plataforma);
+					vista.lblTipoContenidoMetricaMostrar.setText(tipocontenido);
+					vista.lblFechaMetricaMostrar.setText(fecha);
+					vista.lblVistasMetricasMostrar.setText(vistas);
+					vista.lblMeGustaMetricasMostrar.setText(meGusta);
+					vista.lblCompartidosMetricasMostrar.setText(compartidos);
+					vista.lblComentariosMetricasMostrar.setText(comentarios);
+				}
+			}
+		}
 	}
 
 	public void verColaboracion(JsonNode creatorNode) {
