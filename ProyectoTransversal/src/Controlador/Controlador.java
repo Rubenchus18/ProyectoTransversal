@@ -36,6 +36,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -72,6 +73,7 @@ public class Controlador implements ActionListener {
 	List<Contenido> contenido = new ArrayList<Contenido>();
 	JsonNode creadorSeleccionado;
 	JsonNode plataformaSeleccionada;
+	JsonNode colabSeleccionada;
 	ArrayList<ImageIcon> fotosIcon = new ArrayList<ImageIcon>();
 
 	public Controlador(Vista vista) throws JsonParseException, JsonMappingException, IOException {
@@ -87,6 +89,7 @@ public class Controlador implements ActionListener {
 		this.vista.btnExportarInfrome_reportejson.addActionListener(this);
 		this.vista.btncolaboracionesajson.addActionListener(this);
 		this.vista.listStreamers.addListSelectionListener(e -> creadorSeleccionado = mostrarDatosStreamer(streamer));
+		this.vista.listColabs.addListSelectionListener(e -> verColaboracion(creadorSeleccionado));
 		this.vista.comboBoxPlataforma.addActionListener(this);
 		this.vista.comboBoxHistorial.addActionListener(this);
 		this.vista.btnInfoCreador.addActionListener(this);
@@ -101,6 +104,7 @@ public class Controlador implements ActionListener {
 		this.vista.btnEliminarMin.addActionListener(this);
 		this.vista.btnmodificarpublicacionenespecifico.addActionListener(this);
 		this.vista.btnModificarLikes.addActionListener(this);
+		this.vista.btnSalirInfoGen.addActionListener(this);
 		streamer = leer();
 		contenido = abrirCSV("files/metricas_contenido.csv");
 		agregarcomboxestado();
@@ -115,105 +119,105 @@ public class Controlador implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		// Nuevo
-		if(e.getSource()==this.vista.btnInsertarCo) {
+		if (e.getSource() == this.vista.btnInsertarCo) {
 			try {
 				agregarColaboracion(streamer);
 			} catch (IOException e1) {
-			
+
 				e1.printStackTrace();
 			}
 		}
-		if(e.getSource()==this.vista.btnAñadirPublic) {
+		if (e.getSource() == this.vista.btnAñadirPublic) {
 			try {
 				añadirPublicacion(contenido);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
 		}
-		if(e.getSource()==this.vista.btnEliminarPublicacion) {
+		if (e.getSource() == this.vista.btnEliminarPublicacion) {
 			eliminarPublicacion(contenido);
 		}
-		if(e.getSource()==this.vista.btnEliminarMin) {
+		if (e.getSource() == this.vista.btnEliminarMin) {
 			eliminarPublicacionesPorLikes(contenido);
 		}
-		if(e.getSource()==this.vista.btnmodificarpublicacionenespecifico) {
+		if (e.getSource() == this.vista.btnmodificarpublicacionenespecifico) {
 			modificarPublicacion(contenido);
 		}
-		if(e.getSource()==this.vista.btnModificarLikes) {
+		if (e.getSource() == this.vista.btnModificarLikes) {
 			modificarPublicacion2(contenido);
 		}
-		 if (e.getSource() == this.vista.comboBoxelegiropciones) {
-		        String selectedOption = (String) this.vista.comboBoxelegiropciones.getSelectedItem();
+		if (e.getSource() == this.vista.comboBoxelegiropciones) {
+			String selectedOption = (String) this.vista.comboBoxelegiropciones.getSelectedItem();
 
-		        this.vista.panelInsertarColaboradores.setVisible(true);
-		        this.vista.panelEliminarpubli.setVisible(false);
-		        this.vista.panelañadirpublicion.setVisible(false);
-		        this.vista.paneleliminarminimovistas.setVisible(false);
-		        this.vista.panelModificarPublicacion.setVisible(false);
-		        this.vista.panelmodificarLikesComentarios.setVisible(false);
-		        switch (selectedOption) {
-		            case "Insertar colaboraciones":
-		                this.vista.panelInsertarColaboradores.setVisible(true);
-		                this.vista.panelañadirpublicion.setVisible(false);
-		                this.vista.panelEliminarpubli.setVisible(false);
-		                this.vista.paneleliminarminimovistas.setVisible(false);
-				        this.vista.panelModificarPublicacion.setVisible(false);
-				        this.vista.panelmodificarLikesComentarios.setVisible(false);
-				        this.vista.lblCreado.setText("");
-		                break;
-		            case "Añadir publicaciones":
-		                this.vista.panelInsertarColaboradores.setVisible(false);
-		                this.vista.panelañadirpublicion.setVisible(true);
-		                this.vista.panelEliminarpubli.setVisible(false);
-		                this.vista.paneleliminarminimovistas.setVisible(false);
-				        this.vista.panelModificarPublicacion.setVisible(false);
-				        this.vista.panelmodificarLikesComentarios.setVisible(false);
-				        this.vista.lblCreado.setText("");
-		                break;
-		            case "Eliminar publicaciones":
-		            	 this.vista.panelInsertarColaboradores.setVisible(false);
-			                this.vista.panelañadirpublicion.setVisible(false);
-			                this.vista.panelEliminarpubli.setVisible(true);
-			                this.vista.paneleliminarminimovistas.setVisible(false);
-					        this.vista.panelModificarPublicacion.setVisible(false);
-					        this.vista.panelmodificarLikesComentarios.setVisible(false);
-					        this.vista.lblCreado.setText("");
-		                break;
-		            case "Eliminar minimo de vistas":
-		            	 this.vista.panelInsertarColaboradores.setVisible(false);
-			                this.vista.panelañadirpublicion.setVisible(false);
-			                this.vista.panelEliminarpubli.setVisible(false);
-			                this.vista.paneleliminarminimovistas.setVisible(true);
-					        this.vista.panelModificarPublicacion.setVisible(false);
-					        this.vista.panelmodificarLikesComentarios.setVisible(false);
-					        this.vista.lblCreado.setText("");
-		            	break;
-		            case "Modificar publicacion":
-		            	 this.vista.panelInsertarColaboradores.setVisible(false);
-			                this.vista.panelañadirpublicion.setVisible(false);
-			                this.vista.panelEliminarpubli.setVisible(false);
-			                this.vista.paneleliminarminimovistas.setVisible(false);
-					        this.vista.panelModificarPublicacion.setVisible(true);
-					        this.vista.panelmodificarLikesComentarios.setVisible(false);
-					        this.vista.lblCreado.setText("");
-		            	break;
-		            case "Modificar Like y Visualizaciones":
-		            	 this.vista.panelInsertarColaboradores.setVisible(false);
-			                this.vista.panelañadirpublicion.setVisible(false);
-			                this.vista.panelEliminarpubli.setVisible(false);
-			                this.vista.paneleliminarminimovistas.setVisible(false);
-					        this.vista.panelModificarPublicacion.setVisible(false);
-					        this.vista.panelmodificarLikesComentarios.setVisible(true);
-					        this.vista.lblCreado.setText("");
-		            	break;
-		            default:
-		                break;
-		        }
-		    }
+			this.vista.panelInsertarColaboradores.setVisible(true);
+			this.vista.panelEliminarpubli.setVisible(false);
+			this.vista.panelañadirpublicion.setVisible(false);
+			this.vista.paneleliminarminimovistas.setVisible(false);
+			this.vista.panelModificarPublicacion.setVisible(false);
+			this.vista.panelmodificarLikesComentarios.setVisible(false);
+			switch (selectedOption) {
+			case "Insertar colaboraciones":
+				this.vista.panelInsertarColaboradores.setVisible(true);
+				this.vista.panelañadirpublicion.setVisible(false);
+				this.vista.panelEliminarpubli.setVisible(false);
+				this.vista.paneleliminarminimovistas.setVisible(false);
+				this.vista.panelModificarPublicacion.setVisible(false);
+				this.vista.panelmodificarLikesComentarios.setVisible(false);
+				this.vista.lblCreado.setText("");
+				break;
+			case "Añadir publicaciones":
+				this.vista.panelInsertarColaboradores.setVisible(false);
+				this.vista.panelañadirpublicion.setVisible(true);
+				this.vista.panelEliminarpubli.setVisible(false);
+				this.vista.paneleliminarminimovistas.setVisible(false);
+				this.vista.panelModificarPublicacion.setVisible(false);
+				this.vista.panelmodificarLikesComentarios.setVisible(false);
+				this.vista.lblCreado.setText("");
+				break;
+			case "Eliminar publicaciones":
+				this.vista.panelInsertarColaboradores.setVisible(false);
+				this.vista.panelañadirpublicion.setVisible(false);
+				this.vista.panelEliminarpubli.setVisible(true);
+				this.vista.paneleliminarminimovistas.setVisible(false);
+				this.vista.panelModificarPublicacion.setVisible(false);
+				this.vista.panelmodificarLikesComentarios.setVisible(false);
+				this.vista.lblCreado.setText("");
+				break;
+			case "Eliminar minimo de vistas":
+				this.vista.panelInsertarColaboradores.setVisible(false);
+				this.vista.panelañadirpublicion.setVisible(false);
+				this.vista.panelEliminarpubli.setVisible(false);
+				this.vista.paneleliminarminimovistas.setVisible(true);
+				this.vista.panelModificarPublicacion.setVisible(false);
+				this.vista.panelmodificarLikesComentarios.setVisible(false);
+				this.vista.lblCreado.setText("");
+				break;
+			case "Modificar publicacion":
+				this.vista.panelInsertarColaboradores.setVisible(false);
+				this.vista.panelañadirpublicion.setVisible(false);
+				this.vista.panelEliminarpubli.setVisible(false);
+				this.vista.paneleliminarminimovistas.setVisible(false);
+				this.vista.panelModificarPublicacion.setVisible(true);
+				this.vista.panelmodificarLikesComentarios.setVisible(false);
+				this.vista.lblCreado.setText("");
+				break;
+			case "Modificar Like y Visualizaciones":
+				this.vista.panelInsertarColaboradores.setVisible(false);
+				this.vista.panelañadirpublicion.setVisible(false);
+				this.vista.panelEliminarpubli.setVisible(false);
+				this.vista.paneleliminarminimovistas.setVisible(false);
+				this.vista.panelModificarPublicacion.setVisible(false);
+				this.vista.panelmodificarLikesComentarios.setVisible(true);
+				this.vista.lblCreado.setText("");
+				break;
+			default:
+				break;
+			}
+		}
 		if (e.getSource() == this.vista.btnVerStreamer) {
 			this.vista.panelMostrarTodo.setVisible(true);
 			vista.panelMenu.setVisible(false);
-			
+
 			this.vista.panelBotones.setVisible(false);
 		}
 		if (e.getSource() == this.vista.btnSalir) {
@@ -266,7 +270,7 @@ public class Controlador implements ActionListener {
 				e1.printStackTrace();
 			}
 		}
-		if(e.getSource()==this.vista.btnInfoCreador) {
+		if (e.getSource() == this.vista.btnInfoCreador) {
 			this.vista.panelMenu.setVisible(false);
 			this.vista.panelModifcar.setVisible(true);
 		}
@@ -282,17 +286,39 @@ public class Controlador implements ActionListener {
 				verHistorial(selec, plataformaSeleccionada);
 			}
 		}
-		
-		if(e.getSource()==this.vista.btnVolverMenu) {
+
+		if (e.getSource() == this.vista.btnVolverMenu) {
 			this.vista.panelMenu.setVisible(true);
 			this.vista.panelModifcar.setVisible(false);
 		}
-		
-		
-		if (e.getSource() == vista.btnJoptionPaint) {
-		    bomba();
+
+		if (e.getSource() == vista.btnColaboraciones) {
+			if (creadorSeleccionado != null) {
+				llenarJlistColabs(creadorSeleccionado);
+				this.vista.panelMostrarColabs.setVisible(true);
+				vista.panelMostrarTodo.setVisible(false);
+			}
+		}
+		if(vista.btnSalirInfoGen==e.getSource()) {
+			salirInfoGeneral();
 		}
 
+		if (e.getSource() == vista.btnJoptionPaint) {
+			bomba();
+		}
+
+	}
+
+	private void salirInfoGeneral() {
+		this.vista.panelMostrarColabs.setVisible(false);
+		vista.panelMostrarTodo.setVisible(true);
+		// Establecemos los valores en los elementos de la interfaz
+		vista.lblIdMostrarColaborador.setText(""); // Colaborador
+		vista.lblTematicaMostrar2.setText(""); // Temática
+		vista.lblMostrarFechaInicio.setText(""); // Fecha de inicio
+		vista.lblFechaFinMostrar.setText(""); // Fecha de fin
+		vista.lblTipoColabMostrar.setText(""); // Tipo
+		vista.lblEstadoColabMostrar.setText("");
 	}
 
 	public void agregarcomboxestado() {
@@ -311,12 +337,14 @@ public class Controlador implements ActionListener {
 		this.vista.comboBoxparaModificar.addItem("comentarios");
 		this.vista.comboBoxparaModificar.addItem("compartidos");
 	}
+
 	public void agregarcomboboxmodificar1() {
 		this.vista.comboBoxOpcion.addItem("vistas");
 		this.vista.comboBoxOpcion.addItem("me_gusta");
 		this.vista.comboBoxOpcion.addItem("comentarios");
 		this.vista.comboBoxOpcion.addItem("compartidos");
 	}
+
 	public void agregarcomboxopciones() {
 		this.vista.comboBoxelegiropciones.addItem("Insertar colaboraciones");
 		this.vista.comboBoxelegiropciones.addItem("Añadir publicaciones");
@@ -325,6 +353,7 @@ public class Controlador implements ActionListener {
 		this.vista.comboBoxelegiropciones.addItem("Modificar publicacion");
 		this.vista.comboBoxelegiropciones.addItem("Modificar Like y Visualizaciones");
 	}
+
 	public ArrayNode leer() throws JsonProcessingException, IOException {
 		DefaultTableModel modelo = new DefaultTableModel();
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -333,7 +362,6 @@ public class Controlador implements ActionListener {
 		ArrayNode streamer = (ArrayNode) rootNode;
 		return streamer;
 	}
-	
 
 	public List<Contenido> abrirCSV(String rutaCSV) {
 		List<Contenido> contenido = null;
@@ -370,6 +398,7 @@ public class Controlador implements ActionListener {
 		}
 		this.vista.listStreamers.setModel(modelo);
 	}
+
 	public void llenarJlistStreamer(ArrayNode streamer) {
 		DefaultListModel<String> modelo = new DefaultListModel<>();
 		modelo.setSize(0);
@@ -381,6 +410,63 @@ public class Controlador implements ActionListener {
 		}
 		this.vista.liststreamer.setModel(modelo);
 	}
+
+	public void llenarJlistColabs(JsonNode creador) {
+		DefaultListModel<String> modelo = new DefaultListModel<>();
+		modelo.setSize(0);
+		for (JsonNode creatorNode : creador.get("colaboraciones")) {
+			String colaborador = creatorNode.get("colaborador").asText();
+			String tematica = creatorNode.get("tematica").asText();
+			String elementoJlist = "Colaborador: " + colaborador + ", tematica: " + tematica;
+			modelo.addElement(elementoJlist);
+		}
+		this.vista.listColabs.setModel(modelo);
+	}
+
+	public void verColaboracion(JsonNode creatorNode) {
+		String colaboracionSeleccionada = (String) vista.listColabs.getSelectedValue();
+
+		if (colaboracionSeleccionada == null || colaboracionSeleccionada.trim().isEmpty()) {
+			// Manejar el caso donde el nombre seleccionado es nulo o vacío
+			return;
+		}
+
+		// Dividimos por la coma para separar las partes
+		String[] partes = colaboracionSeleccionada.split(",");
+		// Validamos que tenga al menos dos partes
+		if (partes.length < 2) {
+			System.out.println("Formato inválido.");
+			return;
+		}
+
+		// Extraemos el colaborador eliminando "Colaborador:"
+		String colaborador = partes[0].replace("Colaborador:", "").trim();
+
+		// Extraemos la temática eliminando "tematica:"
+		String tematica = partes[1].replace("tematica:", "").trim();
+
+		if (colaborador != null && tematica != null) {
+			for (JsonNode colab : creatorNode.get("colaboraciones")) {
+				String colaboradorJson = colab.get("colaborador").asText();
+				String tematicaJson = colab.get("tematica").asText();
+				if (colaborador.equalsIgnoreCase(colaboradorJson) && tematica.equalsIgnoreCase(tematicaJson)) {
+					String fechaInicio = colab.get("fecha_inicio").asText();
+					String fechaFin = colab.get("fecha_fin").asText();
+					String tipo = colab.get("tipo").asText();
+					String estado = colab.get("estado").asText();
+
+					// Establecemos los valores en los elementos de la interfaz
+					vista.lblIdMostrarColaborador.setText(colaboradorJson); // Colaborador
+					vista.lblTematicaMostrar2.setText(tematicaJson); // Temática
+					vista.lblMostrarFechaInicio.setText(fechaInicio); // Fecha de inicio
+					vista.lblFechaFinMostrar.setText(fechaFin); // Fecha de fin
+					vista.lblTipoColabMostrar.setText(tipo); // Tipo
+					vista.lblEstadoColabMostrar.setText(estado);
+				}
+			}
+		}
+	}
+
 	// 1
 	public JsonNode mostrarDatosStreamer(ArrayNode streamer) {
 		String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
@@ -409,7 +495,11 @@ public class Controlador implements ActionListener {
 					JsonNode estadisticas = creatorNode.get("estadisticas");
 					String interaccionesTotales = estadisticas.get("interacciones_totales").asText();
 					String promedioVistasMensuales = estadisticas.get("promedio_vistas_mensuales").asText();
-					String tasaCrecimientoSeguidores = estadisticas.get("tasa_crecimiento_seguidores").asText();
+					// Obtener el valor double de la tasa de crecimiento de seguidores
+					Double tasaCrecimientoSeguidoresDouble = estadisticas.get("tasa_crecimiento_seguidores").asDouble();
+
+					// Convertir el double a un porcentaje
+					String tasaCrecimientoSeguidores = String.format("%.2f%%", tasaCrecimientoSeguidoresDouble);
 
 					vista.lblIdMostrar.setText(idCreador);
 					vista.lblNombreMostrar.setText(nombreCreador);
@@ -488,19 +578,18 @@ public class Controlador implements ActionListener {
 
 		JLabel label = vista.lblFotoPlataforma;
 		int width = vista.lblFotoPlataforma.getWidth();
-	    int height = vista.lblFotoPlataforma.getHeight();
+		int height = vista.lblFotoPlataforma.getHeight();
 
 		for (String ruta : rutas) {
 			ImageIcon imagen = new ImageIcon(getClass().getResource(ruta));
-			Image img=imagen.getImage();
-			Image imgEscalada = img.getScaledInstance(width, height,
-					Image.SCALE_SMOOTH);
+			Image img = imagen.getImage();
+			Image imgEscalada = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 			fotosIcon.add(new ImageIcon(imgEscalada));
 		}
 	}
 
 	public void verHistorial(String fechaSeleccionada, JsonNode plataforma) {
-		
+
 		vista.lblHistNuevosSeguidores1Mostrar.setText("");
 		vista.lblHistInteracciones1Mostrar.setText("");
 		vista.lblHistFecha1Mostrar.setText("");
@@ -513,7 +602,6 @@ public class Controlador implements ActionListener {
 					String interacciones = historico.get("interacciones").asText();
 					String fecha = historico.get("fecha").asText();
 
-				
 					vista.lblHistFecha1Mostrar.setText(fecha);
 					vista.lblHistInteracciones1Mostrar.setText(interacciones);
 					vista.lblHistNuevosSeguidores1Mostrar.setText(nuevosSeguidores);
@@ -524,11 +612,10 @@ public class Controlador implements ActionListener {
 	}
 
 	public void rellenarComboHistorico(JsonNode creatorNode) {
-		
+
 		vista.comboBoxHistorial.removeAllItems();
 		Set<String> fechasUnicas = new HashSet<>();
 
-	
 		for (JsonNode historico : creatorNode.get("historico")) {
 			String fechaHistorial = historico.get("fecha").asText();
 			fechasUnicas.add(fechaHistorial);
@@ -551,45 +638,43 @@ public class Controlador implements ActionListener {
 				"Promedio Me Gustas" };
 
 		modelo2.setColumnIdentifiers(nombrePromedios);
-	
 
 	}
 
 //3
 	public void agregarColaboracion(ArrayNode streamer)
-	        throws JsonGenerationException, JsonMappingException, IOException {
-	    File file = new File("files/creadores.json");
-	    String idCreador1 = this.vista.textFieldCreador1.getText();
-	    String colaborador = this.vista.textFieldNombreColaborador.getText();
-	    String tematica = this.vista.textFieldTematica.getText();
-	    String fechaInicio = this.vista.textFieldFechaInicio.getText();
-	    String fechaFin = this.vista.textFieldFechaFin.getText();
-	    String tipoColaboracion = this.vista.textFieldTipoColaboracion.getText();
-	    String estadoColaboracion = (String) this.vista.comboBoxEstadoColaboracion.getSelectedItem();
+			throws JsonGenerationException, JsonMappingException, IOException {
+		File file = new File("files/creadores.json");
+		String idCreador1 = this.vista.textFieldCreador1.getText();
+		String colaborador = this.vista.textFieldNombreColaborador.getText();
+		String tematica = this.vista.textFieldTematica.getText();
+		String fechaInicio = this.vista.textFieldFechaInicio.getText();
+		String fechaFin = this.vista.textFieldFechaFin.getText();
+		String tipoColaboracion = this.vista.textFieldTipoColaboracion.getText();
+		String estadoColaboracion = (String) this.vista.comboBoxEstadoColaboracion.getSelectedItem();
 
-	  
-	    if (idCreador1.isEmpty() || colaborador.isEmpty() || tematica.isEmpty() ||
-	        fechaInicio.isEmpty() || fechaFin.isEmpty() || tipoColaboracion.isEmpty() || estadoColaboracion == null) {
-	        this.vista.lblCreado.setText("Error: Todos los campos deben estar rellenos.");
-	        return; 
-	    }
+		if (idCreador1.isEmpty() || colaborador.isEmpty() || tematica.isEmpty() || fechaInicio.isEmpty()
+				|| fechaFin.isEmpty() || tipoColaboracion.isEmpty() || estadoColaboracion == null) {
+			this.vista.lblCreado.setText("Error: Todos los campos deben estar rellenos.");
+			return;
+		}
 
-	    for (JsonNode creatorNode : streamer) {
-	        String creatorId = creatorNode.get("id").asText();
-	        if (creatorId != null && creatorId.equals(idCreador1)) {
-	            ObjectNode nuevaColaboracion = objectMapper.createObjectNode();
-	            nuevaColaboracion.put("colaborador", colaborador);
-	            nuevaColaboracion.put("tematica", tematica);
-	            nuevaColaboracion.put("fecha_inicio", fechaInicio);
-	            nuevaColaboracion.put("fecha_fin", fechaFin);
-	            nuevaColaboracion.put("tipo", tipoColaboracion);
-	            nuevaColaboracion.put("estado", estadoColaboracion);
-	            ((ArrayNode) creatorNode.get("colaboraciones")).add(nuevaColaboracion);
-	            objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, streamer);
-	            this.vista.lblCreado.setText("Colaboración añadida exitosamente.");
-	            return;
-	        }
-	    }
+		for (JsonNode creatorNode : streamer) {
+			String creatorId = creatorNode.get("id").asText();
+			if (creatorId != null && creatorId.equals(idCreador1)) {
+				ObjectNode nuevaColaboracion = objectMapper.createObjectNode();
+				nuevaColaboracion.put("colaborador", colaborador);
+				nuevaColaboracion.put("tematica", tematica);
+				nuevaColaboracion.put("fecha_inicio", fechaInicio);
+				nuevaColaboracion.put("fecha_fin", fechaFin);
+				nuevaColaboracion.put("tipo", tipoColaboracion);
+				nuevaColaboracion.put("estado", estadoColaboracion);
+				((ArrayNode) creatorNode.get("colaboraciones")).add(nuevaColaboracion);
+				objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, streamer);
+				this.vista.lblCreado.setText("Colaboración añadida exitosamente.");
+				return;
+			}
+		}
 	}
 
 	// 4
@@ -625,8 +710,10 @@ public class Controlador implements ActionListener {
 			}
 			crearCSV8(contenidoList, csvFile);
 			this.vista.lblResultado.setText("Colaboraciones CSV creado correctamnete");
+			this.vista.lblResultado.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
+			this.vista.lblFallo.setVisible(true);
 			this.vista.lblFallo.setText("Error");
 		}
 	}
@@ -647,119 +734,119 @@ public class Controlador implements ActionListener {
 
 	// 5
 	public void modificarPublicacion(List<Contenido> contenido) {
-	    String idStreamer = this.vista.textFieldidstreamer.getText();
-	    String fecha = this.vista.textFieldfehca.getText();
-	    String tipo = (String) this.vista.comboBoxparaModificar.getSelectedItem();
-	    String nuevoDato = this.vista.textFieldDato.getText();
-	    boolean modificada = false;
-	    if (idStreamer.isEmpty() || fecha.isEmpty() || tipo == null || nuevoDato.isEmpty()) {
-	        this.vista.lblCreado.setText("Error: Todos los campos deben estar completos.");
-	        
-	    }
+		String idStreamer = this.vista.textFieldidstreamer.getText();
+		String fecha = this.vista.textFieldfehca.getText();
+		String tipo = (String) this.vista.comboBoxparaModificar.getSelectedItem();
+		String nuevoDato = this.vista.textFieldDato.getText();
+		boolean modificada = false;
+		if (idStreamer.isEmpty() || fecha.isEmpty() || tipo == null || nuevoDato.isEmpty()) {
+			this.vista.lblCreado.setText("Error: Todos los campos deben estar completos.");
 
-	    for (Contenido cont : contenido) {
-	        if (cont.getCreador_id().equals(idStreamer) && cont.getFecha().equals(fecha)) {
-	            switch (tipo.toLowerCase()) {
-	                case "me_gusta":
-	                    cont.setMe_gustas(Integer.parseInt(nuevoDato));
-	                    break;
-	                case "comentarios":
-	                    cont.setComentarios(Integer.parseInt(nuevoDato));
-	                    break;
-	                case "vistas":
-	                    cont.setVistas(Integer.parseInt(nuevoDato));
-	                    break;
-	                case "compartidos":
-	                    cont.setCompartidos(Integer.parseInt(nuevoDato));
-	                    break;
-	                case "tipo":
-	                    cont.setTipo(nuevoDato);
-	                    break;
-	                case "contenido":
-	                    cont.setContenido(nuevoDato);
-	                    break;
-	                case "fecha":
-	                    cont.setFecha(nuevoDato);
-	                    break;
-	                case "plataforma":
-	                    cont.setPlataforma(nuevoDato);
-	                    break;
-	                case "creador_id":
-	                    cont.setCreador_id(nuevoDato);
-	                    break;
-	                default:
-	                    System.out.println("Campo no reconocido: " + tipo);
-	                    return;
-	            }
-	            modificada = true;
-	            break;
-	        }
-	    }
-	    if (modificada) {
-	        try {
-	            crearCSV(contenido, "files/metricas_contenido.csv");
-	            this.vista.lblCreado.setText("Publicación modificada exitosamente.");
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            this.vista.lblCreado.setText("Error al escribir en el archivo CSV.");
-	        }
-	    } else {
-	        this.vista.lblCreado.setText("Error: No se encontró la publicación para modificar.");
-	    }
+		}
+
+		for (Contenido cont : contenido) {
+			if (cont.getCreador_id().equals(idStreamer) && cont.getFecha().equals(fecha)) {
+				switch (tipo.toLowerCase()) {
+				case "me_gusta":
+					cont.setMe_gustas(Integer.parseInt(nuevoDato));
+					break;
+				case "comentarios":
+					cont.setComentarios(Integer.parseInt(nuevoDato));
+					break;
+				case "vistas":
+					cont.setVistas(Integer.parseInt(nuevoDato));
+					break;
+				case "compartidos":
+					cont.setCompartidos(Integer.parseInt(nuevoDato));
+					break;
+				case "tipo":
+					cont.setTipo(nuevoDato);
+					break;
+				case "contenido":
+					cont.setContenido(nuevoDato);
+					break;
+				case "fecha":
+					cont.setFecha(nuevoDato);
+					break;
+				case "plataforma":
+					cont.setPlataforma(nuevoDato);
+					break;
+				case "creador_id":
+					cont.setCreador_id(nuevoDato);
+					break;
+				default:
+					System.out.println("Campo no reconocido: " + tipo);
+					return;
+				}
+				modificada = true;
+				break;
+			}
+		}
+		if (modificada) {
+			try {
+				crearCSV(contenido, "files/metricas_contenido.csv");
+				this.vista.lblCreado.setText("Publicación modificada exitosamente.");
+			} catch (Exception e) {
+				e.printStackTrace();
+				this.vista.lblCreado.setText("Error al escribir en el archivo CSV.");
+			}
+		} else {
+			this.vista.lblCreado.setText("Error: No se encontró la publicación para modificar.");
+		}
 	}
 
 	public void eliminarPublicacion(List<Contenido> contenido) {
-	    String tipo = (String) this.vista.comboBoxOpcion.getSelectedItem();
-	    String cantidadMinimaStr = this.vista.textFieldfecha.getText();
+		String tipo = (String) this.vista.comboBoxOpcion.getSelectedItem();
+		String cantidadMinimaStr = this.vista.textFieldfecha.getText();
 
-	    if (cantidadMinimaStr.isEmpty()) {
-	        this.vista.lblCreado.setText("Error: El campo de cantidad mínima no puede estar vacío.");
-	      
-	    }
-	    int cantidadMinima=0;
-	    try {
-	        cantidadMinima = Integer.parseInt(cantidadMinimaStr);
-	    } catch (NumberFormatException e) {
-	        this.vista.lblCreado.setText("Error: La cantidad mínima debe ser un número válido.");
-	    }
-	    boolean eliminada = false;
-	    Iterator<Contenido> iterator = contenido.iterator();
+		if (cantidadMinimaStr.isEmpty()) {
+			this.vista.lblCreado.setText("Error: El campo de cantidad mínima no puede estar vacío.");
 
-	    while (iterator.hasNext()) {
-	        Contenido cont = iterator.next();
-	        int cantidadActual = 0;
-	        switch (tipo) {
-	            case "vistas":
-	                cantidadActual = cont.getVistas();
-	                break;
-	            case "me_gusta":
-	                cantidadActual = cont.getMe_gustas();
-	                break;
-	            case "comentarios":
-	                cantidadActual = cont.getComentarios();
-	                break;
-	            case "compartidos":
-	                cantidadActual = cont.getCompartidos();
-	                break;
-	            default:
-	                break;
-	        }
-	        if (cantidadActual < cantidadMinima) {
-	            iterator.remove();
-	            eliminada = true;
-	        }
-	    }
-	    if (eliminada) {
-	        try {
-	            crearCSV(contenido, "files/metricas_contenido.csv");
-	            this.vista.lblCreado.setText("Publicaciones eliminadas exitosamente.");
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            this.vista.lblCreado.setText("Error al escribir en el archivo CSV.");
-	        }
-	    } else {
-	        this.vista.lblCreado.setText("No se encontraron publicaciones para eliminar.");
-	    }
+		}
+		int cantidadMinima = 0;
+		try {
+			cantidadMinima = Integer.parseInt(cantidadMinimaStr);
+		} catch (NumberFormatException e) {
+			this.vista.lblCreado.setText("Error: La cantidad mínima debe ser un número válido.");
+		}
+		boolean eliminada = false;
+		Iterator<Contenido> iterator = contenido.iterator();
+
+		while (iterator.hasNext()) {
+			Contenido cont = iterator.next();
+			int cantidadActual = 0;
+			switch (tipo) {
+			case "vistas":
+				cantidadActual = cont.getVistas();
+				break;
+			case "me_gusta":
+				cantidadActual = cont.getMe_gustas();
+				break;
+			case "comentarios":
+				cantidadActual = cont.getComentarios();
+				break;
+			case "compartidos":
+				cantidadActual = cont.getCompartidos();
+				break;
+			default:
+				break;
+			}
+			if (cantidadActual < cantidadMinima) {
+				iterator.remove();
+				eliminada = true;
+			}
+		}
+		if (eliminada) {
+			try {
+				crearCSV(contenido, "files/metricas_contenido.csv");
+				this.vista.lblCreado.setText("Publicaciones eliminadas exitosamente.");
+			} catch (Exception e) {
+				e.printStackTrace();
+				this.vista.lblCreado.setText("Error al escribir en el archivo CSV.");
+			}
+		} else {
+			this.vista.lblCreado.setText("No se encontraron publicaciones para eliminar.");
+		}
 	}
 
 	// 6
@@ -811,6 +898,7 @@ public class Controlador implements ActionListener {
 
 		objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File("files/reporte_creadores.json"), reporte);
 		this.vista.lblResultado.setText("Colaboraciones exportador en files correctamente");
+		this.vista.lblResultado.setVisible(true);
 	}
 
 	// 7
@@ -903,47 +991,50 @@ public class Controlador implements ActionListener {
 			}
 		}
 		crearCSV8(contenidoList, csvFile);
-		this.vista.lblResultado.setText("Reporte CSV creador correctamente");;
+		this.vista.lblResultado.setText("Reporte CSV creador correctamente");
+		this.vista.lblResultado.setVisible(true);
+
 	}
 
 	// 9
 	public void analisisComparativoRendimiento(List<Contenido> contenido) {
-	    Map<String, Map<String, int[]>> resultados = new HashMap<>();
-	    for (Contenido c : contenido) {
-	        String tipo = c.getTipo(); 
-	        String plataforma = c.getPlataforma(); 
-	        int vistas = c.getVistas();
-	        int meGusta = c.getMe_gustas();
+		Map<String, Map<String, int[]>> resultados = new HashMap<>();
+		for (Contenido c : contenido) {
+			String tipo = c.getTipo();
+			String plataforma = c.getPlataforma();
+			int vistas = c.getVistas();
+			int meGusta = c.getMe_gustas();
 
-	      
-	        resultados.putIfAbsent(tipo, new HashMap<>());
-	        resultados.get(tipo).putIfAbsent(plataforma, new int[2]); 
+			resultados.putIfAbsent(tipo, new HashMap<>());
+			resultados.get(tipo).putIfAbsent(plataforma, new int[2]);
 
-	        resultados.get(tipo).get(plataforma)[0] += vistas;
-	        resultados.get(tipo).get(plataforma)[1] += meGusta;
-	    }
-	    for (String tipo : resultados.keySet()) {
-	        System.out.println("Tipo de Contenido: " + tipo);
-	        for (String plataforma : resultados.get(tipo).keySet()) {
-	            int totalVistas = resultados.get(tipo).get(plataforma)[0];
-	            int totalMeGusta = resultados.get(tipo).get(plataforma)[1];
-	            int conteo = 0;
-	            for (Contenido c : contenido) {
-	                if (c.getTipo().equals(tipo) && c.getPlataforma().equals(plataforma)) {
-	                    conteo++;
-	                }
-	            }
-	            if (conteo > 0) {
-	                double promedioVistas = (double) totalVistas / conteo;
-	                double promedioMeGusta = (double) totalMeGusta / conteo;
+			resultados.get(tipo).get(plataforma)[0] += vistas;
+			resultados.get(tipo).get(plataforma)[1] += meGusta;
+		}
+		for (String tipo : resultados.keySet()) {
+			System.out.println("Tipo de Contenido: " + tipo);
+			for (String plataforma : resultados.get(tipo).keySet()) {
+				int totalVistas = resultados.get(tipo).get(plataforma)[0];
+				int totalMeGusta = resultados.get(tipo).get(plataforma)[1];
+				int conteo = 0;
+				for (Contenido c : contenido) {
+					if (c.getTipo().equals(tipo) && c.getPlataforma().equals(plataforma)) {
+						conteo++;
+					}
+				}
+				if (conteo > 0) {
+					double promedioVistas = (double) totalVistas / conteo;
+					double promedioMeGusta = (double) totalMeGusta / conteo;
 
-	                System.out.println("Plataforma: " + plataforma + " | Promedio Vistas: " + promedioVistas + " | Promedio Me Gusta: " + promedioMeGusta);
-	            } else {
-	                System.out.println("Plataforma: " + plataforma + " | No hay datos suficientes para calcular promedios.");
-	            }
-	        }
-	        System.out.println();
-	    }
+					System.out.println("Plataforma: " + plataforma + " | Promedio Vistas: " + promedioVistas
+							+ " | Promedio Me Gusta: " + promedioMeGusta);
+				} else {
+					System.out.println(
+							"Plataforma: " + plataforma + " | No hay datos suficientes para calcular promedios.");
+				}
+			}
+			System.out.println();
+		}
 	}
 
 	// 10
@@ -1010,136 +1101,142 @@ public class Controlador implements ActionListener {
 			objectMapper.writerWithDefaultPrettyPrinter()
 					.writeValue(new FileWriter("files/resume_rendimiento2023.json"), resumen);
 			this.vista.lblResultado.setText("Resument JSON mejor plataforma creador correctamente");
+			this.vista.lblResultado.setVisible(true);
+
 		} catch (IOException e) {
 			e.printStackTrace();
 			this.vista.lblFallo.setText("Error");
+			this.vista.lblFallo.setVisible(true);
+
 		}
 	}
 
 //11
 	public void añadirPublicacion(List<Contenido> contenido) throws IOException {
-	    String id_creador = this.vista.textFieldidcreador1.getText();
-	    String plataforma = this.vista.textFieldplataforma2.getText();
-	    String fecha = this.vista.textFieldFecha2.getText();
-	    String contenidoTexto = this.vista.textFieldContenido2.getText();
-	    String tipo = this.vista.textFieldTipo2.getText();
+		String id_creador = this.vista.textFieldidcreador1.getText();
+		String plataforma = this.vista.textFieldplataforma2.getText();
+		String fecha = this.vista.textFieldFecha2.getText();
+		String contenidoTexto = this.vista.textFieldContenido2.getText();
+		String tipo = this.vista.textFieldTipo2.getText();
 
-	    if (id_creador.isEmpty() || plataforma.isEmpty() || fecha.isEmpty() || 
-	        contenidoTexto.isEmpty() || tipo.isEmpty()) {
-	        this.vista.lblCreado.setText("Error: Todos los campos deben estar rellenos.");
-	    }
+		if (id_creador.isEmpty() || plataforma.isEmpty() || fecha.isEmpty() || contenidoTexto.isEmpty()
+				|| tipo.isEmpty()) {
+			this.vista.lblCreado.setText("Error: Todos los campos deben estar rellenos.");
+		}
 
-	    try {
-	        String vistasTextoStr = this.vista.textFieldVistas2.getText();
-	        String me_gustaTextoStr = this.vista.textFieldMeGsuta2.getText();
-	        String comentariosTextoStr = this.vista.textFieldComentarios2.getText();
-	        String compartidosTextoStr = this.vista.textFieldCompartidos2.getText();
+		try {
+			String vistasTextoStr = this.vista.textFieldVistas2.getText();
+			String me_gustaTextoStr = this.vista.textFieldMeGsuta2.getText();
+			String comentariosTextoStr = this.vista.textFieldComentarios2.getText();
+			String compartidosTextoStr = this.vista.textFieldCompartidos2.getText();
 
-	        if (vistasTextoStr.isEmpty() || me_gustaTextoStr.isEmpty() || comentariosTextoStr.isEmpty()
-	                || compartidosTextoStr.isEmpty()) {
-	            throw new NumberFormatException("Los campos numéricos no pueden estar vacíos.");
-	        }
+			if (vistasTextoStr.isEmpty() || me_gustaTextoStr.isEmpty() || comentariosTextoStr.isEmpty()
+					|| compartidosTextoStr.isEmpty()) {
+				throw new NumberFormatException("Los campos numéricos no pueden estar vacíos.");
+			}
 
-	        Integer vistasTexto = Integer.parseInt(vistasTextoStr);
-	        Integer me_gustaTexto = Integer.parseInt(me_gustaTextoStr);
-	        Integer comentariosTexto = Integer.parseInt(comentariosTextoStr);
-	        Integer compartidosTexto = Integer.parseInt(compartidosTextoStr);
-	        Contenido contenido1 = new Contenido();
-	        contenido1.setCreador_id(id_creador);
-	        contenido1.setPlataforma(plataforma);
-	        contenido1.setFecha(fecha);
-	        contenido1.setContenido(contenidoTexto);
-	        contenido1.setTipo(tipo);
-	        contenido1.setVistas(vistasTexto);
-	        contenido1.setMe_gustas(me_gustaTexto);
-	        contenido1.setComentarios(comentariosTexto);
-	        contenido1.setCompartidos(compartidosTexto);
+			Integer vistasTexto = Integer.parseInt(vistasTextoStr);
+			Integer me_gustaTexto = Integer.parseInt(me_gustaTextoStr);
+			Integer comentariosTexto = Integer.parseInt(comentariosTextoStr);
+			Integer compartidosTexto = Integer.parseInt(compartidosTextoStr);
+			Contenido contenido1 = new Contenido();
+			contenido1.setCreador_id(id_creador);
+			contenido1.setPlataforma(plataforma);
+			contenido1.setFecha(fecha);
+			contenido1.setContenido(contenidoTexto);
+			contenido1.setTipo(tipo);
+			contenido1.setVistas(vistasTexto);
+			contenido1.setMe_gustas(me_gustaTexto);
+			contenido1.setComentarios(comentariosTexto);
+			contenido1.setCompartidos(compartidosTexto);
 
-	        contenido.add(contenido1);
-	        crearCSV(contenido, "files/metricas_contenido.csv");
+			contenido.add(contenido1);
+			crearCSV(contenido, "files/metricas_contenido.csv");
 
-	        this.vista.lblCreado.setText("Publicación añadida con éxito.");
+			this.vista.lblCreado.setText("Publicación añadida con éxito.");
 
-	    } catch (NumberFormatException e) {
-	        this.vista.lblCreado.setText("Error: " + e.getMessage());
-	    } catch (Exception e) {
-	        this.vista.lblCreado.setText("Error: " + e.getMessage());
-	    }
+		} catch (NumberFormatException e) {
+			this.vista.lblCreado.setText("Error: " + e.getMessage());
+		} catch (Exception e) {
+			this.vista.lblCreado.setText("Error: " + e.getMessage());
+		}
 	}
 
 	public void modificarPublicacion2(List<Contenido> contenido) {
-	    String id_creador = this.vista.textFieldid_creador3.getText();
-	    String fecha = this.vista.textFieldFechaContenido3.getText();
-	    String plataforma = this.vista.textFieldel_plataforma3.getText();
-	    String me_gustaTextoStr = this.vista.textField_megusta2.getText();
-	    String comentariosTextoStr = this.vista.textFieldComentarios3.getText();
+		String id_creador = this.vista.textFieldid_creador3.getText();
+		String fecha = this.vista.textFieldFechaContenido3.getText();
+		String plataforma = this.vista.textFieldel_plataforma3.getText();
+		String me_gustaTextoStr = this.vista.textField_megusta2.getText();
+		String comentariosTextoStr = this.vista.textFieldComentarios3.getText();
 
-	    if (id_creador.isEmpty() || fecha.isEmpty() || plataforma.isEmpty() || me_gustaTextoStr.isEmpty() || comentariosTextoStr.isEmpty()) {
-	        this.vista.lblCreado.setText("Error: Todos los campos deben estar completos.");
-	    }
+		if (id_creador.isEmpty() || fecha.isEmpty() || plataforma.isEmpty() || me_gustaTextoStr.isEmpty()
+				|| comentariosTextoStr.isEmpty()) {
+			this.vista.lblCreado.setText("Error: Todos los campos deben estar completos.");
+		}
 
-	    try {
-	        Integer me_gustaTexto = Integer.parseInt(me_gustaTextoStr);
-	        Integer comentariosTexto = Integer.parseInt(comentariosTextoStr);
+		try {
+			Integer me_gustaTexto = Integer.parseInt(me_gustaTextoStr);
+			Integer comentariosTexto = Integer.parseInt(comentariosTextoStr);
 
-	        boolean encontrado = false;
-	        for (Contenido publicacion : contenido) {
-	            if (publicacion.getCreador_id().equals(id_creador) && publicacion.getFecha().equals(fecha)
-	                    && publicacion.getPlataforma().equals(plataforma)) {
-	                publicacion.setMe_gustas(me_gustaTexto);
-	                publicacion.setComentarios(comentariosTexto);
-	                encontrado = true;
-	                break;
-	            }
-	        }
+			boolean encontrado = false;
+			for (Contenido publicacion : contenido) {
+				if (publicacion.getCreador_id().equals(id_creador) && publicacion.getFecha().equals(fecha)
+						&& publicacion.getPlataforma().equals(plataforma)) {
+					publicacion.setMe_gustas(me_gustaTexto);
+					publicacion.setComentarios(comentariosTexto);
+					encontrado = true;
+					break;
+				}
+			}
 
-	        if (encontrado) {
-	            crearCSV(contenido, "files/metricas_contenido.csv");
-	            this.vista.lblCreado.setText("Publicación modificada y guardada con éxito.");
-	        } else {
-	            this.vista.lblCreado.setText("No se encontró la publicación con los datos proporcionados.");
-	        }
+			if (encontrado) {
+				crearCSV(contenido, "files/metricas_contenido.csv");
+				this.vista.lblCreado.setText("Publicación modificada y guardada con éxito.");
+			} else {
+				this.vista.lblCreado.setText("No se encontró la publicación con los datos proporcionados.");
+			}
 
-	    } catch (NumberFormatException e) {
-	        this.vista.lblCreado.setText("Error: 'Me gusta' y 'Comentarios' deben ser números válidos.");
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        this.vista.lblCreado.setText("Error al procesar la modificación de la publicación.");
-	    }
+		} catch (NumberFormatException e) {
+			this.vista.lblCreado.setText("Error: 'Me gusta' y 'Comentarios' deben ser números válidos.");
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.vista.lblCreado.setText("Error al procesar la modificación de la publicación.");
+		}
 	}
+
 	public void eliminarPublicacionesPorLikes(List<Contenido> contenido) {
-	    String likesTexto = this.vista.textFieldMinVistas.getText();
-	    if (likesTexto.isEmpty()) {
-	        this.vista.lblCreado.setText("Error: El campo de mínimo de likes no puede estar vacío.");
+		String likesTexto = this.vista.textFieldMinVistas.getText();
+		if (likesTexto.isEmpty()) {
+			this.vista.lblCreado.setText("Error: El campo de mínimo de likes no puede estar vacío.");
 
-	    }
+		}
 
-	    try {
-	        int minLikes = Integer.parseInt(likesTexto);
-	        Iterator<Contenido> iterator = contenido.iterator();
-	        boolean eliminadas = false;
+		try {
+			int minLikes = Integer.parseInt(likesTexto);
+			Iterator<Contenido> iterator = contenido.iterator();
+			boolean eliminadas = false;
 
-	        while (iterator.hasNext()) {
-	            Contenido publicacion = iterator.next();
-	            if (publicacion.getMe_gustas() < minLikes) {
-	                iterator.remove();
-	                eliminadas = true;
-	            }
-	        }
+			while (iterator.hasNext()) {
+				Contenido publicacion = iterator.next();
+				if (publicacion.getMe_gustas() < minLikes) {
+					iterator.remove();
+					eliminadas = true;
+				}
+			}
 
-	        crearCSV(contenido, "files/metricas_contenido.csv");
+			crearCSV(contenido, "files/metricas_contenido.csv");
 
-	        if (eliminadas) {
-	            this.vista.lblCreado.setText("Publicaciones eliminadas con éxito.");
-	        } else {
-	            this.vista.lblCreado.setText("No se encontraron publicaciones que eliminar.");
-	        }
-	    } catch (NumberFormatException e) {
-	        this.vista.lblCreado.setText("Error: La cantidad mínima de likes debe ser un número válido.");
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        this.vista.lblCreado.setText("Error al procesar la eliminación de publicaciones.");
-	    }
+			if (eliminadas) {
+				this.vista.lblCreado.setText("Publicaciones eliminadas con éxito.");
+			} else {
+				this.vista.lblCreado.setText("No se encontraron publicaciones que eliminar.");
+			}
+		} catch (NumberFormatException e) {
+			this.vista.lblCreado.setText("Error: La cantidad mínima de likes debe ser un número válido.");
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.vista.lblCreado.setText("Error al procesar la eliminación de publicaciones.");
+		}
 	}
 
 	// 12
@@ -1168,6 +1265,7 @@ public class Controlador implements ActionListener {
 		try (FileWriter fileWriter = new FileWriter("files/colaboraciones.json")) {
 			objectMapper.writerWithDefaultPrettyPrinter().writeValue(fileWriter, colaboracionesArray);
 			this.vista.lblResultado.setText("Colaboraciones JSON creado correctamente");
+			this.vista.lblResultado.setVisible(true);
 		}
 	}
 
@@ -1191,66 +1289,66 @@ public class Controlador implements ActionListener {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void bomba() {
-		
-		AtomicBoolean continueLoop = new AtomicBoolean(true);  
-	
+
+		AtomicBoolean continueLoop = new AtomicBoolean(true);
+
 		List<JDialog> dialogs = new ArrayList<>();
 		new Thread(() -> {
-		    int offsetX = 0; 
-		    int offsetY = 0;
-		    int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width; 
-		    int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height; 
+			int offsetX = 0;
+			int offsetY = 0;
+			int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
+			int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
 
-		    while (continueLoop.get()) { 
-		        JDialog dialog = new JDialog();
-		        dialog.setTitle("Error");
-		        dialog.setSize(300, 150);
-		        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			while (continueLoop.get()) {
+				JDialog dialog = new JDialog();
+				dialog.setTitle("Error");
+				dialog.setSize(300, 150);
+				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
-		        JLabel label = new JLabel("No debiste pulsarme", SwingConstants.CENTER);
-		        label.setForeground(Color.RED);
-		        dialog.add(label, BorderLayout.CENTER);
+				JLabel label = new JLabel("No debiste pulsarme", SwingConstants.CENTER);
+				label.setForeground(Color.RED);
+				dialog.add(label, BorderLayout.CENTER);
 
-		        JButton closeButton = new JButton("Aceptar");
-		        closeButton.setPreferredSize(new Dimension(100, 40)); 
-		        closeButton.addActionListener((ActionEvent event) -> {
-		           
-		            continueLoop.set(false);
+				JButton closeButton = new JButton("Aceptar");
+				closeButton.setPreferredSize(new Dimension(100, 40));
+				closeButton.addActionListener((ActionEvent event) -> {
 
-		            for (JDialog dlg : dialogs) {
-		                dlg.dispose();  
-		            }
-		        });
+					continueLoop.set(false);
 
-		        JPanel panel = new JPanel();
-		        panel.setLayout((LayoutManager) new FlowLayout(FlowLayout.CENTER)); 
-		        panel.add(closeButton);
-		        dialog.add(panel, BorderLayout.SOUTH);
+					for (JDialog dlg : dialogs) {
+						dlg.dispose();
+					}
+				});
 
-		        dialog.setLocation(offsetX, offsetY);
-		        dialog.setModal(false); 
-		        dialog.setVisible(true); 
-		  
-		        dialogs.add(dialog);
+				JPanel panel = new JPanel();
+				panel.setLayout((LayoutManager) new FlowLayout(FlowLayout.CENTER));
+				panel.add(closeButton);
+				dialog.add(panel, BorderLayout.SOUTH);
 
-		        offsetX += 30;
-		        offsetY += 30;
+				dialog.setLocation(offsetX, offsetY);
+				dialog.setModal(false);
+				dialog.setVisible(true);
 
-		        if (offsetX > screenWidth - 300) { 
-		            offsetX = 0;
-		        }
-		        if (offsetY > screenHeight - 150) { 
-		            offsetY = 0;
-		        }
+				dialogs.add(dialog);
 
-		        try {
-		            Thread.sleep(10); 
-		        } catch (InterruptedException ex) {
-		            ex.printStackTrace();
-		        }
-		    }
+				offsetX += 30;
+				offsetY += 30;
+
+				if (offsetX > screenWidth - 300) {
+					offsetX = 0;
+				}
+				if (offsetY > screenHeight - 150) {
+					offsetY = 0;
+				}
+
+				try {
+					Thread.sleep(5);
+				} catch (InterruptedException ex) {
+					ex.printStackTrace();
+				}
+			}
 		}).start();
 	}
 }
