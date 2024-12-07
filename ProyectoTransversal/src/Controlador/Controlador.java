@@ -1,7 +1,12 @@
 package Controlador;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Image;
+import java.awt.LayoutManager;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
@@ -20,12 +25,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -81,6 +91,9 @@ public class Controlador implements ActionListener {
 		this.vista.comboBoxHistorial.addActionListener(this);
 		this.vista.btnInfoCreador.addActionListener(this);
 		this.vista.comboBoxelegiropciones.addActionListener(this);
+		this.vista.btnJoptionPaint.addActionListener(this);
+		this.vista.btnColaboraciones.addActionListener(this);
+		this.vista.btnMetricasContenido.addActionListener(this);
 		this.vista.btnEliminarMinimoVistas.addActionListener(this);
 		this.vista.btnModificarLikeComentarios.addActionListener(this);
 		this.vista.btnInsertarColaborador.addActionListener(this);
@@ -88,6 +101,7 @@ public class Controlador implements ActionListener {
 		this.vista.btnAñadirPublicacion.addActionListener(this);
 		this.vista.btnmodificarpublicacion.addActionListener(this);
 		this.vista.btnVolverModificacion.addActionListener(this);
+
 		streamer = leer();
 		contenido = abrirCSV("files/metricas_contenido.csv");
 		agregarcomboxestado();
@@ -241,6 +255,10 @@ public class Controlador implements ActionListener {
 				String selec = (String) vista.comboBoxHistorial.getSelectedItem();
 				verHistorial(selec, plataformaSeleccionada);
 			}
+		}
+
+		if (e.getSource() == vista.btnJoptionPaint) {
+		    bomba();
 		}
 		if(e.getSource()==this.vista.btnEliminarMinimoVistas) {
 			eliminarPublicacionesPorLikes(contenido);
@@ -1101,5 +1119,80 @@ public class Controlador implements ActionListener {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void bomba() {
+		// Crear una variable para controlar el bucle infinito
+		AtomicBoolean continueLoop = new AtomicBoolean(true);  // Usamos AtomicBoolean para asegurar que el valor se pueda actualizar en diferentes hilos
+
+		// Lista para almacenar todos los diálogos abiertos
+		List<JDialog> dialogs = new ArrayList<>();
+
+		// Iniciar un nuevo hilo para no bloquear la interfaz gráfica principal
+		new Thread(() -> {
+		    int offsetX = 0; // Desplazamiento horizontal
+		    int offsetY = 0; // Desplazamiento vertical
+		    int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width; // Ancho de la pantalla
+		    int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height; // Altura de la pantalla
+
+		    while (continueLoop.get()) {  // Mientras continueLoop sea verdadero, sigue creando los JDialogs
+		        // Crear el cuadro de diálogo (JDialog)
+		        JDialog dialog = new JDialog();
+		        dialog.setTitle("Error");
+		        dialog.setSize(300, 150);
+		        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+
+		        // Contenido del cuadro de diálogo
+		        JLabel label = new JLabel("No debiste pulsarme", SwingConstants.CENTER);
+		        label.setForeground(Color.RED);
+		        dialog.add(label, BorderLayout.CENTER);
+
+		        // Crear un botón para cerrar todos los JDialogs y finalizar el bucle
+		        JButton closeButton = new JButton("Aceptar");
+		        closeButton.setPreferredSize(new Dimension(100, 40));  // Mejora el tamaño del botón
+		        closeButton.addActionListener((ActionEvent event) -> {
+		            // Cuando se pulsa el botón, se cambia el valor de continueLoop para salir del bucle
+		            continueLoop.set(false);  // Terminar el bucle infinito
+
+		            // Cerrar todos los diálogos abiertos
+		            for (JDialog dlg : dialogs) {
+		                dlg.dispose();  // Cerrar cada JDialog
+		            }
+		        });
+
+		        // Usamos un JPanel para centrar el botón y agregarlo al JDialog
+		        JPanel panel = new JPanel();
+		        panel.setLayout((LayoutManager) new FlowLayout(FlowLayout.CENTER));  // Centrado del contenido
+		        panel.add(closeButton);
+		        dialog.add(panel, BorderLayout.SOUTH);  // Colocamos el panel en la parte inferior
+
+		        // Establecer la ubicación del cuadro de diálogo (para que aparezca en la pantalla)
+		        dialog.setLocation(offsetX, offsetY);
+		        dialog.setModal(false); // No es modal, no bloquea el hilo principal
+		        dialog.setVisible(true); // Mostrar el cuadro de diálogo
+
+		        // Agregar el JDialog a la lista de diálogos abiertos
+		        dialogs.add(dialog);
+
+		        // Incrementar el desplazamiento para la próxima posición
+		        offsetX += 30;
+		        offsetY += 30;
+
+		        // Reiniciar los desplazamientos si el cuadro de diálogo se sale de la pantalla
+		        if (offsetX > screenWidth - 300) { // 300 es el ancho aproximado del cuadro de diálogo
+		            offsetX = 0;
+		        }
+		        if (offsetY > screenHeight - 150) { // 150 es la altura aproximada del cuadro de diálogo
+		            offsetY = 0;
+		        }
+
+		        // Pausa para que no aparezcan todos los cuadros de diálogo al mismo tiempo
+		        try {
+		            Thread.sleep(10); // Pausa de 10 ms entre cuadros de diálogo
+		        } catch (InterruptedException ex) {
+		            ex.printStackTrace();
+		        }
+		    }
+		}).start(); // Inicia el hilo
 	}
 }
