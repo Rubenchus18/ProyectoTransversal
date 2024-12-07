@@ -709,13 +709,6 @@
     "fecha_fin" : "2023-03-30",
     "tipo" : "Patrocinado",
     "estado" : "Activa"
-  }, {
-    "colaborador" : "35",
-    "tematica" : "Futbol",
-    "fecha_inicio" : "10/12/2024",
-    "fecha_fin" : "30/11/24",
-    "tipo" : "Intentensa",
-    "estado" : "Activo"
   } ]
 }, {
   "id" : 10,

@@ -86,6 +86,8 @@ public class Controlador implements ActionListener {
 		this.vista.btnInsertarColaborador.addActionListener(this);
 		this.vista.btnEliminarPorinteracion.addActionListener(this);
 		this.vista.btnAñadirPublicacion.addActionListener(this);
+		this.vista.btnmodificarpublicacion.addActionListener(this);
+		this.vista.btnVolverModificacion.addActionListener(this);
 		streamer = leer();
 		contenido = abrirCSV("files/metricas_contenido.csv");
 		agregarcomboxestado();
@@ -266,8 +268,12 @@ public class Controlador implements ActionListener {
 				e1.printStackTrace();
 			}
 		}
+		if(e.getSource()==this.vista.btnVolverModificacion) {
+			this.vista.panelMenu.setVisible(true);
+			this.vista.panelModifcar.setVisible(false);
+		}
 	}
-
+//Metodos
 	public void agregarcomboxestado() {
 		this.vista.comboBoxEstadoColaboracion.addItem("Activo");
 		this.vista.comboBoxEstadoColaboracion.addItem("Finalizada");
@@ -468,13 +474,11 @@ public class Controlador implements ActionListener {
 	}
 
 	public void verHistorial(String fechaSeleccionada, JsonNode plataforma) {
-		// Limpiar las etiquetas antes de cargar nueva información
 		vista.lblHistNuevosSeguidores1Mostrar.setText("");
 		vista.lblHistInteracciones1Mostrar.setText("");
 		vista.lblHistFecha1Mostrar.setText("");
 
-		// Rellenar comboBox con fechas únicas
-
+		
 		if (fechaSeleccionada != null) {
 			for (JsonNode historico : plataforma.get("historico")) {
 				String fechaHistorial = historico.get("fecha").asText();
@@ -483,11 +487,11 @@ public class Controlador implements ActionListener {
 					String interacciones = historico.get("interacciones").asText();
 					String fecha = historico.get("fecha").asText();
 
-					// Mostrar la información correcta en las etiquetas correspondientes
+				
 					vista.lblHistFecha1Mostrar.setText(fecha);
 					vista.lblHistInteracciones1Mostrar.setText(interacciones);
 					vista.lblHistNuevosSeguidores1Mostrar.setText(nuevosSeguidores);
-					break; // Sal del bucle al encontrar la fecha
+					break;
 				}
 			}
 		}
@@ -549,11 +553,11 @@ public class Controlador implements ActionListener {
 				nuevaColaboracion.put("estado", estadoColaboracion);
 				((ArrayNode) creatorNode.get("colaboraciones")).add(nuevaColaboracion);
 				objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, streamer);
-				this.vista.lblCreado.setText("Colaboración añadida exitosamente.");
+				this.vista.lblCreado.setText("Colaboración añadida.");
 
 			}
 		}
-	
+		
 	}
 
 	// 4
@@ -658,10 +662,10 @@ public class Controlador implements ActionListener {
 		if (modificada) {
 			try {
 				crearCSV(contenido, "files/metricas_contenido.csv");
-				this.vista.lblCreado.setText("Publicación modificada exitosamente.");
+				this.vista.lblCreado.setText("Publicación modificada.");
 			} catch (Exception e) {
 				e.printStackTrace();
-				this.vista.lblCreado.setText("Error al escribir en el archivo CSV.");
+				this.vista.lblCreado.setText("Error.");
 			}
 		}
 	}
@@ -682,10 +686,10 @@ public class Controlador implements ActionListener {
 		if (eliminada) {
 			try {
 				crearCSV(contenido, "files/metricas_contenido.csv");
-				this.vista.lblCreado.setText("Publicación eliminada exitosamente.");
+				this.vista.lblCreado.setText("Publicación eliminada.");
 			} catch (Exception e) {
 				e.printStackTrace();
-				this.vista.lblCreado.setText("Error al escribir en el archivo CSV.");
+				this.vista.lblCreado.setText("Error.");
 			}
 		}
 	}
@@ -1023,28 +1027,30 @@ public class Controlador implements ActionListener {
 	}
 
 	public void eliminarPublicacionesPorLikes(List<Contenido> contenido) {
-		String likesTexto = this.vista.textFieldMinVistas.getText();
-		try {
-			int minLikes = Integer.parseInt(likesTexto);
-			Iterator<Contenido> iterator = contenido.iterator();
-			boolean eliminadas = false;
-
-			while (iterator.hasNext()) {
-				Contenido publicacion = iterator.next();
-				if (publicacion.getMe_gustas() < minLikes) {
-					iterator.remove();
-					eliminadas = true;
-				}
-			}
-			crearCSV(contenido, "files/metricas_contenido.csv");
-			if (eliminadas) {
-				this.vista.lblCreado.setText("Publicaciones eliminadas con éxito.");
-			} else {
-				this.vista.lblCreado.setText("No se encontraron publicaciones que eliminar.");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	    String likesTexto = this.vista.textFieldMinVistas.getText();
+	    try {
+	        int minLikes = Integer.parseInt(likesTexto);
+	        Iterator<Contenido> iterator = contenido.iterator();
+	        boolean eliminadas = false;
+	        while (iterator.hasNext()) {
+	            Contenido publicacion = iterator.next();
+	            if (publicacion.getMe_gustas() < minLikes) {
+	                iterator.remove();
+	                eliminadas = true;
+	            }
+	        }
+	        crearCSV(contenido, "files/metricas_contenido.csv");
+	        if (eliminadas) {
+	            this.vista.lblCreado.setText("Publicaciones eliminadas.");
+	        } else {
+	            this.vista.lblCreado.setText("No se encontraron publicaciones que eliminar.");
+	        }
+	    } catch (NumberFormatException e) {
+	        this.vista.lblCreado.setText("Por favor, ingrese un número válido.");
+	        e.printStackTrace();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 	}
 
 	// 12
