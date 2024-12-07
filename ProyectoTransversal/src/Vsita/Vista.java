@@ -205,6 +205,21 @@ public class Vista extends JFrame {
 	public JLabel lblFallo;
 	public JButton btnInsertarCo;
 	public JComboBox comboBoxOpcion;
+	// Variables globales duplicadas para el panelMostrarTodo2
+	public JPanel panelMostrarColabs;
+	public JLabel lblTituloColab;
+	public JButton btnSalirInfoGen;
+	public JScrollPane scrollPaneColabs;
+	public JList listColabs;
+	public JLabel lblJlistColabs;
+	public JPanel panelInfoCreador2;
+	public JLabel lblColaborador, lblIdMostrarColaborador;
+	public JLabel lblFechaInicio, lblMostrarFechaInicio;
+	public JLabel lblFechaFin, lblFechaFinMostrar;
+	public JLabel lblTematica2, lblTematicaMostrar2;
+	public JLabel lblTipoColab, lblTipoColabMostrar;
+	public JLabel lblEstadoColab, lblEstadoColabMostrar;
+
 	/**
 	 * Launch the application.
 	 */
@@ -237,545 +252,142 @@ public class Vista extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		contentPane.setLayout(null);
 		setLocationRelativeTo(null);
-						
-									
-				panelModifcar = new JPanel();
-				panelModifcar.setBackground(Color.ORANGE);
-				panelModifcar.setBounds(0, 0, 1292, 752);
-				contentPane.add(panelModifcar);
-				panelModifcar.setLayout(null);
-				panelModifcar.setVisible(rootPaneCheckingEnabled);
-				panelModifcar.setVisible(false);
-																																																				
-																																																						panelmodificarLikesComentarios = new JPanel();
-																																																						panelmodificarLikesComentarios.setBackground(new Color(0, 0, 128));
-																																																						panelmodificarLikesComentarios.setBounds(482, 217, 759, 444);
-																																																						panelModifcar.add(panelmodificarLikesComentarios);
-																																																						panelmodificarLikesComentarios.setLayout(null);
-																																																						panelmodificarLikesComentarios.setVisible(false);
-																																																						lblNewLabel_3_3_28 = new JLabel("ID CREADOR");
-																																																						lblNewLabel_3_3_28.setHorizontalAlignment(SwingConstants.LEFT);
-																																																						lblNewLabel_3_3_28.setForeground(Color.WHITE);
-																																																						lblNewLabel_3_3_28.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-																																																						lblNewLabel_3_3_28.setBounds(49, 66, 164, 70);
-																																																						panelmodificarLikesComentarios.add(lblNewLabel_3_3_28);
-																																																						
-																																																								textFieldid_creador3 = new JTextField();
-																																																								textFieldid_creador3.setColumns(10);
-																																																								textFieldid_creador3.setBounds(49, 147, 164, 20);
-																																																								panelmodificarLikesComentarios.add(textFieldid_creador3);
-																																																								
-																																																										lblNewLabel_3_3_29 = new JLabel("Plataforma");
-																																																										lblNewLabel_3_3_29.setHorizontalAlignment(SwingConstants.LEFT);
-																																																										lblNewLabel_3_3_29.setForeground(Color.WHITE);
-																																																										lblNewLabel_3_3_29.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-																																																										lblNewLabel_3_3_29.setBounds(287, 61, 164, 70);
-																																																										panelmodificarLikesComentarios.add(lblNewLabel_3_3_29);
-																																																										
-																																																												textFieldel_plataforma3 = new JTextField();
-																																																												textFieldel_plataforma3.setColumns(10);
-																																																												textFieldel_plataforma3.setBounds(287, 147, 164, 20);
-																																																												panelmodificarLikesComentarios.add(textFieldel_plataforma3);
-																																																												
-																																																														lblNewLabel_3_3_30 = new JLabel("Fecha");
-																																																														lblNewLabel_3_3_30.setHorizontalAlignment(SwingConstants.LEFT);
-																																																														lblNewLabel_3_3_30.setForeground(Color.WHITE);
-																																																														lblNewLabel_3_3_30.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-																																																														lblNewLabel_3_3_30.setBounds(49, 178, 164, 70);
-																																																														panelmodificarLikesComentarios.add(lblNewLabel_3_3_30);
-																																																														
-																																																																textFieldFechaContenido3 = new JTextField();
-																																																																textFieldFechaContenido3.setColumns(10);
-																																																																textFieldFechaContenido3.setBounds(49, 259, 164, 20);
-																																																																panelmodificarLikesComentarios.add(textFieldFechaContenido3);
-																																																																
-																																																																		lblNewLabel_3_3_31 = new JLabel("Likes");
-																																																																		lblNewLabel_3_3_31.setHorizontalAlignment(SwingConstants.LEFT);
-																																																																		lblNewLabel_3_3_31.setForeground(Color.WHITE);
-																																																																		lblNewLabel_3_3_31.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-																																																																		lblNewLabel_3_3_31.setBounds(287, 178, 164, 70);
-																																																																		panelmodificarLikesComentarios.add(lblNewLabel_3_3_31);
-																																																																		
-																																																																				textField_megusta2 = new JTextField();
-																																																																				textField_megusta2.setColumns(10);
-																																																																				textField_megusta2.setBounds(287, 259, 164, 20);
-																																																																				panelmodificarLikesComentarios.add(textField_megusta2);
-																																																																				
-																																																																						lblNewLabel_3_3_32 = new JLabel("Comentarios");
-																																																																						lblNewLabel_3_3_32.setHorizontalAlignment(SwingConstants.LEFT);
-																																																																						lblNewLabel_3_3_32.setForeground(Color.WHITE);
-																																																																						lblNewLabel_3_3_32.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-																																																																						lblNewLabel_3_3_32.setBounds(505, 178, 164, 70);
-																																																																						panelmodificarLikesComentarios.add(lblNewLabel_3_3_32);
-																																																																						
-																																																																								textFieldComentarios3 = new JTextField();
-																																																																								textFieldComentarios3.setColumns(10);
-																																																																								textFieldComentarios3.setBounds(505, 259, 164, 20);
-																																																																								panelmodificarLikesComentarios.add(textFieldComentarios3);
-																																																																								
-																																																																										btnModificarLikes = new JButton("Modificar");
-																																																																										btnModificarLikes.setBounds(49, 321, 620, 23);
-																																																																										panelmodificarLikesComentarios.add(btnModificarLikes);
-																																																		
-																																																				panelModificarPublicacion = new JPanel();
-																																																				panelModificarPublicacion.setBackground(new Color(0, 0, 128));
-																																																				panelModificarPublicacion.setBounds(482, 217, 759, 444);
-																																																				panelModifcar.add(panelModificarPublicacion);
-																																																				panelModificarPublicacion.setLayout(null);
-																																																				panelModificarPublicacion.setVisible(false);
-																																																				lblNewLabel_3_3_24 = new JLabel("ID CREADOR");
-																																																				lblNewLabel_3_3_24.setHorizontalAlignment(SwingConstants.LEFT);
-																																																				lblNewLabel_3_3_24.setForeground(Color.WHITE);
-																																																				lblNewLabel_3_3_24.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-																																																				lblNewLabel_3_3_24.setBounds(48, 44, 164, 70);
-																																																				panelModificarPublicacion.add(lblNewLabel_3_3_24);
-																																																				
-																																																						textFieldidstreamer = new JTextField();
-																																																						textFieldidstreamer.setColumns(10);
-																																																						textFieldidstreamer.setBounds(48, 108, 164, 20);
-																																																						panelModificarPublicacion.add(textFieldidstreamer);
-																																																						
-																																																								comboBoxparaModificar = new JComboBox();
-																																																								comboBoxparaModificar.setBounds(353, 107, 288, 22);
-																																																								panelModificarPublicacion.add(comboBoxparaModificar);
-																																																								
-																																																										lblNewLabel_3_3_25 = new JLabel("¿Que quieres modificar?");
-																																																										lblNewLabel_3_3_25.setHorizontalAlignment(SwingConstants.CENTER);
-																																																										lblNewLabel_3_3_25.setForeground(Color.WHITE);
-																																																										lblNewLabel_3_3_25.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-																																																										lblNewLabel_3_3_25.setBounds(317, 44, 356, 70);
-																																																										panelModificarPublicacion.add(lblNewLabel_3_3_25);
-																																																										
-																																																												lblNewLabel_3_3_26 = new JLabel("¿De que fecha?");
-																																																												lblNewLabel_3_3_26.setHorizontalAlignment(SwingConstants.CENTER);
-																																																												lblNewLabel_3_3_26.setForeground(Color.WHITE);
-																																																												lblNewLabel_3_3_26.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-																																																												lblNewLabel_3_3_26.setBounds(22, 125, 235, 70);
-																																																												panelModificarPublicacion.add(lblNewLabel_3_3_26);
-																																																												
-																																																														textFieldfehca = new JTextField();
-																																																														textFieldfehca.setColumns(10);
-																																																														textFieldfehca.setBounds(48, 193, 164, 20);
-																																																														panelModificarPublicacion.add(textFieldfehca);
-																																																														
-																																																																lblNewLabel_3_3_27 = new JLabel("Dato");
-																																																																lblNewLabel_3_3_27.setHorizontalAlignment(SwingConstants.CENTER);
-																																																																lblNewLabel_3_3_27.setForeground(Color.WHITE);
-																																																																lblNewLabel_3_3_27.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-																																																																lblNewLabel_3_3_27.setBounds(304, 125, 356, 70);
-																																																																panelModificarPublicacion.add(lblNewLabel_3_3_27);
-																																																																
-																																																																		textFieldDato = new JTextField();
-																																																																		textFieldDato.setColumns(10);
-																																																																		textFieldDato.setBounds(339, 193, 302, 20);
-																																																																		panelModificarPublicacion.add(textFieldDato);
-																																																																		
-																																																																				btnmodificarpublicacionenespecifico = new JButton("Modificar");
-																																																																				btnmodificarpublicacionenespecifico.setBounds(48, 289, 593, 23);
-																																																																				panelModificarPublicacion.add(btnmodificarpublicacionenespecifico);
-																																												
-																																														paneleliminarminimovistas = new JPanel();
-																																														paneleliminarminimovistas.setBackground(new Color(0, 0, 128));
-																																														paneleliminarminimovistas.setBounds(482, 217, 759, 444);
-																																														panelModifcar.add(paneleliminarminimovistas);
-																																														paneleliminarminimovistas.setLayout(null);
-																																														paneleliminarminimovistas.setVisible(false);
-																																														lblNewLabel_3_3_23 = new JLabel("Minimo vistas");
-																																														lblNewLabel_3_3_23.setHorizontalAlignment(SwingConstants.CENTER);
-																																														lblNewLabel_3_3_23.setForeground(Color.WHITE);
-																																														lblNewLabel_3_3_23.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-																																														lblNewLabel_3_3_23.setBounds(191, 91, 355, 70);
-																																														paneleliminarminimovistas.add(lblNewLabel_3_3_23);
-																																														
-																																																textFieldMinVistas = new JTextField();
-																																																textFieldMinVistas.setColumns(10);
-																																																textFieldMinVistas.setBounds(201, 172, 345, 20);
-																																																paneleliminarminimovistas.add(textFieldMinVistas);
-																																																
-																																																		btnEliminarMin = new JButton("Eliminar");
-																																																		btnEliminarMin.setBounds(201, 231, 345, 23);
-																																																		paneleliminarminimovistas.add(btnEliminarMin);
-																																										
-																																												panelEliminarpubli = new JPanel();
-																																												panelEliminarpubli.setBackground(new Color(0, 0, 128));
-																																												panelEliminarpubli.setBounds(482, 217, 759, 444);
-																																												panelModifcar.add(panelEliminarpubli);
-																																												panelEliminarpubli.setLayout(null);
-																																												panelEliminarpubli.setVisible(false);
-																																												lblNewLabel_3_3_21 = new JLabel("¿Que quieres eliminar?");
-																																												lblNewLabel_3_3_21.setHorizontalAlignment(SwingConstants.CENTER);
-																																												lblNewLabel_3_3_21.setForeground(Color.WHITE);
-																																												lblNewLabel_3_3_21.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-																																												lblNewLabel_3_3_21.setBounds(191, 35, 361, 70);
-																																												panelEliminarpubli.add(lblNewLabel_3_3_21);
-																																												
-																																														lblNewLabel_3_3_22 = new JLabel("Minimo eliminar");
-																																														lblNewLabel_3_3_22.setHorizontalAlignment(SwingConstants.CENTER);
-																																														lblNewLabel_3_3_22.setForeground(Color.WHITE);
-																																														lblNewLabel_3_3_22.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-																																														lblNewLabel_3_3_22.setBounds(191, 128, 351, 70);
-																																														panelEliminarpubli.add(lblNewLabel_3_3_22);
-																																														
-																																																textFieldfecha = new JTextField();
-																																																textFieldfecha.setColumns(10);
-																																																textFieldfecha.setBounds(191, 198, 351, 20);
-																																																panelEliminarpubli.add(textFieldfecha);
-																																																
-																																																		btnEliminarPublicacion = new JButton("Eliminar");
-																																																		btnEliminarPublicacion.addActionListener(new ActionListener() {
-																																																			public void actionPerformed(ActionEvent e) {
-																																																			}
-																																																		});
-																																																		btnEliminarPublicacion.setBounds(191, 315, 351, 23);
-																																																		panelEliminarpubli.add(btnEliminarPublicacion);
-																																																		
-																																																		 comboBoxOpcion = new JComboBox();
-																																																		 comboBoxOpcion.setBounds(191, 102, 351, 22);
-																																																		 panelEliminarpubli.add(comboBoxOpcion);
-																																						panelañadirpublicion = new JPanel();
-																																						panelañadirpublicion.setBackground(new Color(0, 0, 128));
-																																						panelañadirpublicion.setBounds(482, 217, 759, 444);
-																																						panelModifcar.add(panelañadirpublicion);
-																																						panelañadirpublicion.setLayout(null);
-																																						
-																																								lblNewLabel_3_3_11 = new JLabel("ID CREADOR");
-																																								lblNewLabel_3_3_11.setHorizontalAlignment(SwingConstants.LEFT);
-																																								lblNewLabel_3_3_11.setForeground(Color.WHITE);
-																																								lblNewLabel_3_3_11.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-																																								lblNewLabel_3_3_11.setBounds(102, 34, 164, 70);
-																																								panelañadirpublicion.add(lblNewLabel_3_3_11);
-																																								
-																																										textFieldidcreador1 = new JTextField();
-																																										textFieldidcreador1.setColumns(10);
-																																										textFieldidcreador1.setBounds(102, 93, 164, 20);
-																																										panelañadirpublicion.add(textFieldidcreador1);
-																																										
-																																												lblNewLabel_3_3_12 = new JLabel("Plataforma");
-																																												lblNewLabel_3_3_12.setHorizontalAlignment(SwingConstants.LEFT);
-																																												lblNewLabel_3_3_12.setForeground(Color.WHITE);
-																																												lblNewLabel_3_3_12.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-																																												lblNewLabel_3_3_12.setBounds(102, 119, 164, 70);
-																																												panelañadirpublicion.add(lblNewLabel_3_3_12);
-																																												
-																																														textFieldplataforma2 = new JTextField();
-																																														textFieldplataforma2.setColumns(10);
-																																														textFieldplataforma2.setBounds(102, 181, 164, 20);
-																																														panelañadirpublicion.add(textFieldplataforma2);
-																																														
-																																																lblNewLabel_3_3_13 = new JLabel("Fecha");
-																																																lblNewLabel_3_3_13.setHorizontalAlignment(SwingConstants.LEFT);
-																																																lblNewLabel_3_3_13.setForeground(Color.WHITE);
-																																																lblNewLabel_3_3_13.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-																																																lblNewLabel_3_3_13.setBounds(102, 196, 164, 70);
-																																																panelañadirpublicion.add(lblNewLabel_3_3_13);
-																																																
-																																																		textFieldFecha2 = new JTextField();
-																																																		textFieldFecha2.setColumns(10);
-																																																		textFieldFecha2.setBounds(102, 259, 164, 20);
-																																																		panelañadirpublicion.add(textFieldFecha2);
-																																																		
-																																																				lblNewLabel_3_3_14 = new JLabel("Contenido");
-																																																				lblNewLabel_3_3_14.setHorizontalAlignment(SwingConstants.LEFT);
-																																																				lblNewLabel_3_3_14.setForeground(Color.WHITE);
-																																																				lblNewLabel_3_3_14.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-																																																				lblNewLabel_3_3_14.setBounds(511, 196, 164, 70);
-																																																				panelañadirpublicion.add(lblNewLabel_3_3_14);
-																																																				
-																																																						textFieldContenido2 = new JTextField();
-																																																						textFieldContenido2.setColumns(10);
-																																																						textFieldContenido2.setBounds(511, 259, 164, 20);
-																																																						panelañadirpublicion.add(textFieldContenido2);
-																																																						
-																																																								lblNewLabel_3_3_15 = new JLabel("Tipo");
-																																																								lblNewLabel_3_3_15.setHorizontalAlignment(SwingConstants.LEFT);
-																																																								lblNewLabel_3_3_15.setForeground(Color.WHITE);
-																																																								lblNewLabel_3_3_15.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-																																																								lblNewLabel_3_3_15.setBounds(303, 34, 164, 70);
-																																																								panelañadirpublicion.add(lblNewLabel_3_3_15);
-																																																								
-																																																										textFieldTipo2 = new JTextField();
-																																																										textFieldTipo2.setColumns(10);
-																																																										textFieldTipo2.setBounds(303, 93, 164, 20);
-																																																										panelañadirpublicion.add(textFieldTipo2);
-																																																										
-																																																												lblNewLabel_3_3_16 = new JLabel("Visitas");
-																																																												lblNewLabel_3_3_16.setHorizontalAlignment(SwingConstants.LEFT);
-																																																												lblNewLabel_3_3_16.setForeground(Color.WHITE);
-																																																												lblNewLabel_3_3_16.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-																																																												lblNewLabel_3_3_16.setBounds(303, 115, 164, 70);
-																																																												panelañadirpublicion.add(lblNewLabel_3_3_16);
-																																																												
-																																																														textFieldVistas2 = new JTextField();
-																																																														textFieldVistas2.setColumns(10);
-																																																														textFieldVistas2.setBounds(303, 169, 164, 20);
-																																																														panelañadirpublicion.add(textFieldVistas2);
-																																																														
-																																																																lblNewLabel_3_3_18 = new JLabel("Likes");
-																																																																lblNewLabel_3_3_18.setHorizontalAlignment(SwingConstants.LEFT);
-																																																																lblNewLabel_3_3_18.setForeground(Color.WHITE);
-																																																																lblNewLabel_3_3_18.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-																																																																lblNewLabel_3_3_18.setBounds(511, 119, 164, 70);
-																																																																panelañadirpublicion.add(lblNewLabel_3_3_18);
-																																																																
-																																																																		textFieldMeGsuta2 = new JTextField();
-																																																																		textFieldMeGsuta2.setColumns(10);
-																																																																		textFieldMeGsuta2.setBounds(511, 169, 164, 20);
-																																																																		panelañadirpublicion.add(textFieldMeGsuta2);
-																																																																		
-																																																																				lblNewLabel_3_3_19 = new JLabel("Comentarios");
-																																																																				lblNewLabel_3_3_19.setHorizontalAlignment(SwingConstants.LEFT);
-																																																																				lblNewLabel_3_3_19.setForeground(Color.WHITE);
-																																																																				lblNewLabel_3_3_19.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-																																																																				lblNewLabel_3_3_19.setBounds(303, 196, 164, 70);
-																																																																				panelañadirpublicion.add(lblNewLabel_3_3_19);
-																																																																				
-																																																																						textFieldComentarios2 = new JTextField();
-																																																																						textFieldComentarios2.setColumns(10);
-																																																																						textFieldComentarios2.setBounds(303, 259, 164, 20);
-																																																																						panelañadirpublicion.add(textFieldComentarios2);
-																																																																						
-																																																																								lblNewLabel_3_3_20 = new JLabel("Compartidos");
-																																																																								lblNewLabel_3_3_20.setHorizontalAlignment(SwingConstants.LEFT);
-																																																																								lblNewLabel_3_3_20.setForeground(Color.WHITE);
-																																																																								lblNewLabel_3_3_20.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-																																																																								lblNewLabel_3_3_20.setBounds(511, 34, 164, 70);
-																																																																								panelañadirpublicion.add(lblNewLabel_3_3_20);
-																																																																								
-																																																																										textFieldCompartidos2 = new JTextField();
-																																																																										textFieldCompartidos2.setColumns(10);
-																																																																										textFieldCompartidos2.setBounds(511, 93, 164, 20);
-																																																																										panelañadirpublicion.add(textFieldCompartidos2);
-																																																																										
-																																																																												btnAñadirPublic = new JButton("Añadir");
-																																																																												btnAñadirPublic.addActionListener(new ActionListener() {
-																																																																													public void actionPerformed(ActionEvent e) {
-																																																																													}
-																																																																												});
-																																																																												
-																																																																													btnAñadirPublic.setBounds(186, 333, 376, 23);
-																																																																													panelañadirpublicion.add(btnAñadirPublic);
-																																				
-																																						panelInsertarColaboradores = new JPanel();
-																																						panelInsertarColaboradores.setBackground(new Color(0, 0, 128));
-																																						panelInsertarColaboradores.setBounds(482, 217, 759, 444);
-																																						panelModifcar.add(panelInsertarColaboradores);
-																																						panelInsertarColaboradores.setLayout(null);
-																																						panelInsertarColaboradores.setVisible(false);
-																																						
-																																								lblNewLabel_3_3_10 = new JLabel("ID CREADOR");
-																																								lblNewLabel_3_3_10.setHorizontalAlignment(SwingConstants.LEFT);
-																																								lblNewLabel_3_3_10.setForeground(Color.WHITE);
-																																								lblNewLabel_3_3_10.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-																																								lblNewLabel_3_3_10.setBounds(58, 33, 164, 70);
-																																								panelInsertarColaboradores.add(lblNewLabel_3_3_10);
-																																								
-																																										textFieldCreador1 = new JTextField();
-																																										textFieldCreador1.setColumns(10);
-																																										textFieldCreador1.setBounds(58, 117, 164, 20);
-																																										panelInsertarColaboradores.add(textFieldCreador1);
-																																										
-																																												JLabel lblNewLabel_3_3_1_1_2 = new JLabel("NOMBRE COLABORADOR");
-																																												lblNewLabel_3_3_1_1_2.setHorizontalAlignment(SwingConstants.LEFT);
-																																												lblNewLabel_3_3_1_1_2.setForeground(Color.WHITE);
-																																												lblNewLabel_3_3_1_1_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-																																												lblNewLabel_3_3_1_1_2.setBounds(54, 148, 283, 61);
-																																												panelInsertarColaboradores.add(lblNewLabel_3_3_1_1_2);
-																																												
-																																														textFieldNombreColaborador = new JTextField();
-																																														textFieldNombreColaborador.setBackground(new Color(255, 255, 255));
-																																														textFieldNombreColaborador.setColumns(10);
-																																														textFieldNombreColaborador.setBounds(58, 205, 279, 20);
-																																														panelInsertarColaboradores.add(textFieldNombreColaborador);
-																																														
-																																																JLabel lblNewLabel_3_3_1_1_1_2 = new JLabel("TEMATICA");
-																																																lblNewLabel_3_3_1_1_1_2.setHorizontalAlignment(SwingConstants.LEFT);
-																																																lblNewLabel_3_3_1_1_1_2.setForeground(Color.WHITE);
-																																																lblNewLabel_3_3_1_1_1_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-																																																lblNewLabel_3_3_1_1_1_2.setBounds(443, 148, 164, 61);
-																																																panelInsertarColaboradores.add(lblNewLabel_3_3_1_1_1_2);
-																																																
-																																																		textFieldTematica = new JTextField();
-																																																		textFieldTematica.setColumns(10);
-																																																		textFieldTematica.setBounds(443, 205, 247, 20);
-																																																		panelInsertarColaboradores.add(textFieldTematica);
-																																																		
-																																																				JLabel lblNewLabel_3_3_1_1_1_1_2 = new JLabel("FECHA FIN");
-																																																				lblNewLabel_3_3_1_1_1_1_2.setHorizontalAlignment(SwingConstants.LEFT);
-																																																				lblNewLabel_3_3_1_1_1_1_2.setForeground(Color.WHITE);
-																																																				lblNewLabel_3_3_1_1_1_1_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-																																																				lblNewLabel_3_3_1_1_1_1_2.setBounds(278, 38, 214, 61);
-																																																				panelInsertarColaboradores.add(lblNewLabel_3_3_1_1_1_1_2);
-																																																				
-																																																						textFieldFechaFin = new JTextField();
-																																																						textFieldFechaFin.setColumns(10);
-																																																						textFieldFechaFin.setBounds(278, 117, 164, 20);
-																																																						panelInsertarColaboradores.add(textFieldFechaFin);
-																																																						
-																																																								lblNewLabel_3_3_1_1_1_1_3 = new JLabel("FECHA INICIO");
-																																																								lblNewLabel_3_3_1_1_1_1_3.setHorizontalAlignment(SwingConstants.LEFT);
-																																																								lblNewLabel_3_3_1_1_1_1_3.setForeground(Color.WHITE);
-																																																								lblNewLabel_3_3_1_1_1_1_3.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-																																																								lblNewLabel_3_3_1_1_1_1_3.setBounds(520, 42, 197, 61);
-																																																								panelInsertarColaboradores.add(lblNewLabel_3_3_1_1_1_1_3);
-																																																								
-																																																										textFieldFechaInicio = new JTextField();
-																																																										textFieldFechaInicio.setColumns(10);
-																																																										textFieldFechaInicio.setBounds(530, 117, 160, 20);
-																																																										panelInsertarColaboradores.add(textFieldFechaInicio);
-																																																										
-																																																												lblNewLabel_3_3_1_1_1_1_1_2 = new JLabel("TIPO COLABORACION");
-																																																												lblNewLabel_3_3_1_1_1_1_1_2.setHorizontalAlignment(SwingConstants.LEFT);
-																																																												lblNewLabel_3_3_1_1_1_1_1_2.setForeground(Color.WHITE);
-																																																												lblNewLabel_3_3_1_1_1_1_1_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-																																																												lblNewLabel_3_3_1_1_1_1_1_2.setBounds(58, 236, 261, 61);
-																																																												panelInsertarColaboradores.add(lblNewLabel_3_3_1_1_1_1_1_2);
-																																																												
-																																																														textFieldTipoColaboracion = new JTextField();
-																																																														textFieldTipoColaboracion.setColumns(10);
-																																																														textFieldTipoColaboracion.setBounds(58, 293, 261, 20);
-																																																														panelInsertarColaboradores.add(textFieldTipoColaboracion);
-																																																														
-																																																																lblNewLabel_3_3_1_3 = new JLabel("ESTADO");
-																																																																lblNewLabel_3_3_1_3.setHorizontalAlignment(SwingConstants.LEFT);
-																																																																lblNewLabel_3_3_1_3.setForeground(Color.WHITE);
-																																																																lblNewLabel_3_3_1_3.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-																																																																lblNewLabel_3_3_1_3.setBounds(400, 236, 389, 70);
-																																																																panelInsertarColaboradores.add(lblNewLabel_3_3_1_3);
-																																																																
-																																																																		comboBoxEstadoColaboracion = new JComboBox();
-																																																																		comboBoxEstadoColaboracion.setBounds(400, 292, 290, 22);
-																																																																		panelInsertarColaboradores.add(comboBoxEstadoColaboracion);
-																																																																		
-																																																																				 btnInsertarCo = new JButton("Insetar");
-																																																																				 
-																																																																				 btnInsertarCo.setBounds(58, 353, 632, 23);
-																																																																				 panelInsertarColaboradores.add(btnInsertarCo);
-																																																																																																																																			comboBoxelegiropciones = new JComboBox();
-																																																																																																																																			comboBoxelegiropciones.setBounds(63, 250, 365, 22);
-																																																																																																																																			panelModifcar.add(comboBoxelegiropciones);
-																																																																																																																																			
-																																																																																																																																					JLabel lblAadirexportarmodificar = new JLabel("Modificacion");
-																																																																																																																																					lblAadirexportarmodificar.setBounds(361, 5, 605, 125);
-																																																																																																																																					lblAadirexportarmodificar.setHorizontalAlignment(SwingConstants.CENTER);
-																																																																																																																																					lblAadirexportarmodificar.setForeground(SystemColor.controlText);
-																																																																																																																																					lblAadirexportarmodificar.setFont(new Font("Dialog", Font.BOLD, 99));
-																																																																																																																																					panelModifcar.add(lblAadirexportarmodificar);
-																																																																																																																																					
-																																																																																																																																							JLabel lblSeleccioneOpcion = new JLabel("Seleccione Opcion");
-																																																																																																																																							lblSeleccioneOpcion.setHorizontalAlignment(SwingConstants.CENTER);
-																																																																																																																																							lblSeleccioneOpcion.setForeground(SystemColor.controlText);
-																																																																																																																																							lblSeleccioneOpcion.setFont(new Font("Dialog", Font.BOLD, 40));
-																																																																																																																																							lblSeleccioneOpcion.setBounds(53, 120, 375, 125);
-																																																																																																																																							panelModifcar.add(lblSeleccioneOpcion);
-																																																																																																																																							
-																																																																																																																																									scrollPane = new JScrollPane();
-																																																																																																																																									scrollPane.setBounds(63, 376, 354, 285);
-																																																																																																																																									panelModifcar.add(scrollPane);
-																																																																																																																																									
-																																																																																																																																											liststreamer = new JList();
-																																																																																																																																											scrollPane.setViewportView(liststreamer);
-																																																																																																																																											liststreamer.setBackground(Color.YELLOW);
-																																																																																																																																											
-																																																																																																																																													lblStreamer = new JLabel("Streamer");
-																																																																																																																																													lblStreamer.setHorizontalAlignment(SwingConstants.CENTER);
-																																																																																																																																													lblStreamer.setForeground(SystemColor.controlText);
-																																																																																																																																													lblStreamer.setFont(new Font("Dialog", Font.BOLD, 40));
-																																																																																																																																													lblStreamer.setBounds(63, 266, 352, 125);
-																																																																																																																																													panelModifcar.add(lblStreamer);
-																																																																																																																																													
-																																																																																																																																															lblCreado = new JLabel("");
-																																																																																																																																															lblCreado.setHorizontalAlignment(SwingConstants.CENTER);
-																																																																																																																																															lblCreado.setForeground(SystemColor.controlText);
-																																																																																																																																															lblCreado.setFont(new Font("Dialog", Font.BOLD, 25));
-																																																																																																																																															lblCreado.setBounds(482, 627, 758, 125);
-																																																																																																																																															panelModifcar.add(lblCreado);
-																																																																																																																																															
-																																																																																																																																															 btnVolverMenu = new JButton("Volver");
-																																																																																																																																															 
-																																																																																																																																															 btnVolverMenu.setBounds(53, 33, 89, 48);
-																																																																																																																																															 panelModifcar.add(btnVolverMenu);
-				
-						panelExportacionDatos = new JPanel();
-						panelExportacionDatos.setBackground(Color.ORANGE);
-						panelExportacionDatos.setBounds(0, 0, 1292, 765);
-						contentPane.add(panelExportacionDatos);
-						panelExportacionDatos.setLayout(null);
-						panelExportacionDatos.setVisible(false);
-						lblExportacionDeDatos = new JLabel("Exportacion de datos");
-						lblExportacionDeDatos.setHorizontalAlignment(SwingConstants.CENTER);
-						lblExportacionDeDatos.setForeground(new Color(0, 0, 128));
-						lblExportacionDeDatos.setFont(new Font("Dialog", Font.BOLD, 75));
-						lblExportacionDeDatos.setBounds(71, 10, 1137, 99);
-						panelExportacionDatos.add(lblExportacionDeDatos);
-						
-								btnSalir_1 = new JButton("");
-								btnSalir_1.setForeground(Color.WHITE);
-								btnSalir_1.setFont(new Font("Tahoma", Font.BOLD, 30));
-								btnSalir_1.setBackground(new Color(255, 204, 0));
-								btnSalir_1.setBounds(10, 26, 107, 74);
-								btnSalir_1.setIcon(new ImageIcon(asignarImagenSalir(btnSalir_1)));
-								panelExportacionDatos.add(btnSalir_1);
-								
-										panelBotones_1 = new JPanel();
-										panelBotones_1.setBackground(Color.BLACK);
-										panelBotones_1.setBounds(147, 119, 1001, 508);
-										panelExportacionDatos.add(panelBotones_1);
-										panelBotones_1.setLayout(null);
-										panelBotones_1.setVisible(false);
-										btnExportaColaboracionesCSV = new JButton("Exportar a csv colaboraciones");
-										btnExportaColaboracionesCSV.setBounds(0, 104, 1001, 93);
-										btnExportaColaboracionesCSV.setForeground(Color.WHITE);
-										btnExportaColaboracionesCSV.setFont(new Font("Tahoma", Font.BOLD, 30));
-										btnExportaColaboracionesCSV.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
-										btnExportaColaboracionesCSV.setBackground(new Color(70, 130, 180));
-										panelBotones_1.add(btnExportaColaboracionesCSV);
-										
-												btnExportarInfrome_reportejson = new JButton("Exportar reportes json");
-												btnExportarInfrome_reportejson.setBounds(0, 310, 1001, 93);
-												btnExportarInfrome_reportejson.setForeground(Color.WHITE);
-												btnExportarInfrome_reportejson.setFont(new Font("Tahoma", Font.BOLD, 30));
-												btnExportarInfrome_reportejson.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
-												btnExportarInfrome_reportejson.setBackground(new Color(70, 130, 180));
-												panelBotones_1.add(btnExportarInfrome_reportejson);
-												
-														btngenerarreportecsvcolaboraciones = new JButton("Exportar reportar colaboraciones a CSV");
-														btngenerarreportecsvcolaboraciones.setBounds(0, 207, 1001, 93);
-														btngenerarreportecsvcolaboraciones.setForeground(Color.WHITE);
-														btngenerarreportecsvcolaboraciones.setFont(new Font("Tahoma", Font.BOLD, 30));
-														btngenerarreportecsvcolaboraciones.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
-														btngenerarreportecsvcolaboraciones.setBackground(new Color(70, 130, 180));
-														panelBotones_1.add(btngenerarreportecsvcolaboraciones);
-														
-																btnresumenrendimientojson = new JButton("Exportar colaboraciones JSON a CSV");
-																btnresumenrendimientojson.setForeground(Color.WHITE);
-																btnresumenrendimientojson.setFont(new Font("Tahoma", Font.BOLD, 30));
-																btnresumenrendimientojson.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
-																btnresumenrendimientojson.setBackground(new Color(70, 130, 180));
-																btnresumenrendimientojson.setBounds(0, 0, 1001, 93);
-																panelBotones_1.add(btnresumenrendimientojson);
-																
-																		btncolaboracionesajson = new JButton("Exportar colaboraciones a JSON");
-																		btncolaboracionesajson.setForeground(Color.WHITE);
-																		btncolaboracionesajson.setFont(new Font("Tahoma", Font.BOLD, 30));
-																		btncolaboracionesajson.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
-																		btncolaboracionesajson.setBackground(new Color(70, 130, 180));
-																		btncolaboracionesajson.setBounds(0, 413, 1001, 93);
-																		panelBotones_1.add(btncolaboracionesajson);
-																		
-																		lblResultado = new JLabel("");
-																		lblResultado.setHorizontalAlignment(SwingConstants.CENTER);
-																		lblResultado.setForeground(new Color(0, 0, 0));
-																		lblResultado.setFont(new Font("Dialog", Font.BOLD, 40));
-																		lblResultado.setBounds(71, 627, 1137, 99);
-																		panelExportacionDatos.add(lblResultado);
-																		
-																		lblFallo = new JLabel("");
-																		lblFallo.setHorizontalAlignment(SwingConstants.CENTER);
-																		lblFallo.setForeground(Color.BLACK);
-																		lblFallo.setFont(new Font("Dialog", Font.BOLD, 40));
-																		lblFallo.setBounds(71, 627, 1137, 99);
-																		panelExportacionDatos.add(lblFallo);
 
+
+		// Configuración del segundo panel duplicado
+		panelMostrarColabs = new JPanel();
+		panelMostrarColabs.setBackground(new Color(200, 220, 240));
+		panelMostrarColabs.setBounds(0, 0, 1292, 752);
+		contentPane.add(panelMostrarColabs);
+		panelMostrarColabs.setLayout(null);
+		panelMostrarColabs.setVisible(false);
+
+		// Título del segundo panel
+		lblTituloColab = new JLabel("Información de las Colaboraciones");
+		lblTituloColab.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTituloColab.setForeground(new Color(0, 51, 102));
+		lblTituloColab.setFont(new Font("Dialog", Font.BOLD, 50));
+		lblTituloColab.setBounds(127, 10, 1155, 99);
+		panelMostrarColabs.add(lblTituloColab);
+
+		// Botón Salir en el segundo panel
+		btnSalirInfoGen = new JButton("");
+		btnSalirInfoGen.setFont(new Font("Tahoma", Font.BOLD, 30));
+		btnSalirInfoGen.setForeground(new Color(255, 255, 255));
+		btnSalirInfoGen.setBackground(new Color(255, 204, 0));
+		btnSalirInfoGen.setBounds(10, 25, 107, 74);
+		btnSalirInfoGen.setIcon(new ImageIcon(asignarImagenSalir(btnSalirInfoGen)));
+		btnSalirInfoGen.setOpaque(false);
+		panelMostrarColabs.add(btnSalirInfoGen);
+
+		// ScrollPane para la lista duplicada de streamers
+		scrollPaneColabs = new JScrollPane();
+		scrollPaneColabs.setBounds(30, 119, 495, 623);
+		panelMostrarColabs.add(scrollPaneColabs);
+
+		listColabs = new JList();
+		listColabs.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		listColabs.setBackground(SystemColor.info);
+		listColabs.setBorder(new MatteBorder(0, 2, 2, 2, (Color) new Color(0, 0, 0)));
+		scrollPaneColabs.setViewportView(listColabs);
+
+		// Título para la lista duplicada
+		lblJlistColabs = new JLabel("Colaboraciones");
+		lblJlistColabs.setHorizontalAlignment(SwingConstants.CENTER);
+		lblJlistColabs.setForeground(Color.WHITE);
+		lblJlistColabs.setBackground(new Color(100, 100, 200));
+		lblJlistColabs.setOpaque(true);
+		lblJlistColabs.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		lblJlistColabs.setFont(new Font("Tahoma", Font.BOLD, 30));
+		scrollPaneColabs.setColumnHeaderView(lblJlistColabs);
+
+		// Panel de información duplicado
+		panelInfoCreador2 = new JPanel();
+		panelInfoCreador2.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		panelInfoCreador2.setBackground(new Color(220, 220, 250));
+		panelInfoCreador2.setBounds(535, 103, 707, 623);
+		panelMostrarColabs.add(panelInfoCreador2);
+		panelInfoCreador2.setLayout(null);
+
+		// Etiquetas y contenido duplicados
+		lblColaborador = new JLabel("Colaborador:");
+		lblColaborador.setBounds(10, 35, 354, 40);
+		lblColaborador.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		panelInfoCreador2.add(lblColaborador);
+
+		lblIdMostrarColaborador = new JLabel(""); // Campo vacío
+		lblIdMostrarColaborador.setBounds(374, 35, 321, 40);
+		lblIdMostrarColaborador.setFont(new Font("Tahoma", Font.ITALIC, 28)); // Fuente menor
+		lblIdMostrarColaborador.setBackground(Color.WHITE);
+		lblIdMostrarColaborador.setOpaque(true); // Hacer el fondo blanco
+		lblIdMostrarColaborador.setBorder(new LineBorder(Color.BLACK, 2)); // Borde de 2 píxeles
+		panelInfoCreador2.add(lblIdMostrarColaborador);
+
+		lblFechaInicio = new JLabel("Fecha Inicio:");
+		lblFechaInicio.setBounds (10, 133, 354, 40);
+		lblFechaInicio.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		panelInfoCreador2.add(lblFechaInicio);
+
+		lblMostrarFechaInicio = new JLabel(""); // Campo vacío
+		lblMostrarFechaInicio.setBounds(374, 134, 321, 40);
+		lblMostrarFechaInicio.setFont(new Font("Tahoma", Font.ITALIC, 28)); // Fuente menor
+		lblMostrarFechaInicio.setBackground(Color.WHITE);
+		lblMostrarFechaInicio.setOpaque(true); // Hacer el fondo blanco
+		lblMostrarFechaInicio.setBorder(new LineBorder(Color.BLACK, 2)); // Borde de 2 píxeles
+		panelInfoCreador2.add(lblMostrarFechaInicio);
+
+		lblFechaFin = new JLabel("Fecha Fin:");
+		lblFechaFin.setBounds(10, 229, 354, 40);
+		lblFechaFin.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		panelInfoCreador2.add(lblFechaFin);
+
+		lblFechaFinMostrar = new JLabel(""); // Campo vacío
+		lblFechaFinMostrar.setBounds(374, 230, 321, 40);
+		lblFechaFinMostrar.setFont(new Font("Tahoma", Font.ITALIC, 28)); // Fuente menor
+		lblFechaFinMostrar.setBackground(Color.WHITE);
+		lblFechaFinMostrar.setOpaque(true); // Hacer el fondo blanco
+		lblFechaFinMostrar.setBorder(new LineBorder(Color.BLACK, 2)); // Borde de 2 píxeles
+		panelInfoCreador2.add(lblFechaFinMostrar);
+
+		lblTematica2 = new JLabel("Temática:");
+		lblTematica2.setBounds(10, 318, 354, 40);
+		lblTematica2.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		panelInfoCreador2.add(lblTematica2);
+
+		lblTematicaMostrar2 = new JLabel(""); // Campo vacío
+		lblTematicaMostrar2.setBounds(374, 318, 321, 41);
+		lblTematicaMostrar2.setFont(new Font("Tahoma", Font.ITALIC, 28)); // Fuente menor
+		lblTematicaMostrar2.setBackground(Color.WHITE);
+		lblTematicaMostrar2.setOpaque(true); // Hacer el fondo blanco
+		lblTematicaMostrar2.setBorder(new LineBorder(Color.BLACK, 2)); // Borde de 2 píxeles
+		panelInfoCreador2.add(lblTematicaMostrar2);
+
+		lblTipoColab = new JLabel("Tipo de colaboración:");
+		lblTipoColab.setBounds(10, 423, 354, 40);
+		lblTipoColab.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		panelInfoCreador2.add(lblTipoColab);
+
+		lblTipoColabMostrar = new JLabel(""); // Campo vacío
+		lblTipoColabMostrar.setBounds(374, 423, 321, 40);
+		lblTipoColabMostrar.setFont(new Font("Tahoma", Font.ITALIC, 28)); // Fuente menor
+		lblTipoColabMostrar.setBackground(Color.WHITE);
+		lblTipoColabMostrar.setOpaque(true); // Hacer el fondo blanco
+		lblTipoColabMostrar.setBorder(new LineBorder(Color.BLACK, 2)); // Borde de 2 píxeles
+		panelInfoCreador2.add(lblTipoColabMostrar);
+
+		lblEstadoColab = new JLabel("Estado de la Colaboración:");
+		lblEstadoColab.setBounds(10, 536, 354, 40);
+		lblEstadoColab.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		panelInfoCreador2.add(lblEstadoColab);
+
+		lblEstadoColabMostrar = new JLabel(""); // Campo vacío
+		lblEstadoColabMostrar.setBounds(374, 536, 321, 40);
+		lblEstadoColabMostrar.setFont(new Font("Tahoma", Font.ITALIC, 28)); // Fuente menor
+		lblEstadoColabMostrar.setBackground(Color.WHITE);
+		lblEstadoColabMostrar.setOpaque(true); // Hacer el fondo blanco
+		lblEstadoColabMostrar.setBorder(new LineBorder(Color.BLACK, 2)); // Borde de 2 píxeles
+		panelInfoCreador2.add(lblEstadoColabMostrar);
+		
 		panelMostrarTodo = new JPanel();
 		panelMostrarTodo.setBackground(Color.ORANGE);
 		panelMostrarTodo.setBounds(0, 0, 1292, 752);
@@ -1118,6 +730,552 @@ public class Vista extends JFrame {
 		lblVerColaboraciones.setBounds(626, 435, 207, 27);
 		panelInformacion.add(lblVerColaboraciones);
 
+		panelModifcar = new JPanel();
+		panelModifcar.setBackground(Color.ORANGE);
+		panelModifcar.setBounds(0, 0, 1292, 752);
+		contentPane.add(panelModifcar);
+		panelModifcar.setLayout(null);
+		panelModifcar.setVisible(rootPaneCheckingEnabled);
+		panelModifcar.setVisible(false);
+
+		panelmodificarLikesComentarios = new JPanel();
+		panelmodificarLikesComentarios.setBackground(new Color(0, 0, 128));
+		panelmodificarLikesComentarios.setBounds(482, 217, 759, 444);
+		panelModifcar.add(panelmodificarLikesComentarios);
+		panelmodificarLikesComentarios.setLayout(null);
+		panelmodificarLikesComentarios.setVisible(false);
+		lblNewLabel_3_3_28 = new JLabel("ID CREADOR");
+		lblNewLabel_3_3_28.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_3_3_28.setForeground(Color.WHITE);
+		lblNewLabel_3_3_28.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_3_3_28.setBounds(49, 66, 164, 70);
+		panelmodificarLikesComentarios.add(lblNewLabel_3_3_28);
+
+		textFieldid_creador3 = new JTextField();
+		textFieldid_creador3.setColumns(10);
+		textFieldid_creador3.setBounds(49, 147, 164, 20);
+		panelmodificarLikesComentarios.add(textFieldid_creador3);
+
+		lblNewLabel_3_3_29 = new JLabel("Plataforma");
+		lblNewLabel_3_3_29.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_3_3_29.setForeground(Color.WHITE);
+		lblNewLabel_3_3_29.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_3_3_29.setBounds(287, 61, 164, 70);
+		panelmodificarLikesComentarios.add(lblNewLabel_3_3_29);
+
+		textFieldel_plataforma3 = new JTextField();
+		textFieldel_plataforma3.setColumns(10);
+		textFieldel_plataforma3.setBounds(287, 147, 164, 20);
+		panelmodificarLikesComentarios.add(textFieldel_plataforma3);
+
+		lblNewLabel_3_3_30 = new JLabel("Fecha");
+		lblNewLabel_3_3_30.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_3_3_30.setForeground(Color.WHITE);
+		lblNewLabel_3_3_30.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_3_3_30.setBounds(49, 178, 164, 70);
+		panelmodificarLikesComentarios.add(lblNewLabel_3_3_30);
+
+		textFieldFechaContenido3 = new JTextField();
+		textFieldFechaContenido3.setColumns(10);
+		textFieldFechaContenido3.setBounds(49, 259, 164, 20);
+		panelmodificarLikesComentarios.add(textFieldFechaContenido3);
+
+		lblNewLabel_3_3_31 = new JLabel("Likes");
+		lblNewLabel_3_3_31.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_3_3_31.setForeground(Color.WHITE);
+		lblNewLabel_3_3_31.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_3_3_31.setBounds(287, 178, 164, 70);
+		panelmodificarLikesComentarios.add(lblNewLabel_3_3_31);
+
+		textField_megusta2 = new JTextField();
+		textField_megusta2.setColumns(10);
+		textField_megusta2.setBounds(287, 259, 164, 20);
+		panelmodificarLikesComentarios.add(textField_megusta2);
+
+		lblNewLabel_3_3_32 = new JLabel("Comentarios");
+		lblNewLabel_3_3_32.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_3_3_32.setForeground(Color.WHITE);
+		lblNewLabel_3_3_32.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_3_3_32.setBounds(505, 178, 164, 70);
+		panelmodificarLikesComentarios.add(lblNewLabel_3_3_32);
+
+		textFieldComentarios3 = new JTextField();
+		textFieldComentarios3.setColumns(10);
+		textFieldComentarios3.setBounds(505, 259, 164, 20);
+		panelmodificarLikesComentarios.add(textFieldComentarios3);
+
+		btnModificarLikes = new JButton("Modificar");
+		btnModificarLikes.setBounds(49, 321, 620, 23);
+		panelmodificarLikesComentarios.add(btnModificarLikes);
+
+		panelModificarPublicacion = new JPanel();
+		panelModificarPublicacion.setBackground(new Color(0, 0, 128));
+		panelModificarPublicacion.setBounds(482, 217, 759, 444);
+		panelModifcar.add(panelModificarPublicacion);
+		panelModificarPublicacion.setLayout(null);
+		panelModificarPublicacion.setVisible(false);
+		lblNewLabel_3_3_24 = new JLabel("ID CREADOR");
+		lblNewLabel_3_3_24.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_3_3_24.setForeground(Color.WHITE);
+		lblNewLabel_3_3_24.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_3_3_24.setBounds(48, 44, 164, 70);
+		panelModificarPublicacion.add(lblNewLabel_3_3_24);
+
+		textFieldidstreamer = new JTextField();
+		textFieldidstreamer.setColumns(10);
+		textFieldidstreamer.setBounds(48, 108, 164, 20);
+		panelModificarPublicacion.add(textFieldidstreamer);
+
+		comboBoxparaModificar = new JComboBox();
+		comboBoxparaModificar.setBounds(353, 107, 288, 22);
+		panelModificarPublicacion.add(comboBoxparaModificar);
+
+		lblNewLabel_3_3_25 = new JLabel("¿Que quieres modificar?");
+		lblNewLabel_3_3_25.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_3_3_25.setForeground(Color.WHITE);
+		lblNewLabel_3_3_25.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_3_3_25.setBounds(317, 44, 356, 70);
+		panelModificarPublicacion.add(lblNewLabel_3_3_25);
+
+		lblNewLabel_3_3_26 = new JLabel("¿De que fecha?");
+		lblNewLabel_3_3_26.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_3_3_26.setForeground(Color.WHITE);
+		lblNewLabel_3_3_26.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_3_3_26.setBounds(22, 125, 235, 70);
+		panelModificarPublicacion.add(lblNewLabel_3_3_26);
+
+		textFieldfehca = new JTextField();
+		textFieldfehca.setColumns(10);
+		textFieldfehca.setBounds(48, 193, 164, 20);
+		panelModificarPublicacion.add(textFieldfehca);
+
+		lblNewLabel_3_3_27 = new JLabel("Dato");
+		lblNewLabel_3_3_27.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_3_3_27.setForeground(Color.WHITE);
+		lblNewLabel_3_3_27.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_3_3_27.setBounds(304, 125, 356, 70);
+		panelModificarPublicacion.add(lblNewLabel_3_3_27);
+
+		textFieldDato = new JTextField();
+		textFieldDato.setColumns(10);
+		textFieldDato.setBounds(339, 193, 302, 20);
+		panelModificarPublicacion.add(textFieldDato);
+
+		btnmodificarpublicacionenespecifico = new JButton("Modificar");
+		btnmodificarpublicacionenespecifico.setBounds(48, 289, 593, 23);
+		panelModificarPublicacion.add(btnmodificarpublicacionenespecifico);
+
+		paneleliminarminimovistas = new JPanel();
+		paneleliminarminimovistas.setBackground(new Color(0, 0, 128));
+		paneleliminarminimovistas.setBounds(482, 217, 759, 444);
+		panelModifcar.add(paneleliminarminimovistas);
+		paneleliminarminimovistas.setLayout(null);
+		paneleliminarminimovistas.setVisible(false);
+		lblNewLabel_3_3_23 = new JLabel("Minimo vistas");
+		lblNewLabel_3_3_23.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_3_3_23.setForeground(Color.WHITE);
+		lblNewLabel_3_3_23.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_3_3_23.setBounds(191, 91, 355, 70);
+		paneleliminarminimovistas.add(lblNewLabel_3_3_23);
+
+		textFieldMinVistas = new JTextField();
+		textFieldMinVistas.setColumns(10);
+		textFieldMinVistas.setBounds(201, 172, 345, 20);
+		paneleliminarminimovistas.add(textFieldMinVistas);
+
+		btnEliminarMin = new JButton("Eliminar");
+		btnEliminarMin.setBounds(201, 231, 345, 23);
+		paneleliminarminimovistas.add(btnEliminarMin);
+
+		panelEliminarpubli = new JPanel();
+		panelEliminarpubli.setBackground(new Color(0, 0, 128));
+		panelEliminarpubli.setBounds(482, 217, 759, 444);
+		panelModifcar.add(panelEliminarpubli);
+		panelEliminarpubli.setLayout(null);
+		panelEliminarpubli.setVisible(false);
+		lblNewLabel_3_3_21 = new JLabel("¿Que quieres eliminar?");
+		lblNewLabel_3_3_21.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_3_3_21.setForeground(Color.WHITE);
+		lblNewLabel_3_3_21.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_3_3_21.setBounds(191, 35, 361, 70);
+		panelEliminarpubli.add(lblNewLabel_3_3_21);
+
+		lblNewLabel_3_3_22 = new JLabel("Minimo eliminar");
+		lblNewLabel_3_3_22.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_3_3_22.setForeground(Color.WHITE);
+		lblNewLabel_3_3_22.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_3_3_22.setBounds(191, 128, 351, 70);
+		panelEliminarpubli.add(lblNewLabel_3_3_22);
+
+		textFieldfecha = new JTextField();
+		textFieldfecha.setColumns(10);
+		textFieldfecha.setBounds(191, 198, 351, 20);
+		panelEliminarpubli.add(textFieldfecha);
+
+		btnEliminarPublicacion = new JButton("Eliminar");
+		btnEliminarPublicacion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnEliminarPublicacion.setBounds(191, 315, 351, 23);
+		panelEliminarpubli.add(btnEliminarPublicacion);
+
+		comboBoxOpcion = new JComboBox();
+		comboBoxOpcion.setBounds(191, 102, 351, 22);
+		panelEliminarpubli.add(comboBoxOpcion);
+		panelañadirpublicion = new JPanel();
+		panelañadirpublicion.setBackground(new Color(0, 0, 128));
+		panelañadirpublicion.setBounds(482, 217, 759, 444);
+		panelModifcar.add(panelañadirpublicion);
+		panelañadirpublicion.setLayout(null);
+
+		lblNewLabel_3_3_11 = new JLabel("ID CREADOR");
+		lblNewLabel_3_3_11.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_3_3_11.setForeground(Color.WHITE);
+		lblNewLabel_3_3_11.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_3_3_11.setBounds(102, 34, 164, 70);
+		panelañadirpublicion.add(lblNewLabel_3_3_11);
+
+		textFieldidcreador1 = new JTextField();
+		textFieldidcreador1.setColumns(10);
+		textFieldidcreador1.setBounds(102, 93, 164, 20);
+		panelañadirpublicion.add(textFieldidcreador1);
+
+		lblNewLabel_3_3_12 = new JLabel("Plataforma");
+		lblNewLabel_3_3_12.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_3_3_12.setForeground(Color.WHITE);
+		lblNewLabel_3_3_12.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_3_3_12.setBounds(102, 119, 164, 70);
+		panelañadirpublicion.add(lblNewLabel_3_3_12);
+
+		textFieldplataforma2 = new JTextField();
+		textFieldplataforma2.setColumns(10);
+		textFieldplataforma2.setBounds(102, 181, 164, 20);
+		panelañadirpublicion.add(textFieldplataforma2);
+
+		lblNewLabel_3_3_13 = new JLabel("Fecha");
+		lblNewLabel_3_3_13.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_3_3_13.setForeground(Color.WHITE);
+		lblNewLabel_3_3_13.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_3_3_13.setBounds(102, 196, 164, 70);
+		panelañadirpublicion.add(lblNewLabel_3_3_13);
+
+		textFieldFecha2 = new JTextField();
+		textFieldFecha2.setColumns(10);
+		textFieldFecha2.setBounds(102, 259, 164, 20);
+		panelañadirpublicion.add(textFieldFecha2);
+
+		lblNewLabel_3_3_14 = new JLabel("Contenido");
+		lblNewLabel_3_3_14.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_3_3_14.setForeground(Color.WHITE);
+		lblNewLabel_3_3_14.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_3_3_14.setBounds(511, 196, 164, 70);
+		panelañadirpublicion.add(lblNewLabel_3_3_14);
+
+		textFieldContenido2 = new JTextField();
+		textFieldContenido2.setColumns(10);
+		textFieldContenido2.setBounds(511, 259, 164, 20);
+		panelañadirpublicion.add(textFieldContenido2);
+
+		lblNewLabel_3_3_15 = new JLabel("Tipo");
+		lblNewLabel_3_3_15.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_3_3_15.setForeground(Color.WHITE);
+		lblNewLabel_3_3_15.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_3_3_15.setBounds(303, 34, 164, 70);
+		panelañadirpublicion.add(lblNewLabel_3_3_15);
+
+		textFieldTipo2 = new JTextField();
+		textFieldTipo2.setColumns(10);
+		textFieldTipo2.setBounds(303, 93, 164, 20);
+		panelañadirpublicion.add(textFieldTipo2);
+
+		lblNewLabel_3_3_16 = new JLabel("Visitas");
+		lblNewLabel_3_3_16.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_3_3_16.setForeground(Color.WHITE);
+		lblNewLabel_3_3_16.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_3_3_16.setBounds(303, 115, 164, 70);
+		panelañadirpublicion.add(lblNewLabel_3_3_16);
+
+		textFieldVistas2 = new JTextField();
+		textFieldVistas2.setColumns(10);
+		textFieldVistas2.setBounds(303, 169, 164, 20);
+		panelañadirpublicion.add(textFieldVistas2);
+
+		lblNewLabel_3_3_18 = new JLabel("Likes");
+		lblNewLabel_3_3_18.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_3_3_18.setForeground(Color.WHITE);
+		lblNewLabel_3_3_18.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_3_3_18.setBounds(511, 119, 164, 70);
+		panelañadirpublicion.add(lblNewLabel_3_3_18);
+
+		textFieldMeGsuta2 = new JTextField();
+		textFieldMeGsuta2.setColumns(10);
+		textFieldMeGsuta2.setBounds(511, 169, 164, 20);
+		panelañadirpublicion.add(textFieldMeGsuta2);
+
+		lblNewLabel_3_3_19 = new JLabel("Comentarios");
+		lblNewLabel_3_3_19.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_3_3_19.setForeground(Color.WHITE);
+		lblNewLabel_3_3_19.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_3_3_19.setBounds(303, 196, 164, 70);
+		panelañadirpublicion.add(lblNewLabel_3_3_19);
+
+		textFieldComentarios2 = new JTextField();
+		textFieldComentarios2.setColumns(10);
+		textFieldComentarios2.setBounds(303, 259, 164, 20);
+		panelañadirpublicion.add(textFieldComentarios2);
+
+		lblNewLabel_3_3_20 = new JLabel("Compartidos");
+		lblNewLabel_3_3_20.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_3_3_20.setForeground(Color.WHITE);
+		lblNewLabel_3_3_20.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_3_3_20.setBounds(511, 34, 164, 70);
+		panelañadirpublicion.add(lblNewLabel_3_3_20);
+
+		textFieldCompartidos2 = new JTextField();
+		textFieldCompartidos2.setColumns(10);
+		textFieldCompartidos2.setBounds(511, 93, 164, 20);
+		panelañadirpublicion.add(textFieldCompartidos2);
+
+		btnAñadirPublic = new JButton("Añadir");
+		btnAñadirPublic.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+
+		btnAñadirPublic.setBounds(186, 333, 376, 23);
+		panelañadirpublicion.add(btnAñadirPublic);
+
+		panelInsertarColaboradores = new JPanel();
+		panelInsertarColaboradores.setBackground(new Color(0, 0, 128));
+		panelInsertarColaboradores.setBounds(482, 217, 759, 444);
+		panelModifcar.add(panelInsertarColaboradores);
+		panelInsertarColaboradores.setLayout(null);
+		panelInsertarColaboradores.setVisible(false);
+
+		lblNewLabel_3_3_10 = new JLabel("ID CREADOR");
+		lblNewLabel_3_3_10.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_3_3_10.setForeground(Color.WHITE);
+		lblNewLabel_3_3_10.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_3_3_10.setBounds(58, 33, 164, 70);
+		panelInsertarColaboradores.add(lblNewLabel_3_3_10);
+
+		textFieldCreador1 = new JTextField();
+		textFieldCreador1.setColumns(10);
+		textFieldCreador1.setBounds(58, 117, 164, 20);
+		panelInsertarColaboradores.add(textFieldCreador1);
+
+		JLabel lblNewLabel_3_3_1_1_2 = new JLabel("NOMBRE COLABORADOR");
+		lblNewLabel_3_3_1_1_2.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_3_3_1_1_2.setForeground(Color.WHITE);
+		lblNewLabel_3_3_1_1_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_3_3_1_1_2.setBounds(54, 148, 283, 61);
+		panelInsertarColaboradores.add(lblNewLabel_3_3_1_1_2);
+
+		textFieldNombreColaborador = new JTextField();
+		textFieldNombreColaborador.setBackground(new Color(255, 255, 255));
+		textFieldNombreColaborador.setColumns(10);
+		textFieldNombreColaborador.setBounds(58, 205, 279, 20);
+		panelInsertarColaboradores.add(textFieldNombreColaborador);
+
+		JLabel lblNewLabel_3_3_1_1_1_2 = new JLabel("TEMATICA");
+		lblNewLabel_3_3_1_1_1_2.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_3_3_1_1_1_2.setForeground(Color.WHITE);
+		lblNewLabel_3_3_1_1_1_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_3_3_1_1_1_2.setBounds(443, 148, 164, 61);
+		panelInsertarColaboradores.add(lblNewLabel_3_3_1_1_1_2);
+
+		textFieldTematica = new JTextField();
+		textFieldTematica.setColumns(10);
+		textFieldTematica.setBounds(443, 205, 247, 20);
+		panelInsertarColaboradores.add(textFieldTematica);
+
+		JLabel lblNewLabel_3_3_1_1_1_1_2 = new JLabel("FECHA FIN");
+		lblNewLabel_3_3_1_1_1_1_2.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_3_3_1_1_1_1_2.setForeground(Color.WHITE);
+		lblNewLabel_3_3_1_1_1_1_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_3_3_1_1_1_1_2.setBounds(278, 38, 214, 61);
+		panelInsertarColaboradores.add(lblNewLabel_3_3_1_1_1_1_2);
+
+		textFieldFechaFin = new JTextField();
+		textFieldFechaFin.setColumns(10);
+		textFieldFechaFin.setBounds(278, 117, 164, 20);
+		panelInsertarColaboradores.add(textFieldFechaFin);
+
+		lblNewLabel_3_3_1_1_1_1_3 = new JLabel("FECHA INICIO");
+		lblNewLabel_3_3_1_1_1_1_3.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_3_3_1_1_1_1_3.setForeground(Color.WHITE);
+		lblNewLabel_3_3_1_1_1_1_3.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_3_3_1_1_1_1_3.setBounds(520, 42, 197, 61);
+		panelInsertarColaboradores.add(lblNewLabel_3_3_1_1_1_1_3);
+
+		textFieldFechaInicio = new JTextField();
+		textFieldFechaInicio.setColumns(10);
+		textFieldFechaInicio.setBounds(530, 117, 160, 20);
+		panelInsertarColaboradores.add(textFieldFechaInicio);
+
+		lblNewLabel_3_3_1_1_1_1_1_2 = new JLabel("TIPO COLABORACION");
+		lblNewLabel_3_3_1_1_1_1_1_2.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_3_3_1_1_1_1_1_2.setForeground(Color.WHITE);
+		lblNewLabel_3_3_1_1_1_1_1_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_3_3_1_1_1_1_1_2.setBounds(58, 236, 261, 61);
+		panelInsertarColaboradores.add(lblNewLabel_3_3_1_1_1_1_1_2);
+
+		textFieldTipoColaboracion = new JTextField();
+		textFieldTipoColaboracion.setColumns(10);
+		textFieldTipoColaboracion.setBounds(58, 293, 261, 20);
+		panelInsertarColaboradores.add(textFieldTipoColaboracion);
+
+		lblNewLabel_3_3_1_3 = new JLabel("ESTADO");
+		lblNewLabel_3_3_1_3.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_3_3_1_3.setForeground(Color.WHITE);
+		lblNewLabel_3_3_1_3.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_3_3_1_3.setBounds(400, 236, 389, 70);
+		panelInsertarColaboradores.add(lblNewLabel_3_3_1_3);
+
+		comboBoxEstadoColaboracion = new JComboBox();
+		comboBoxEstadoColaboracion.setBounds(400, 292, 290, 22);
+		panelInsertarColaboradores.add(comboBoxEstadoColaboracion);
+
+		btnInsertarCo = new JButton("Insetar");
+
+		btnInsertarCo.setBounds(58, 353, 632, 23);
+		panelInsertarColaboradores.add(btnInsertarCo);
+		comboBoxelegiropciones = new JComboBox();
+		comboBoxelegiropciones.setBounds(63, 250, 365, 22);
+		panelModifcar.add(comboBoxelegiropciones);
+
+		JLabel lblAadirexportarmodificar = new JLabel("Modificacion");
+		lblAadirexportarmodificar.setBounds(361, 5, 605, 125);
+		lblAadirexportarmodificar.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAadirexportarmodificar.setForeground(SystemColor.controlText);
+		lblAadirexportarmodificar.setFont(new Font("Dialog", Font.BOLD, 99));
+		panelModifcar.add(lblAadirexportarmodificar);
+
+		JLabel lblSeleccioneOpcion = new JLabel("Seleccione Opcion");
+		lblSeleccioneOpcion.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSeleccioneOpcion.setForeground(SystemColor.controlText);
+		lblSeleccioneOpcion.setFont(new Font("Dialog", Font.BOLD, 40));
+		lblSeleccioneOpcion.setBounds(53, 120, 375, 125);
+		panelModifcar.add(lblSeleccioneOpcion);
+
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(63, 376, 354, 285);
+		panelModifcar.add(scrollPane);
+
+		liststreamer = new JList();
+		scrollPane.setViewportView(liststreamer);
+		liststreamer.setBackground(Color.YELLOW);
+
+		lblStreamer = new JLabel("Streamer");
+		lblStreamer.setHorizontalAlignment(SwingConstants.CENTER);
+		lblStreamer.setForeground(SystemColor.controlText);
+		lblStreamer.setFont(new Font("Dialog", Font.BOLD, 40));
+		lblStreamer.setBounds(63, 266, 352, 125);
+		panelModifcar.add(lblStreamer);
+
+		lblCreado = new JLabel("");
+		lblCreado.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCreado.setForeground(SystemColor.controlText);
+		lblCreado.setFont(new Font("Dialog", Font.BOLD, 25));
+		lblCreado.setBounds(482, 627, 758, 125);
+		panelModifcar.add(lblCreado);
+
+		btnVolverMenu = new JButton("");
+		btnVolverMenu.setForeground(new Color(255, 255, 255));
+		btnVolverMenu.setBackground(new Color(255, 204, 0));
+		btnVolverMenu.setBounds(10, 25, 107, 74);
+		btnVolverMenu.setIcon(new ImageIcon(asignarImagenSalir(btnVolverMenu)));
+		btnVolverMenu.setOpaque(false);
+
+		panelModifcar.add(btnVolverMenu);
+
+		panelExportacionDatos = new JPanel();
+		panelExportacionDatos.setBackground(Color.ORANGE);
+		panelExportacionDatos.setBounds(0, 0, 1292, 765);
+		contentPane.add(panelExportacionDatos);
+		panelExportacionDatos.setLayout(null);
+		panelExportacionDatos.setVisible(false);
+		lblExportacionDeDatos = new JLabel("Exportacion de datos");
+		lblExportacionDeDatos.setHorizontalAlignment(SwingConstants.CENTER);
+		lblExportacionDeDatos.setForeground(new Color(0, 0, 128));
+		lblExportacionDeDatos.setFont(new Font("Dialog", Font.BOLD, 75));
+		lblExportacionDeDatos.setBounds(71, 10, 1137, 99);
+		panelExportacionDatos.add(lblExportacionDeDatos);
+
+		btnSalir_1 = new JButton("");
+		btnSalir_1.setForeground(Color.WHITE);
+		btnSalir_1.setFont(new Font("Tahoma", Font.BOLD, 30));
+		btnSalir_1.setBackground(new Color(255, 204, 0));
+		btnSalir_1.setBounds(10, 26, 107, 74);
+		btnSalir_1.setIcon(new ImageIcon(asignarImagenSalir(btnSalir_1)));
+		panelExportacionDatos.add(btnSalir_1);
+
+		panelBotones_1 = new JPanel();
+		panelBotones_1.setBackground(Color.BLACK);
+		panelBotones_1.setBounds(147, 119, 1001, 508);
+		panelExportacionDatos.add(panelBotones_1);
+		panelBotones_1.setLayout(null);
+		panelBotones_1.setVisible(false);
+		btnExportaColaboracionesCSV = new JButton("Exportar a csv colaboraciones");
+		btnExportaColaboracionesCSV.setBounds(0, 104, 1001, 93);
+		btnExportaColaboracionesCSV.setForeground(Color.WHITE);
+		btnExportaColaboracionesCSV.setFont(new Font("Tahoma", Font.BOLD, 30));
+		btnExportaColaboracionesCSV.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+		btnExportaColaboracionesCSV.setBackground(new Color(70, 130, 180));
+		panelBotones_1.add(btnExportaColaboracionesCSV);
+
+		btnExportarInfrome_reportejson = new JButton("Exportar reportes json");
+		btnExportarInfrome_reportejson.setBounds(0, 310, 1001, 93);
+		btnExportarInfrome_reportejson.setForeground(Color.WHITE);
+		btnExportarInfrome_reportejson.setFont(new Font("Tahoma", Font.BOLD, 30));
+		btnExportarInfrome_reportejson.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+		btnExportarInfrome_reportejson.setBackground(new Color(70, 130, 180));
+		panelBotones_1.add(btnExportarInfrome_reportejson);
+
+		btngenerarreportecsvcolaboraciones = new JButton("Exportar reportar colaboraciones a CSV");
+		btngenerarreportecsvcolaboraciones.setBounds(0, 207, 1001, 93);
+		btngenerarreportecsvcolaboraciones.setForeground(Color.WHITE);
+		btngenerarreportecsvcolaboraciones.setFont(new Font("Tahoma", Font.BOLD, 30));
+		btngenerarreportecsvcolaboraciones.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+		btngenerarreportecsvcolaboraciones.setBackground(new Color(70, 130, 180));
+		panelBotones_1.add(btngenerarreportecsvcolaboraciones);
+
+		btnresumenrendimientojson = new JButton("Exportar colaboraciones JSON a CSV");
+		btnresumenrendimientojson.setForeground(Color.WHITE);
+		btnresumenrendimientojson.setFont(new Font("Tahoma", Font.BOLD, 30));
+		btnresumenrendimientojson.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+		btnresumenrendimientojson.setBackground(new Color(70, 130, 180));
+		btnresumenrendimientojson.setBounds(0, 0, 1001, 93);
+		panelBotones_1.add(btnresumenrendimientojson);
+
+		btncolaboracionesajson = new JButton("Exportar colaboraciones a JSON");
+		btncolaboracionesajson.setForeground(Color.WHITE);
+		btncolaboracionesajson.setFont(new Font("Tahoma", Font.BOLD, 30));
+		btncolaboracionesajson.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+		btncolaboracionesajson.setBackground(new Color(70, 130, 180));
+		btncolaboracionesajson.setBounds(0, 413, 1001, 93);
+		panelBotones_1.add(btncolaboracionesajson);
+
+		lblResultado = new JLabel("");
+		lblResultado.setBackground(new Color(0, 255, 0));
+		lblResultado.setHorizontalAlignment(SwingConstants.CENTER);
+		lblResultado.setForeground(new Color(0, 0, 0));
+		lblResultado.setFont(new Font("Dialog", Font.BOLD, 40));
+		lblResultado.setBounds(71, 627, 1137, 99);
+		lblResultado.setOpaque(true);
+
+		panelExportacionDatos.add(lblResultado);
+
+		lblFallo = new JLabel("");
+		lblFallo.setBackground(new Color(255, 0, 0));
+		lblFallo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblFallo.setForeground(new Color(255, 255, 255));
+		lblFallo.setFont(new Font("Dialog", Font.BOLD, 40));
+		lblFallo.setBounds(71, 627, 1137, 99);
+		lblFallo.setOpaque(true);
+		panelExportacionDatos.add(lblFallo);
+
 		panelMenu = new JPanel();
 		panelMenu.setBackground(Color.ORANGE);
 		panelMenu.setBounds(0, 0, 1292, 765);
@@ -1168,6 +1326,12 @@ public class Vista extends JFrame {
 		btnJoptionPaint.setIcon(new ImageIcon(asignarImagenBomba(btnJoptionPaint)));
 		panelMenu.add(btnJoptionPaint);
 
+		ajustesInicio();
+	}
+
+	public void ajustesInicio() {
+		lblFallo.setVisible(false);
+		lblResultado.setVisible(false);
 	}
 
 	private Image asignarImagenSalir(JButton btnSalir_1) {
