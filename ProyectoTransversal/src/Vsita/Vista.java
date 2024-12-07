@@ -153,17 +153,17 @@ public class Vista extends JFrame {
 	public JTextField textFieldComentarios2;
 	public JLabel lblNewLabel_3_3_20;
 	public JTextField textFieldCompartidos2;
-	public JButton btnNewButton_1;
+	public JButton btnAñadirPublicacion;
 	public JPanel panelEliminarpubli;
 	public JLabel lblNewLabel_3_3_21;
 	public JTextField textFieldidcreador;
 	public JLabel lblNewLabel_3_3_22;
 	public JTextField textFieldfecha;
-	public JButton btnEliminar2_1;
+	public JButton btnEliminarPorinteracion;
 	public JPanel paneleliminarminimovistas;
 	public JLabel lblNewLabel_3_3_23;
 	public JTextField textFieldMinVistas;
-	public JButton btnNewButton_2;
+	public JButton btnEliminarMinimoVistas;
 	public JPanel panelModificarPublicacion;
 	public JLabel lblNewLabel_3_3_24;
 	public JTextField textFieldidstreamer;
@@ -172,7 +172,7 @@ public class Vista extends JFrame {
 	public JTextField textFieldfehca;
 	public JLabel lblNewLabel_3_3_27;
 	public JTextField textFieldDato;
-	public JButton btnmodificarpublicacion_1;
+	public JButton btnmodificarpublicacion;
 	public JPanel panelmodificarLikesComentarios;
 	public JLabel lblNewLabel_3_3_28;
 	public JTextField textFieldid_creador3;
@@ -184,18 +184,20 @@ public class Vista extends JFrame {
 	public JTextField textField_megusta2;
 	public JLabel lblNewLabel_3_3_32;
 	public JTextField textFieldComentarios3;
-	public JButton btnModificar_1;
+	public JButton btnModificarLikeComentarios;
 	public JList liststreamer;
 	public JScrollPane scrollPane;
 	public JLabel lblStreamer;
 	public JComboBox comboBoxEstadoColaboracion;
 	public JComboBox comboBoxparaModificar;
+	public JButton btnInsertarColaborador;
 	public JLabel lblCreado;
 	public JButton btnJoptionPaint;
 	public JButton btnMetricasContenido;
 	public JLabel lblNewLabel;
 	public JButton btnColaboraciones;
 	public JLabel lblVerColaboraciones;
+	public JButton btnVolverModificacion;
 
 	/**
 	 * Launch the application.
@@ -1098,11 +1100,13 @@ public class Vista extends JFrame {
 		lblCreado.setBounds(482, 627, 758, 125);
 		panelModifcar.add(lblCreado);
 
+
 		panelMenu = new JPanel();
 		panelMenu.setBackground(Color.ORANGE);
 		panelMenu.setBounds(0, 0, 1292, 765);
 		contentPane.add(panelMenu);
 		panelMenu.setLayout(null);
+
 
 		lblMenu = new JLabel("MENU");
 		lblMenu.setFont(new Font("Dialog", Font.BOLD, 99));
