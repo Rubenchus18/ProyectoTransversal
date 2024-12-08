@@ -123,14 +123,11 @@ public class Vista extends JFrame {
 	public JComboBox comboBoxelegiropciones;
 	public JPanel panelInsertarColaboradores;
 	public JLabel lblNewLabel_3_3_10;
-	public JTextField textFieldCreador1;
-	public JTextField textFieldNombreColaborador;
 	public JTextField textFieldTematica;
 	public JTextField textFieldFechaFin;
 	public JLabel lblNewLabel_3_3_1_1_1_1_3;
 	public JTextField textFieldFechaInicio;
 	public JLabel lblNewLabel_3_3_1_1_1_1_1_2;
-	public JTextField textFieldTipoColaboracion;
 	public JLabel lblNewLabel_3_3_1_3;
 	public JPanel panelañadirpublicion;
 	public JLabel lblNewLabel_3_3_11;
@@ -266,7 +263,10 @@ public class Vista extends JFrame {
 	public JList listColaboradores;
 	public JLabel lblCreado2;
 	public JButton btnVerInfoColab;
-	public JButton btnAadirColaboracin;
+	public JButton btnAniadirColab;
+	public JComboBox comboboxTipoColab;
+	public JLabel lblIdMostrarIdSelec;
+	public JLabel lblNombreColabSeleccionado;
 
 	/**
 	 * Launch the application.
@@ -310,7 +310,7 @@ public class Vista extends JFrame {
 		panelMostrarColabs.setVisible(false);
 		
 		scrollPaneColaboradores = new JScrollPane();
-		scrollPaneColaboradores.setBounds(1018, 156, 264, 586);
+		scrollPaneColaboradores.setBounds(1012, 156, 280, 586);
 		panelMostrarColabs.add(scrollPaneColaboradores);
 		
 		lblColaboradores = new JLabel("Colaboradores");
@@ -323,7 +323,8 @@ public class Vista extends JFrame {
 		scrollPaneColaboradores.setColumnHeaderView(lblColaboradores);
 		
 		listColaboradores = new JList();
-		listColaboradores.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		listColaboradores.setForeground(Color.BLACK);
+		listColaboradores.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		listColaboradores.setBorder(new MatteBorder(0, 2, 2, 2, (Color) new Color(0, 0, 0)));
 		listColaboradores.setBackground(SystemColor.inactiveCaption);
 		scrollPaneColaboradores.setViewportView(listColaboradores);
@@ -390,14 +391,6 @@ public class Vista extends JFrame {
 		lblID.setBounds(10, 11, 180, labelHeight);
 		panelInsertarColaboradores.add(lblID);
 
-		textFieldCreador1  = new JTextField();
-		textFieldCreador1 .setFont(textFieldFont);
-		textFieldCreador1 .setColumns(10);
-		textFieldCreador1 .setBounds(200, 14, 260, textFieldHeight);
-		textFieldCreador1 .setBackground(Color.WHITE);
-		textFieldCreador1 .setBorder(new LineBorder(Color.BLACK, 2));
-		panelInsertarColaboradores.add(textFieldCreador1 );
-
 		// Etiqueta y campo para "NOMBRE COLABORADOR"
 		JLabel lblNombreColab = new JLabel("NOMBRE COLABORADOR:");
 		lblNombreColab.setHorizontalAlignment(SwingConstants.LEFT);
@@ -405,14 +398,6 @@ public class Vista extends JFrame {
 		lblNombreColab.setFont(labelFont);
 		lblNombreColab.setBounds(10, 66, 300, labelHeight);
 		panelInsertarColaboradores.add(lblNombreColab);
-
-		textFieldNombreColaborador  = new JTextField();
-		textFieldNombreColaborador .setFont(textFieldFont);
-		textFieldNombreColaborador .setColumns(10);
-		textFieldNombreColaborador .setBounds(10, 106, 450, textFieldHeight);
-		textFieldNombreColaborador .setBackground(Color.WHITE);
-		textFieldNombreColaborador .setBorder(new LineBorder(Color.BLACK, 2));
-		panelInsertarColaboradores.add(textFieldNombreColaborador );
 
 		// Etiqueta y campo para "FECHA INICIO"
 		lblFechaInicio = new JLabel("FECHA INICIO:");
@@ -483,14 +468,6 @@ public class Vista extends JFrame {
 		lblTipoColab.setBounds(10, 414, 300, labelHeight);
 		panelInsertarColaboradores.add(lblTipoColab);
 
-		textFieldTipoColaboracion = new JTextField();
-		textFieldTipoColaboracion.setFont(textFieldFont);
-		textFieldTipoColaboracion.setColumns(10);
-		textFieldTipoColaboracion.setBounds(10, 454, 450, textFieldHeight);
-		textFieldTipoColaboracion.setBackground(Color.WHITE);
-		textFieldTipoColaboracion.setBorder(new LineBorder(Color.BLACK, 2));
-		panelInsertarColaboradores.add(textFieldTipoColaboracion);
-
 		// Botón de inserción
 		btnInsertarCo = new JButton("INSERTAR NUEVA COLABORACIÓN");
 		btnInsertarCo.setForeground(new Color(255, 255, 255));
@@ -505,6 +482,27 @@ public class Vista extends JFrame {
 		lblCreado2.setFont(new Font("Dialog", Font.BOLD, 18));
 		lblCreado2.setBounds(10, 539, 454, 36);
 		panelInsertarColaboradores.add(lblCreado2);
+		
+		comboboxTipoColab = new JComboBox();
+		comboboxTipoColab.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		comboboxTipoColab.setBounds(10, 455, 300, 30);
+		panelInsertarColaboradores.add(comboboxTipoColab);
+		
+		lblIdMostrarIdSelec = new JLabel("");
+		lblIdMostrarIdSelec.setOpaque(true);
+		lblIdMostrarIdSelec.setFont(new Font("Tahoma", Font.ITALIC, 28));
+		lblIdMostrarIdSelec.setBorder(new LineBorder(Color.BLACK, 2));
+		lblIdMostrarIdSelec.setBackground(Color.WHITE);
+		lblIdMostrarIdSelec.setBounds(200, 11, 260, 30);
+		panelInsertarColaboradores.add(lblIdMostrarIdSelec);
+		
+		lblNombreColabSeleccionado = new JLabel("");
+		lblNombreColabSeleccionado.setOpaque(true);
+		lblNombreColabSeleccionado.setFont(new Font("Tahoma", Font.ITALIC, 28));
+		lblNombreColabSeleccionado.setBorder(new LineBorder(Color.BLACK, 2));
+		lblNombreColabSeleccionado.setBackground(Color.WHITE);
+		lblNombreColabSeleccionado.setBounds(10, 116, 430, 30);
+		panelInsertarColaboradores.add(lblNombreColabSeleccionado);
 
 		
 		// Panel de información duplicado
@@ -597,16 +595,16 @@ public class Vista extends JFrame {
 		btnVerInfoColab = new JButton("Ver Información");
 		btnVerInfoColab.setForeground(Color.WHITE);
 		btnVerInfoColab.setBackground(new Color(25, 25, 112));
-		btnVerInfoColab.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnVerInfoColab.setFont(new Font("Tahoma", Font.BOLD, 17));
 		btnVerInfoColab.setBounds(535, 120, 231, 38);
 		panelMostrarColabs.add(btnVerInfoColab);
 		
-		btnAadirColaboracin = new JButton("Añadir Colaboración");
-		btnAadirColaboracin.setForeground(SystemColor.desktop);
-		btnAadirColaboracin.setFont(new Font("Tahoma", Font.BOLD, 18));
-		btnAadirColaboracin.setBackground(SystemColor.scrollbar);
-		btnAadirColaboracin.setBounds(766, 120, 242, 38);
-		panelMostrarColabs.add(btnAadirColaboracin);
+		btnAniadirColab = new JButton("Añadir Colaboración");
+		btnAniadirColab.setForeground(SystemColor.desktop);
+		btnAniadirColab.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnAniadirColab.setBackground(SystemColor.scrollbar);
+		btnAniadirColab.setBounds(766, 127, 242, 31);
+		panelMostrarColabs.add(btnAniadirColab);
 
 		// Configuración del tercer panel con colores cálidos
 		panelMostrarMetricasCSV = new JPanel();
@@ -1617,6 +1615,9 @@ public class Vista extends JFrame {
 	public void ajustesInicio() {
 		lblFallo.setVisible(false);
 		lblResultado.setVisible(false);
+		panelInsertarColaboradores.setVisible(false);
+		scrollPaneColaboradores.setVisible(false);
+		listColaboradores.setVisible(false);
 	}
 
 	private Image asignarImagenSalir(JButton btnSalir_1) {
