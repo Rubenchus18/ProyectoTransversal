@@ -483,9 +483,7 @@ public class Controlador implements ActionListener {
 		if (metricaSeleccionada == null || metricaSeleccionada.trim().isEmpty()) {
 			return;
 		}
-
 		String[] partes = metricaSeleccionada.split(",");
-
 		if (partes.length < 2) {
 			System.out.println("Formato inválido.");
 			return;
@@ -530,10 +528,8 @@ public class Controlador implements ActionListener {
 			return;
 		}
 
-		// Extraemos el colaborador eliminando "Colaborador:"
 		String colaborador = partes[0].replace("Colaborador:", "").trim();
 
-		// Extraemos la temática eliminando "tematica:"
 		String tematica = partes[1].replace("tematica:", "").trim();
 
 		if (colaborador != null && tematica != null) {
@@ -546,18 +542,27 @@ public class Controlador implements ActionListener {
 					String tipo = colab.get("tipo").asText();
 					String estado = colab.get("estado").asText();
 
-					// Establecemos los valores en los elementos de la interfaz
-					vista.lblIdMostrarColaborador.setText(colaboradorJson); // Colaborador
-					vista.lblTematicaMostrar2.setText(tematicaJson); // Temática
-					vista.lblMostrarFechaInicio.setText(fechaInicio); // Fecha de inicio
-					vista.lblFechaFinMostrar.setText(fechaFin); // Fecha de fin
-					vista.lblTipoColabMostrar.setText(tipo); // Tipo
+					vista.lblIdMostrarColaborador.setText(colaboradorJson); 
+					vista.lblTematicaMostrar2.setText(tematicaJson); 
+					vista.lblMostrarFechaInicio.setText(fechaInicio); 
+					vista.lblFechaFinMostrar.setText(fechaFin);
+					vista.lblTipoColabMostrar.setText(tipo);
 					vista.lblEstadoColabMostrar.setText(estado);
 				}
 			}
 		}
 	}
-
+	public boolean ValidarDate(String date) {
+	    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	    sdf.setLenient(false); 
+	    try {
+	        Date parsedDate = sdf.parse(date);
+	        return true;
+	    } catch (ParseException e) {
+	        return false;
+	    }
+	}
+	
 	// 1
 	public JsonNode mostrarDatosStreamer(ArrayNode streamer) {
 		String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
@@ -586,12 +591,8 @@ public class Controlador implements ActionListener {
 					JsonNode estadisticas = creatorNode.get("estadisticas");
 					String interaccionesTotales = estadisticas.get("interacciones_totales").asText();
 					String promedioVistasMensuales = estadisticas.get("promedio_vistas_mensuales").asText();
-					// Obtener el valor double de la tasa de crecimiento de seguidores
 					Double tasaCrecimientoSeguidoresDouble = estadisticas.get("tasa_crecimiento_seguidores").asDouble();
-
-					// Convertir el double a un porcentaje
 					String tasaCrecimientoSeguidores = String.format("%.2f%%", tasaCrecimientoSeguidoresDouble);
-
 					vista.lblIdMostrar.setText(idCreador);
 					vista.lblNombreMostrar.setText(nombreCreador);
 					vista.lblPaisMostrar.setText(pais);
@@ -600,7 +601,7 @@ public class Controlador implements ActionListener {
 					vista.lblInteraccionesTotalesMostrar.setText(interaccionesTotales);
 					vista.lblPromedioVistasMensualesMostrar.setText(promedioVistasMensuales);
 					vista.lblTasaCrecimientoSeguidoresMostrar.setText(tasaCrecimientoSeguidores);
-
+					
 					creador = creatorNode;
 					vista.comboBoxPlataforma.setSelectedIndex(0);
 				}
@@ -610,13 +611,9 @@ public class Controlador implements ActionListener {
 	}
 
 	public JsonNode verPlataforma(String plataformaSeleccionada, JsonNode creatorNode) {
-
 		JsonNode plataformaSelecc = null;
-
 		if (plataformaSeleccionada != null) {
-
 			cambiarPlataforma(plataformaSeleccionada);
-
 			for (JsonNode plataforma : creatorNode.get("plataformas")) {
 				String nombrePlataforma = plataforma.get("nombre").asText();
 				if (nombrePlataforma.equals(plataformaSeleccionada)) {
@@ -786,11 +783,19 @@ public class Controlador implements ActionListener {
 	            }
 	        }
 
-	        double promedioVistas = conteo > 0 ? (double) totalVistas / conteo : 0;
-	        double promedioMeGusta = conteo > 0 ? (double) totalMeGusta / conteo : 0;
+	        double promedioVistas;
+	        double promedioMeGusta;
 
-	      //  vista.lblPromedioVistasMostrar.setText(String.format("Promedio Vistas en %s: %.2f", nombrePlataforma, promedioVistas));
-	      //  vista.lblPromedioMeGustaMostrar.setText(String.format("Promedio Me Gusta en %s: %.2f", nombrePlataforma, promedioMeGusta));
+	        if (conteo > 0) {
+	            promedioVistas = (double) totalVistas / conteo;
+	            promedioMeGusta = (double) totalMeGusta / conteo;
+	        } else {
+	            promedioVistas = 0;
+	            promedioMeGusta = 0;
+	        }
+
+	        // vista.lblPromedioVistasMostrar.setText(String.format("Promedio Vistas en %s: %.2f", nombrePlataforma, promedioVistas));
+	        // vista.lblPromedioMeGustaMostrar.setText(String.format("Promedio Me Gusta en %s: %.2f", nombrePlataforma, promedioMeGusta));
 	    }
 	}
 	public void identificarMejorRendimiento(JsonNode creatorNode) {
@@ -835,12 +840,10 @@ public void agregarColaboracion(ArrayNode streamer)
     if (idCreador1.isEmpty() || colaborador.isEmpty() || tematica.isEmpty() || fechaInicio.isEmpty()
             || fechaFin.isEmpty() || tipoColaboracion.isEmpty() || estadoColaboracion == null) {
         this.vista.lblCreado.setText("Error: Todos los campos deben estar rellenos.");
-        return;
     }
 
-    if (!isValidDate(fechaInicio) || !isValidDate(fechaFin)) {
+    if (!ValidarDate(fechaInicio) || !ValidarDate(fechaFin)) {
         this.vista.lblCreado.setText("Error: Las fechas deben estar en el formato dd/mm/yyyy.");
-        return;
     }
 
     for (JsonNode creatorNode : streamer) {
@@ -858,16 +861,6 @@ public void agregarColaboracion(ArrayNode streamer)
             this.vista.lblCreado.setText("Colaboración añadida exitosamente.");
             return;
         }
-    }
-}
-public boolean isValidDate(String date) {
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-    sdf.setLenient(false); 
-    try {
-        Date parsedDate = sdf.parse(date);
-        return true;
-    } catch (ParseException e) {
-        return false;
     }
 }
 
@@ -994,16 +987,7 @@ public boolean isValidDate(String date) {
 	    }
 	}
 
-	public boolean ValidarDate(String date) {
-	    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-	    sdf.setLenient(false); 
-	    try {
-	        Date parsedDate = sdf.parse(date);
-	        return true;
-	    } catch (ParseException e) {
-	        return false;
-	    }
-	}
+	
 
 	public void eliminarPublicacion(List<Contenido> contenido) {
 		String tipo = (String) this.vista.comboBoxOpcion.getSelectedItem();
@@ -1122,7 +1106,6 @@ public boolean isValidDate(String date) {
 	    if (partes.length < 2) {
 	        return null;
 	    }
-
 	    String idCreadorSeleccionado = partes[1]; 
 	    JsonNode creador = null;
 
@@ -1175,8 +1158,6 @@ public boolean isValidDate(String date) {
 	        for (JsonNode registro : historico) {
 	            String fecha = registro.get("fecha").asText();
 	            int nuevosSeguidores = registro.get("nuevos_seguidores").asInt();
-
-	            // Solo considerar el primer trimestre de 2023
 	            if (fecha.startsWith("2023-01") || fecha.startsWith("2023-02") || fecha.startsWith("2023-03")) {
 	                if (fecha.equals("2023-01-10")) {
 	                    seguidoresInicio += nuevosSeguidores;
@@ -1411,7 +1392,7 @@ public boolean isValidDate(String date) {
 	        this.vista.lblCreado.setText("Error: Todos los campos deben estar rellenos.");
 	   
 	    }
-	    if (!isValidDate(fecha)) {
+	    if (!ValidarDate(fecha)) {
 	        this.vista.lblCreado.setText("Error: La fecha debe estar en el formato dd/MM/yyyy.");
 	    }
 
@@ -1447,10 +1428,8 @@ public boolean isValidDate(String date) {
 	        this.vista.lblCreado.setText("Publicación añadida con éxito.");
 
 	    } catch (NumberFormatException e) {
-	        this.vista.lblCreado.setText("Error: " + e.getMessage());
-	    } catch (Exception e) {
-	        this.vista.lblCreado.setText("Error: " + e.getMessage());
-	    }
+	        this.vista.lblCreado.setText("Error: no se pueden poner letras");
+	    } 
 	}
 
 	public void modificarPublicacion2(List<Contenido> contenido) {
@@ -1466,8 +1445,7 @@ public boolean isValidDate(String date) {
 	        return;
 	    }
 
-	    // Validar formato de fecha
-	    if (!isValidDate(fecha)) {
+	    if (!ValidarDate(fecha)) {
 	        this.vista.lblCreado.setText("Error: La fecha debe estar en el formato dd/MM/yyyy.");
 	        return;
 	    }
@@ -1501,16 +1479,7 @@ public boolean isValidDate(String date) {
 	        this.vista.lblCreado.setText("Error al procesar la modificación de la publicación.");
 	    }
 	}
-	private boolean ValidDate(String date) {
-	    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-	    sdf.setLenient(false); 
-	    try {
-	        Date parsedDate = sdf.parse(date);
-	        return true;
-	    } catch (ParseException e) {
-	        return false;
-	    }
-	}
+
 
 	public void eliminarPublicacionesPorLikes(List<Contenido> contenido) {
 		String likesTexto = this.vista.textFieldMinVistas.getText();
@@ -1598,7 +1567,7 @@ public boolean isValidDate(String date) {
 		}
 	}
 
-	private void bomba() {
+	public void bomba() {
 
 		AtomicBoolean continueLoop = new AtomicBoolean(true);
 
