@@ -722,7 +722,7 @@ public class Controlador implements ActionListener {
 	}
 
 	// 2
-	public JsonNode mostrarDatosStreamer(ArrayNode streamer) {
+	public JsonNode mostrarDatosStreamer21(ArrayNode streamer) {
 	    String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
 	    if (nombreSeleccionado == null || nombreSeleccionado.trim().isEmpty()) {
 	        return null;
@@ -789,8 +789,8 @@ public class Controlador implements ActionListener {
 	        double promedioVistas = conteo > 0 ? (double) totalVistas / conteo : 0;
 	        double promedioMeGusta = conteo > 0 ? (double) totalMeGusta / conteo : 0;
 
-	        vista.lblPromedioVistasMostrar.setText(String.format("Promedio Vistas en %s: %.2f", nombrePlataforma, promedioVistas));
-	        vista.lblPromedioMeGustaMostrar.setText(String.format("Promedio Me Gusta en %s: %.2f", nombrePlataforma, promedioMeGusta));
+	      //  vista.lblPromedioVistasMostrar.setText(String.format("Promedio Vistas en %s: %.2f", nombrePlataforma, promedioVistas));
+	      //  vista.lblPromedioMeGustaMostrar.setText(String.format("Promedio Me Gusta en %s: %.2f", nombrePlataforma, promedioMeGusta));
 	    }
 	}
 	public void identificarMejorRendimiento(JsonNode creatorNode) {
@@ -815,7 +815,7 @@ public class Controlador implements ActionListener {
 	        }
 
 	        if (mejorTipo != null) {
-	            vista.lblMejorRendimientoMostrar.setText(String.format("Mejor tipo de contenido en %s: %s con %d vistas", nombrePlataforma, mejorTipo, maxRendimiento));
+	           // vista.lblMejorRendimientoMostrar.setText(String.format("Mejor tipo de contenido en %s: %s con %d vistas", nombrePlataforma, mejorTipo, maxRendimiento));
 	        }
 	    }
 	}
@@ -1187,8 +1187,8 @@ public boolean isValidDate(String date) {
 	            }
 	        }
 
-	        double tasaCrecimiento = calcularTasa Crecimiento(seguidoresInicio, seguidoresFin);
-	        vista.lblCrecimientoMensualMostrar.setText(String.format("Crecimiento en %s: %.2f%%", nombrePlataforma, tasaCrecimiento));
+	        double tasaCrecimiento = calcularTasaCrecimiento(seguidoresInicio, seguidoresFin);
+	      //  vista.lblCrecimientoMensualMostrar.setText(String.format("Crecimiento en %s: %.2f%%", nombrePlataforma, tasaCrecimiento));
 	    }
 	}
 
