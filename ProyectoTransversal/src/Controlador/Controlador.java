@@ -839,11 +839,11 @@ public void agregarColaboracion(ArrayNode streamer)
 
     if (idCreador1.isEmpty() || colaborador.isEmpty() || tematica.isEmpty() || fechaInicio.isEmpty()
             || fechaFin.isEmpty() || tipoColaboracion.isEmpty() || estadoColaboracion == null) {
-        this.vista.lblCreado.setText("Error: Todos los campos deben estar rellenos.");
+        this.vista.lblCreado2.setText("Error: Todos los campos deben estar rellenos.");
     }
 
     if (!ValidarDate(fechaInicio) || !ValidarDate(fechaFin)) {
-        this.vista.lblCreado.setText("Error: Las fechas deben estar en el formato dd/mm/yyyy.");
+        this.vista.lblCreado2.setText("Error: Las fechas deben estar en el formato dd/mm/yyyy.");
     }
 
     for (JsonNode creatorNode : streamer) {
@@ -858,7 +858,7 @@ public void agregarColaboracion(ArrayNode streamer)
             nuevaColaboracion.put("estado", estadoColaboracion);
             ((ArrayNode) creatorNode.get("colaboraciones")).add(nuevaColaboracion);
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, streamer);
-            this.vista.lblCreado.setText("Colaboración añadida exitosamente.");
+            this.vista.lblCreado2.setText("Colaboración añadida exitosamente.");
             return;
         }
     }
