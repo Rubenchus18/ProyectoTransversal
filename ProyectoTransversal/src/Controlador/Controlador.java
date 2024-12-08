@@ -15,9 +15,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -324,7 +327,7 @@ public class Controlador implements ActionListener {
 
 	}
 
-	private void salirInfoGeneral(JButton botonPasado) {
+	public void salirInfoGeneral(JButton botonPasado) {
 		JButton boton = botonPasado;
 		if (boton == vista.btnSalirInfoGen2) {
 			this.vista.panelMostrarMetricasCSV.setVisible(false);
@@ -340,12 +343,12 @@ public class Controlador implements ActionListener {
 		} else if (boton == vista.btnSalirInfoGen) {
 			this.vista.panelMostrarColabs.setVisible(false);
 			vista.panelMostrarTodo.setVisible(true);
-			// Establecemos los valores en los elementos de la interfaz
-			vista.lblIdMostrarColaborador.setText(""); // Colaborador
-			vista.lblTematicaMostrar2.setText(""); // Temática
-			vista.lblMostrarFechaInicio.setText(""); // Fecha de inicio
-			vista.lblFechaFinMostrar.setText(""); // Fecha de fin
-			vista.lblTipoColabMostrar.setText(""); // Tipo
+			
+			vista.lblIdMostrarColaborador.setText(""); 
+			vista.lblTematicaMostrar2.setText("");
+			vista.lblMostrarFechaInicio.setText("");
+			vista.lblFechaFinMostrar.setText(""); 
+			vista.lblTipoColabMostrar.setText(""); 
 			vista.lblEstadoColabMostrar.setText("");
 		}
 	}
@@ -475,23 +478,18 @@ public class Controlador implements ActionListener {
 	}
 
 	public void verMetricas() {
-		// Supongamos que el valor seleccionado es algo como este:
 		String metricaSeleccionada = (String) vista.listMetricas.getSelectedValue();
 
 		if (metricaSeleccionada == null || metricaSeleccionada.trim().isEmpty()) {
-			// Manejar el caso donde el nombre seleccionado es nulo o vacío
 			return;
 		}
 
-		// Dividimos por la coma para separar las partes
 		String[] partes = metricaSeleccionada.split(",");
-		// Validamos que tenga al menos dos partes
+
 		if (partes.length < 2) {
 			System.out.println("Formato inválido.");
 			return;
 		}
-
-		// Extraemos la primera parte, que corresponde a la colaboración
 		String contenidoSeleccionado = partes[0].trim();
 
 		if (contenido != null) {
@@ -523,13 +521,10 @@ public class Controlador implements ActionListener {
 		String colaboracionSeleccionada = (String) vista.listColabs.getSelectedValue();
 
 		if (colaboracionSeleccionada == null || colaboracionSeleccionada.trim().isEmpty()) {
-			// Manejar el caso donde el nombre seleccionado es nulo o vacío
 			return;
 		}
 
-		// Dividimos por la coma para separar las partes
 		String[] partes = colaboracionSeleccionada.split(",");
-		// Validamos que tenga al menos dos partes
 		if (partes.length < 2) {
 			System.out.println("Formato inválido.");
 			return;
@@ -727,51 +722,154 @@ public class Controlador implements ActionListener {
 	}
 
 	// 2
-	public void calcularPromedios(ArrayNode streamer, List<Contenido> contenido) {
-		modelo2.setRowCount(0);
-		modelo2.setColumnCount(0);
-		String[] nombrePromedios = { "ID Creador", "Nombre Creador", "Plataforma", "Promedio Vistas",
-				"Promedio Me Gustas" };
+	public JsonNode mostrarDatosStreamer(ArrayNode streamer) {
+	    String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
+	    if (nombreSeleccionado == null || nombreSeleccionado.trim().isEmpty()) {
+	        return null;
+	    }
 
-		modelo2.setColumnIdentifiers(nombrePromedios);
+	    String[] partes = nombreSeleccionado.split(" ");
+	    if (partes.length < 2) {
+	        return null;
+	    }
 
+	    String idCreadorSeleccionado = partes[1]; 
+	    JsonNode creador = null;
+
+	    if (idCreadorSeleccionado != null) {
+	        vista.comboBoxHistorial.removeAllItems();
+	        for (JsonNode creatorNode : streamer) {
+	            String idCreador = creatorNode.get("id").asText();
+	            if (idCreador.equals(idCreadorSeleccionado)) {
+	                String nombreCreador = creatorNode.get("nombre").asText();
+	                String pais = creatorNode.get("pais").asText();
+	                String tematica = creatorNode.get("tematica").asText();
+	                String seguidoresTotales = creatorNode.get("seguidores_totales").asText();
+	                JsonNode estadisticas = creatorNode.get("estadisticas");
+	                String interaccionesTotales = estadisticas.get("interacciones_totales").asText();
+	                String promedioVistasMensuales = estadisticas.get("promedio_vistas_mensuales").asText();
+	                Double tasaCrecimientoSeguidoresDouble = estadisticas.get("tasa_crecimiento_seguidores").asDouble();
+	                String tasaCrecimientoSeguidores = String.format("%.2f%%", tasaCrecimientoSeguidoresDouble);
+
+	                vista.lblIdMostrar.setText(idCreador);
+	                vista.lblNombreMostrar.setText(nombreCreador);
+	                vista.lblPaisMostrar.setText(pais);
+	                vista.lblTematicaMostrar.setText(tematica);
+	                vista.lblSeguidoresTotalesMostrar.setText(seguidoresTotales);
+	                vista.lblInteraccionesTotalesMostrar.setText(interaccionesTotales);
+	                vista.lblPromedioVistasMensualesMostrar.setText(promedioVistasMensuales);
+	                vista.lblTasaCrecimientoSeguidoresMostrar.setText(tasaCrecimientoSeguidores);
+
+	                calcularPromedios(creatorNode);
+	                identificarMejorRendimiento(creatorNode);
+
+	                creador = creatorNode;
+	                vista.comboBoxPlataforma.setSelectedIndex(0);
+	            }
+	        }
+	    }
+	    return creador;
 	}
+	public void calcularPromedios(JsonNode creatorNode) {
+	    ArrayNode plataformas = (ArrayNode) creatorNode.get("plataformas");
+	    for (JsonNode plataforma : plataformas) {
+	        String nombrePlataforma = plataforma.get("nombre").asText();
+	        int totalVistas = 0;
+	        int totalMeGusta = 0;
+	        int conteo = 0;
 
+	        for (Contenido cont : contenido) {
+	            if (cont.getPlataforma().equals(nombrePlataforma) && cont.getCreador_id().equals(creatorNode.get("id").asText())) {
+	                totalVistas += cont.getVistas();
+	                totalMeGusta += cont.getMe_gustas();
+	                conteo++;
+	            }
+	        }
+
+	        double promedioVistas = conteo > 0 ? (double) totalVistas / conteo : 0;
+	        double promedioMeGusta = conteo > 0 ? (double) totalMeGusta / conteo : 0;
+
+	        vista.lblPromedioVistasMostrar.setText(String.format("Promedio Vistas en %s: %.2f", nombrePlataforma, promedioVistas));
+	        vista.lblPromedioMeGustaMostrar.setText(String.format("Promedio Me Gusta en %s: %.2f", nombrePlataforma, promedioMeGusta));
+	    }
+	}
+	public void identificarMejorRendimiento(JsonNode creatorNode) {
+	    ArrayNode plataformas = (ArrayNode) creatorNode.get("plataformas");
+	    for (JsonNode plataforma : plataformas) {
+	        String nombrePlataforma = plataforma.get("nombre").asText();
+	        Map<String, Integer> rendimientoPorTipo = new HashMap<>();
+
+	        for (Contenido cont : contenido) {
+	            if (cont.getPlataforma().equals(nombrePlataforma) && cont.getCreador_id().equals(creatorNode.get("id").asText())) {
+	                rendimientoPorTipo.put(cont.getTipo(), rendimientoPorTipo.getOrDefault(cont.getTipo(), 0) + cont.getVistas());
+	            }
+	        }
+
+	        String mejorTipo = null;
+	        int maxRendimiento = 0;
+	        for (Map.Entry<String, Integer> entry : rendimientoPorTipo.entrySet()) {
+	            if (entry.getValue() > maxRendimiento) {
+	                maxRendimiento = entry.getValue();
+	                mejorTipo = entry.getKey();
+	            }
+	        }
+
+	        if (mejorTipo != null) {
+	            vista.lblMejorRendimientoMostrar.setText(String.format("Mejor tipo de contenido en %s: %s con %d vistas", nombrePlataforma, mejorTipo, maxRendimiento));
+	        }
+	    }
+	}
 //3
-	public void agregarColaboracion(ArrayNode streamer)
-			throws JsonGenerationException, JsonMappingException, IOException {
-		File file = new File("files/creadores.json");
-		String idCreador1 = this.vista.textFieldCreador1.getText();
-		String colaborador = this.vista.textFieldNombreColaborador.getText();
-		String tematica = this.vista.textFieldTematica.getText();
-		String fechaInicio = this.vista.textFieldFechaInicio.getText();
-		String fechaFin = this.vista.textFieldFechaFin.getText();
-		String tipoColaboracion = this.vista.textFieldTipoColaboracion.getText();
-		String estadoColaboracion = (String) this.vista.comboBoxEstadoColaboracion.getSelectedItem();
 
-		if (idCreador1.isEmpty() || colaborador.isEmpty() || tematica.isEmpty() || fechaInicio.isEmpty()
-				|| fechaFin.isEmpty() || tipoColaboracion.isEmpty() || estadoColaboracion == null) {
-			this.vista.lblCreado.setText("Error: Todos los campos deben estar rellenos.");
-			return;
-		}
+public void agregarColaboracion(ArrayNode streamer)
+        throws JsonGenerationException, JsonMappingException, IOException {
+    File file = new File("files/creadores.json");
+    String idCreador1 = this.vista.textFieldCreador1.getText();
+    String colaborador = this.vista.textFieldNombreColaborador.getText();
+    String tematica = this.vista.textFieldTematica.getText();
+    String fechaInicio = this.vista.textFieldFechaInicio.getText();
+    String fechaFin = this.vista.textFieldFechaFin.getText();
+    String tipoColaboracion = this.vista.textFieldTipoColaboracion.getText();
+    String estadoColaboracion = (String) this.vista.comboBoxEstadoColaboracion.getSelectedItem();
 
-		for (JsonNode creatorNode : streamer) {
-			String creatorId = creatorNode.get("id").asText();
-			if (creatorId != null && creatorId.equals(idCreador1)) {
-				ObjectNode nuevaColaboracion = objectMapper.createObjectNode();
-				nuevaColaboracion.put("colaborador", colaborador);
-				nuevaColaboracion.put("tematica", tematica);
-				nuevaColaboracion.put("fecha_inicio", fechaInicio);
-				nuevaColaboracion.put("fecha_fin", fechaFin);
-				nuevaColaboracion.put("tipo", tipoColaboracion);
-				nuevaColaboracion.put("estado", estadoColaboracion);
-				((ArrayNode) creatorNode.get("colaboraciones")).add(nuevaColaboracion);
-				objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, streamer);
-				this.vista.lblCreado.setText("Colaboración añadida exitosamente.");
-				return;
-			}
-		}
-	}
+    if (idCreador1.isEmpty() || colaborador.isEmpty() || tematica.isEmpty() || fechaInicio.isEmpty()
+            || fechaFin.isEmpty() || tipoColaboracion.isEmpty() || estadoColaboracion == null) {
+        this.vista.lblCreado.setText("Error: Todos los campos deben estar rellenos.");
+        return;
+    }
+
+    if (!isValidDate(fechaInicio) || !isValidDate(fechaFin)) {
+        this.vista.lblCreado.setText("Error: Las fechas deben estar en el formato dd/mm/yyyy.");
+        return;
+    }
+
+    for (JsonNode creatorNode : streamer) {
+        String creatorId = creatorNode.get("id").asText();
+        if (creatorId != null && creatorId.equals(idCreador1)) {
+            ObjectNode nuevaColaboracion = objectMapper.createObjectNode();
+            nuevaColaboracion.put("colaborador", colaborador);
+            nuevaColaboracion.put("tematica", tematica);
+            nuevaColaboracion.put("fecha_inicio", fechaInicio);
+            nuevaColaboracion.put("fecha_fin", fechaFin);
+            nuevaColaboracion.put("tipo", tipoColaboracion);
+            nuevaColaboracion.put("estado", estadoColaboracion);
+            ((ArrayNode) creatorNode.get("colaboraciones")).add(nuevaColaboracion);
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, streamer);
+            this.vista.lblCreado.setText("Colaboración añadida exitosamente.");
+            return;
+        }
+    }
+}
+public boolean isValidDate(String date) {
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    sdf.setLenient(false); 
+    try {
+        Date parsedDate = sdf.parse(date);
+        return true;
+    } catch (ParseException e) {
+        return false;
+    }
+}
 
 	// 4
 	public void exportarColaboracionesACSV(ArrayNode streamer, List<Contenido> contenido) {
@@ -830,65 +928,81 @@ public class Controlador implements ActionListener {
 
 	// 5
 	public void modificarPublicacion(List<Contenido> contenido) {
-		String idStreamer = this.vista.textFieldidstreamer.getText();
-		String fecha = this.vista.textFieldfehca.getText();
-		String tipo = (String) this.vista.comboBoxparaModificar.getSelectedItem();
-		String nuevoDato = this.vista.textFieldDato.getText();
-		boolean modificada = false;
-		if (idStreamer.isEmpty() || fecha.isEmpty() || tipo == null || nuevoDato.isEmpty()) {
-			this.vista.lblCreado.setText("Error: Todos los campos deben estar completos.");
+	    String idStreamer = this.vista.textFieldidstreamer.getText();
+	    String fecha = this.vista.textFieldfehca.getText();
+	    String tipo = (String) this.vista.comboBoxparaModificar.getSelectedItem();
+	    String nuevoDato = this.vista.textFieldDato.getText();
+	    boolean modificada = false;
 
-		}
+	    if (idStreamer.isEmpty() || fecha.isEmpty() || tipo == null || nuevoDato.isEmpty()) {
+	        this.vista.lblCreado.setText("Error: Todos los campos deben estar completos.");
+	        return;
+	    }
+	    if (!ValidarDate(fecha)) {
+	        this.vista.lblCreado.setText("Error: La fecha debe estar en el formato dd/MM/yyyy.");
+	        return;
+	    }
 
-		for (Contenido cont : contenido) {
-			if (cont.getCreador_id().equals(idStreamer) && cont.getFecha().equals(fecha)) {
-				switch (tipo.toLowerCase()) {
-				case "me_gusta":
-					cont.setMe_gustas(Integer.parseInt(nuevoDato));
-					break;
-				case "comentarios":
-					cont.setComentarios(Integer.parseInt(nuevoDato));
-					break;
-				case "vistas":
-					cont.setVistas(Integer.parseInt(nuevoDato));
-					break;
-				case "compartidos":
-					cont.setCompartidos(Integer.parseInt(nuevoDato));
-					break;
-				case "tipo":
-					cont.setTipo(nuevoDato);
-					break;
-				case "contenido":
-					cont.setContenido(nuevoDato);
-					break;
-				case "fecha":
-					cont.setFecha(nuevoDato);
-					break;
-				case "plataforma":
-					cont.setPlataforma(nuevoDato);
-					break;
-				case "creador_id":
-					cont.setCreador_id(nuevoDato);
-					break;
-				default:
-					System.out.println("Campo no reconocido: " + tipo);
-					return;
-				}
-				modificada = true;
-				break;
-			}
-		}
-		if (modificada) {
-			try {
-				crearCSV(contenido, "files/metricas_contenido.csv");
-				this.vista.lblCreado.setText("Publicación modificada exitosamente.");
-			} catch (Exception e) {
-				e.printStackTrace();
-				this.vista.lblCreado.setText("Error al escribir en el archivo CSV.");
-			}
-		} else {
-			this.vista.lblCreado.setText("Error: No se encontró la publicación para modificar.");
-		}
+	    for (Contenido cont : contenido) {
+	        if (cont.getCreador_id().equals(idStreamer) && cont.getFecha().equals(fecha)) {
+	            switch (tipo.toLowerCase()) {
+	                case "me_gusta":
+	                    cont.setMe_gustas(Integer.parseInt(nuevoDato));
+	                    break;
+	                case "comentarios":
+	                    cont.setComentarios(Integer.parseInt(nuevoDato));
+	                    break;
+	                case "vistas":
+	                    cont.setVistas(Integer.parseInt(nuevoDato));
+	                    break;
+	                case "compartidos":
+	                    cont.setCompartidos(Integer.parseInt(nuevoDato));
+	                    break;
+	                case "tipo":
+	                    cont.setTipo(nuevoDato);
+	                    break;
+	                case "contenido":
+	                    cont.setContenido(nuevoDato);
+	                    break;
+	                case "fecha":
+	                    cont.setFecha(nuevoDato);
+	                    break;
+	                case "plataforma":
+	                    cont.setPlataforma(nuevoDato);
+	                    break;
+	                case "creador_id":
+	                    cont.setCreador_id(nuevoDato);
+	                    break;
+	                default:
+	                    System.out.println("Campo no reconocido: " + tipo);
+	                    return;
+	            }
+	            modificada = true;
+	            break;
+	        }
+	    }
+	    if (modificada) {
+	        try {
+	            crearCSV(contenido, "files/metricas_contenido.csv");
+	            this.vista.lblCreado.setText("Publicación modificada exitosamente.");
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            this.vista.lblCreado.setText("Error al escribir en el archivo CSV.");
+	        }
+	    } else {
+	        this.vista.lblCreado.setText("Error: No se encontró la publicación para modificar.");
+	    }
+	}
+
+	public boolean ValidarDate(String date) {
+	    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	    sdf.setLenient(false); 
+	    try {
+	        Date parsedDate = sdf.parse(date);
+	        return true;
+	    } catch (ParseException e) {
+	        return false;
+	    }
 	}
 
 	public void eliminarPublicacion(List<Contenido> contenido) {
@@ -998,74 +1112,98 @@ public class Controlador implements ActionListener {
 	}
 
 	// 7
-	public void analizarCrecimientoMensualSeguidores(ArrayNode streamer) throws IOException {
+	public JsonNode mostrarDatosStreamer1(ArrayNode streamer) {
+	    String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
+	    if (nombreSeleccionado == null || nombreSeleccionado.trim().isEmpty()) {
+	        return null;
+	    }
 
-		modelo2.setRowCount(0);
-		modelo2.setColumnCount(0);
+	    String[] partes = nombreSeleccionado.split(" ");
+	    if (partes.length < 2) {
+	        return null;
+	    }
 
-		String[] nombre = { "ID Creador", "Nombre_Creador", "Tasa de crecimiento en YouTube",
-				"Tasa de crecimiento en Twitch", "Tasa de crecimiento en Instagram", "Tasa de crecimiento en TikTok" };
-		modelo2.setColumnIdentifiers(nombre);
+	    String idCreadorSeleccionado = partes[1]; 
+	    JsonNode creador = null;
 
-		for (int i = 0; i < streamer.size(); i++) {
-			ObjectNode creador = (ObjectNode) streamer.get(i);
+	    if (idCreadorSeleccionado != null) {
+	        vista.comboBoxHistorial.removeAllItems();
+	        for (JsonNode creatorNode : streamer) {
+	            String idCreador = creatorNode.get("id").asText();
+	            if (idCreador.equals(idCreadorSeleccionado)) {
+	                String nombreCreador = creatorNode.get("nombre").asText();
+	                String pais = creatorNode.get("pais").asText();
+	                String tematica = creatorNode.get("tematica").asText();
+	                String seguidoresTotales = creatorNode.get("seguidores_totales").asText();
+	                JsonNode estadisticas = creatorNode.get("estadisticas");
+	                String interaccionesTotales = estadisticas.get("interacciones_totales").asText();
+	                String promedioVistasMensuales = estadisticas.get("promedio_vistas_mensuales").asText();
+	                Double tasaCrecimientoSeguidoresDouble = estadisticas.get("tasa_crecimiento_seguidores").asDouble();
+	                String tasaCrecimientoSeguidores = String.format("%.2f%%", tasaCrecimientoSeguidoresDouble);
 
-			String idCreador = creador.get("id").asText();
-			String nombreCreador = creador.get("nombre").asText();
+	      
+	                vista.lblIdMostrar.setText(idCreador);
+	                vista.lblNombreMostrar.setText(nombreCreador);
+	                vista.lblPaisMostrar.setText(pais);
+	                vista.lblTematicaMostrar.setText(tematica);
+	                vista.lblSeguidoresTotalesMostrar.setText(seguidoresTotales);
+	                vista.lblInteraccionesTotalesMostrar.setText(interaccionesTotales);
+	                vista.lblPromedioVistasMensualesMostrar.setText(promedioVistasMensuales);
+	                vista.lblTasaCrecimientoSeguidoresMostrar.setText(tasaCrecimientoSeguidores);
 
-			int seguidoresYoutubeInicio = 0;
-			int seguidoresYoutubeFin = 0;
-			int seguidoresTwitchInicio = 0;
-			int seguidoresTwitchFin = 0;
-			int seguidoresInstagramInicio = 0;
-			int seguidoresInstagramFin = 0;
-			int seguidoresTikTokInicio = 0;
-			int seguidoresTikTokFin = 0;
+	             
+	                calcularPromedios(creatorNode);
+	                identificarMejorRendimiento(creatorNode);
+	                calcularCrecimientoMensual(creatorNode);
 
-			for (var plataforma : creador.get("plataformas")) {
-				String nombrePlataforma = plataforma.get("nombre").asText();
-				var historico = plataforma.get("historico");
+	                creador = creatorNode;
+	                vista.comboBoxPlataforma.setSelectedIndex(0);
+	            }
+	        }
+	    }
+	    return creador;
+	}
+	public void calcularCrecimientoMensual(JsonNode creatorNode) {
+	    ArrayNode plataformas = (ArrayNode) creatorNode.get("plataformas");
+	    for (JsonNode plataforma : plataformas) {
+	        String nombrePlataforma = plataforma.get("nombre").asText();
+	        ArrayNode historico = (ArrayNode) plataforma.get("historico");
 
-				if (historico.size() > 0) {
-					seguidoresYoutubeInicio = historico.get(0).get("nuevos_seguidores").asInt();
-					seguidoresYoutubeFin = historico.get(historico.size() - 1).get("nuevos_seguidores").asInt();
+	        int seguidoresInicio = 0;
+	        int seguidoresFin = 0;
 
-					switch (nombrePlataforma) {
-					case "YouTube":
-						seguidoresYoutubeInicio = plataforma.get("seguidores").asInt() - seguidoresYoutubeInicio;
-						seguidoresYoutubeFin = plataforma.get("seguidores").asInt();
-						break;
-					case "Twitch":
-						seguidoresTwitchInicio = plataforma.get("seguidores").asInt() - seguidoresYoutubeInicio;
-						seguidoresTwitchFin = plataforma.get("seguidores").asInt();
-						break;
-					case "Instagram":
-						seguidoresInstagramInicio = plataforma.get("seguidores").asInt() - seguidoresYoutubeInicio;
-						seguidoresInstagramFin = plataforma.get("seguidores").asInt();
-						break;
-					case "TikTok":
-						seguidoresTikTokInicio = plataforma.get("seguidores").asInt() - seguidoresYoutubeInicio;
-						seguidoresTikTokFin = plataforma.get("seguidores").asInt();
-						break;
-					}
-				}
-			}
-			double tasaCrecimientoYoutube = calcularTasaCrecimiento(seguidoresYoutubeInicio, seguidoresYoutubeFin);
-			double tasaCrecimientoTwitch = calcularTasaCrecimiento(seguidoresTwitchInicio, seguidoresTwitchFin);
-			double tasaCrecimientoInstagram = calcularTasaCrecimiento(seguidoresInstagramInicio,
-					seguidoresInstagramFin);
-			double tasaCrecimientoTikTok = calcularTasaCrecimiento(seguidoresTikTokInicio, seguidoresTikTokFin);
-			modelo2.addRow(new Object[] { idCreador, nombreCreador, tasaCrecimientoYoutube, tasaCrecimientoTwitch,
-					tasaCrecimientoInstagram, tasaCrecimientoTikTok });
-		}
+	        for (JsonNode registro : historico) {
+	            String fecha = registro.get("fecha").asText();
+	            int nuevosSeguidores = registro.get("nuevos_seguidores").asInt();
+
+	            // Solo considerar el primer trimestre de 2023
+	            if (fecha.startsWith("2023-01") || fecha.startsWith("2023-02") || fecha.startsWith("2023-03")) {
+	                if (fecha.equals("2023-01-10")) {
+	                    seguidoresInicio += nuevosSeguidores;
+	                }
+	                if (fecha.equals("2023-03-30")) {
+	                    seguidoresFin += nuevosSeguidores;
+	                }
+	            }
+	        }
+
+	        double tasaCrecimiento = calcularTasa Crecimiento(seguidoresInicio, seguidoresFin);
+	        vista.lblCrecimientoMensualMostrar.setText(String.format("Crecimiento en %s: %.2f%%", nombrePlataforma, tasaCrecimiento));
+	    }
 	}
 
 	public double calcularTasaCrecimiento(int seguidoresInicio, int seguidoresFin) {
-		if (seguidoresInicio == 0) {
-			return seguidoresFin > 0 ? 100.0 : 0.0;
-		}
-		return ((double) (seguidoresFin - seguidoresInicio) / seguidoresInicio) * 100;
+	    if (seguidoresInicio == 0) {
+	        if (seguidoresFin > 0) {
+	            return 100.0; 
+	        } else {
+	            return 0.0; 
+	        }
+	    } else {
+	        return ((double) (seguidoresFin - seguidoresInicio) / seguidoresInicio) * 100;
+	    }
 	}
+	
 
 	// 8
 	public void generarReporteColaboracionesCSV(ArrayNode streamer) throws IOException {
@@ -1093,44 +1231,97 @@ public class Controlador implements ActionListener {
 	}
 
 	// 9
-	public void analisisComparativoRendimiento(List<Contenido> contenido) {
-		Map<String, Map<String, int[]>> resultados = new HashMap<>();
-		for (Contenido c : contenido) {
-			String tipo = c.getTipo();
-			String plataforma = c.getPlataforma();
-			int vistas = c.getVistas();
-			int meGusta = c.getMe_gustas();
+	public void analizarRendimientoPorTipoContenido() {
+	    Map<String, Map<String, int[]>> rendimiento = new HashMap<>();
 
-			resultados.putIfAbsent(tipo, new HashMap<>());
-			resultados.get(tipo).putIfAbsent(plataforma, new int[2]);
+	    for (Contenido cont : contenido) {
+	        String tipo = cont.getTipo();
+	        String plataforma = cont.getPlataforma();
+	        int vistas = cont.getVistas();
+	        int meGusta = cont.getMe_gustas();
 
-			resultados.get(tipo).get(plataforma)[0] += vistas;
-			resultados.get(tipo).get(plataforma)[1] += meGusta;
-		}
-		for (String tipo : resultados.keySet()) {
-			System.out.println("Tipo de Contenido: " + tipo);
-			for (String plataforma : resultados.get(tipo).keySet()) {
-				int totalVistas = resultados.get(tipo).get(plataforma)[0];
-				int totalMeGusta = resultados.get(tipo).get(plataforma)[1];
-				int conteo = 0;
-				for (Contenido c : contenido) {
-					if (c.getTipo().equals(tipo) && c.getPlataforma().equals(plataforma)) {
-						conteo++;
-					}
-				}
-				if (conteo > 0) {
-					double promedioVistas = (double) totalVistas / conteo;
-					double promedioMeGusta = (double) totalMeGusta / conteo;
+	        rendimiento.putIfAbsent(tipo, new HashMap<>());
+	        rendimiento.get(tipo).putIfAbsent(plataforma, new int[2]);
+	        rendimiento.get(tipo).get(plataforma)[0] += vistas;
+	        rendimiento.get(tipo).get(plataforma)[1] += meGusta; 
+	    }
 
-					System.out.println("Plataforma: " + plataforma + " | Promedio Vistas: " + promedioVistas
-							+ " | Promedio Me Gusta: " + promedioMeGusta);
-				} else {
-					System.out.println(
-							"Plataforma: " + plataforma + " | No hay datos suficientes para calcular promedios.");
-				}
-			}
-			System.out.println();
-		}
+	    StringBuilder resultados = new StringBuilder();
+	    for (String tipo : rendimiento.keySet()) {
+	        resultados.append("Tipo de Contenido: ").append(tipo).append("\n");
+	        for (String plataforma : rendimiento.get(tipo).keySet()) {
+	            int totalVistas = rendimiento.get(tipo).get(plataforma)[0];
+	            int totalMeGusta = rendimiento.get(tipo).get(plataforma)[1];
+	            int conteo = 0;
+
+	            for (Contenido c : contenido) {
+	                if (c.getTipo().equals(tipo) && c.getPlataforma().equals(plataforma)) {
+	                    conteo++;
+	                }
+	            }
+
+	            if (conteo > 0) {
+	                double promedioVistas = (double) totalVistas / conteo;
+	                double promedioMeGusta = (double) totalMeGusta / conteo;
+
+	                resultados.append(String.format("Plataforma:  | Promedio Vistas:  | Promedio Me Gusta:",
+	                        plataforma, promedioVistas, promedioMeGusta));
+	            } else {
+	                resultados.append("Plataforma: ").append(plataforma).append(" | No hay datos suficientes.\n");
+	            }
+	        }
+	        resultados.append("\n");
+	    }
+
+	    JOptionPane.showMessageDialog(vista, resultados.toString(), "Análisis Comparativo de Rendimiento", JOptionPane.INFORMATION_MESSAGE);
+	}
+	public JsonNode mostrarDatosStreamer2(ArrayNode streamer) {
+	    String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
+	    if (nombreSeleccionado == null || nombreSeleccionado.trim().isEmpty()) {
+	        return null;
+	    }
+
+	    String[] partes = nombreSeleccionado.split(" ");
+	    if (partes.length < 2) {
+	        return null;
+	    }
+
+	    String idCreadorSeleccionado = partes[1]; 
+	    JsonNode creador = null;
+
+	    if (idCreadorSeleccionado != null) {
+	        vista.comboBoxHistorial.removeAllItems();
+	        for (JsonNode creatorNode : streamer) {
+	            String idCreador = creatorNode.get("id").asText();
+	            if (idCreador.equals(idCreadorSeleccionado)) {
+	                String nombreCreador = creatorNode.get("nombre").asText();
+	                String pais = creatorNode.get("pais").asText();
+	                String tematica = creatorNode.get("tematica").asText();
+	                String seguidoresTotales = creatorNode.get("seguidores_totales").asText();
+	                JsonNode estadisticas = creatorNode.get("estadisticas");
+	                String interaccionesTotales = estadisticas.get("interacciones_totales").asText();
+	                String promedioVistasMensuales = estadisticas.get( "promedio_vistas_mensuales").asText();
+	                String promedioVistasMensuales1 = estadisticas.get("promedio_vistas_mensuales").asText();
+	                Double tasaCrecimientoSeguidoresDouble = estadisticas.get("tasa_crecimiento_seguidores").asDouble();
+	                String tasaCrecimientoSeguidores = String.format("%.2f%%", tasaCrecimientoSeguidoresDouble);
+
+	                vista.lblIdMostrar.setText(idCreador);
+	                vista.lblNombreMostrar.setText(nombreCreador);
+	                vista.lblPaisMostrar.setText(pais);
+	                vista.lblTematicaMostrar.setText(tematica);
+	                vista.lblSeguidoresTotalesMostrar.setText(seguidoresTotales);
+	                vista.lblInteraccionesTotalesMostrar.setText(interaccionesTotales);
+	                vista.lblPromedioVistasMensualesMostrar.setText(promedioVistasMensuales1);
+	                vista.lblTasaCrecimientoSeguidoresMostrar.setText(tasaCrecimientoSeguidores);
+
+	                analizarRendimientoPorTipoContenido();
+
+	                creador = creatorNode;
+	                vista.comboBoxPlataforma.setSelectedIndex(0);
+	            }
+	        }
+	    }
+	    return creador;
 	}
 
 	// 10
@@ -1209,95 +1400,116 @@ public class Controlador implements ActionListener {
 
 //11
 	public void añadirPublicacion(List<Contenido> contenido) throws IOException {
-		String id_creador = this.vista.textFieldidcreador1.getText();
-		String plataforma = this.vista.textFieldplataforma2.getText();
-		String fecha = this.vista.textFieldFecha2.getText();
-		String contenidoTexto = this.vista.textFieldContenido2.getText();
-		String tipo = this.vista.textFieldTipo2.getText();
+	    String id_creador = this.vista.textFieldidcreador1.getText();
+	    String plataforma = this.vista.textFieldplataforma2.getText();
+	    String fecha = this.vista.textFieldFecha2.getText();
+	    String contenidoTexto = this.vista.textFieldContenido2.getText();
+	    String tipo = this.vista.textFieldTipo2.getText();
 
-		if (id_creador.isEmpty() || plataforma.isEmpty() || fecha.isEmpty() || contenidoTexto.isEmpty()
-				|| tipo.isEmpty()) {
-			this.vista.lblCreado.setText("Error: Todos los campos deben estar rellenos.");
-		}
+	    if (id_creador.isEmpty() || plataforma.isEmpty() || fecha.isEmpty() || contenidoTexto.isEmpty()
+	            || tipo.isEmpty()) {
+	        this.vista.lblCreado.setText("Error: Todos los campos deben estar rellenos.");
+	   
+	    }
+	    if (!isValidDate(fecha)) {
+	        this.vista.lblCreado.setText("Error: La fecha debe estar en el formato dd/MM/yyyy.");
+	    }
 
-		try {
-			String vistasTextoStr = this.vista.textFieldVistas2.getText();
-			String me_gustaTextoStr = this.vista.textFieldMeGsuta2.getText();
-			String comentariosTextoStr = this.vista.textFieldComentarios2.getText();
-			String compartidosTextoStr = this.vista.textFieldCompartidos2.getText();
+	    try {
+	        String vistasTextoStr = this.vista.textFieldVistas2.getText();
+	        String me_gustaTextoStr = this.vista.textFieldMeGsuta2.getText();
+	        String comentariosTextoStr = this.vista.textFieldComentarios2.getText();
+	        String compartidosTextoStr = this.vista.textFieldCompartidos2.getText();
 
-			if (vistasTextoStr.isEmpty() || me_gustaTextoStr.isEmpty() || comentariosTextoStr.isEmpty()
-					|| compartidosTextoStr.isEmpty()) {
-				throw new NumberFormatException("Los campos numéricos no pueden estar vacíos.");
-			}
+	        if (vistasTextoStr.isEmpty() || me_gustaTextoStr.isEmpty() || comentariosTextoStr.isEmpty()
+	                || compartidosTextoStr.isEmpty()) {
+	            throw new NumberFormatException("Los campos numéricos no pueden estar vacíos.");
+	        }
 
-			Integer vistasTexto = Integer.parseInt(vistasTextoStr);
-			Integer me_gustaTexto = Integer.parseInt(me_gustaTextoStr);
-			Integer comentariosTexto = Integer.parseInt(comentariosTextoStr);
-			Integer compartidosTexto = Integer.parseInt(compartidosTextoStr);
-			Contenido contenido1 = new Contenido();
-			contenido1.setCreador_id(id_creador);
-			contenido1.setPlataforma(plataforma);
-			contenido1.setFecha(fecha);
-			contenido1.setContenido(contenidoTexto);
-			contenido1.setTipo(tipo);
-			contenido1.setVistas(vistasTexto);
-			contenido1.setMe_gustas(me_gustaTexto);
-			contenido1.setComentarios(comentariosTexto);
-			contenido1.setCompartidos(compartidosTexto);
+	        Integer vistasTexto = Integer.parseInt(vistasTextoStr);
+	        Integer me_gustaTexto = Integer.parseInt(me_gustaTextoStr);
+	        Integer comentariosTexto = Integer.parseInt(comentariosTextoStr);
+	        Integer compartidosTexto = Integer.parseInt(compartidosTextoStr);
+	        Contenido contenido1 = new Contenido();
+	        contenido1.setCreador_id(id_creador);
+	        contenido1.setPlataforma(plataforma);
+	        contenido1.setFecha(fecha);
+	        contenido1.setContenido(contenidoTexto);
+	        contenido1.setTipo(tipo);
+	        contenido1.setVistas(vistasTexto);
+	        contenido1.setMe_gustas(me_gustaTexto);
+	        contenido1.setComentarios(comentariosTexto);
+	        contenido1.setCompartidos(compartidosTexto);
 
-			contenido.add(contenido1);
-			crearCSV(contenido, "files/metricas_contenido.csv");
+	        contenido.add(contenido1);
+	        crearCSV(contenido, "files/metricas_contenido.csv");
 
-			this.vista.lblCreado.setText("Publicación añadida con éxito.");
+	        this.vista.lblCreado.setText("Publicación añadida con éxito.");
 
-		} catch (NumberFormatException e) {
-			this.vista.lblCreado.setText("Error: " + e.getMessage());
-		} catch (Exception e) {
-			this.vista.lblCreado.setText("Error: " + e.getMessage());
-		}
+	    } catch (NumberFormatException e) {
+	        this.vista.lblCreado.setText("Error: " + e.getMessage());
+	    } catch (Exception e) {
+	        this.vista.lblCreado.setText("Error: " + e.getMessage());
+	    }
 	}
 
 	public void modificarPublicacion2(List<Contenido> contenido) {
-		String id_creador = this.vista.textFieldid_creador3.getText();
-		String fecha = this.vista.textFieldFechaContenido3.getText();
-		String plataforma = this.vista.textFieldel_plataforma3.getText();
-		String me_gustaTextoStr = this.vista.textField_megusta2.getText();
-		String comentariosTextoStr = this.vista.textFieldComentarios3.getText();
+	    String id_creador = this.vista.textFieldid_creador3.getText();
+	    String fecha = this.vista.textFieldFechaContenido3.getText();
+	    String plataforma = this.vista.textFieldel_plataforma3.getText();
+	    String me_gustaTextoStr = this.vista.textField_megusta2.getText();
+	    String comentariosTextoStr = this.vista.textFieldComentarios3.getText();
 
-		if (id_creador.isEmpty() || fecha.isEmpty() || plataforma.isEmpty() || me_gustaTextoStr.isEmpty()
-				|| comentariosTextoStr.isEmpty()) {
-			this.vista.lblCreado.setText("Error: Todos los campos deben estar completos.");
-		}
+	    if (id_creador.isEmpty() || fecha.isEmpty() || plataforma.isEmpty() || me_gustaTextoStr.isEmpty()
+	            || comentariosTextoStr.isEmpty()) {
+	        this.vista.lblCreado.setText("Error: Todos los campos deben estar completos.");
+	        return;
+	    }
 
-		try {
-			Integer me_gustaTexto = Integer.parseInt(me_gustaTextoStr);
-			Integer comentariosTexto = Integer.parseInt(comentariosTextoStr);
+	    // Validar formato de fecha
+	    if (!isValidDate(fecha)) {
+	        this.vista.lblCreado.setText("Error: La fecha debe estar en el formato dd/MM/yyyy.");
+	        return;
+	    }
 
-			boolean encontrado = false;
-			for (Contenido publicacion : contenido) {
-				if (publicacion.getCreador_id().equals(id_creador) && publicacion.getFecha().equals(fecha)
-						&& publicacion.getPlataforma().equals(plataforma)) {
-					publicacion.setMe_gustas(me_gustaTexto);
-					publicacion.setComentarios(comentariosTexto);
-					encontrado = true;
-					break;
-				}
-			}
+	    try {
+	        Integer me_gustaTexto = Integer.parseInt(me_gustaTextoStr);
+	        Integer comentariosTexto = Integer.parseInt(comentariosTextoStr);
 
-			if (encontrado) {
-				crearCSV(contenido, "files/metricas_contenido.csv");
-				this.vista.lblCreado.setText("Publicación modificada y guardada con éxito.");
-			} else {
-				this.vista.lblCreado.setText("No se encontró la publicación con los datos proporcionados.");
-			}
+	        boolean encontrado = false;
+	        for (Contenido publicacion : contenido) {
+	            if (publicacion.getCreador_id().equals(id_creador) && publicacion.getFecha().equals(fecha)
+	                    && publicacion.getPlataforma().equals(plataforma)) {
+	                publicacion.setMe_gustas(me_gustaTexto);
+	                publicacion.setComentarios(comentariosTexto);
+	                encontrado = true;
+	                break;
+	            }
+	        }
 
-		} catch (NumberFormatException e) {
-			this.vista.lblCreado.setText("Error: 'Me gusta' y 'Comentarios' deben ser números válidos.");
-		} catch (Exception e) {
-			e.printStackTrace();
-			this.vista.lblCreado.setText("Error al procesar la modificación de la publicación.");
-		}
+	        if (encontrado) {
+	            crearCSV(contenido, "files/metricas_contenido.csv");
+	            this.vista.lblCreado.setText("Publicación modificada y guardada con éxito.");
+	        } else {
+	            this.vista.lblCreado.setText("No se encontró la publicación con los datos proporcionados.");
+	        }
+
+	    } catch (NumberFormatException e) {
+	        this.vista.lblCreado.setText("Error: 'Me gusta' y 'Comentarios' deben ser números válidos.");
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        this.vista.lblCreado.setText("Error al procesar la modificación de la publicación.");
+	    }
+	}
+	private boolean ValidDate(String date) {
+	    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	    sdf.setLenient(false); 
+	    try {
+	        Date parsedDate = sdf.parse(date);
+	        return true;
+	    } catch (ParseException e) {
+	        return false;
+	    }
 	}
 
 	public void eliminarPublicacionesPorLikes(List<Contenido> contenido) {
