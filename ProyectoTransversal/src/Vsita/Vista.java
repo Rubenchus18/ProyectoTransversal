@@ -261,6 +261,12 @@ public class Vista extends JFrame {
 	public JLabel lblComentariosMetricasMostrar;
 	public JLabel lblCompartidosMetricas;
 	public JLabel lblCompartidosMetricasMostrar;
+	public JScrollPane scrollPaneColaboradores;
+	public JLabel lblColaboradores;
+	public JList listColaboradores;
+	public JLabel lblCreado2;
+	public JButton btnVerInfoColab;
+	public JButton btnAadirColaboracin;
 
 	/**
 	 * Launch the application.
@@ -294,6 +300,313 @@ public class Vista extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		contentPane.setLayout(null);
 		setLocationRelativeTo(null);
+
+		// Configuración del segundo panel duplicado
+		panelMostrarColabs = new JPanel();
+		panelMostrarColabs.setBackground(new Color(200, 220, 240));
+		panelMostrarColabs.setBounds(0, 0, 1292, 752);
+		contentPane.add(panelMostrarColabs);
+		panelMostrarColabs.setLayout(null);
+		panelMostrarColabs.setVisible(false);
+		
+		scrollPaneColaboradores = new JScrollPane();
+		scrollPaneColaboradores.setBounds(1018, 156, 264, 586);
+		panelMostrarColabs.add(scrollPaneColaboradores);
+		
+		lblColaboradores = new JLabel("Colaboradores");
+		lblColaboradores.setOpaque(true);
+		lblColaboradores.setHorizontalAlignment(SwingConstants.CENTER);
+		lblColaboradores.setForeground(Color.WHITE);
+		lblColaboradores.setFont(new Font("Tahoma", Font.BOLD, 30));
+		lblColaboradores.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		lblColaboradores.setBackground(new Color(128, 128, 255));
+		scrollPaneColaboradores.setColumnHeaderView(lblColaboradores);
+		
+		listColaboradores = new JList();
+		listColaboradores.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		listColaboradores.setBorder(new MatteBorder(0, 2, 2, 2, (Color) new Color(0, 0, 0)));
+		listColaboradores.setBackground(SystemColor.inactiveCaption);
+		scrollPaneColaboradores.setViewportView(listColaboradores);
+
+		// Título del segundo panel
+		lblTituloColab = new JLabel("Información de las Colaboraciones");
+		lblTituloColab.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTituloColab.setForeground(new Color(0, 51, 102));
+		lblTituloColab.setFont(new Font("Dialog", Font.BOLD, 50));
+		lblTituloColab.setBounds(127, 10, 1155, 99);
+		panelMostrarColabs.add(lblTituloColab);
+
+		// Botón Salir en el segundo panel
+		btnSalirInfoGen = new JButton("");
+		btnSalirInfoGen.setFont(new Font("Tahoma", Font.BOLD, 30));
+		btnSalirInfoGen.setForeground(new Color(255, 255, 255));
+		btnSalirInfoGen.setBackground(new Color(255, 204, 0));
+		btnSalirInfoGen.setBounds(10, 25, 107, 74);
+		btnSalirInfoGen.setIcon(new ImageIcon(asignarImagenSalir(btnSalirInfoGen)));
+		btnSalirInfoGen.setOpaque(false);
+		panelMostrarColabs.add(btnSalirInfoGen);
+
+		// ScrollPane para la lista duplicada de streamers
+		scrollPaneColabs = new JScrollPane();
+		scrollPaneColabs.setBounds(30, 119, 495, 623);
+		panelMostrarColabs.add(scrollPaneColabs);
+
+		listColabs = new JList();
+		listColabs.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		listColabs.setBackground(SystemColor.info);
+		listColabs.setBorder(new MatteBorder(0, 2, 2, 2, (Color) new Color(0, 0, 0)));
+		scrollPaneColabs.setViewportView(listColabs);
+
+		// Título para la lista duplicada
+		lblJlistColabs = new JLabel("Colaboraciones");
+		lblJlistColabs.setHorizontalAlignment(SwingConstants.CENTER);
+		lblJlistColabs.setForeground(Color.WHITE);
+		lblJlistColabs.setBackground(new Color(100, 100, 200));
+		lblJlistColabs.setOpaque(true);
+		lblJlistColabs.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		lblJlistColabs.setFont(new Font("Tahoma", Font.BOLD, 30));
+		scrollPaneColabs.setColumnHeaderView(lblJlistColabs);
+		
+		// Panel para insertar colaboradores
+		panelInsertarColaboradores = new JPanel();
+		panelInsertarColaboradores.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		panelInsertarColaboradores.setBackground(new Color(220, 220, 250));
+		panelInsertarColaboradores.setBounds(534, 156, 474, 586);
+		panelMostrarColabs.add(panelInsertarColaboradores);
+		panelInsertarColaboradores.setLayout(null);
+		panelInsertarColaboradores.setVisible(false);
+
+		// Ajustes generales para las fuentes y tamaños
+		Font labelFont = new Font("Tahoma", Font.PLAIN, 24);
+		Font textFieldFont = new Font("Tahoma", Font.PLAIN, 20);
+		int labelHeight = 30;
+		int textFieldHeight = 30;
+
+		// Etiqueta y campo para "ID CREADOR"
+		JLabel lblID = new JLabel("ID CREADOR:");
+		lblID.setHorizontalAlignment(SwingConstants.LEFT);
+		lblID.setForeground(Color.BLACK);
+		lblID.setFont(labelFont);
+		lblID.setBounds(10, 11, 180, labelHeight);
+		panelInsertarColaboradores.add(lblID);
+
+		textFieldCreador1  = new JTextField();
+		textFieldCreador1 .setFont(textFieldFont);
+		textFieldCreador1 .setColumns(10);
+		textFieldCreador1 .setBounds(200, 14, 260, textFieldHeight);
+		textFieldCreador1 .setBackground(Color.WHITE);
+		textFieldCreador1 .setBorder(new LineBorder(Color.BLACK, 2));
+		panelInsertarColaboradores.add(textFieldCreador1 );
+
+		// Etiqueta y campo para "NOMBRE COLABORADOR"
+		JLabel lblNombreColab = new JLabel("NOMBRE COLABORADOR:");
+		lblNombreColab.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNombreColab.setForeground(Color.BLACK);
+		lblNombreColab.setFont(labelFont);
+		lblNombreColab.setBounds(10, 66, 300, labelHeight);
+		panelInsertarColaboradores.add(lblNombreColab);
+
+		textFieldNombreColaborador  = new JTextField();
+		textFieldNombreColaborador .setFont(textFieldFont);
+		textFieldNombreColaborador .setColumns(10);
+		textFieldNombreColaborador .setBounds(10, 106, 450, textFieldHeight);
+		textFieldNombreColaborador .setBackground(Color.WHITE);
+		textFieldNombreColaborador .setBorder(new LineBorder(Color.BLACK, 2));
+		panelInsertarColaboradores.add(textFieldNombreColaborador );
+
+		// Etiqueta y campo para "FECHA INICIO"
+		lblFechaInicio = new JLabel("FECHA INICIO:");
+		lblFechaInicio.setHorizontalAlignment(SwingConstants.LEFT);
+		lblFechaInicio.setForeground(Color.BLACK);
+		lblFechaInicio.setFont(labelFont);
+		lblFechaInicio.setBounds(10, 157, 200, labelHeight);
+		panelInsertarColaboradores.add(lblFechaInicio);
+
+		textFieldFechaInicio = new JTextField();
+		textFieldFechaInicio.setFont(textFieldFont);
+		textFieldFechaInicio.setColumns(10);
+		textFieldFechaInicio.setBounds(10, 197, 200, textFieldHeight);
+		textFieldFechaInicio.setBackground(Color.WHITE);
+		textFieldFechaInicio.setBorder(new LineBorder(Color.BLACK, 2));
+		panelInsertarColaboradores.add(textFieldFechaInicio);
+
+		// Etiqueta y campo para "FECHA FIN"
+		lblFechaFin = new JLabel("FECHA FIN:");
+		lblFechaFin.setHorizontalAlignment(SwingConstants.LEFT);
+		lblFechaFin.setForeground(Color.BLACK);
+		lblFechaFin.setFont(labelFont);
+		lblFechaFin.setBounds(240, 157, 200, labelHeight);
+		panelInsertarColaboradores.add(lblFechaFin);
+
+		textFieldFechaFin = new JTextField();
+		textFieldFechaFin.setFont(textFieldFont);
+		textFieldFechaFin.setColumns(10);
+		textFieldFechaFin.setBounds(240, 197, 220, textFieldHeight);
+		textFieldFechaFin.setBackground(Color.WHITE);
+		textFieldFechaFin.setBorder(new LineBorder(Color.BLACK, 2));
+		panelInsertarColaboradores.add(textFieldFechaFin);
+
+		// Etiqueta y campo para "TEMATICA"
+		JLabel lblTematica = new JLabel("TEMATICA:");
+		lblTematica.setHorizontalAlignment(SwingConstants.LEFT);
+		lblTematica.setForeground(Color.BLACK);
+		lblTematica.setFont(labelFont);
+		lblTematica.setBounds(10, 250, 200, labelHeight);
+		panelInsertarColaboradores.add(lblTematica);
+
+		textFieldTematica = new JTextField();
+		textFieldTematica.setFont(textFieldFont);
+		textFieldTematica.setColumns(10);
+		textFieldTematica.setBounds(10, 291, 450, textFieldHeight);
+		textFieldTematica.setBackground(Color.WHITE);
+		textFieldTematica.setBorder(new LineBorder(Color.BLACK, 2));
+		panelInsertarColaboradores.add(textFieldTematica);
+
+		// Etiqueta y ComboBox para "ESTADO"
+		JLabel lblEstado = new JLabel("ESTADO DE LA COLABORACIÓN:");
+		lblEstado.setHorizontalAlignment(SwingConstants.LEFT);
+		lblEstado.setForeground(Color.BLACK);
+		lblEstado.setFont(labelFont);
+		lblEstado.setBounds(10, 332, 347, 30);
+		panelInsertarColaboradores.add(lblEstado);
+
+		comboBoxEstadoColaboracion = new JComboBox();
+		comboBoxEstadoColaboracion.setFont(textFieldFont);
+		comboBoxEstadoColaboracion.setBounds(10, 373, 200, textFieldHeight);
+		panelInsertarColaboradores.add(comboBoxEstadoColaboracion);
+
+		// Etiqueta y campo para "TIPO COLABORACION"
+		lblTipoColab = new JLabel("TIPO COLABORACION:");
+		lblTipoColab.setHorizontalAlignment(SwingConstants.LEFT);
+		lblTipoColab.setForeground(Color.BLACK);
+		lblTipoColab.setFont(labelFont);
+		lblTipoColab.setBounds(10, 414, 300, labelHeight);
+		panelInsertarColaboradores.add(lblTipoColab);
+
+		textFieldTipoColaboracion = new JTextField();
+		textFieldTipoColaboracion.setFont(textFieldFont);
+		textFieldTipoColaboracion.setColumns(10);
+		textFieldTipoColaboracion.setBounds(10, 454, 450, textFieldHeight);
+		textFieldTipoColaboracion.setBackground(Color.WHITE);
+		textFieldTipoColaboracion.setBorder(new LineBorder(Color.BLACK, 2));
+		panelInsertarColaboradores.add(textFieldTipoColaboracion);
+
+		// Botón de inserción
+		btnInsertarCo = new JButton("INSERTAR NUEVA COLABORACIÓN");
+		btnInsertarCo.setForeground(new Color(255, 255, 255));
+		btnInsertarCo.setBackground(SystemColor.textHighlight);
+		btnInsertarCo.setFont(new Font("Tahoma", Font.BOLD, 20));
+		btnInsertarCo.setBounds(10, 495, 450, 33);
+		panelInsertarColaboradores.add(btnInsertarCo);
+		
+		lblCreado2 = new JLabel("");
+		lblCreado2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCreado2.setForeground(new Color(128, 0, 0));
+		lblCreado2.setFont(new Font("Dialog", Font.BOLD, 18));
+		lblCreado2.setBounds(10, 539, 454, 36);
+		panelInsertarColaboradores.add(lblCreado2);
+
+		
+		// Panel de información duplicado
+		panelInfoColab = new JPanel();
+		panelInfoColab.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		panelInfoColab.setBackground(new Color(220, 220, 250));
+		panelInfoColab.setBounds(535, 156, 707, 586);
+		panelMostrarColabs.add(panelInfoColab);
+		panelInfoColab.setLayout(null);
+
+		// Etiquetas y contenido duplicados
+		lblColaborador = new JLabel("Colaborador:");
+		lblColaborador.setBounds(10, 35, 354, 40);
+		lblColaborador.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		panelInfoColab.add(lblColaborador);
+
+		lblIdMostrarColaborador = new JLabel(""); // Campo vacío
+		lblIdMostrarColaborador.setBounds(374, 35, 321, 40);
+		lblIdMostrarColaborador.setFont(new Font("Tahoma", Font.ITALIC, 28)); // Fuente menor
+		lblIdMostrarColaborador.setBackground(Color.WHITE);
+		lblIdMostrarColaborador.setOpaque(true); // Hacer el fondo blanco
+		lblIdMostrarColaborador.setBorder(new LineBorder(Color.BLACK, 2)); // Borde de 2 píxeles
+		panelInfoColab.add(lblIdMostrarColaborador);
+
+		lblFechaInicio = new JLabel("Fecha Inicio:");
+		lblFechaInicio.setBounds(10, 133, 354, 40);
+		lblFechaInicio.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		panelInfoColab.add(lblFechaInicio);
+
+		lblMostrarFechaInicio = new JLabel(""); // Campo vacío
+		lblMostrarFechaInicio.setBounds(374, 134, 321, 40);
+		lblMostrarFechaInicio.setFont(new Font("Tahoma", Font.ITALIC, 28)); // Fuente menor
+		lblMostrarFechaInicio.setBackground(Color.WHITE);
+		lblMostrarFechaInicio.setOpaque(true); // Hacer el fondo blanco
+		lblMostrarFechaInicio.setBorder(new LineBorder(Color.BLACK, 2)); // Borde de 2 píxeles
+		panelInfoColab.add(lblMostrarFechaInicio);
+
+		lblFechaFin = new JLabel("Fecha Fin:");
+		lblFechaFin.setBounds(10, 229, 354, 40);
+		lblFechaFin.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		panelInfoColab.add(lblFechaFin);
+
+		lblFechaFinMostrar = new JLabel(""); // Campo vacío
+		lblFechaFinMostrar.setBounds(374, 230, 321, 40);
+		lblFechaFinMostrar.setFont(new Font("Tahoma", Font.ITALIC, 28)); // Fuente menor
+		lblFechaFinMostrar.setBackground(Color.WHITE);
+		lblFechaFinMostrar.setOpaque(true); // Hacer el fondo blanco
+		lblFechaFinMostrar.setBorder(new LineBorder(Color.BLACK, 2)); // Borde de 2 píxeles
+		panelInfoColab.add(lblFechaFinMostrar);
+
+		lblTematica2 = new JLabel("Temática:");
+		lblTematica2.setBounds(10, 318, 354, 40);
+		lblTematica2.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		panelInfoColab.add(lblTematica2);
+
+		lblTematicaMostrar2 = new JLabel(""); // Campo vacío
+		lblTematicaMostrar2.setBounds(374, 318, 321, 41);
+		lblTematicaMostrar2.setFont(new Font("Tahoma", Font.ITALIC, 28)); // Fuente menor
+		lblTematicaMostrar2.setBackground(Color.WHITE);
+		lblTematicaMostrar2.setOpaque(true); // Hacer el fondo blanco
+		lblTematicaMostrar2.setBorder(new LineBorder(Color.BLACK, 2)); // Borde de 2 píxeles
+		panelInfoColab.add(lblTematicaMostrar2);
+
+		lblTipoColab = new JLabel("Tipo de colaboración:");
+		lblTipoColab.setBounds(10, 423, 354, 40);
+		lblTipoColab.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		panelInfoColab.add(lblTipoColab);
+
+		lblTipoColabMostrar = new JLabel(""); // Campo vacío
+		lblTipoColabMostrar.setBounds(374, 423, 321, 40);
+		lblTipoColabMostrar.setFont(new Font("Tahoma", Font.ITALIC, 28)); // Fuente menor
+		lblTipoColabMostrar.setBackground(Color.WHITE);
+		lblTipoColabMostrar.setOpaque(true); // Hacer el fondo blanco
+		lblTipoColabMostrar.setBorder(new LineBorder(Color.BLACK, 2)); // Borde de 2 píxeles
+		panelInfoColab.add(lblTipoColabMostrar);
+
+		lblEstadoColab = new JLabel("Estado de la Colaboración:");
+		lblEstadoColab.setBounds(10, 536, 354, 40);
+		lblEstadoColab.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		panelInfoColab.add(lblEstadoColab);
+
+		lblEstadoColabMostrar = new JLabel(""); // Campo vacío
+		lblEstadoColabMostrar.setBounds(374, 536, 321, 40);
+		lblEstadoColabMostrar.setFont(new Font("Tahoma", Font.ITALIC, 28)); // Fuente menor
+		lblEstadoColabMostrar.setBackground(Color.WHITE);
+		lblEstadoColabMostrar.setOpaque(true); // Hacer el fondo blanco
+		lblEstadoColabMostrar.setBorder(new LineBorder(Color.BLACK, 2)); // Borde de 2 píxeles
+		panelInfoColab.add(lblEstadoColabMostrar);
+		
+		btnVerInfoColab = new JButton("Ver Información");
+		btnVerInfoColab.setForeground(Color.WHITE);
+		btnVerInfoColab.setBackground(new Color(25, 25, 112));
+		btnVerInfoColab.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnVerInfoColab.setBounds(535, 120, 231, 38);
+		panelMostrarColabs.add(btnVerInfoColab);
+		
+		btnAadirColaboracin = new JButton("Añadir Colaboración");
+		btnAadirColaboracin.setForeground(SystemColor.desktop);
+		btnAadirColaboracin.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btnAadirColaboracin.setBackground(SystemColor.scrollbar);
+		btnAadirColaboracin.setBounds(766, 120, 242, 38);
+		panelMostrarColabs.add(btnAadirColaboracin);
 
 		// Configuración del tercer panel con colores cálidos
 		panelMostrarMetricasCSV = new JPanel();
@@ -454,140 +767,6 @@ public class Vista extends JFrame {
 		lblCompartidosMetricasMostrar.setBackground(new Color(255, 250, 240));
 		lblCompartidosMetricasMostrar.setBounds(374, 560, 321, 40);
 		panelInfoMetricas.add(lblCompartidosMetricasMostrar);
-
-		// Configuración del segundo panel duplicado
-		panelMostrarColabs = new JPanel();
-		panelMostrarColabs.setBackground(new Color(200, 220, 240));
-		panelMostrarColabs.setBounds(0, 0, 1292, 752);
-		contentPane.add(panelMostrarColabs);
-		panelMostrarColabs.setLayout(null);
-		panelMostrarColabs.setVisible(false);
-
-		// Título del segundo panel
-		lblTituloColab = new JLabel("Información de las Colaboraciones");
-		lblTituloColab.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTituloColab.setForeground(new Color(0, 51, 102));
-		lblTituloColab.setFont(new Font("Dialog", Font.BOLD, 50));
-		lblTituloColab.setBounds(127, 10, 1155, 99);
-		panelMostrarColabs.add(lblTituloColab);
-
-		// Botón Salir en el segundo panel
-		btnSalirInfoGen = new JButton("");
-		btnSalirInfoGen.setFont(new Font("Tahoma", Font.BOLD, 30));
-		btnSalirInfoGen.setForeground(new Color(255, 255, 255));
-		btnSalirInfoGen.setBackground(new Color(255, 204, 0));
-		btnSalirInfoGen.setBounds(10, 25, 107, 74);
-		btnSalirInfoGen.setIcon(new ImageIcon(asignarImagenSalir(btnSalirInfoGen)));
-		btnSalirInfoGen.setOpaque(false);
-		panelMostrarColabs.add(btnSalirInfoGen);
-
-		// ScrollPane para la lista duplicada de streamers
-		scrollPaneColabs = new JScrollPane();
-		scrollPaneColabs.setBounds(30, 119, 495, 623);
-		panelMostrarColabs.add(scrollPaneColabs);
-
-		listColabs = new JList();
-		listColabs.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		listColabs.setBackground(SystemColor.info);
-		listColabs.setBorder(new MatteBorder(0, 2, 2, 2, (Color) new Color(0, 0, 0)));
-		scrollPaneColabs.setViewportView(listColabs);
-
-		// Título para la lista duplicada
-		lblJlistColabs = new JLabel("Colaboraciones");
-		lblJlistColabs.setHorizontalAlignment(SwingConstants.CENTER);
-		lblJlistColabs.setForeground(Color.WHITE);
-		lblJlistColabs.setBackground(new Color(100, 100, 200));
-		lblJlistColabs.setOpaque(true);
-		lblJlistColabs.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		lblJlistColabs.setFont(new Font("Tahoma", Font.BOLD, 30));
-		scrollPaneColabs.setColumnHeaderView(lblJlistColabs);
-
-		// Panel de información duplicado
-		panelInfoColab = new JPanel();
-		panelInfoColab.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		panelInfoColab.setBackground(new Color(220, 220, 250));
-		panelInfoColab.setBounds(535, 119, 707, 623);
-		panelMostrarColabs.add(panelInfoColab);
-		panelInfoColab.setLayout(null);
-
-		// Etiquetas y contenido duplicados
-		lblColaborador = new JLabel("Colaborador:");
-		lblColaborador.setBounds(10, 35, 354, 40);
-		lblColaborador.setFont(new Font("Tahoma", Font.PLAIN, 32));
-		panelInfoColab.add(lblColaborador);
-
-		lblIdMostrarColaborador = new JLabel(""); // Campo vacío
-		lblIdMostrarColaborador.setBounds(374, 35, 321, 40);
-		lblIdMostrarColaborador.setFont(new Font("Tahoma", Font.ITALIC, 28)); // Fuente menor
-		lblIdMostrarColaborador.setBackground(Color.WHITE);
-		lblIdMostrarColaborador.setOpaque(true); // Hacer el fondo blanco
-		lblIdMostrarColaborador.setBorder(new LineBorder(Color.BLACK, 2)); // Borde de 2 píxeles
-		panelInfoColab.add(lblIdMostrarColaborador);
-
-		lblFechaInicio = new JLabel("Fecha Inicio:");
-		lblFechaInicio.setBounds(10, 133, 354, 40);
-		lblFechaInicio.setFont(new Font("Tahoma", Font.PLAIN, 32));
-		panelInfoColab.add(lblFechaInicio);
-
-		lblMostrarFechaInicio = new JLabel(""); // Campo vacío
-		lblMostrarFechaInicio.setBounds(374, 134, 321, 40);
-		lblMostrarFechaInicio.setFont(new Font("Tahoma", Font.ITALIC, 28)); // Fuente menor
-		lblMostrarFechaInicio.setBackground(Color.WHITE);
-		lblMostrarFechaInicio.setOpaque(true); // Hacer el fondo blanco
-		lblMostrarFechaInicio.setBorder(new LineBorder(Color.BLACK, 2)); // Borde de 2 píxeles
-		panelInfoColab.add(lblMostrarFechaInicio);
-
-		lblFechaFin = new JLabel("Fecha Fin:");
-		lblFechaFin.setBounds(10, 229, 354, 40);
-		lblFechaFin.setFont(new Font("Tahoma", Font.PLAIN, 32));
-		panelInfoColab.add(lblFechaFin);
-
-		lblFechaFinMostrar = new JLabel(""); // Campo vacío
-		lblFechaFinMostrar.setBounds(374, 230, 321, 40);
-		lblFechaFinMostrar.setFont(new Font("Tahoma", Font.ITALIC, 28)); // Fuente menor
-		lblFechaFinMostrar.setBackground(Color.WHITE);
-		lblFechaFinMostrar.setOpaque(true); // Hacer el fondo blanco
-		lblFechaFinMostrar.setBorder(new LineBorder(Color.BLACK, 2)); // Borde de 2 píxeles
-		panelInfoColab.add(lblFechaFinMostrar);
-
-		lblTematica2 = new JLabel("Temática:");
-		lblTematica2.setBounds(10, 318, 354, 40);
-		lblTematica2.setFont(new Font("Tahoma", Font.PLAIN, 32));
-		panelInfoColab.add(lblTematica2);
-
-		lblTematicaMostrar2 = new JLabel(""); // Campo vacío
-		lblTematicaMostrar2.setBounds(374, 318, 321, 41);
-		lblTematicaMostrar2.setFont(new Font("Tahoma", Font.ITALIC, 28)); // Fuente menor
-		lblTematicaMostrar2.setBackground(Color.WHITE);
-		lblTematicaMostrar2.setOpaque(true); // Hacer el fondo blanco
-		lblTematicaMostrar2.setBorder(new LineBorder(Color.BLACK, 2)); // Borde de 2 píxeles
-		panelInfoColab.add(lblTematicaMostrar2);
-
-		lblTipoColab = new JLabel("Tipo de colaboración:");
-		lblTipoColab.setBounds(10, 423, 354, 40);
-		lblTipoColab.setFont(new Font("Tahoma", Font.PLAIN, 32));
-		panelInfoColab.add(lblTipoColab);
-
-		lblTipoColabMostrar = new JLabel(""); // Campo vacío
-		lblTipoColabMostrar.setBounds(374, 423, 321, 40);
-		lblTipoColabMostrar.setFont(new Font("Tahoma", Font.ITALIC, 28)); // Fuente menor
-		lblTipoColabMostrar.setBackground(Color.WHITE);
-		lblTipoColabMostrar.setOpaque(true); // Hacer el fondo blanco
-		lblTipoColabMostrar.setBorder(new LineBorder(Color.BLACK, 2)); // Borde de 2 píxeles
-		panelInfoColab.add(lblTipoColabMostrar);
-
-		lblEstadoColab = new JLabel("Estado de la Colaboración:");
-		lblEstadoColab.setBounds(10, 536, 354, 40);
-		lblEstadoColab.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		panelInfoColab.add(lblEstadoColab);
-
-		lblEstadoColabMostrar = new JLabel(""); // Campo vacío
-		lblEstadoColabMostrar.setBounds(374, 536, 321, 40);
-		lblEstadoColabMostrar.setFont(new Font("Tahoma", Font.ITALIC, 28)); // Fuente menor
-		lblEstadoColabMostrar.setBackground(Color.WHITE);
-		lblEstadoColabMostrar.setOpaque(true); // Hacer el fondo blanco
-		lblEstadoColabMostrar.setBorder(new LineBorder(Color.BLACK, 2)); // Borde de 2 píxeles
-		panelInfoColab.add(lblEstadoColabMostrar);
 
 		panelMostrarTodo = new JPanel();
 		panelMostrarTodo.setBackground(Color.ORANGE);
@@ -1247,101 +1426,6 @@ public class Vista extends JFrame {
 		btnAñadirPublic.setBounds(186, 333, 376, 23);
 		panelañadirpublicion.add(btnAñadirPublic);
 
-		panelInsertarColaboradores = new JPanel();
-		panelInsertarColaboradores.setBackground(new Color(0, 0, 128));
-		panelInsertarColaboradores.setBounds(482, 217, 759, 444);
-		panelModifcar.add(panelInsertarColaboradores);
-		panelInsertarColaboradores.setLayout(null);
-		panelInsertarColaboradores.setVisible(false);
-
-		lblNewLabel_3_3_10 = new JLabel("ID CREADOR");
-		lblNewLabel_3_3_10.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_3_3_10.setForeground(Color.WHITE);
-		lblNewLabel_3_3_10.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		lblNewLabel_3_3_10.setBounds(58, 33, 164, 70);
-		panelInsertarColaboradores.add(lblNewLabel_3_3_10);
-
-		textFieldCreador1 = new JTextField();
-		textFieldCreador1.setColumns(10);
-		textFieldCreador1.setBounds(58, 117, 164, 20);
-		panelInsertarColaboradores.add(textFieldCreador1);
-
-		JLabel lblNewLabel_3_3_1_1_2 = new JLabel("NOMBRE COLABORADOR");
-		lblNewLabel_3_3_1_1_2.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_3_3_1_1_2.setForeground(Color.WHITE);
-		lblNewLabel_3_3_1_1_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		lblNewLabel_3_3_1_1_2.setBounds(54, 148, 283, 61);
-		panelInsertarColaboradores.add(lblNewLabel_3_3_1_1_2);
-
-		textFieldNombreColaborador = new JTextField();
-		textFieldNombreColaborador.setBackground(new Color(255, 255, 255));
-		textFieldNombreColaborador.setColumns(10);
-		textFieldNombreColaborador.setBounds(58, 205, 279, 20);
-		panelInsertarColaboradores.add(textFieldNombreColaborador);
-
-		JLabel lblNewLabel_3_3_1_1_1_2 = new JLabel("TEMATICA");
-		lblNewLabel_3_3_1_1_1_2.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_3_3_1_1_1_2.setForeground(Color.WHITE);
-		lblNewLabel_3_3_1_1_1_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		lblNewLabel_3_3_1_1_1_2.setBounds(443, 148, 164, 61);
-		panelInsertarColaboradores.add(lblNewLabel_3_3_1_1_1_2);
-
-		textFieldTematica = new JTextField();
-		textFieldTematica.setColumns(10);
-		textFieldTematica.setBounds(443, 205, 247, 20);
-		panelInsertarColaboradores.add(textFieldTematica);
-
-		JLabel lblNewLabel_3_3_1_1_1_1_2 = new JLabel("FECHA FIN");
-		lblNewLabel_3_3_1_1_1_1_2.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_3_3_1_1_1_1_2.setForeground(Color.WHITE);
-		lblNewLabel_3_3_1_1_1_1_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		lblNewLabel_3_3_1_1_1_1_2.setBounds(278, 38, 214, 61);
-		panelInsertarColaboradores.add(lblNewLabel_3_3_1_1_1_1_2);
-
-		textFieldFechaFin = new JTextField();
-		textFieldFechaFin.setColumns(10);
-		textFieldFechaFin.setBounds(278, 117, 164, 20);
-		panelInsertarColaboradores.add(textFieldFechaFin);
-
-		lblNewLabel_3_3_1_1_1_1_3 = new JLabel("FECHA INICIO");
-		lblNewLabel_3_3_1_1_1_1_3.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_3_3_1_1_1_1_3.setForeground(Color.WHITE);
-		lblNewLabel_3_3_1_1_1_1_3.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		lblNewLabel_3_3_1_1_1_1_3.setBounds(520, 42, 197, 61);
-		panelInsertarColaboradores.add(lblNewLabel_3_3_1_1_1_1_3);
-
-		textFieldFechaInicio = new JTextField();
-		textFieldFechaInicio.setColumns(10);
-		textFieldFechaInicio.setBounds(530, 117, 160, 20);
-		panelInsertarColaboradores.add(textFieldFechaInicio);
-
-		lblNewLabel_3_3_1_1_1_1_1_2 = new JLabel("TIPO COLABORACION");
-		lblNewLabel_3_3_1_1_1_1_1_2.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_3_3_1_1_1_1_1_2.setForeground(Color.WHITE);
-		lblNewLabel_3_3_1_1_1_1_1_2.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		lblNewLabel_3_3_1_1_1_1_1_2.setBounds(58, 236, 261, 61);
-		panelInsertarColaboradores.add(lblNewLabel_3_3_1_1_1_1_1_2);
-
-		textFieldTipoColaboracion = new JTextField();
-		textFieldTipoColaboracion.setColumns(10);
-		textFieldTipoColaboracion.setBounds(58, 293, 261, 20);
-		panelInsertarColaboradores.add(textFieldTipoColaboracion);
-
-		lblNewLabel_3_3_1_3 = new JLabel("ESTADO");
-		lblNewLabel_3_3_1_3.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_3_3_1_3.setForeground(Color.WHITE);
-		lblNewLabel_3_3_1_3.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		lblNewLabel_3_3_1_3.setBounds(400, 236, 389, 70);
-		panelInsertarColaboradores.add(lblNewLabel_3_3_1_3);
-
-		comboBoxEstadoColaboracion = new JComboBox();
-		comboBoxEstadoColaboracion.setBounds(400, 292, 290, 22);
-		panelInsertarColaboradores.add(comboBoxEstadoColaboracion);
-
-		btnInsertarCo = new JButton("Insetar");
-
-		btnInsertarCo.setBounds(58, 353, 632, 23);
-		panelInsertarColaboradores.add(btnInsertarCo);
 		comboBoxelegiropciones = new JComboBox();
 		comboBoxelegiropciones.setBounds(63, 250, 365, 22);
 		panelModifcar.add(comboBoxelegiropciones);
