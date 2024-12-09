@@ -101,7 +101,6 @@ public class Controlador implements ActionListener {
 		this.vista.comboBoxPlataforma.addActionListener(this);
 		this.vista.comboBoxHistorial.addActionListener(this);
 		this.vista.btnInfoCreador.addActionListener(this);
-		this.vista.comboBoxelegiropciones.addActionListener(this);
 		this.vista.btnJoptionPaint.addActionListener(this);
 		this.vista.btnColaboraciones.addActionListener(this);
 		this.vista.btnMetricasContenido.addActionListener(this);
@@ -109,7 +108,6 @@ public class Controlador implements ActionListener {
 		this.vista.btnInsertarCo.addActionListener(this);
 		this.vista.btnAñadirPublic.addActionListener(this);
 		this.vista.btnEliminarPublicacion.addActionListener(this);
-		this.vista.btnEliminarMin.addActionListener(this);
 		this.vista.btnmodificarpublicacionenespecifico.addActionListener(this);
 		this.vista.btnModificarLikes.addActionListener(this);
 		this.vista.btnSalirInfoGen.addActionListener(this);
@@ -128,9 +126,7 @@ public class Controlador implements ActionListener {
 		agregarComboTipoColab();
 		agregarcomboboxmodificar();
 		llenarJListStreamers(streamer);
-		llenarJlistStreamer(streamer);
 		agregarPlataformas();
-		agregarcomboxopciones();
 		rellenarFotosIcon(fotosIcon);
 		agregarcomboboxmodificar1();
 	}
@@ -155,37 +151,14 @@ public class Controlador implements ActionListener {
 		if (e.getSource() == this.vista.btnEliminarPublicacion) {
 			eliminarPublicacion(contenido);
 		}
+
 		if (e.getSource() == this.vista.btnmodificarpublicacionenespecifico) {
 			modificarPublicacion(contenido);
 		}
 		if (e.getSource() == this.vista.btnModificarLikes) {
 			modificarPublicacion2(contenido);
 		}
-		if (e.getSource() == this.vista.comboBoxelegiropciones) {
-			String selectedOption = (String) this.vista.comboBoxelegiropciones.getSelectedItem();
-
-			this.vista.panelEliminarpubli.setVisible(false);
-			this.vista.paneleliminarminimovistas.setVisible(false);
-			switch (selectedOption) {
-			case "Eliminar publicaciones":
-				this.vista.panelEliminarpubli.setVisible(true);
-				this.vista.paneleliminarminimovistas.setVisible(false);
-				this.vista.lblCreado.setText("");
-				break;
-			case "Eliminar minimo de vistas":
-				this.vista.panelEliminarpubli.setVisible(false);
-				this.vista.paneleliminarminimovistas.setVisible(true);
-				this.vista.lblCreado.setText("");
-				break;
-			case "Modificar publicacion":
-				this.vista.panelEliminarpubli.setVisible(false);
-				this.vista.paneleliminarminimovistas.setVisible(false);
-				this.vista.lblCreado.setText("");
-				break;
-			default:
-				break;
-			}
-		}
+	
 		if (e.getSource() == this.vista.btnVerStreamer) {
 			this.vista.panelMostrarTodo.setVisible(true);
 			vista.panelMenu.setVisible(false);
@@ -305,7 +278,7 @@ public class Controlador implements ActionListener {
 		if (vista.btnModificarPubli == e.getSource()) {
 			habilitarModificarPubli();
 		}
-		if(vista.btnModificarPubli_1==e.getSource()) {
+		if (vista.btnModificarPubli_1 == e.getSource()) {
 			habilitarModificarCSVLikes();
 		}
 
@@ -350,9 +323,9 @@ public class Controlador implements ActionListener {
 		vista.btnModificarPubli_1.setFont(new Font("Tahoma", Font.BOLD, 17));
 		vista.btnModificarPubli_1.setBackground(new Color(128, 64, 0));
 		vista.btnModificarPubli_1.setBounds(1072, 120, 210, 38);
-		
+
 		// valores por defecto
-		
+
 		this.vista.lblContenidoSeleccionadoModificarLike.setText("");
 		this.vista.lblPlataformaLikes.setText("");
 		this.vista.textField_megusta2.setText("");
@@ -367,7 +340,6 @@ public class Controlador implements ActionListener {
 		vista.panelInfoMetricas.setVisible(false);
 		vista.panelModificarPublicacion.setVisible(false);
 		vista.panelmodificarLikesComentarios.setVisible(false);
-
 
 		// boton añadirPubli activo
 		vista.btnAñadirPubli.setForeground(Color.WHITE);
@@ -418,7 +390,6 @@ public class Controlador implements ActionListener {
 		vista.panelModificarPublicacion.setVisible(false);
 		vista.panelmodificarLikesComentarios.setVisible(false);
 
-
 		// boton añadirPubli inactivo
 		vista.btnAñadirPubli.setForeground(SystemColor.desktop);
 		vista.btnAñadirPubli.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -442,8 +413,8 @@ public class Controlador implements ActionListener {
 		vista.btnModificarPubli_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		vista.btnModificarPubli_1.setBackground(SystemColor.scrollbar);
 		vista.btnModificarPubli_1.setBounds(1072, 127, 210, 31);
-		
-		//valores vacios
+
+		// valores vacios
 		vista.lblContenidoMetricaMostrar.setText("");
 		vista.lblMostrarPlataformaMetrica.setText("");
 		vista.lblTipoContenidoMetricaMostrar.setText("");
@@ -461,7 +432,6 @@ public class Controlador implements ActionListener {
 		vista.panelInfoMetricas.setVisible(false);
 		vista.panelModificarPublicacion.setVisible(true);
 		vista.panelmodificarLikesComentarios.setVisible(false);
-
 
 		// boton añadirPubli inactivo
 		vista.btnAñadirPubli.setForeground(SystemColor.desktop);
@@ -519,8 +489,8 @@ public class Controlador implements ActionListener {
 		vista.btnAniadirColab.setFont(new Font("Tahoma", Font.BOLD, 16));
 		vista.btnAniadirColab.setBackground(SystemColor.scrollbar);
 		vista.btnAniadirColab.setBounds(766, 127, 242, 31);
-		
-		//valores vacios
+
+		// valores vacios
 
 		vista.lblIdMostrarColaborador.setText("");
 		vista.lblTematicaMostrar2.setText("");
@@ -610,6 +580,7 @@ public class Controlador implements ActionListener {
 		this.vista.comboBoxelegiropciones.addItem("Eliminar minimo de vistas");
 	}
 //Metodos generalizados y leer metodos
+
 	public ArrayNode leer() throws JsonProcessingException, IOException {
 		DefaultTableModel modelo = new DefaultTableModel();
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -654,18 +625,6 @@ public class Controlador implements ActionListener {
 	        vista.listStreamers.setModel(modelo);
 	    }
 
-	public void llenarJlistStreamer(ArrayNode streamer) {
-		DefaultListModel<String> modelo = new DefaultListModel<>();
-		modelo.setSize(0);
-		for (JsonNode creatorNode : streamer) {
-			String nombreCreador = creatorNode.get("nombre").asText();
-			String idCreador = creatorNode.get("id").asText();
-			String elementoJlist = "Id: " + idCreador + " Nombre: " + nombreCreador;
-			modelo.addElement(elementoJlist);
-		}
-		this.vista.liststreamer.setModel(modelo);
-	}
-
 	public void llenarJlistColabs(JsonNode creador) {
 		DefaultListModel<String> modelo = new DefaultListModel<>();
 		modelo.setSize(0);
@@ -686,9 +645,8 @@ public class Controlador implements ActionListener {
 
 			String contenidoActual = conten.getContenido();
 
-			
-			int numero = 1; 
-			if (contenidoActual.matches(".*\\d+")) { 
+			int numero = 1;
+			if (contenidoActual.matches(".*\\d+")) {
 				numero = Integer.parseInt(contenidoActual.replaceAll("[^0-9]", "")) + 1;
 			}
 
@@ -841,16 +799,16 @@ public class Controlador implements ActionListener {
 	}
 //Seleccionar colaboraciones
 	public void seleccionarColaborador() {
-	
+
 		String nombreSeleccionado = (String) vista.listColaboradores.getSelectedValue();
 
 		String nombreCreador = null;
 
 		if (nombreSeleccionado != null && !nombreSeleccionado.trim().isEmpty()) {
-			
+
 			String[] partes = nombreSeleccionado.split("Nombre: ");
 			if (partes.length == 2) {
-				
+
 				nombreCreador = partes[1].trim();
 			}
 		}
@@ -859,6 +817,7 @@ public class Controlador implements ActionListener {
 			vista.lblNombreColabSeleccionado.setText(nombreCreador);
 		}
 	}
+
 //Mostar los mensajes temporales
 	public  void mostrarMensajeTemporal(JLabel label, String mensaje) {
 	    label.setText(mensaje);
@@ -1234,13 +1193,13 @@ public class Controlador implements ActionListener {
 				}
 			}
 			crearCSV8(contenidoList, csvFile);
-			mostrarMensajeTemporal(this.vista.lblResultado,"Colaboraciones CSV creado correctamente");
+			mostrarMensajeTemporal(this.vista.lblResultado, "Colaboraciones CSV creado correctamente");
 			this.vista.lblResultado.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
-			mostrarMensajeTemporal(this.vista.lblFallo,"Error");
+			mostrarMensajeTemporal(this.vista.lblFallo, "Error");
 			this.vista.lblFallo.setVisible(true);
-			
+
 		}
 	}
 
@@ -1436,7 +1395,7 @@ public class Controlador implements ActionListener {
 		}
 
 		objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File("files/reporte_creadores.json"), reporte);
-		mostrarMensajeTemporal(this.vista.lblResultado,"Colaboraciones exportador en files correctamente");
+		mostrarMensajeTemporal(this.vista.lblResultado, "Colaboraciones exportador en files correctamente");
 		this.vista.lblResultado.setVisible(true);
 	}
 
@@ -1551,8 +1510,8 @@ public class Controlador implements ActionListener {
 			}
 		}
 		crearCSV8(contenidoList, csvFile);
-		mostrarMensajeTemporal(this.vista.lblResultado,"Reporte CSV creador correctamente");
-		
+		mostrarMensajeTemporal(this.vista.lblResultado, "Reporte CSV creador correctamente");
+
 		this.vista.lblResultado.setVisible(true);
 
 	}
@@ -1717,13 +1676,13 @@ public class Controlador implements ActionListener {
 		try {
 			objectMapper.writerWithDefaultPrettyPrinter()
 					.writeValue(new FileWriter("files/resume_rendimiento2023.json"), resumen);
-			mostrarMensajeTemporal(this.vista.lblResultado,"Resument JSON mejor plataforma creador correctamente");
+			mostrarMensajeTemporal(this.vista.lblResultado, "Resument JSON mejor plataforma creador correctamente");
 			this.vista.lblResultado.setVisible(true);
 
 		} catch (IOException e) {
 			e.printStackTrace();
-			mostrarMensajeTemporal(this.vista.lblFallo,"Error");
-			
+			mostrarMensajeTemporal(this.vista.lblFallo, "Error");
+
 			this.vista.lblFallo.setVisible(true);
 
 		}
@@ -1838,6 +1797,7 @@ public class Controlador implements ActionListener {
 				this.vista.textField_megusta2.setText("");
 				this.vista.textFieldComentarios3.setText("");
 				vista.listMetricas.clearSelection();
+
 				llenarMetricasContenido(creadorSeleccionado); 
 			} else {
 				mostrarMensajeTemporal(this.vista.lblCreado5,"No se encontró la publicación con los datos proporcionados.");
@@ -1879,7 +1839,7 @@ public class Controlador implements ActionListener {
 
 		try (FileWriter fileWriter = new FileWriter("files/colaboraciones.json")) {
 			objectMapper.writerWithDefaultPrettyPrinter().writeValue(fileWriter, colaboracionesArray);
-			mostrarMensajeTemporal(this.vista.lblResultado,"Colaboraciones JSON creado correctamente");
+			mostrarMensajeTemporal(this.vista.lblResultado, "Colaboraciones JSON creado correctamente");
 			this.vista.lblResultado.setVisible(true);
 		}
 	}
