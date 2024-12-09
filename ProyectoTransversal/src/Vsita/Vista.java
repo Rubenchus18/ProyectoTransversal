@@ -382,97 +382,98 @@ public class Vista extends JFrame {
 		panelModificarCSVEnfasis.setBounds(74, 149, 1153, 593);
 		panelModifcar.add(panelModificarCSVEnfasis);
 		panelModificarCSVEnfasis.setLayout(null);
-						
-								panelcomparativarendimiento = new JPanel();
-								panelcomparativarendimiento.setBounds(70, 40, 1012, 507); // Tamaño ajustado similar a panelEliminarpubli
-								panelModificarCSVEnfasis.add(panelcomparativarendimiento);
-								panelcomparativarendimiento.setBackground(new Color(144, 238, 144)); // Fondo verde claro
-								panelcomparativarendimiento.setLayout(null);
-								panelcomparativarendimiento.setBorder(new LineBorder(new Color(34, 139, 34), 2, true)); // Borde verde oscuro
-								panelcomparativarendimiento.setVisible(false);
-								
-										comboBoxtipodepromedio = new JComboBox();
-										comboBoxtipodepromedio.setFont(new Font("Tahoma", Font.PLAIN, 28));
-										comboBoxtipodepromedio.setBounds(290, 159, 420, 59);
-										panelcomparativarendimiento.add(comboBoxtipodepromedio);
-										
-												lblNewLabel_1 = new JLabel("Elige el tipo de contido para ver su promedio:");
-												lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-												lblNewLabel_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-												lblNewLabel_1.setBounds(10, 63, 992, 68);
-												panelcomparativarendimiento.add(lblNewLabel_1);
-												
-														lblNewLabel_9 = new JLabel("Promedio de elemento");
-														lblNewLabel_9.setHorizontalAlignment(SwingConstants.CENTER);
-														lblNewLabel_9.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-														lblNewLabel_9.setBounds(10, 256, 992, 70);
-														panelcomparativarendimiento.add(lblNewLabel_9);
-														
-																lblIdMostrarIdSelec_1 = new JLabel("");
-																lblIdMostrarIdSelec_1.setOpaque(true);
-																lblIdMostrarIdSelec_1.setFont(new Font("Tahoma", Font.ITALIC, 28));
-																lblIdMostrarIdSelec_1.setBorder(new LineBorder(new Color(0, 51, 0), 2));
-																lblIdMostrarIdSelec_1.setBackground(Color.WHITE);
-																lblIdMostrarIdSelec_1.setBounds(99, 346, 783, 61);
-																panelcomparativarendimiento.add(lblIdMostrarIdSelec_1);
-				
-						// Panel eliminar publicación
-						panelEliminarpubli = new JPanel();
-						panelEliminarpubli.setBounds(70, 40, 1012, 507); // Tamaño ajustado similar a panelInfoMetricas
-						panelModificarCSVEnfasis.add(panelEliminarpubli);
-						panelEliminarpubli.setBackground(new Color(144, 238, 144)); // Fondo verde claro
-						panelEliminarpubli.setLayout(null);
-						panelEliminarpubli.setBorder(new LineBorder(new Color(34, 139, 34), 2, true)); // Borde verde oscuro
-						
-								// Título "¿Qué quieres eliminar?"
-								lblNewLabel_3_3_21 = new JLabel("¿Qué quieres eliminar?");
-								lblNewLabel_3_3_21.setBackground(Color.BLACK);
-								lblNewLabel_3_3_21.setHorizontalAlignment(SwingConstants.CENTER);
-								lblNewLabel_3_3_21.setForeground(Color.BLACK);
-								lblNewLabel_3_3_21.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-								lblNewLabel_3_3_21.setBounds(10, 10, 992, 70);
-								panelEliminarpubli.add(lblNewLabel_3_3_21);
-								
-										// Subtítulo "Mínimo eliminar"
-										lblNewLabel_3_3_22 = new JLabel("Numero de estadistica minima para eliminar:");
-										lblNewLabel_3_3_22.setHorizontalAlignment(SwingConstants.CENTER);
-										lblNewLabel_3_3_22.setForeground(Color.BLACK);
-										lblNewLabel_3_3_22.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-										lblNewLabel_3_3_22.setBounds(10, 185, 992, 70);
-										panelEliminarpubli.add(lblNewLabel_3_3_22);
-										
-												// Campo de texto para fecha
-												textFieldfecha = new JTextField();
-												textFieldfecha.setHorizontalAlignment(SwingConstants.CENTER);
-												textFieldfecha.setColumns(10);
-												textFieldfecha.setBounds(99, 275, 783, 61); // Aumenté el tamaño para más espacio
-												textFieldfecha.setFont(new Font("Tahoma", Font.PLAIN, 28));
-												textFieldfecha.setBorder(new LineBorder(new Color(34, 139, 34), 2)); // Borde verde
-												panelEliminarpubli.add(textFieldfecha);
-												
-														// ComboBox para opciones
-														comboBoxOpcion = new JComboBox();
-														comboBoxOpcion.setBounds(290, 104, 420, 61); // Alineación y tamaño ajustados
-														comboBoxOpcion.setBackground(Color.WHITE); // Fondo verde claro
-														comboBoxOpcion.setForeground(Color.BLACK); // Texto verde oscuro
-														comboBoxOpcion.setFont(new Font("Tahoma", Font.PLAIN, 28));
-														panelEliminarpubli.add(comboBoxOpcion);
-														
-																// Botón eliminar publicación
-																btnEliminarPublicacion = new JButton("ELIMINAR");
-																btnEliminarPublicacion.setBounds(290, 357, 420, 61); // Ajusté el tamaño
-																btnEliminarPublicacion.setFont(new Font("Tahoma", Font.BOLD, 30));
-																btnEliminarPublicacion.setBackground(new Color(0, 100, 0)); // Verde oscuro
-																btnEliminarPublicacion.setForeground(Color.WHITE);
-																panelEliminarpubli.add(btnEliminarPublicacion);
-																
-																		lblCreado = new JLabel("");
-																		lblCreado.setHorizontalAlignment(SwingConstants.CENTER);
-																		lblCreado.setForeground(new Color(128, 0, 0));
-																		lblCreado.setFont(new Font("Dialog", Font.BOLD, 25));
-																		lblCreado.setBounds(10, 427, 992, 70);
-																		panelEliminarpubli.add(lblCreado);
+
 		
+				panelcomparativarendimiento = new JPanel();
+				panelcomparativarendimiento.setBounds(70, 40, 1012, 507); // Tamaño ajustado similar a panelEliminarpubli
+				panelModificarCSVEnfasis.add(panelcomparativarendimiento);
+				panelcomparativarendimiento.setBackground(new Color(144, 238, 144)); // Fondo verde claro
+				panelcomparativarendimiento.setLayout(null);
+				panelcomparativarendimiento.setBorder(new LineBorder(new Color(34, 139, 34), 2, true)); // Borde verde oscuro
+				panelcomparativarendimiento.setVisible(false);
+				
+						comboBoxtipodepromedio = new JComboBox();
+						comboBoxtipodepromedio.setFont(new Font("Tahoma", Font.PLAIN, 28));
+						comboBoxtipodepromedio.setBounds(290, 159, 420, 59);
+						panelcomparativarendimiento.add(comboBoxtipodepromedio);
+						
+								lblNewLabel_1 = new JLabel("Elige el tipo de contido para ver su promedio:");
+								lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+								lblNewLabel_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+								lblNewLabel_1.setBounds(10, 63, 992, 68);
+								panelcomparativarendimiento.add(lblNewLabel_1);
+								
+										lblNewLabel_9 = new JLabel("Promedio de elemento");
+										lblNewLabel_9.setHorizontalAlignment(SwingConstants.CENTER);
+										lblNewLabel_9.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+										lblNewLabel_9.setBounds(10, 256, 992, 70);
+										panelcomparativarendimiento.add(lblNewLabel_9);
+										
+												lblIdMostrarIdSelec_1 = new JLabel("");
+												lblIdMostrarIdSelec_1.setOpaque(true);
+												lblIdMostrarIdSelec_1.setFont(new Font("Tahoma", Font.ITALIC, 28));
+												lblIdMostrarIdSelec_1.setBorder(new LineBorder(new Color(0, 51, 0), 2));
+												lblIdMostrarIdSelec_1.setBackground(Color.WHITE);
+												lblIdMostrarIdSelec_1.setBounds(99, 346, 783, 61);
+												panelcomparativarendimiento.add(lblIdMostrarIdSelec_1);
+
+		// Panel eliminar publicación
+		panelEliminarpubli = new JPanel();
+		panelEliminarpubli.setBounds(70, 40, 1012, 507); // Tamaño ajustado similar a panelInfoMetricas
+		panelModificarCSVEnfasis.add(panelEliminarpubli);
+		panelEliminarpubli.setBackground(new Color(144, 238, 144)); // Fondo verde claro
+		panelEliminarpubli.setLayout(null);
+		panelEliminarpubli.setBorder(new LineBorder(new Color(34, 139, 34), 2, true)); // Borde verde oscuro
+
+		// Título "¿Qué quieres eliminar?"
+		lblNewLabel_3_3_21 = new JLabel("¿Qué quieres eliminar?");
+		lblNewLabel_3_3_21.setBackground(Color.BLACK);
+		lblNewLabel_3_3_21.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_3_3_21.setForeground(Color.BLACK);
+		lblNewLabel_3_3_21.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_3_3_21.setBounds(10, 10, 992, 70);
+		panelEliminarpubli.add(lblNewLabel_3_3_21);
+
+		// Subtítulo "Mínimo eliminar"
+		lblNewLabel_3_3_22 = new JLabel("Numero de estadistica minima para eliminar:");
+		lblNewLabel_3_3_22.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_3_3_22.setForeground(Color.BLACK);
+		lblNewLabel_3_3_22.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_3_3_22.setBounds(10, 185, 992, 70);
+		panelEliminarpubli.add(lblNewLabel_3_3_22);
+
+		// Campo de texto para fecha
+		textFieldfecha = new JTextField();
+		textFieldfecha.setHorizontalAlignment(SwingConstants.CENTER);
+		textFieldfecha.setColumns(10);
+		textFieldfecha.setBounds(99, 275, 783, 61); // Aumenté el tamaño para más espacio
+		textFieldfecha.setFont(new Font("Tahoma", Font.PLAIN, 28));
+		textFieldfecha.setBorder(new LineBorder(new Color(34, 139, 34), 2)); // Borde verde
+		panelEliminarpubli.add(textFieldfecha);
+
+		// ComboBox para opciones
+		comboBoxOpcion = new JComboBox();
+		comboBoxOpcion.setBounds(290, 104, 420, 61); // Alineación y tamaño ajustados
+		comboBoxOpcion.setBackground(Color.WHITE); // Fondo verde claro
+		comboBoxOpcion.setForeground(Color.BLACK); // Texto verde oscuro
+		comboBoxOpcion.setFont(new Font("Tahoma", Font.PLAIN, 28));
+		panelEliminarpubli.add(comboBoxOpcion);
+
+		// Botón eliminar publicación
+		btnEliminarPublicacion = new JButton("ELIMINAR");
+		btnEliminarPublicacion.setBounds(290, 357, 420, 61); // Ajusté el tamaño
+		btnEliminarPublicacion.setFont(new Font("Tahoma", Font.BOLD, 30));
+		btnEliminarPublicacion.setBackground(new Color(0, 100, 0)); // Verde oscuro
+		btnEliminarPublicacion.setForeground(Color.WHITE);
+		panelEliminarpubli.add(btnEliminarPublicacion);
+
+		lblCreado = new JLabel("");
+		lblCreado.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCreado.setForeground(new Color(128, 0, 0));
+		lblCreado.setFont(new Font("Dialog", Font.BOLD, 25));
+		lblCreado.setBounds(10, 427, 992, 70);
+		panelEliminarpubli.add(lblCreado);
+
 		comboBoxtipodepromedio_1 = new JComboBox();
 		comboBoxtipodepromedio_1.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		comboBoxtipodepromedio_1.setBounds(70, 0, 420, 40);
