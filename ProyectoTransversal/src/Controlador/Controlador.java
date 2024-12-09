@@ -60,13 +60,7 @@ import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
-
-import Modelo.Colaboraciones;
 import Modelo.Contenido;
-import Modelo.Creador;
-import Modelo.Estadisticas;
-import Modelo.Historico;
-import Modelo.Plataforma;
 import Vsita.Vista;
 
 public class Controlador implements ActionListener {
@@ -288,7 +282,7 @@ public class Controlador implements ActionListener {
 
 	}
 
-	private void habilitarModificarCSVLikes() {
+	public void habilitarModificarCSVLikes() {
 		vista.panelmodificarLikesComentarios.setVisible(true);
 		vista.panelInfoMetricas.setVisible(false);
 		vista.panelModificarPublicacion.setVisible(false);
@@ -334,7 +328,7 @@ public class Controlador implements ActionListener {
 		vista.lblCreado5.setText("");
 	}
 
-	private void habilitarAniadirPubli() {
+	public void habilitarAniadirPubli() {
 		// TODO Auto-generated method stub
 		vista.panelañadirpublicion.setVisible(true);
 		vista.panelInfoMetricas.setVisible(false);
@@ -383,7 +377,7 @@ public class Controlador implements ActionListener {
 		vista.lblCreado3.setText("");
 	}
 
-	private void habilitarInfoMetrica() {
+	public void habilitarInfoMetrica() {
 		// TODO Auto-generated method stub
 		vista.panelañadirpublicion.setVisible(false);
 		vista.panelInfoMetricas.setVisible(true);
@@ -426,7 +420,7 @@ public class Controlador implements ActionListener {
 		vista.listMetricas.clearSelection();
 	}
 
-	private void habilitarModificarPubli() {
+	public void habilitarModificarPubli() {
 		// TODO Auto-generated method stub
 		vista.panelañadirpublicion.setVisible(false);
 		vista.panelInfoMetricas.setVisible(false);
@@ -471,7 +465,7 @@ public class Controlador implements ActionListener {
 		vista.lblCreado3.setText("");
 	}
 
-	private void habilitarVerColabs() {
+	public void habilitarVerColabs() {
 		vista.panelInfoColab.setVisible(true);
 
 		vista.panelInsertarColaboradores.setVisible(false);
