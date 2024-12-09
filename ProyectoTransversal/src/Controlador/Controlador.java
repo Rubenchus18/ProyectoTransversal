@@ -1126,31 +1126,33 @@ public class Controlador implements ActionListener {
 	}
 // 2
 	public void metricaderendimiento(ArrayNode streamer) {
-		String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
-		if (nombreSeleccionado == null || nombreSeleccionado.trim().isEmpty()) {
+	    String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
 
-		}
+	    if (nombreSeleccionado == null || nombreSeleccionado.trim().isEmpty()) {
+	        System.out.println("");
+	        return; 
+	    }
+	    
+	    String[] partes = nombreSeleccionado.split(" ");
+	    if (partes.length < 2) {
+	        System.out.println("El formato del nombre seleccionado es incorrecto.");
+	        return;
+	    }
 
-		String[] partes = nombreSeleccionado.split(" ");
-		if (partes.length < 2) {
+	    String idCreadorSeleccionado = partes[1];
+	    JsonNode creador = null;
 
-		}
-
-		String idCreadorSeleccionado = partes[1];
-		JsonNode creador = null;
-
-		if (idCreadorSeleccionado != null) {
-			vista.comboBoxHistorial.removeAllItems();
-			for (JsonNode creatorNode : streamer) {
-				String idCreador = creatorNode.get("id").asText();
-				if (idCreador.equals(idCreadorSeleccionado)) {
-					calcularPromedios(creatorNode);
-					identificarMejorRendimiento(creatorNode);
-					calcularCrecimientoMensual(creatorNode);
-				}
-			}
-		}
-
+	    if (idCreadorSeleccionado != null) {
+	        vista.comboBoxHistorial.removeAllItems();
+	        for (JsonNode creatorNode : streamer) {
+	            String idCreador = creatorNode.get("id").asText();
+	            if (idCreador.equals(idCreadorSeleccionado)) {
+	                calcularPromedios(creatorNode);
+	                identificarMejorRendimiento(creatorNode);
+	                calcularCrecimientoMensual(creatorNode);
+	            }
+	        }
+	    }
 	}
 
 	// Método para calcular los promedios y mostrarlos en labels predefinidos
