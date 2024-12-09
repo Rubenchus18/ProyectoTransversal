@@ -29,6 +29,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Timer;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -153,9 +154,6 @@ public class Controlador implements ActionListener {
 		}
 		if (e.getSource() == this.vista.btnEliminarPublicacion) {
 			eliminarPublicacion(contenido);
-		}
-		if (e.getSource() == this.vista.btnEliminarMin) {
-			eliminarPublicacionesPorLikes(contenido);
 		}
 		if (e.getSource() == this.vista.btnmodificarpublicacionenespecifico) {
 			modificarPublicacion(contenido);
@@ -611,7 +609,7 @@ public class Controlador implements ActionListener {
 		this.vista.comboBoxelegiropciones.addItem("Eliminar publicaciones");
 		this.vista.comboBoxelegiropciones.addItem("Eliminar minimo de vistas");
 	}
-
+//Metodos generalizados y leer metodos
 	public ArrayNode leer() throws JsonProcessingException, IOException {
 		DefaultTableModel modelo = new DefaultTableModel();
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -638,29 +636,23 @@ public class Controlador implements ActionListener {
 		return contenido;
 	}
 
-	public void agregarPlataformas() {
-		this.vista.comboBoxPlataforma.addItem("TikTok");
-		this.vista.comboBoxPlataforma.addItem("Twitch");
-		this.vista.comboBoxPlataforma.addItem("Instagram");
-		this.vista.comboBoxPlataforma.addItem("YouTube");
-
-		this.vista.comboBoxPlataformaCSV.addItem("TikTok");
-		this.vista.comboBoxPlataformaCSV.addItem("Twitch");
-		this.vista.comboBoxPlataformaCSV.addItem("Instagram");
-		this.vista.comboBoxPlataformaCSV.addItem("YouTube");
-	}
+	 public void agregarPlataformas() {
+	        String[] plataformas = {"TikTok", "Twitch", "Instagram", "YouTube"};
+	        for (String plataforma : plataformas) {
+	            vista.comboBoxPlataforma.addItem(plataforma);
+	            vista.comboBoxPlataformaCSV.addItem(plataforma);
+	        }
+	    }
 
 	public void llenarJListStreamers(ArrayNode streamer) {
-		DefaultListModel<String> modelo = new DefaultListModel<>();
-		modelo.setSize(0);
-		for (JsonNode creatorNode : streamer) {
-			String nombreCreador = creatorNode.get("nombre").asText();
-			String idCreador = creatorNode.get("id").asText();
-			String elementoJlist = "Id: " + idCreador + " Nombre: " + nombreCreador;
-			modelo.addElement(elementoJlist);
-		}
-		this.vista.listStreamers.setModel(modelo);
-	}
+	        DefaultListModel<String> modelo = new DefaultListModel<>();
+	        for (JsonNode creatorNode : streamer) {
+	            String nombreCreador = creatorNode.get("nombre").asText();
+	            String idCreador = creatorNode.get("id").asText();
+	            modelo.addElement("Id: " + idCreador + " Nombre: " + nombreCreador);
+	        }
+	        vista.listStreamers.setModel(modelo);
+	    }
 
 	public void llenarJlistStreamer(ArrayNode streamer) {
 		DefaultListModel<String> modelo = new DefaultListModel<>();
@@ -807,18 +799,17 @@ public class Controlador implements ActionListener {
 			}
 		}
 	}
-
+//Feha
 	public boolean ValidarDate(String date) {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		sdf.setLenient(false);
-		try {
-			Date parsedDate = sdf.parse(date);
-			return true;
-		} catch (ParseException e) {
-			return false;
-		}
+	    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+	    try {
+	        sdf.parse(date);
+	        return true;
+	    } catch (ParseException e) {
+	        return false;
+	    }
 	}
-
+//Lista Colaboradores
 	public void llenarJListColaboradores(ArrayNode streamer) {
 		DefaultListModel<String> modelo = new DefaultListModel<>();
 		modelo.setSize(0);
@@ -848,7 +839,7 @@ public class Controlador implements ActionListener {
 		}
 		this.vista.listColaboradores.setModel(modelo);
 	}
-
+//Seleccionar colaboraciones
 	public void seleccionarColaborador() {
 	
 		String nombreSeleccionado = (String) vista.listColaboradores.getSelectedValue();
@@ -868,6 +859,7 @@ public class Controlador implements ActionListener {
 			vista.lblNombreColabSeleccionado.setText(nombreCreador);
 		}
 	}
+//Mostar los mensajes temporales
 	public  void mostrarMensajeTemporal(JLabel label, String mensaje) {
 	    label.setText(mensaje);
 	    label.setVisible(true);
@@ -879,7 +871,8 @@ public class Controlador implements ActionListener {
 	        }
 	    }).start();
 	}
-	// 1
+//Metodos de los ejercicios
+// 1
 	public JsonNode mostrarDatosStreamer(ArrayNode streamer) {
 		String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
 		if (nombreSeleccionado == null || nombreSeleccionado.trim().isEmpty()) {
@@ -1167,7 +1160,8 @@ public class Controlador implements ActionListener {
 		String estadoColaboracion = (String) this.vista.comboBoxEstadoColaboracion.getSelectedItem();
 
 		if (!ValidarDate(fechaInicio) || !ValidarDate(fechaFin)) {
-			this.vista.lblCreado2.setText("Error: Las fechas deben estar en el formato dd/mm/yyyy.");
+			this.vista.lblCreado2.setText("Las fechas deben estar en el formato dd/mm/yyyy.");
+			return;
 		}
 
 		if (idCreador1.equals("") || colaborador.equals("") || tematica.equals("") || fechaInicio.equals("")
@@ -1316,77 +1310,82 @@ public class Controlador implements ActionListener {
 		if (modificada) {
 			try {
 				crearCSV(contenido, "files/metricas_contenido.csv");
-				this.vista.lblCreado4.setText("Publicación modificada exitosamente.");
-
+				mostrarMensajeTemporal(this.vista.lblCreado4,"Publicación modificada exitosamente.");
 				this.vista.lblContenidoSeleccionadoModificar.setText("");
-				this.vista.comboBoxparaModificar.setSelectedIndex(0); // Desmarcar la selección
+				this.vista.comboBoxparaModificar.setSelectedIndex(0);
 				this.vista.textFieldDato.setText("");
 				vista.listMetricas.clearSelection();
-				llenarMetricasContenido(creadorSeleccionado); // Llamada para actualizar las métricas
+				llenarMetricasContenido(creadorSeleccionado);
 			} catch (Exception e) {
 				e.printStackTrace();
-				this.vista.lblCreado4.setText("Error al escribir en el archivo CSV.");
+				mostrarMensajeTemporal(this.vista.lblCreado4,"Error al escribir en el archivo CSV.");
+		
 			}
 		} else {
-			this.vista.lblCreado4.setText("Error: No se encontró la publicación para modificar.");
+			mostrarMensajeTemporal(this.vista.lblCreado4,"Error: No se encontró la publicación para modificar.");
+		
 		}
 	}
 
 	public void eliminarPublicacion(List<Contenido> contenido) {
-		String tipo = (String) this.vista.comboBoxOpcion.getSelectedItem();
-		String cantidadMinimaStr = this.vista.textFieldfecha.getText();
+	    String tipo = (String) this.vista.comboBoxOpcion.getSelectedItem();
+	    String cantidadMinimaStr = this.vista.textFieldfecha.getText();
 
-		if (cantidadMinimaStr.isEmpty()) {
-			this.vista.lblCreado.setText("Error: El campo de cantidad mínima no puede estar vacío.");
+	    if (cantidadMinimaStr.isEmpty()) {
+	    	mostrarMensajeTemporal( this.vista.lblCreado,"El campo de cantidad mínima no puede estar vacío.");
+	       
+	        return; 
+	    }
 
-		}
-		int cantidadMinima = 0;
-		try {
-			cantidadMinima = Integer.parseInt(cantidadMinimaStr);
-		} catch (NumberFormatException e) {
-			this.vista.lblCreado.setText("Error: La cantidad mínima debe ser un número válido.");
-		}
-		boolean eliminada = false;
-		Iterator<Contenido> iterator = contenido.iterator();
 
-		while (iterator.hasNext()) {
-			Contenido cont = iterator.next();
-			int cantidadActual = 0;
-			switch (tipo) {
-			case "vistas":
-				cantidadActual = cont.getVistas();
-				break;
-			case "me_gusta":
-				cantidadActual = cont.getMe_gustas();
-				break;
-			case "comentarios":
-				cantidadActual = cont.getComentarios();
-				break;
-			case "compartidos":
-				cantidadActual = cont.getCompartidos();
-				break;
-			default:
-				break;
-			}
-			if (cantidadActual < cantidadMinima) {
-				iterator.remove();
-				eliminada = true;
-			}
-		}
-		if (eliminada) {
-			try {
-				crearCSV(contenido, "files/metricas_contenido.csv");
-				this.vista.lblCreado.setText("Publicaciones eliminadas exitosamente.");
+	    if (!cantidadMinimaStr.matches("\\d+")) { 
+	    	mostrarMensajeTemporal( this.vista.lblCreado,"La cantidad mínima debe ser un número válido.");
+	        return; 
+	    }
 
-			} catch (Exception e) {
-				e.printStackTrace();
-				this.vista.lblCreado.setText("Error al escribir en el archivo CSV.");
-			}
-		} else {
-			this.vista.lblCreado.setText("No se encontraron publicaciones para eliminar.");
-		}
+	 
+	    int cantidadMinima = Integer.parseInt(cantidadMinimaStr);
+	    boolean eliminada = false;
+	    Iterator<Contenido> iterator = contenido.iterator();
+
+	    while (iterator.hasNext()) {
+	        Contenido cont = iterator.next();
+	        int cantidadActual = 0;
+	        switch (tipo) {
+	            case "vistas":
+	                cantidadActual = cont.getVistas();
+	                break;
+	            case "me_gusta":
+	                cantidadActual = cont.getMe_gustas();
+	                break;
+	            case "comentarios":
+	                cantidadActual = cont.getComentarios();
+	                break;
+	            case "compartidos":
+	                cantidadActual = cont.getCompartidos();
+	                break;
+	            default:
+	                break;
+	        }
+	        if (cantidadActual < cantidadMinima) {
+	            iterator.remove();
+	            eliminada = true;
+	        }
+	    }
+	    if (eliminada) {
+	        try {
+	            crearCSV(contenido, "files/metricas_contenido.csv");
+	            mostrarMensajeTemporal(this.vista.lblCreado, "Publicaciones eliminadas exitosamente.");
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            this.vista.lblCreado.setText("Error al escribir en el archivo CSV.");
+	            mostrarMensajeTemporal(this.vista.lblCreado, "Publicaciones eliminadas exitosamente.");
+	        }
+	    } else {
+	    	mostrarMensajeTemporal(this.vista.lblCreado,"No se encontraron publicaciones para eliminar.");
+
+	    }
 	}
-
 	// 6
 	public void generarInformeJSON(ArrayNode streamer) throws IOException {
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -1468,6 +1467,14 @@ public class Controlador implements ActionListener {
 					Double tasaCrecimientoSeguidoresDouble = estadisticas.get("tasa_crecimiento_seguidores").asDouble();
 					String tasaCrecimientoSeguidores = String.format("%.2f%%", tasaCrecimientoSeguidoresDouble);
 
+
+					calcularPromedios(creatorNode);
+					identificarMejorRendimiento(creatorNode);
+					calcularCrecimientoMensual(creatorNode);
+
+					creador = creatorNode;
+					vista.comboBoxPlataforma.setSelectedIndex(0);
+
 					vista.lblIdMostrar.setText(idCreador);
 					vista.lblNombreMostrar.setText(nombreCreador);
 					vista.lblPaisMostrar.setText(pais);
@@ -1476,13 +1483,6 @@ public class Controlador implements ActionListener {
 					vista.lblInteraccionesTotalesMostrar.setText(interaccionesTotales);
 					vista.lblPromedioVistasMensualesMostrar.setText(promedioVistasMensuales);
 					vista.lblTasaCrecimientoSeguidoresMostrar.setText(tasaCrecimientoSeguidores);
-
-					calcularPromedios(creatorNode);
-					identificarMejorRendimiento(creatorNode);
-					calcularCrecimientoMensual(creatorNode);
-
-					creador = creatorNode;
-					vista.comboBoxPlataforma.setSelectedIndex(0);
 				}
 			}
 		}
@@ -1632,6 +1632,12 @@ public class Controlador implements ActionListener {
 					Double tasaCrecimientoSeguidoresDouble = estadisticas.get("tasa_crecimiento_seguidores").asDouble();
 					String tasaCrecimientoSeguidores = String.format("%.2f%%", tasaCrecimientoSeguidoresDouble);
 
+				
+
+					analizarRendimientoPorTipoContenido();
+
+					creador = creatorNode;
+					vista.comboBoxPlataforma.setSelectedIndex(0);
 					vista.lblIdMostrar.setText(idCreador);
 					vista.lblNombreMostrar.setText(nombreCreador);
 					vista.lblPaisMostrar.setText(pais);
@@ -1640,11 +1646,6 @@ public class Controlador implements ActionListener {
 					vista.lblInteraccionesTotalesMostrar.setText(interaccionesTotales);
 					vista.lblPromedioVistasMensualesMostrar.setText(promedioVistasMensuales1);
 					vista.lblTasaCrecimientoSeguidoresMostrar.setText(tasaCrecimientoSeguidores);
-
-					analizarRendimientoPorTipoContenido();
-
-					creador = creatorNode;
-					vista.comboBoxPlataforma.setSelectedIndex(0);
 				}
 			}
 		}
@@ -1728,28 +1729,27 @@ public class Controlador implements ActionListener {
 
 //11
 	public void añadirPublicacion(List<Contenido> contenido) throws IOException {
-		// Recopilar datos de la vista
+
 		String id_creador = this.vista.lblIdCreadorSeleccionadoCSV.getText();
 		String plataforma = (String) this.vista.comboBoxPlataformaCSV.getSelectedItem();
 		String fecha = this.vista.textFieldFecha2.getText();
 		String contenidoTexto = this.vista.lblContenidoNuevo.getText();
 		String tipo = this.vista.textFieldTipo2.getText();
 
-		// Validar que los campos estén completos
 		if (id_creador.equals("") || plataforma == null || fecha.equals("") || contenidoTexto.equals("")
 				|| tipo.equals("")) {
-			this.vista.lblCreado3.setText("Error: Todos los campos deben estar rellenos.");
-			return; // Salir del método si faltan campos obligatorios
+			mostrarMensajeTemporal(this.vista.lblCreado3,"Error: Todos los campos deben estar rellenos.");
+			return;
 		}
 
-		// Validar fecha
+	
 		if (!ValidarDate(fecha)) {
-			this.vista.lblCreado3.setText("Error: La fecha debe estar en el formato dd/MM/yyyy.");
-			return; // Salir si la fecha es inválida
+			mostrarMensajeTemporal(this.vista.lblCreado3,"Error: La fecha debe estar en el formato dd-MM-yyyy.");
+			return; 
 		}
 
 		try {
-			// Validar los campos numéricos
+			
 			String vistasTextoStr = this.vista.textFieldVistas2.getText();
 			String me_gustaTextoStr = this.vista.textFieldMeGsuta2.getText();
 			String comentariosTextoStr = this.vista.textFieldComentarios2.getText();
@@ -1757,17 +1757,15 @@ public class Controlador implements ActionListener {
 
 			if (vistasTextoStr.equals("") || me_gustaTextoStr.equals("") || comentariosTextoStr.equals("")
 					|| compartidosTextoStr.equals("")) {
-				this.vista.lblCreado3.setText("Error: Los campos numéricos no pueden estar vacíos.");
-				return; // Salir si algún campo numérico está vacío
+				mostrarMensajeTemporal(this.vista.lblCreado3,"Error: Los campos numéricos no pueden estar vacíos.");
+				return;
 			}
 
-			// Convertir los campos numéricos a enteros
 			Integer vistasTexto = Integer.parseInt(vistasTextoStr);
 			Integer me_gustaTexto = Integer.parseInt(me_gustaTextoStr);
 			Integer comentariosTexto = Integer.parseInt(comentariosTextoStr);
 			Integer compartidosTexto = Integer.parseInt(compartidosTextoStr);
 
-			// Crear el objeto contenido con todos los datos válidos
 			Contenido contenido1 = new Contenido();
 			contenido1.setCreador_id(id_creador);
 			contenido1.setPlataforma(plataforma);
@@ -1779,16 +1777,14 @@ public class Controlador implements ActionListener {
 			contenido1.setComentarios(comentariosTexto);
 			contenido1.setCompartidos(compartidosTexto);
 
-			// Agregar el contenido a la lista y crear el archivo CSV
 			contenido.add(contenido1);
 			crearCSV(contenido, "files/metricas_contenido.csv");
+			mostrarMensajeTemporal(this.vista.lblCreado3,"Publicación añadida con éxito.");
 
-			// Actualizar la vista para confirmar éxito
-			this.vista.lblCreado3.setText("Publicación añadida con éxito.");
-			llenarMetricasContenido(creadorSeleccionado); // Llamada para actualizar las métricas
+			llenarMetricasContenido(creadorSeleccionado); 
 			nuevoContenido();
 
-			// Limpiar los campos de la vista solo si todo fue exitoso
+
 			this.vista.comboBoxPlataformaCSV.setSelectedIndex(0);
 			this.vista.textFieldFecha2.setText("");
 			this.vista.textFieldTipo2.setText("");
@@ -1798,8 +1794,8 @@ public class Controlador implements ActionListener {
 			this.vista.textFieldCompartidos2.setText("");
 
 		} catch (NumberFormatException e) {
-			// Capturar errores si los campos numéricos no son enteros válidos
-			this.vista.lblCreado3.setText("Error: Los campos numéricos deben contener solo números.");
+			mostrarMensajeTemporal(this.vista.lblCreado3,"Error: Los campos numéricos deben contener solo números.");
+		
 		}
 	}
 
@@ -1812,7 +1808,8 @@ public class Controlador implements ActionListener {
 
 		if (id_creador.isEmpty() || contenidoLike.isEmpty() || plataforma.isEmpty() || me_gustaTextoStr.isEmpty()
 				|| comentariosTextoStr.isEmpty()) {
-			this.vista.lblCreado5.setText("Error: Todos los campos deben estar completos.");
+			mostrarMensajeTemporal(this.vista.lblCreado5,"Error: Todos los campos deben estar completos.");
+		
 			return;
 		}
 
@@ -1834,58 +1831,24 @@ public class Controlador implements ActionListener {
 			if (encontrado) {
 				crearCSV(contenido, "files/metricas_contenido.csv");
 				this.vista.lblCreado5.setText("Publicación modificada y guardada con éxito.");
-				// Vaciar los campos de la vista
 				this.vista.lblContenidoSeleccionadoModificarLike.setText("");
 				this.vista.lblPlataformaLikes.setText("");
 				this.vista.textField_megusta2.setText("");
 				this.vista.textFieldComentarios3.setText("");
 				vista.listMetricas.clearSelection();
-				llenarMetricasContenido(creadorSeleccionado); // Llamada para actualizar las métricas
-				
+				llenarMetricasContenido(creadorSeleccionado); 
 			} else {
-				this.vista.lblCreado5.setText("No se encontró la publicación con los datos proporcionados.");
+				mostrarMensajeTemporal(this.vista.lblCreado5,"No se encontró la publicación con los datos proporcionados.");
+		
 			}
 
 		} catch (NumberFormatException e) {
-			this.vista.lblCreado5.setText("Error: 'Me gusta' y 'Comentarios' deben ser números válidos.");
+			mostrarMensajeTemporal(this.vista.lblCreado5,"Error: 'Me gusta' y 'Comentarios' deben ser números válidos.");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
-			this.vista.lblCreado5.setText("Error al procesar la modificación de la publicación.");
-		}
-	}
-
-	public void eliminarPublicacionesPorLikes(List<Contenido> contenido) {
-		String likesTexto = this.vista.textFieldMinVistas.getText();
-		if (likesTexto.isEmpty()) {
-			this.vista.lblCreado.setText("Error: El campo de mínimo de likes no puede estar vacío.");
-
-		}
-
-		try {
-			int minLikes = Integer.parseInt(likesTexto);
-			Iterator<Contenido> iterator = contenido.iterator();
-			boolean eliminadas = false;
-
-			while (iterator.hasNext()) {
-				Contenido publicacion = iterator.next();
-				if (publicacion.getMe_gustas() < minLikes) {
-					iterator.remove();
-					eliminadas = true;
-				}
-			}
-
-			crearCSV(contenido, "files/metricas_contenido.csv");
-
-			if (eliminadas) {
-				this.vista.lblCreado.setText("Publicaciones eliminadas con éxito.");
-			} else {
-				this.vista.lblCreado.setText("No se encontraron publicaciones que eliminar.");
-			}
-		} catch (NumberFormatException e) {
-			this.vista.lblCreado.setText("Error: La cantidad mínima de likes debe ser un número válido.");
-		} catch (Exception e) {
-			e.printStackTrace();
-			this.vista.lblCreado.setText("Error al procesar la eliminación de publicaciones.");
+			mostrarMensajeTemporal(this.vista.lblCreado5,"Error al procesar la modificación de la publicación.");
+			
 		}
 	}
 
@@ -1957,7 +1920,7 @@ public class Controlador implements ActionListener {
 				dialog.setSize(300, 150);
 				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
-				JLabel label = new JLabel("No debiste pulsarme", SwingConstants.CENTER);
+				JLabel label = new JLabel("Asieri Villalibre", SwingConstants.CENTER);
 				label.setForeground(Color.RED);
 				dialog.add(label, BorderLayout.CENTER);
 
@@ -1994,7 +1957,7 @@ public class Controlador implements ActionListener {
 				}
 
 				try {
-					Thread.sleep(10);
+					Thread.sleep(1);
 				} catch (InterruptedException ex) {
 					ex.printStackTrace();
 				}
