@@ -91,7 +91,7 @@ public class Controlador implements ActionListener {
 		this.vista.listStreamers.addListSelectionListener(e -> {
 			if (vista.panelInformacion.isVisible()) {
 				creadorSeleccionado = mostrarDatosStreamer(streamer);
-			} else if (vista.panelMayorRendimiento.isVisible()) {
+			} else  {
 				metricaderendimiento(streamer);
 			}
 		});
@@ -122,6 +122,7 @@ public class Controlador implements ActionListener {
 		this.vista.btnModificarPubli_1.addActionListener(this);
 		this.vista.btnVerInformacionStreamer.addActionListener(this);
 		this.vista.btnMayorRendimiento.addActionListener(this);
+		this.vista.btnCrecimientoTrimestre.addActionListener(this);
 
 		streamer = leer();
 		contenido = abrirCSV("files/metricas_contenido.csv");
@@ -242,6 +243,7 @@ public class Controlador implements ActionListener {
 		if (e.getSource() == this.vista.btnVerInformacionStreamer) {
 			// cambiar paneles y titulo
 			vista.panelInformacion.setVisible(true);
+			vista.panelMayorRendimiento2.setVisible(false);
 			vista.panelMayorRendimiento.setVisible(false);
 			vista.lblTituloInformacion.setText("Información");
 
@@ -257,6 +259,39 @@ public class Controlador implements ActionListener {
 			vista.btnMayorRendimiento.setForeground(SystemColor.desktop);
 			vista.btnMayorRendimiento.setBackground(SystemColor.inactiveCaption);
 
+			// botonCrecimiento inactivo
+			vista.btnCrecimientoTrimestre.setForeground(SystemColor.desktop);
+			vista.btnCrecimientoTrimestre.setFont(new Font("Tahoma", Font.BOLD, 14));
+			vista.btnCrecimientoTrimestre.setBackground(SystemColor.inactiveCaption);
+			vista.btnCrecimientoTrimestre.setBounds(994, 91, 231, 30);
+
+		}
+		if (e.getSource() == this.vista.btnCrecimientoTrimestre) {
+
+			// cambiar paneles y titulo
+			vista.panelMayorRendimiento.setVisible(false);
+			vista.panelInformacion.setVisible(false);
+			vista.panelMayorRendimiento2.setVisible(true);
+			vista.lblTituloInformacion.setText("Crecimiento Trimestral");
+
+			// boton VetINFO inactivo
+
+			vista.btnVerInformacionStreamer.setBounds(382, 91, 187, 30);
+			vista.btnVerInformacionStreamer.setForeground(SystemColor.desktop);
+			vista.btnVerInformacionStreamer.setBackground(SystemColor.inactiveCaption);
+			vista.btnVerInformacionStreamer.setFont(new Font("Tahoma", Font.BOLD, 14));
+
+			// botonMayorRendimiento inactivo
+			vista.btnMayorRendimiento.setFont(new Font("Tahoma", Font.BOLD, 14));
+			vista.btnMayorRendimiento.setBounds(569, 91, 198, 30);
+			vista.btnMayorRendimiento.setForeground(SystemColor.desktop);
+			vista.btnMayorRendimiento.setBackground(SystemColor.inactiveCaption);
+
+			// botonMayorRendimiento activo
+			vista.btnCrecimientoTrimestre.setForeground(new Color(255, 255, 255));
+			vista.btnCrecimientoTrimestre.setBackground(Color.DARK_GRAY);
+			vista.btnCrecimientoTrimestre.setFont(new Font("Tahoma", Font.BOLD, 15));
+			vista.btnCrecimientoTrimestre.setBounds(994, 84, 231, 37);
 		}
 
 		// Verificar si el origen del evento es btnMayorRendimiento
@@ -265,21 +300,27 @@ public class Controlador implements ActionListener {
 			// cambiar paneles y titulo
 			vista.panelMayorRendimiento.setVisible(true);
 			vista.panelInformacion.setVisible(false);
-
+			vista.panelMayorRendimiento2.setVisible(false);
 			vista.lblTituloInformacion.setText("Mayor Rendimiento");
 
-			// boton VetINFO activo
+			// boton VetINFO inactivo
 
 			vista.btnVerInformacionStreamer.setBounds(382, 91, 187, 30);
 			vista.btnVerInformacionStreamer.setForeground(SystemColor.desktop);
 			vista.btnVerInformacionStreamer.setBackground(SystemColor.inactiveCaption);
 			vista.btnVerInformacionStreamer.setFont(new Font("Tahoma", Font.BOLD, 14));
 
-			// botonMayorRendimiento inactivo
+			// botonMayorRendimiento activo
 			vista.btnMayorRendimiento.setBounds(569, 84, 198, 37);
 			vista.btnMayorRendimiento.setForeground(new Color(255, 255, 255));
 			vista.btnMayorRendimiento.setBackground(Color.DARK_GRAY);
 			vista.btnMayorRendimiento.setFont(new Font("Tahoma", Font.BOLD, 15));
+
+			// botonCrecimiento inactivo
+			vista.btnCrecimientoTrimestre.setForeground(SystemColor.desktop);
+			vista.btnCrecimientoTrimestre.setFont(new Font("Tahoma", Font.BOLD, 14));
+			vista.btnCrecimientoTrimestre.setBackground(SystemColor.inactiveCaption);
+			vista.btnCrecimientoTrimestre.setBounds(994, 91, 231, 30);
 		}
 
 		if (e.getSource() == vista.btnColaboraciones) {
@@ -1697,6 +1738,8 @@ public class Controlador implements ActionListener {
 				if (idCreador.equals(idCreadorSeleccionado)) {
 					calcularPromedios(creatorNode);
 					identificarMejorRendimiento(creatorNode);
+					calcularCrecimientoMensual(creatorNode);
+
 
 				}
 			}
@@ -1830,31 +1873,12 @@ public class Controlador implements ActionListener {
 			for (JsonNode creatorNode : streamer) {
 				String idCreador = creatorNode.get("id").asText();
 				if (idCreador.equals(idCreadorSeleccionado)) {
-					String nombreCreador = creatorNode.get("nombre").asText();
-					String pais = creatorNode.get("pais").asText();
-					String tematica = creatorNode.get("tematica").asText();
-					String seguidoresTotales = creatorNode.get("seguidores_totales").asText();
-					JsonNode estadisticas = creatorNode.get("estadisticas");
-					String interaccionesTotales = estadisticas.get("interacciones_totales").asText();
-					String promedioVistasMensuales = estadisticas.get("promedio_vistas_mensuales").asText();
-					Double tasaCrecimientoSeguidoresDouble = estadisticas.get("tasa_crecimiento_seguidores").asDouble();
-					String tasaCrecimientoSeguidores = String.format("%.2f%%", tasaCrecimientoSeguidoresDouble);
 
 					calcularPromedios(creatorNode);
 					identificarMejorRendimiento(creatorNode);
 					calcularCrecimientoMensual(creatorNode);
 
 					creador = creatorNode;
-					vista.comboBoxPlataforma.setSelectedIndex(0);
-
-					vista.lblIdMostrar.setText(idCreador);
-					vista.lblNombreMostrar.setText(nombreCreador);
-					vista.lblPaisMostrar.setText(pais);
-					vista.lblTematicaMostrar.setText(tematica);
-					vista.lblSeguidoresTotalesMostrar.setText(seguidoresTotales);
-					vista.lblInteraccionesTotalesMostrar.setText(interaccionesTotales);
-					vista.lblPromedioVistasMensualesMostrar.setText(promedioVistasMensuales);
-					vista.lblTasaCrecimientoSeguidoresMostrar.setText(tasaCrecimientoSeguidores);
 				}
 			}
 		}
@@ -1862,7 +1886,10 @@ public class Controlador implements ActionListener {
 	}
 
 	public void calcularCrecimientoMensual(JsonNode creatorNode) {
+		// Obtener las plataformas del nodo JSON
 		ArrayNode plataformas = (ArrayNode) creatorNode.get("plataformas");
+
+		// Iterar sobre cada plataforma
 		for (JsonNode plataforma : plataformas) {
 			String nombrePlataforma = plataforma.get("nombre").asText();
 			ArrayNode historico = (ArrayNode) plataforma.get("historico");
@@ -1870,9 +1897,11 @@ public class Controlador implements ActionListener {
 			int seguidoresInicio = 0;
 			int seguidoresFin = 0;
 
+			// Procesar el histórico para calcular las tasas de crecimiento
 			for (JsonNode registro : historico) {
 				String fecha = registro.get("fecha").asText();
 				int nuevosSeguidores = registro.get("nuevos_seguidores").asInt();
+
 				if (fecha.startsWith("2023-01") || fecha.startsWith("2023-02") || fecha.startsWith("2023-03")) {
 					if (fecha.equals("2023-01-10")) {
 						seguidoresInicio += nuevosSeguidores;
@@ -1883,9 +1912,26 @@ public class Controlador implements ActionListener {
 				}
 			}
 
+			// Calcular la tasa de crecimiento para la plataforma
 			double tasaCrecimiento = calcularTasaCrecimiento(seguidoresInicio, seguidoresFin);
-			// vista.lblCrecimientoMensualMostrar.setText(String.format( nombrePlataforma,
-			// tasaCrecimiento));
+
+			// Actualizar la etiqueta correspondiente según la plataforma
+			switch (nombrePlataforma) {
+			case "Twitch":
+				vista.lblTwitchCrecimiento.setText(String.format("Twitch: %.2f%%", tasaCrecimiento));
+				break;
+			case "YouTube":
+				vista.lblYouTubeCrecimiento.setText(String.format("YouTube: %.2f%%", tasaCrecimiento));
+				break;
+			case "Instagram":
+				vista.lblInstagramCrecimiento.setText(String.format("Instagram: %.2f%%", tasaCrecimiento));
+				break;
+			case "TikTok":
+				vista.lblCrecimientoTikTok.setText(String.format("TikTok: %.2f%%", tasaCrecimiento));
+				break;
+			default:
+				break;
+			}
 		}
 	}
 
