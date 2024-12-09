@@ -88,7 +88,14 @@ public class Controlador implements ActionListener {
 		this.vista.btngenerarreportecsvcolaboraciones.addActionListener(this);
 		this.vista.btnExportarInfrome_reportejson.addActionListener(this);
 		this.vista.btncolaboracionesajson.addActionListener(this);
-		this.vista.listStreamers.addListSelectionListener(e -> creadorSeleccionado = mostrarDatosStreamer(streamer));
+		this.vista.listStreamers.addListSelectionListener(e -> {
+			if (vista.panelInformacion.isVisible()) {
+				creadorSeleccionado = mostrarDatosStreamer(streamer);
+			} else if (vista.panelMayorRendimiento.isVisible()) {
+				metricaderendimiento(streamer);
+			}
+		});
+
 		this.vista.listColabs.addListSelectionListener(e -> verColaboracion(creadorSeleccionado));
 		this.vista.listMetricas.addListSelectionListener(e -> verMetricas());
 		this.vista.listColaboradores.addListSelectionListener(e -> seleccionarColaborador());
@@ -113,6 +120,8 @@ public class Controlador implements ActionListener {
 		this.vista.btnVerInfoPubli.addActionListener(this);
 		this.vista.btnModificarPubli.addActionListener(this);
 		this.vista.btnModificarPubli_1.addActionListener(this);
+		this.vista.btnVerInformacionStreamer.addActionListener(this);
+		this.vista.btnMayorRendimiento.addActionListener(this);
 
 		streamer = leer();
 		contenido = abrirCSV("files/metricas_contenido.csv");
@@ -152,7 +161,7 @@ public class Controlador implements ActionListener {
 		if (e.getSource() == this.vista.btnModificarLikes) {
 			modificarPublicacion2(contenido);
 		}
-	
+
 		if (e.getSource() == this.vista.btnVerStreamer) {
 			this.vista.panelMostrarTodo.setVisible(true);
 			vista.panelMenu.setVisible(false);
@@ -229,6 +238,48 @@ public class Controlador implements ActionListener {
 		if (e.getSource() == this.vista.btnVolverMenu) {
 			this.vista.panelMenu.setVisible(true);
 			this.vista.panelModifcar.setVisible(false);
+		}
+		if (e.getSource() == this.vista.btnVerInformacionStreamer) {
+			// cambiar paneles y titulo
+			vista.panelInformacion.setVisible(true);
+			vista.panelMayorRendimiento.setVisible(false);
+			vista.lblTituloInformacion.setText("Información");
+
+			// boton VetINFO activo
+			vista.btnVerInformacionStreamer.setForeground(new Color(255, 255, 255));
+			vista.btnVerInformacionStreamer.setBackground(Color.DARK_GRAY);
+			vista.btnVerInformacionStreamer.setFont(new Font("Tahoma", Font.BOLD, 15));
+			vista.btnVerInformacionStreamer.setBounds(382, 84, 187, 37);
+
+			// botonMayorRendimiento inactivo
+			vista.btnMayorRendimiento.setFont(new Font("Tahoma", Font.BOLD, 14));
+			vista.btnMayorRendimiento.setBounds(569, 91, 198, 30);
+			vista.btnMayorRendimiento.setForeground(SystemColor.desktop);
+			vista.btnMayorRendimiento.setBackground(SystemColor.inactiveCaption);
+
+		}
+
+		// Verificar si el origen del evento es btnMayorRendimiento
+		if (e.getSource() == this.vista.btnMayorRendimiento) {
+
+			// cambiar paneles y titulo
+			vista.panelMayorRendimiento.setVisible(true);
+			vista.panelInformacion.setVisible(false);
+
+			vista.lblTituloInformacion.setText("Mayor Rendimiento");
+
+			// boton VetINFO activo
+
+			vista.btnVerInformacionStreamer.setBounds(382, 91, 187, 30);
+			vista.btnVerInformacionStreamer.setForeground(SystemColor.desktop);
+			vista.btnVerInformacionStreamer.setBackground(SystemColor.inactiveCaption);
+			vista.btnVerInformacionStreamer.setFont(new Font("Tahoma", Font.BOLD, 14));
+
+			// botonMayorRendimiento inactivo
+			vista.btnMayorRendimiento.setBounds(569, 84, 198, 37);
+			vista.btnMayorRendimiento.setForeground(new Color(255, 255, 255));
+			vista.btnMayorRendimiento.setBackground(Color.DARK_GRAY);
+			vista.btnMayorRendimiento.setFont(new Font("Tahoma", Font.BOLD, 15));
 		}
 
 		if (e.getSource() == vista.btnColaboraciones) {
@@ -569,7 +620,6 @@ public class Controlador implements ActionListener {
 		this.vista.comboBoxOpcion.addItem("compartidos");
 	}
 
-	
 //Metodos generalizados y leer metodos
 
 	public ArrayNode leer() throws JsonProcessingException, IOException {
@@ -598,23 +648,23 @@ public class Controlador implements ActionListener {
 		return contenido;
 	}
 
-	 public void agregarPlataformas() {
-	        String[] plataformas = {"TikTok", "Twitch", "Instagram", "YouTube"};
-	        for (String plataforma : plataformas) {
-	            vista.comboBoxPlataforma.addItem(plataforma);
-	            vista.comboBoxPlataformaCSV.addItem(plataforma);
-	        }
-	    }
+	public void agregarPlataformas() {
+		String[] plataformas = { "TikTok", "Twitch", "Instagram", "YouTube" };
+		for (String plataforma : plataformas) {
+			vista.comboBoxPlataforma.addItem(plataforma);
+			vista.comboBoxPlataformaCSV.addItem(plataforma);
+		}
+	}
 
 	public void llenarJListStreamers(ArrayNode streamer) {
-	        DefaultListModel<String> modelo = new DefaultListModel<>();
-	        for (JsonNode creatorNode : streamer) {
-	            String nombreCreador = creatorNode.get("nombre").asText();
-	            String idCreador = creatorNode.get("id").asText();
-	            modelo.addElement("Id: " + idCreador + " Nombre: " + nombreCreador);
-	        }
-	        vista.listStreamers.setModel(modelo);
-	    }
+		DefaultListModel<String> modelo = new DefaultListModel<>();
+		for (JsonNode creatorNode : streamer) {
+			String nombreCreador = creatorNode.get("nombre").asText();
+			String idCreador = creatorNode.get("id").asText();
+			modelo.addElement("Id: " + idCreador + " Nombre: " + nombreCreador);
+		}
+		vista.listStreamers.setModel(modelo);
+	}
 
 	public void llenarJlistColabs(JsonNode creador) {
 		DefaultListModel<String> modelo = new DefaultListModel<>();
@@ -748,16 +798,18 @@ public class Controlador implements ActionListener {
 			}
 		}
 	}
+
 //Feha
 	public boolean ValidarDate(String date) {
-	    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-	    try {
-	        sdf.parse(date);
-	        return true;
-	    } catch (ParseException e) {
-	        return false;
-	    }
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		try {
+			sdf.parse(date);
+			return true;
+		} catch (ParseException e) {
+			return false;
+		}
 	}
+
 //Lista Colaboradores
 	public void llenarJListColaboradores(ArrayNode streamer) {
 		DefaultListModel<String> modelo = new DefaultListModel<>();
@@ -788,6 +840,7 @@ public class Controlador implements ActionListener {
 		}
 		this.vista.listColaboradores.setModel(modelo);
 	}
+
 //Seleccionar colaboraciones
 	public void seleccionarColaborador() {
 
@@ -810,17 +863,18 @@ public class Controlador implements ActionListener {
 	}
 
 //Mostar los mensajes temporales
-	public  void mostrarMensajeTemporal(JLabel label, String mensaje) {
-	    label.setText(mensaje);
-	    label.setVisible(true);
-	    
-	    new javax.swing.Timer(5000, new ActionListener() {
+	public void mostrarMensajeTemporal(JLabel label, String mensaje) {
+		label.setText(mensaje);
+		label.setVisible(true);
 
-	        public void actionPerformed(ActionEvent e) {
-	            label.setVisible(false); 
-	        }
-	    }).start();
+		new javax.swing.Timer(5000, new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				label.setVisible(false);
+			}
+		}).start();
 	}
+
 //Metodos de los ejercicios
 // 1
 	public JsonNode mostrarDatosStreamer(ArrayNode streamer) {
@@ -982,7 +1036,7 @@ public class Controlador implements ActionListener {
 	}
 
 	// 2
-	
+
 //3
 
 	public void agregarColaboracion(ArrayNode streamer)
@@ -997,14 +1051,14 @@ public class Controlador implements ActionListener {
 		String estadoColaboracion = (String) this.vista.comboBoxEstadoColaboracion.getSelectedItem();
 
 		if (!ValidarDate(fechaInicio) || !ValidarDate(fechaFin)) {
-			mostrarMensajeTemporal(this.vista.lblCreado2,"Las fechas deben estar en el formato dd-mm-yyyy.");
+			mostrarMensajeTemporal(this.vista.lblCreado2, "Las fechas deben estar en el formato dd-mm-yyyy.");
 
 			return;
 		}
 
 		if (idCreador1.equals("") || colaborador.equals("") || tematica.equals("") || fechaInicio.equals("")
 				|| fechaFin.equals("") || tipoColaboracion.equals("") || estadoColaboracion == null) {
-			mostrarMensajeTemporal(this.vista.lblCreado2,"Error: Todos los campos deben estar rellenos.");
+			mostrarMensajeTemporal(this.vista.lblCreado2, "Error: Todos los campos deben estar rellenos.");
 
 		} else {
 			for (JsonNode creatorNode : streamer) {
@@ -1149,7 +1203,7 @@ public class Controlador implements ActionListener {
 		if (modificada) {
 			try {
 				crearCSV(contenido, "files/metricas_contenido.csv");
-				mostrarMensajeTemporal(this.vista.lblCreado4,"Publicación modificada exitosamente.");
+				mostrarMensajeTemporal(this.vista.lblCreado4, "Publicación modificada exitosamente.");
 				this.vista.lblContenidoSeleccionadoModificar.setText("");
 				this.vista.comboBoxparaModificar.setSelectedIndex(0);
 				this.vista.textFieldDato.setText("");
@@ -1157,74 +1211,73 @@ public class Controlador implements ActionListener {
 				llenarMetricasContenido(creadorSeleccionado);
 			} catch (Exception e) {
 				e.printStackTrace();
-				mostrarMensajeTemporal(this.vista.lblCreado4,"Error al escribir en el archivo CSV.");
-		
+				mostrarMensajeTemporal(this.vista.lblCreado4, "Error al escribir en el archivo CSV.");
+
 			}
 		} else {
-			mostrarMensajeTemporal(this.vista.lblCreado4,"Error: No se encontró la publicación para modificar.");
-		
+			mostrarMensajeTemporal(this.vista.lblCreado4, "Error: No se encontró la publicación para modificar.");
+
 		}
 	}
 
 	public void eliminarPublicacion(List<Contenido> contenido) {
-	    String tipo = (String) this.vista.comboBoxOpcion.getSelectedItem();
-	    String cantidadMinimaStr = this.vista.textFieldfecha.getText();
+		String tipo = (String) this.vista.comboBoxOpcion.getSelectedItem();
+		String cantidadMinimaStr = this.vista.textFieldfecha.getText();
 
-	    if (cantidadMinimaStr.isEmpty()) {
-	    	mostrarMensajeTemporal( this.vista.lblCreado,"El campo de cantidad mínima no puede estar vacío.");
-	       
-	        return; 
-	    }
+		if (cantidadMinimaStr.isEmpty()) {
+			mostrarMensajeTemporal(this.vista.lblCreado, "El campo de cantidad mínima no puede estar vacío.");
 
+			return;
+		}
 
-	    if (!cantidadMinimaStr.matches("\\d+")) { 
-	    	mostrarMensajeTemporal( this.vista.lblCreado,"La cantidad mínima debe ser un número válido.");
-	        return; 
-	    }
+		if (!cantidadMinimaStr.matches("\\d+")) {
+			mostrarMensajeTemporal(this.vista.lblCreado, "La cantidad mínima debe ser un número válido.");
+			return;
+		}
 
-	 
-	    int cantidadMinima = Integer.parseInt(cantidadMinimaStr);
-	    boolean eliminada = false;
-	    Iterator<Contenido> iterator = contenido.iterator();
+		int cantidadMinima = Integer.parseInt(cantidadMinimaStr);
+		boolean eliminada = false;
+		Iterator<Contenido> iterator = contenido.iterator();
 
-	    while (iterator.hasNext()) {
-	        Contenido cont = iterator.next();
-	        int cantidadActual = 0;
-	        switch (tipo) {
-	            case "vistas":
-	                cantidadActual = cont.getVistas();
-	                break;
-	            case "me_gusta":
-	                cantidadActual = cont.getMe_gustas();
-	                break;
-	            case "comentarios":
-	                cantidadActual = cont.getComentarios();
-	                break;
-	            case "compartidos":
-	                cantidadActual = cont.getCompartidos();
-	                break;
-	            default:
-	                break;
-	        }
-	        if (cantidadActual < cantidadMinima) {
-	            iterator.remove();
-	            eliminada = true;
-	        }
-	    }
-	    if (eliminada) {
-	        try {
-	            crearCSV(contenido, "files/metricas_contenido.csv");
-	            mostrarMensajeTemporal(this.vista.lblCreado, "Publicaciones eliminadas exitosamente.");
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            this.vista.lblCreado.setText("Error al escribir en el archivo CSV.");
-	            mostrarMensajeTemporal(this.vista.lblCreado, "Publicaciones eliminadas exitosamente.");
-	        }
-	    } else {
-	    	mostrarMensajeTemporal(this.vista.lblCreado,"No se encontraron publicaciones para eliminar.");
+		while (iterator.hasNext()) {
+			Contenido cont = iterator.next();
+			int cantidadActual = 0;
+			switch (tipo) {
+			case "vistas":
+				cantidadActual = cont.getVistas();
+				break;
+			case "me_gusta":
+				cantidadActual = cont.getMe_gustas();
+				break;
+			case "comentarios":
+				cantidadActual = cont.getComentarios();
+				break;
+			case "compartidos":
+				cantidadActual = cont.getCompartidos();
+				break;
+			default:
+				break;
+			}
+			if (cantidadActual < cantidadMinima) {
+				iterator.remove();
+				eliminada = true;
+			}
+		}
+		if (eliminada) {
+			try {
+				crearCSV(contenido, "files/metricas_contenido.csv");
+				mostrarMensajeTemporal(this.vista.lblCreado, "Publicaciones eliminadas exitosamente.");
+			} catch (Exception e) {
+				e.printStackTrace();
+				this.vista.lblCreado.setText("Error al escribir en el archivo CSV.");
+				mostrarMensajeTemporal(this.vista.lblCreado, "Publicaciones eliminadas exitosamente.");
+			}
+		} else {
+			mostrarMensajeTemporal(this.vista.lblCreado, "No se encontraron publicaciones para eliminar.");
 
-	    }
+		}
 	}
+
 	// 6
 	public void generarInformeJSON(ArrayNode streamer) throws IOException {
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -1278,7 +1331,6 @@ public class Controlador implements ActionListener {
 	}
 
 	// 7
-	
 
 	// 8
 	public void generarReporteColaboracionesCSV(ArrayNode streamer) throws IOException {
@@ -1307,7 +1359,6 @@ public class Controlador implements ActionListener {
 	}
 
 	// 9
-	
 
 	// 10
 	public void crearResumenRendimientoJSON(List<Contenido> contenido) throws IOException {
@@ -1395,18 +1446,17 @@ public class Controlador implements ActionListener {
 
 		if (id_creador.equals("") || plataforma == null || fecha.equals("") || contenidoTexto.equals("")
 				|| tipo.equals("")) {
-			mostrarMensajeTemporal(this.vista.lblCreado3,"Error: Todos los campos deben estar rellenos.");
+			mostrarMensajeTemporal(this.vista.lblCreado3, "Error: Todos los campos deben estar rellenos.");
 			return;
 		}
 
-	
 		if (!ValidarDate(fecha)) {
-			mostrarMensajeTemporal(this.vista.lblCreado3,"Error: La fecha debe estar en el formato dd-MM-yyyy.");
-			return; 
+			mostrarMensajeTemporal(this.vista.lblCreado3, "Error: La fecha debe estar en el formato dd-MM-yyyy.");
+			return;
 		}
 
 		try {
-			
+
 			String vistasTextoStr = this.vista.textFieldVistas2.getText();
 			String me_gustaTextoStr = this.vista.textFieldMeGsuta2.getText();
 			String comentariosTextoStr = this.vista.textFieldComentarios2.getText();
@@ -1414,7 +1464,7 @@ public class Controlador implements ActionListener {
 
 			if (vistasTextoStr.equals("") || me_gustaTextoStr.equals("") || comentariosTextoStr.equals("")
 					|| compartidosTextoStr.equals("")) {
-				mostrarMensajeTemporal(this.vista.lblCreado3,"Error: Los campos numéricos no pueden estar vacíos.");
+				mostrarMensajeTemporal(this.vista.lblCreado3, "Error: Los campos numéricos no pueden estar vacíos.");
 				return;
 			}
 
@@ -1436,11 +1486,10 @@ public class Controlador implements ActionListener {
 
 			contenido.add(contenido1);
 			crearCSV(contenido, "files/metricas_contenido.csv");
-			mostrarMensajeTemporal(this.vista.lblCreado3,"Publicación añadida con éxito.");
+			mostrarMensajeTemporal(this.vista.lblCreado3, "Publicación añadida con éxito.");
 
-			llenarMetricasContenido(creadorSeleccionado); 
+			llenarMetricasContenido(creadorSeleccionado);
 			nuevoContenido();
-
 
 			this.vista.comboBoxPlataformaCSV.setSelectedIndex(0);
 			this.vista.textFieldFecha2.setText("");
@@ -1451,8 +1500,8 @@ public class Controlador implements ActionListener {
 			this.vista.textFieldCompartidos2.setText("");
 
 		} catch (NumberFormatException e) {
-			mostrarMensajeTemporal(this.vista.lblCreado3,"Error: Los campos numéricos deben contener solo números.");
-		
+			mostrarMensajeTemporal(this.vista.lblCreado3, "Error: Los campos numéricos deben contener solo números.");
+
 		}
 	}
 
@@ -1465,8 +1514,8 @@ public class Controlador implements ActionListener {
 
 		if (id_creador.isEmpty() || contenidoLike.isEmpty() || plataforma.isEmpty() || me_gustaTextoStr.isEmpty()
 				|| comentariosTextoStr.isEmpty()) {
-			mostrarMensajeTemporal(this.vista.lblCreado5,"Error: Todos los campos deben estar completos.");
-		
+			mostrarMensajeTemporal(this.vista.lblCreado5, "Error: Todos los campos deben estar completos.");
+
 			return;
 		}
 
@@ -1494,19 +1543,21 @@ public class Controlador implements ActionListener {
 				this.vista.textFieldComentarios3.setText("");
 				vista.listMetricas.clearSelection();
 
-				llenarMetricasContenido(creadorSeleccionado); 
+				llenarMetricasContenido(creadorSeleccionado);
 			} else {
-				mostrarMensajeTemporal(this.vista.lblCreado5,"No se encontró la publicación con los datos proporcionados.");
-		
+				mostrarMensajeTemporal(this.vista.lblCreado5,
+						"No se encontró la publicación con los datos proporcionados.");
+
 			}
 
 		} catch (NumberFormatException e) {
-			mostrarMensajeTemporal(this.vista.lblCreado5,"Error: 'Me gusta' y 'Comentarios' deben ser números válidos.");
-			
+			mostrarMensajeTemporal(this.vista.lblCreado5,
+					"Error: 'Me gusta' y 'Comentarios' deben ser números válidos.");
+
 		} catch (Exception e) {
 			e.printStackTrace();
-			mostrarMensajeTemporal(this.vista.lblCreado5,"Error al procesar la modificación de la publicación.");
-			
+			mostrarMensajeTemporal(this.vista.lblCreado5, "Error al procesar la modificación de la publicación.");
+
 		}
 	}
 
@@ -1622,17 +1673,18 @@ public class Controlador implements ActionListener {
 			}
 		}).start();
 	}
-//2 
-	//Aqui tiene que cuando le de a la lista esta anidado con los otros 3
-	public JsonNode metricaderendimiento(ArrayNode streamer) {
+
+	// 2
+	// Aqui tiene que cuando le de a la lista esta anidado con los otros 3
+	public void metricaderendimiento(ArrayNode streamer) {
 		String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
 		if (nombreSeleccionado == null || nombreSeleccionado.trim().isEmpty()) {
-			return null;
+
 		}
 
 		String[] partes = nombreSeleccionado.split(" ");
 		if (partes.length < 2) {
-			return null;
+
 		}
 
 		String idCreadorSeleccionado = partes[1];
@@ -1643,43 +1695,43 @@ public class Controlador implements ActionListener {
 			for (JsonNode creatorNode : streamer) {
 				String idCreador = creatorNode.get("id").asText();
 				if (idCreador.equals(idCreadorSeleccionado)) {
-					String nombreCreador = creatorNode.get("nombre").asText();
-					String pais = creatorNode.get("pais").asText();
-					String tematica = creatorNode.get("tematica").asText();
-					String seguidoresTotales = creatorNode.get("seguidores_totales").asText();
-					JsonNode estadisticas = creatorNode.get("estadisticas");
-					String interaccionesTotales = estadisticas.get("interacciones_totales").asText();
-					String promedioVistasMensuales = estadisticas.get("promedio_vistas_mensuales").asText();
-					Double tasaCrecimientoSeguidoresDouble = estadisticas.get("tasa_crecimiento_seguidores").asDouble();
-					String tasaCrecimientoSeguidores = String.format("%.2f%%", tasaCrecimientoSeguidoresDouble);
-
-					vista.lblIdMostrar.setText(idCreador);
-					vista.lblNombreMostrar.setText(nombreCreador);
-					vista.lblPaisMostrar.setText(pais);
-					vista.lblTematicaMostrar.setText(tematica);
-					vista.lblSeguidoresTotalesMostrar.setText(seguidoresTotales);
-					vista.lblInteraccionesTotalesMostrar.setText(interaccionesTotales);
-					vista.lblPromedioVistasMensualesMostrar.setText(promedioVistasMensuales);
-					vista.lblTasaCrecimientoSeguidoresMostrar.setText(tasaCrecimientoSeguidores);
-
 					calcularPromedios(creatorNode);
 					identificarMejorRendimiento(creatorNode);
 
-					creador = creatorNode;
-					vista.comboBoxPlataforma.setSelectedIndex(0);
 				}
 			}
 		}
-		return creador;
+
 	}
+
+	// Método para calcular los promedios y mostrarlos en labels predefinidos
 	public void calcularPromedios(JsonNode creatorNode) {
+		// Mapas para asociar plataformas con labels de vistas y "me gusta"
+		Map<String, JLabel> labelsPromedioVistas = new HashMap<>();
+		Map<String, JLabel> labelsPromedioMeGusta = new HashMap<>();
+
+		// Asociar nombres de plataformas con labels predefinidos
+		labelsPromedioVistas.put("YouTube", vista.lblYouTubeVistas);
+		labelsPromedioVistas.put("Twitch", vista.lblTwitchVistas);
+		labelsPromedioMeGusta.put("YouTube", vista.lblYouTubeMeGusta);
+		labelsPromedioMeGusta.put("Twitch", vista.lblTwitchMeGusta);
+
+		labelsPromedioVistas.put("Instagram", vista.lblInstagramVistas);
+		labelsPromedioVistas.put("TikTok", vista.lblTikTokVistas);
+		labelsPromedioMeGusta.put("Instagram", vista.lblInstagrameGusta);
+		labelsPromedioMeGusta.put("TikTok", vista.lblTikTokMeGusta);
+
+		// Obtener las plataformas del nodo JSON
 		ArrayNode plataformas = (ArrayNode) creatorNode.get("plataformas");
+
+		// Iterar sobre cada plataforma
 		for (JsonNode plataforma : plataformas) {
 			String nombrePlataforma = plataforma.get("nombre").asText();
 			int totalVistas = 0;
 			int totalMeGusta = 0;
 			int conteo = 0;
 
+			// Calcular totales y conteos para la plataforma actual
 			for (Contenido cont : contenido) {
 				if (cont.getPlataforma().equals(nombrePlataforma)
 						&& cont.getCreador_id().equals(creatorNode.get("id").asText())) {
@@ -1689,24 +1741,27 @@ public class Controlador implements ActionListener {
 				}
 			}
 
-			double promedioVistas;
-			double promedioMeGusta;
+			// Calcular los promedios
+			double promedioVistas = (conteo > 0) ? (double) totalVistas / conteo : 0;
+			double promedioMeGusta = (conteo > 0) ? (double) totalMeGusta / conteo : 0;
 
-			if (conteo > 0) {
-				promedioVistas = (double) totalVistas / conteo;
-				promedioMeGusta = (double) totalMeGusta / conteo;
-			} else {
-				promedioVistas = 0;
-				promedioMeGusta = 0;
+			// Actualizar los labels correspondientes
+			if (labelsPromedioVistas.containsKey(nombrePlataforma)) {
+				labelsPromedioVistas.get(nombrePlataforma)
+						.setText(String.format("Promedio vistas: %.2f", promedioVistas));
 			}
-
-			// vista.lblPromedioVistasMostrar.setText(String.format(nombrePlataforma, promedioVistas));
-			// vista.lblPromedioMeGustaMostrar.setText(String.format(nombrePlataforma, promedioMeGusta));
+			if (labelsPromedioMeGusta.containsKey(nombrePlataforma)) {
+				labelsPromedioMeGusta.get(nombrePlataforma)
+						.setText(String.format("Promedio me gusta: %.2f", promedioMeGusta));
+			}
 		}
 	}
 
 	public void identificarMejorRendimiento(JsonNode creatorNode) {
 		ArrayNode plataformas = (ArrayNode) creatorNode.get("plataformas");
+		StringBuilder mejorRendimientoImagenes = new StringBuilder();
+		StringBuilder mejorRendimientoVideos = new StringBuilder();
+
 		for (JsonNode plataforma : plataformas) {
 			String nombrePlataforma = plataforma.get("nombre").asText();
 			Map<String, Integer> rendimientoPorTipo = new HashMap<>();
@@ -1718,24 +1773,45 @@ public class Controlador implements ActionListener {
 							rendimientoPorTipo.getOrDefault(cont.getTipo(), 0) + cont.getVistas());
 				}
 			}
-
-			String mejorTipo = null;
-			int maxRendimiento = 0;
+			String mejorTipoImagen = null;
+			int maxRendimientoImagen = 0;
+			String mejorTipoVideo = null;
+			int maxRendimientoVideo = 0;
 			for (Map.Entry<String, Integer> entry : rendimientoPorTipo.entrySet()) {
-				if (entry.getValue() > maxRendimiento) {
-					maxRendimiento = entry.getValue();
-					mejorTipo = entry.getKey();
+				String tipo = entry.getKey();
+				int rendimiento = entry.getValue();
+
+				if (tipo.equalsIgnoreCase("imagen")) {
+					if (rendimiento > maxRendimientoImagen) {
+						maxRendimientoImagen = rendimiento;
+						mejorTipoImagen = tipo;
+					}
+				} else if (tipo.equalsIgnoreCase("video")) {
+					if (rendimiento > maxRendimientoVideo) {
+						maxRendimientoVideo = rendimiento;
+						mejorTipoVideo = tipo;
+					}
 				}
 			}
 
-			if (mejorTipo != null) {
-				// vista.lblMejorRendimientoMostrar.setText(String.format(nombrePlataforma, mejorTipo,maxRendimiento));
+			// Agregar resultados a los StringBuilder
+			if (mejorTipoImagen != null) {
+				mejorRendimientoImagenes.append(String.format("Plataforma: %s, Mejor Tipo: %s, Vistas: %d%n",
+						nombrePlataforma, mejorTipoImagen, maxRendimientoImagen));
+			}
+			if (mejorTipoVideo != null) {
+				mejorRendimientoVideos.append(String.format("Plataforma: %s, Mejor Tipo: %s, Vistas: %d%n",
+						nombrePlataforma, mejorTipoVideo, maxRendimientoVideo));
 			}
 		}
+
+		vista.lblMejorRendimientoImagenesMostrar.setText(mejorRendimientoImagenes.toString());
+		vista.lblMejorRendimientoVideosMostrar.setText(mejorRendimientoVideos.toString());
 	}
-	
-//7
-	//Que cuando le de al jlist de stremaer ponga los labels de primer segundo y tercermetodo que estan comentado 
+
+	// 7
+	// Que cuando le de al jlist de stremaer ponga los labels de primer segundo y
+	// tercermetodo que estan comentado
 	public JsonNode mostrarDatosStreamer1(ArrayNode streamer) {
 		String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
 		if (nombreSeleccionado == null || nombreSeleccionado.trim().isEmpty()) {
@@ -1763,7 +1839,6 @@ public class Controlador implements ActionListener {
 					String promedioVistasMensuales = estadisticas.get("promedio_vistas_mensuales").asText();
 					Double tasaCrecimientoSeguidoresDouble = estadisticas.get("tasa_crecimiento_seguidores").asDouble();
 					String tasaCrecimientoSeguidores = String.format("%.2f%%", tasaCrecimientoSeguidoresDouble);
-
 
 					calcularPromedios(creatorNode);
 					identificarMejorRendimiento(creatorNode);
@@ -1809,7 +1884,8 @@ public class Controlador implements ActionListener {
 			}
 
 			double tasaCrecimiento = calcularTasaCrecimiento(seguidoresInicio, seguidoresFin);
-			// vista.lblCrecimientoMensualMostrar.setText(String.format( nombrePlataforma, tasaCrecimiento));
+			// vista.lblCrecimientoMensualMostrar.setText(String.format( nombrePlataforma,
+			// tasaCrecimiento));
 		}
 	}
 
@@ -1824,8 +1900,9 @@ public class Controlador implements ActionListener {
 			return ((double) (seguidoresFin - seguidoresInicio) / seguidoresInicio) * 100;
 		}
 	}
-//9
-	//Cuando le de a la lista que aparezca el todos los campos en el panel 
+
+	// 9
+	// Cuando le de a la lista que aparezca el todos los campos en el panel
 	public JsonNode mostrarDatosStreamer2(ArrayNode streamer) {
 		String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
 		if (nombreSeleccionado == null || nombreSeleccionado.trim().isEmpty()) {
@@ -1856,8 +1933,6 @@ public class Controlador implements ActionListener {
 					Double tasaCrecimientoSeguidoresDouble = estadisticas.get("tasa_crecimiento_seguidores").asDouble();
 					String tasaCrecimientoSeguidores = String.format("%.2f%%", tasaCrecimientoSeguidoresDouble);
 
-				
-
 					analizarRendimientoPorTipoContenido();
 					creador = creatorNode;
 					vista.comboBoxPlataforma.setSelectedIndex(0);
@@ -1874,6 +1949,7 @@ public class Controlador implements ActionListener {
 		}
 		return creador;
 	}
+
 	public void analizarRendimientoPorTipoContenido() {
 		Map<String, Map<String, int[]>> rendimiento = new HashMap<>();
 
@@ -1919,4 +1995,5 @@ public class Controlador implements ActionListener {
 		JOptionPane.showMessageDialog(vista, resultados.toString(), "Análisis Comparativo de Rendimiento",
 				JOptionPane.INFORMATION_MESSAGE);
 	}
+
 }
