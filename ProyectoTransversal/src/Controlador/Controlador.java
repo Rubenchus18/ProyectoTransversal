@@ -37,6 +37,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -2011,9 +2012,12 @@ public class Controlador implements ActionListener {
 		return creador;
 	}
 
+	// 9
 	public void analizarRendimientoPorTipoContenido() {
+		// Mapa para almacenar el rendimiento por tipo de contenido y plataforma
 		Map<String, Map<String, int[]>> rendimiento = new HashMap<>();
 
+		// Procesar los datos de contenido
 		for (Contenido cont : contenido) {
 			String tipo = cont.getTipo();
 			String plataforma = cont.getPlataforma();
@@ -2026,35 +2030,46 @@ public class Controlador implements ActionListener {
 			rendimiento.get(tipo).get(plataforma)[1] += meGusta;
 		}
 
-		StringBuilder resultados = new StringBuilder();
-		for (String tipo : rendimiento.keySet()) {
-			resultados.append("Tipo de Contenido: ").append(tipo).append("\n");
-			for (String plataforma : rendimiento.get(tipo).keySet()) {
-				int totalVistas = rendimiento.get(tipo).get(plataforma)[0];
-				int totalMeGusta = rendimiento.get(tipo).get(plataforma)[1];
-				int conteo = 0;
+		// Listener para el ComboBox
+		comboBoxTipos.addActionListener(e -> {
+			String tipoSeleccionado = (String) comboBoxTipos.getSelectedItem();
+			StringBuilder resultados = new StringBuilder();
 
-				for (Contenido c : contenido) {
-					if (c.getTipo().equals(tipo) && c.getPlataforma().equals(plataforma)) {
-						conteo++;
+			// Validar si hay datos para el tipo seleccionado
+			if (rendimiento.containsKey(tipoSeleccionado)) {
+				resultados.append("Tipo de Contenido: ").append(tipoSeleccionado).append("\n");
+
+				for (String plataforma : rendimiento.get(tipoSeleccionado).keySet()) {
+					int totalVistas = rendimiento.get(tipoSeleccionado).get(plataforma)[0];
+					int totalMeGusta = rendimiento.get(tipoSeleccionado).get(plataforma)[1];
+					int conteo = 0;
+
+					// Contar la cantidad de contenidos especÃ­ficos
+					for (Contenido c : contenido) {
+						if (c.getTipo().equals(tipoSeleccionado) && c.getPlataforma().equals(plataforma)) {
+							conteo++;
+						}
+					}
+
+					// Calcular promedios y agregar al resultado
+					if (conteo > 0) {
+						double promedioVistas = (double) totalVistas / conteo;
+						double promedioMeGusta = (double) totalMeGusta / conteo;
+
+						resultados.append(
+								String.format("Plataforma: %s | Promedio Vistas: %.2f | Promedio Me Gusta: %.2f\n",
+										plataforma, promedioVistas, promedioMeGusta));
+					} else {
+						resultados.append("Plataforma: ").append(plataforma).append(" | No hay datos suficientes.\n");
 					}
 				}
-
-				if (conteo > 0) {
-					double promedioVistas = (double) totalVistas / conteo;
-					double promedioMeGusta = (double) totalMeGusta / conteo;
-
-					resultados.append(String.format("Plataforma:  | Promedio Vistas:  | Promedio Me Gusta:", plataforma,
-							promedioVistas, promedioMeGusta));
-				} else {
-					resultados.append("Plataforma: ").append(plataforma).append(" | No hay datos suficientes.\n");
-				}
+			} else {
+				resultados.append("No hay datos disponibles para el tipo seleccionado.");
 			}
-			resultados.append("\n");
-		}
 
-		JOptionPane.showMessageDialog(vista, resultados.toString(), "Análisis Comparativo de Rendimiento",
-				JOptionPane.INFORMATION_MESSAGE);
+			// Actualizar el JLabel con los resultados
+			labelResultados.setText(resultados.toString());
+		});
 	}
 
 }
