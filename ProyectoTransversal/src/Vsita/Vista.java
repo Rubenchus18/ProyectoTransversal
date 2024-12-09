@@ -131,13 +131,10 @@ public class Vista extends JFrame {
 	public JLabel lblNewLabel_3_3_1_3;
 	public JPanel panelañadirpublicion;
 	public JLabel lblNewLabel_3_3_11;
-	public JTextField textFieldidcreador1;
 	public JLabel lblNewLabel_3_3_12;
-	public JTextField textFieldplataforma2;
 	public JLabel lblNewLabel_3_3_13;
 	public JTextField textFieldFecha2;
 	public JLabel lblNewLabel_3_3_14;
-	public JTextField textFieldContenido2;
 	public JLabel lblNewLabel_3_3_15;
 	public JTextField textFieldTipo2;
 	public JLabel lblNewLabel_3_3_16;
@@ -160,20 +157,15 @@ public class Vista extends JFrame {
 	public JButton btnEliminarMinimoVistas;
 	public JPanel panelModificarPublicacion;
 	public JLabel lblNewLabel_3_3_24;
-	public JTextField textFieldidstreamer;
 	public JLabel lblNewLabel_3_3_25;
 	public JLabel lblNewLabel_3_3_26;
-	public JTextField textFieldfehca;
 	public JLabel lblNewLabel_3_3_27;
 	public JTextField textFieldDato;
 	public JButton btnmodificarpublicacion;
 	public JPanel panelmodificarLikesComentarios;
 	public JLabel lblNewLabel_3_3_28;
-	public JTextField textFieldid_creador3;
 	public JLabel lblNewLabel_3_3_29;
-	public JTextField textFieldel_plataforma3;
 	public JLabel lblNewLabel_3_3_30;
-	public JTextField textFieldFechaContenido3;
 	public JLabel lblNewLabel_3_3_31;
 	public JTextField textField_megusta2;
 	public JLabel lblNewLabel_3_3_32;
@@ -267,6 +259,21 @@ public class Vista extends JFrame {
 	public JComboBox comboboxTipoColab;
 	public JLabel lblIdMostrarIdSelec;
 	public JLabel lblNombreColabSeleccionado;
+	public JLabel lblIdCreadorSeleccionadoCSV;
+	public JLabel lblContenidoNuevo;
+	public JComboBox comboBoxPlataformaCSV;
+	public JLabel lblCreado3;
+	public JButton btnVerInfoPubli;
+	public JButton btnAñadirPubli;
+	public JLabel lblIdCreadorSeleccionadoCSVModificar;
+	public JLabel lblContenidoSeleccionadoModificar;
+	public JLabel lblCreado4;
+	public JButton btnModificarPubli;
+	public JButton btnModificarPubli_1;
+	public JLabel lblContenidoSeleccionadoModificarLike;
+	public JLabel lblIdCreadorSeleccionadoCSVModificarLike;
+	public JLabel lblCreado5;
+	public JLabel lblPlataformaLikes;
 
 	/**
 	 * Launch the application.
@@ -301,6 +308,527 @@ public class Vista extends JFrame {
 		contentPane.setLayout(null);
 		setLocationRelativeTo(null);
 
+		// Configuración del tercer panel con colores cálidos
+		panelMostrarMetricasCSV = new JPanel();
+		panelMostrarMetricasCSV.setBackground(new Color(255, 239, 213)); // Color cálido beige
+		panelMostrarMetricasCSV.setBounds(0, 0, 1292, 752);
+		contentPane.add(panelMostrarMetricasCSV);
+		panelMostrarMetricasCSV.setLayout(null);
+		panelMostrarMetricasCSV.setVisible(false);
+		// Estilo común para los JLabel
+		Font fontLabel = new Font("Tahoma", Font.PLAIN, 32);
+		Color labelForeground = new Color(139, 69, 19);
+
+		panelmodificarLikesComentarios = new JPanel();
+		panelmodificarLikesComentarios.setBorder(new LineBorder(new Color(139, 69, 19), 2, true));
+		panelmodificarLikesComentarios.setBackground(new Color(255, 228, 181)); // Fondo melocotón claro
+		panelmodificarLikesComentarios.setBounds(464, 156, 818, 586);
+		panelMostrarMetricasCSV.add(panelmodificarLikesComentarios);
+		panelmodificarLikesComentarios.setLayout(null);
+		panelmodificarLikesComentarios.setVisible(false);
+
+		// Etiqueta ID CREADOR
+		lblNewLabel_3_3_28 = new JLabel("Id Creador:");
+		lblNewLabel_3_3_28.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_3_3_28.setForeground(Color.BLACK);
+		lblNewLabel_3_3_28.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		lblNewLabel_3_3_28.setBounds(10, 46, 374, 40);
+		panelmodificarLikesComentarios.add(lblNewLabel_3_3_28);
+
+		// Etiqueta Plataforma
+		lblNewLabel_3_3_29 = new JLabel("Plataforma:");
+		lblNewLabel_3_3_29.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_3_3_29.setForeground(Color.BLACK);
+		lblNewLabel_3_3_29.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		lblNewLabel_3_3_29.setBounds(10, 122, 374, 40);
+		panelmodificarLikesComentarios.add(lblNewLabel_3_3_29);
+
+		// Etiqueta Fecha
+		lblNewLabel_3_3_30 = new JLabel("Contenido:");
+		lblNewLabel_3_3_30.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_3_3_30.setForeground(Color.BLACK);
+		lblNewLabel_3_3_30.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		lblNewLabel_3_3_30.setBounds(10, 199, 374, 40);
+		panelmodificarLikesComentarios.add(lblNewLabel_3_3_30);
+
+		// Etiqueta Likes
+		lblNewLabel_3_3_31 = new JLabel("Nueva cantidad de me gusta:");
+		lblNewLabel_3_3_31.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_3_3_31.setForeground(Color.BLACK);
+		lblNewLabel_3_3_31.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		lblNewLabel_3_3_31.setBounds(10, 277, 421, 40);
+		panelmodificarLikesComentarios.add(lblNewLabel_3_3_31);
+
+		textField_megusta2 = new JTextField();
+		textField_megusta2.setBounds(485, 279, 323, 40);
+		textField_megusta2.setFont(new Font("Tahoma", Font.PLAIN, 28));
+		textField_megusta2.setBackground(new Color(255, 250, 240));
+		textField_megusta2.setBorder(new LineBorder(new Color(139, 69, 19), 2));
+		panelmodificarLikesComentarios.add(textField_megusta2);
+
+		// Etiqueta Comentarios
+		lblNewLabel_3_3_32 = new JLabel("Nueva cantidad de comentarios:");
+		lblNewLabel_3_3_32.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_3_3_32.setForeground(Color.BLACK);
+		lblNewLabel_3_3_32.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		lblNewLabel_3_3_32.setBounds(10, 360, 465, 40);
+		panelmodificarLikesComentarios.add(lblNewLabel_3_3_32);
+
+		textFieldComentarios3 = new JTextField();
+		textFieldComentarios3.setBounds(485, 362, 323, 40);
+		textFieldComentarios3.setFont(new Font("Tahoma", Font.PLAIN, 28));
+		textFieldComentarios3.setBackground(new Color(255, 250, 240));
+		textFieldComentarios3.setBorder(new LineBorder(new Color(139, 69, 19), 2));
+		panelmodificarLikesComentarios.add(textFieldComentarios3);
+
+		// Botón Modificar
+		btnModificarLikes = new JButton("Modificar");
+		btnModificarLikes.setForeground(Color.WHITE);
+		btnModificarLikes.setBackground(new Color(204, 102, 0));
+		btnModificarLikes.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		btnModificarLikes.setBounds(124, 441, 571, 61);
+		panelmodificarLikesComentarios.add(btnModificarLikes);
+
+		lblContenidoSeleccionadoModificarLike = new JLabel("");
+		lblContenidoSeleccionadoModificarLike.setOpaque(true);
+		lblContenidoSeleccionadoModificarLike.setFont(new Font("Tahoma", Font.ITALIC, 28));
+		lblContenidoSeleccionadoModificarLike.setBorder(new LineBorder(new Color(139, 69, 19), 2));
+		lblContenidoSeleccionadoModificarLike.setBackground(new Color(255, 250, 240));
+		lblContenidoSeleccionadoModificarLike.setBounds(485, 199, 323, 40);
+		panelmodificarLikesComentarios.add(lblContenidoSeleccionadoModificarLike);
+
+		lblIdCreadorSeleccionadoCSVModificarLike = new JLabel("");
+		lblIdCreadorSeleccionadoCSVModificarLike.setOpaque(true);
+		lblIdCreadorSeleccionadoCSVModificarLike.setFont(new Font("Tahoma", Font.ITALIC, 28));
+		lblIdCreadorSeleccionadoCSVModificarLike.setBorder(new LineBorder(new Color(139, 69, 19), 2));
+		lblIdCreadorSeleccionadoCSVModificarLike.setBackground(new Color(255, 250, 240));
+		lblIdCreadorSeleccionadoCSVModificarLike.setBounds(485, 46, 323, 40);
+		panelmodificarLikesComentarios.add(lblIdCreadorSeleccionadoCSVModificarLike);
+
+		lblCreado5 = new JLabel("");
+		lblCreado5.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCreado5.setForeground(new Color(128, 0, 0));
+		lblCreado5.setFont(new Font("Dialog", Font.BOLD, 32));
+		lblCreado5.setBounds(10, 513, 798, 62);
+		panelmodificarLikesComentarios.add(lblCreado5);
+
+		lblPlataformaLikes = new JLabel("");
+		lblPlataformaLikes.setOpaque(true);
+		lblPlataformaLikes.setFont(new Font("Tahoma", Font.ITALIC, 28));
+		lblPlataformaLikes.setBorder(new LineBorder(new Color(139, 69, 19), 2));
+		lblPlataformaLikes.setBackground(new Color(255, 250, 240));
+		lblPlataformaLikes.setBounds(485, 122, 323, 40);
+		panelmodificarLikesComentarios.add(lblPlataformaLikes);
+
+		// Título del tercer panel
+		lblTituloMetrica = new JLabel("Información de las métricas de contenido");
+		lblTituloMetrica.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTituloMetrica.setForeground(new Color(139, 69, 19)); // Marrón oscuro
+		lblTituloMetrica.setFont(new Font("Dialog", Font.BOLD, 50));
+		lblTituloMetrica.setBounds(127, 10, 1155, 99);
+		panelMostrarMetricasCSV.add(lblTituloMetrica);
+
+		// Botón Salir en el tercer panel
+		btnSalirInfoGen2 = new JButton("");
+		btnSalirInfoGen2.setFont(new Font("Tahoma", Font.BOLD, 30));
+		btnSalirInfoGen2.setForeground(new Color(255, 255, 255));
+		btnSalirInfoGen2.setBackground(new Color(205, 92, 92)); // Rojo cálido
+		btnSalirInfoGen2.setBounds(10, 25, 107, 74);
+		btnSalirInfoGen2.setIcon(new ImageIcon(asignarImagenSalir(btnSalirInfoGen2)));
+		btnSalirInfoGen2.setOpaque(false);
+		panelMostrarMetricasCSV.add(btnSalirInfoGen2);
+
+		// ScrollPane para la nueva lista de métricas
+		scrollPaneMetricas = new JScrollPane();
+		scrollPaneMetricas.setBounds(20, 119, 434, 623);
+		panelMostrarMetricasCSV.add(scrollPaneMetricas);
+
+		listMetricas = new JList();
+		listMetricas.setFont(new Font("Tahoma", Font.PLAIN, 28));
+		listMetricas.setBackground(new Color(255, 245, 230)); // Fondo cálido crema
+		listMetricas.setBorder(new MatteBorder(0, 2, 2, 2, (Color) new Color(139, 69, 19))); // Borde marrón oscuro
+		scrollPaneMetricas.setViewportView(listMetricas);
+
+		// Título para la nueva lista
+		lblJlistMetricas = new JLabel("Métricas de contenido");
+		lblJlistMetricas.setHorizontalAlignment(SwingConstants.CENTER);
+		lblJlistMetricas.setForeground(Color.WHITE);
+		lblJlistMetricas.setBackground(new Color(210, 105, 30)); // Marrón cálido
+		lblJlistMetricas.setOpaque(true);
+		lblJlistMetricas.setBorder(new LineBorder(new Color(139, 69, 19), 2)); // Borde marrón oscuro
+		lblJlistMetricas.setFont(new Font("Tahoma", Font.BOLD, 30));
+		scrollPaneMetricas.setColumnHeaderView(lblJlistMetricas);
+
+		// Panel de información
+		panelInfoMetricas = new JPanel();
+		panelInfoMetricas.setBorder(new LineBorder(new Color(139, 69, 19), 2, true));
+		panelInfoMetricas.setBackground(new Color(255, 228, 181)); // Fondo melocotón claro
+		panelInfoMetricas.setBounds(464, 156, 818, 586);
+		panelMostrarMetricasCSV.add(panelInfoMetricas);
+		panelInfoMetricas.setLayout(null);
+
+		// Etiquetas y contenido
+		lblPlataformaMetrica = new JLabel("Plataforma:");
+		lblPlataformaMetrica.setBounds(30, 11, 354, 40);
+		lblPlataformaMetrica.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		panelInfoMetricas.add(lblPlataformaMetrica);
+
+		lblMostrarPlataformaMetrica = new JLabel(""); // Campo vacío
+		lblMostrarPlataformaMetrica.setBounds(394, 11, 367, 40);
+		lblMostrarPlataformaMetrica.setFont(new Font("Tahoma", Font.ITALIC, 28));
+		lblMostrarPlataformaMetrica.setBackground(new Color(255, 250, 240)); // Fondo crema cálido
+		lblMostrarPlataformaMetrica.setOpaque(true);
+		lblMostrarPlataformaMetrica.setBorder(new LineBorder(new Color(139, 69, 19), 2));
+		panelInfoMetricas.add(lblMostrarPlataformaMetrica);
+
+		lblFechaMetrica = new JLabel("Fecha de la métrica:");
+		lblFechaMetrica.setBounds(30, 83, 354, 40);
+		lblFechaMetrica.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		panelInfoMetricas.add(lblFechaMetrica);
+
+		lblFechaMetricaMostrar = new JLabel(""); // Campo vacío
+		lblFechaMetricaMostrar.setBounds(394, 83, 367, 40);
+		lblFechaMetricaMostrar.setFont(new Font("Tahoma", Font.ITALIC, 28));
+		lblFechaMetricaMostrar.setBackground(new Color(255, 250, 240));
+		lblFechaMetricaMostrar.setOpaque(true);
+		lblFechaMetricaMostrar.setBorder(new LineBorder(new Color(139, 69, 19), 2));
+		panelInfoMetricas.add(lblFechaMetricaMostrar);
+
+		lblContenidoMetrica = new JLabel("Contenido:");
+		lblContenidoMetrica.setBounds(30, 157, 354, 40);
+		lblContenidoMetrica.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		panelInfoMetricas.add(lblContenidoMetrica);
+
+		lblContenidoMetricaMostrar = new JLabel(""); // Campo vacío
+		lblContenidoMetricaMostrar.setBounds(394, 157, 367, 40);
+		lblContenidoMetricaMostrar.setFont(new Font("Tahoma", Font.ITALIC, 28));
+		lblContenidoMetricaMostrar.setBackground(new Color(255, 250, 240));
+		lblContenidoMetricaMostrar.setOpaque(true);
+		lblContenidoMetricaMostrar.setBorder(new LineBorder(new Color(139, 69, 19), 2));
+		panelInfoMetricas.add(lblContenidoMetricaMostrar);
+
+		lblTipoContenidoMetrica = new JLabel("Tipo de contenido:");
+		lblTipoContenidoMetrica.setBounds(30, 232, 354, 40);
+		lblTipoContenidoMetrica.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		panelInfoMetricas.add(lblTipoContenidoMetrica);
+
+		lblTipoContenidoMetricaMostrar = new JLabel(""); // Campo vacío
+		lblTipoContenidoMetricaMostrar.setBounds(394, 232, 367, 41);
+		lblTipoContenidoMetricaMostrar.setFont(new Font("Tahoma", Font.ITALIC, 28));
+		lblTipoContenidoMetricaMostrar.setBackground(new Color(255, 250, 240));
+		lblTipoContenidoMetricaMostrar.setOpaque(true);
+		lblTipoContenidoMetricaMostrar.setBorder(new LineBorder(new Color(139, 69, 19), 2));
+		panelInfoMetricas.add(lblTipoContenidoMetricaMostrar);
+
+		lblVistasMetricas = new JLabel("Vistas:");
+		lblVistasMetricas.setBounds(30, 306, 354, 40);
+		lblVistasMetricas.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		panelInfoMetricas.add(lblVistasMetricas);
+
+		lblVistasMetricasMostrar = new JLabel(""); // Campo vacío
+		lblVistasMetricasMostrar.setBounds(394, 306, 367, 40);
+		lblVistasMetricasMostrar.setFont(new Font("Tahoma", Font.ITALIC, 28));
+		lblVistasMetricasMostrar.setBackground(new Color(255, 250, 240));
+		lblVistasMetricasMostrar.setOpaque(true);
+		lblVistasMetricasMostrar.setBorder(new LineBorder(new Color(139, 69, 19), 2));
+		panelInfoMetricas.add(lblVistasMetricasMostrar);
+
+		lblMeGustaMetricas = new JLabel("Me gustas:");
+		lblMeGustaMetricas.setBounds(30, 380, 354, 40);
+		lblMeGustaMetricas.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		panelInfoMetricas.add(lblMeGustaMetricas);
+
+		lblMeGustaMetricasMostrar = new JLabel(""); // Campo vacío
+		lblMeGustaMetricasMostrar.setBounds(394, 380, 367, 40);
+		lblMeGustaMetricasMostrar.setFont(new Font("Tahoma", Font.ITALIC, 28));
+		lblMeGustaMetricasMostrar.setBackground(new Color(255, 250, 240));
+		lblMeGustaMetricasMostrar.setOpaque(true);
+		lblMeGustaMetricasMostrar.setBorder(new LineBorder(new Color(139, 69, 19), 2));
+		panelInfoMetricas.add(lblMeGustaMetricasMostrar);
+
+		lblComentariosMetricas = new JLabel("Comentarios:");
+		lblComentariosMetricas.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		lblComentariosMetricas.setBounds(30, 457, 354, 40);
+		panelInfoMetricas.add(lblComentariosMetricas);
+
+		lblComentariosMetricasMostrar = new JLabel("");
+		lblComentariosMetricasMostrar.setOpaque(true);
+		lblComentariosMetricasMostrar.setFont(new Font("Tahoma", Font.ITALIC, 28));
+		lblComentariosMetricasMostrar.setBorder(new LineBorder(new Color(139, 69, 19), 2));
+		lblComentariosMetricasMostrar.setBackground(new Color(255, 250, 240));
+		lblComentariosMetricasMostrar.setBounds(394, 457, 367, 40);
+		panelInfoMetricas.add(lblComentariosMetricasMostrar);
+
+		lblCompartidosMetricas = new JLabel("Compartidos:");
+		lblCompartidosMetricas.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		lblCompartidosMetricas.setBounds(30, 536, 354, 40);
+		panelInfoMetricas.add(lblCompartidosMetricas);
+
+		lblCompartidosMetricasMostrar = new JLabel("");
+		lblCompartidosMetricasMostrar.setOpaque(true);
+		lblCompartidosMetricasMostrar.setFont(new Font("Tahoma", Font.ITALIC, 28));
+		lblCompartidosMetricasMostrar.setBorder(new LineBorder(new Color(139, 69, 19), 2));
+		lblCompartidosMetricasMostrar.setBackground(new Color(255, 250, 240));
+		lblCompartidosMetricasMostrar.setBounds(394, 536, 367, 40);
+		panelInfoMetricas.add(lblCompartidosMetricasMostrar);
+
+		btnVerInfoPubli = new JButton("Ver Información");
+		btnVerInfoPubli.setForeground(SystemColor.activeCaptionText);
+		btnVerInfoPubli.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btnVerInfoPubli.setBackground(new Color(128, 64, 0));
+		btnVerInfoPubli.setBounds(464, 120, 194, 38);
+		panelMostrarMetricasCSV.add(btnVerInfoPubli);
+
+		btnAñadirPubli = new JButton("Añadir Publicación");
+		btnAñadirPubli.setForeground(SystemColor.desktop);
+		btnAñadirPubli.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnAñadirPubli.setBackground(SystemColor.scrollbar);
+		btnAñadirPubli.setBounds(656, 127, 203, 31);
+		panelMostrarMetricasCSV.add(btnAñadirPubli);
+
+		btnModificarPubli = new JButton("Modificar Publicación");
+		btnModificarPubli.setForeground(SystemColor.desktop);
+		btnModificarPubli.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnModificarPubli.setBackground(SystemColor.scrollbar);
+		btnModificarPubli.setBounds(856, 127, 217, 31);
+		panelMostrarMetricasCSV.add(btnModificarPubli);
+
+		btnModificarPubli_1 = new JButton("Modificar Métrica");
+		btnModificarPubli_1.setForeground(SystemColor.desktop);
+		btnModificarPubli_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnModificarPubli_1.setBackground(SystemColor.scrollbar);
+		btnModificarPubli_1.setBounds(1072, 127, 210, 31);
+		panelMostrarMetricasCSV.add(btnModificarPubli_1);
+
+		// Panel para modificar publicación
+		panelModificarPublicacion = new JPanel();
+		panelModificarPublicacion.setBorder(new LineBorder(new Color(139, 69, 19), 2, true)); // Borde con el mismo
+		// estilo que el primer
+		// panel
+		panelModificarPublicacion.setBackground(new Color(255, 228, 181)); // Fondo melocotón claro
+		panelModificarPublicacion.setBounds(464, 156, 818, 586);
+		panelMostrarMetricasCSV.add(panelModificarPublicacion);
+		panelModificarPublicacion.setLayout(null);
+		panelModificarPublicacion.setVisible(false);
+
+		// Etiqueta para "ID CREADOR"
+		lblNewLabel_3_3_24 = new JLabel("Id Creador:");
+		lblNewLabel_3_3_24.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_3_3_24.setFont(fontLabel);
+		lblNewLabel_3_3_24.setBounds(22, 38, 259, 52);
+		panelModificarPublicacion.add(lblNewLabel_3_3_24);
+
+		// ComboBox con estilo
+		comboBoxparaModificar = new JComboBox();
+		comboBoxparaModificar.setFont(new Font("Tahoma", Font.ITALIC, 28));
+		comboBoxparaModificar.setBackground(new Color(255, 250, 240));
+		comboBoxparaModificar.setOpaque(true);
+		comboBoxparaModificar.setBorder(new LineBorder(labelForeground, 2));
+		comboBoxparaModificar.setBounds(414, 244, 365, 40);
+		panelModificarPublicacion.add(comboBoxparaModificar);
+
+		// Etiqueta para "¿Qué quieres modificar?" con un estilo uniforme
+		lblNewLabel_3_3_25 = new JLabel("¿Qué quieres modificar?");
+		lblNewLabel_3_3_25.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_3_3_25.setForeground(Color.BLACK);
+		lblNewLabel_3_3_25.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		lblNewLabel_3_3_25.setBounds(22, 238, 356, 52);
+		panelModificarPublicacion.add(lblNewLabel_3_3_25);
+
+		// Etiqueta para "¿De qué fecha?" con el mismo estilo
+		lblNewLabel_3_3_26 = new JLabel("Contenido Seleccionado:");
+		lblNewLabel_3_3_26.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_3_3_26.setForeground(Color.BLACK);
+		lblNewLabel_3_3_26.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		lblNewLabel_3_3_26.setBounds(22, 136, 356, 52);
+		panelModificarPublicacion.add(lblNewLabel_3_3_26);
+
+		// Etiqueta para "Dato" con el mismo diseño que los anteriores
+		lblNewLabel_3_3_27 = new JLabel("Nuevo Valor:");
+		lblNewLabel_3_3_27.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_3_3_27.setForeground(Color.BLACK);
+		lblNewLabel_3_3_27.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		lblNewLabel_3_3_27.setBounds(22, 327, 356, 52);
+		panelModificarPublicacion.add(lblNewLabel_3_3_27);
+
+		// Campo de texto para el dato con estilo
+		textFieldDato = new JTextField();
+		textFieldDato.setColumns(10);
+		textFieldDato.setFont(new Font("Tahoma", Font.ITALIC, 28));
+		textFieldDato.setBackground(new Color(255, 250, 240));
+		textFieldDato.setOpaque(true);
+		textFieldDato.setBorder(new LineBorder(labelForeground, 2));
+		textFieldDato.setBounds(414, 333, 365, 40);
+		panelModificarPublicacion.add(textFieldDato);
+
+		// Botón para modificar publicación con estilo claro y cohesivo
+		btnmodificarpublicacionenespecifico = new JButton("MODIFICAR PUBLICACIÓN");
+		btnmodificarpublicacionenespecifico.setForeground(Color.WHITE);
+		btnmodificarpublicacionenespecifico.setBackground(new Color(204, 102, 0));
+		btnmodificarpublicacionenespecifico.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		btnmodificarpublicacionenespecifico.setBounds(124, 418, 571, 61);
+		panelModificarPublicacion.add(btnmodificarpublicacionenespecifico);
+
+		lblIdCreadorSeleccionadoCSVModificar = new JLabel("");
+		lblIdCreadorSeleccionadoCSVModificar.setOpaque(true);
+		lblIdCreadorSeleccionadoCSVModificar.setFont(new Font("Tahoma", Font.ITALIC, 28));
+		lblIdCreadorSeleccionadoCSVModificar.setBorder(new LineBorder(new Color(139, 69, 19), 2));
+		lblIdCreadorSeleccionadoCSVModificar.setBackground(new Color(255, 250, 240));
+		lblIdCreadorSeleccionadoCSVModificar.setBounds(413, 48, 366, 40);
+		panelModificarPublicacion.add(lblIdCreadorSeleccionadoCSVModificar);
+
+		lblContenidoSeleccionadoModificar = new JLabel("");
+		lblContenidoSeleccionadoModificar.setOpaque(true);
+		lblContenidoSeleccionadoModificar.setFont(new Font("Tahoma", Font.ITALIC, 28));
+		lblContenidoSeleccionadoModificar.setBorder(new LineBorder(new Color(139, 69, 19), 2));
+		lblContenidoSeleccionadoModificar.setBackground(new Color(255, 250, 240));
+		lblContenidoSeleccionadoModificar.setBounds(413, 146, 366, 40);
+		panelModificarPublicacion.add(lblContenidoSeleccionadoModificar);
+
+		lblCreado4 = new JLabel("");
+		lblCreado4.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCreado4.setForeground(new Color(128, 0, 0));
+		lblCreado4.setFont(new Font("Dialog", Font.BOLD, 32));
+		lblCreado4.setBounds(10, 501, 798, 62);
+		panelModificarPublicacion.add(lblCreado4);
+
+		// Panel para añadir publicación
+		panelañadirpublicion = new JPanel();
+		panelañadirpublicion.setBorder(new LineBorder(new Color(139, 69, 19), 2, true));
+		panelañadirpublicion.setBackground(new Color(255, 228, 181)); // Fondo melocotón claro
+		panelañadirpublicion.setBounds(464, 156, 818, 586);
+		panelMostrarMetricasCSV.add(panelañadirpublicion);
+		panelañadirpublicion.setLayout(null);
+
+		// Etiquetas y campos de texto con estilo unificado
+		lblNewLabel_3_3_11 = new JLabel("Id Creador:");
+		lblNewLabel_3_3_11.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		lblNewLabel_3_3_11.setBounds(31, 11, 354, 40);
+		panelañadirpublicion.add(lblNewLabel_3_3_11);
+
+		lblNewLabel_3_3_12 = new JLabel("Plataforma:");
+		lblNewLabel_3_3_12.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		lblNewLabel_3_3_12.setBounds(31, 62, 354, 40);
+		panelañadirpublicion.add(lblNewLabel_3_3_12);
+
+		lblNewLabel_3_3_13 = new JLabel("Fecha:");
+		lblNewLabel_3_3_13.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		lblNewLabel_3_3_13.setBounds(31, 113, 354, 40);
+		panelañadirpublicion.add(lblNewLabel_3_3_13);
+
+		textFieldFecha2 = new JTextField();
+		textFieldFecha2.setFont(new Font("Tahoma", Font.ITALIC, 28));
+		textFieldFecha2.setBackground(new Color(255, 250, 240));
+		textFieldFecha2.setOpaque(true);
+		textFieldFecha2.setBorder(new LineBorder(new Color(139, 69, 19), 2));
+		textFieldFecha2.setBounds(395, 113, 365, 40);
+		panelañadirpublicion.add(textFieldFecha2);
+
+		lblNewLabel_3_3_14 = new JLabel("Contenido:");
+		lblNewLabel_3_3_14.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		lblNewLabel_3_3_14.setBounds(31, 164, 354, 40);
+		panelañadirpublicion.add(lblNewLabel_3_3_14);
+
+		lblNewLabel_3_3_15 = new JLabel("Tipo de contenido:");
+		lblNewLabel_3_3_15.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		lblNewLabel_3_3_15.setBounds(31, 215, 354, 40);
+		panelañadirpublicion.add(lblNewLabel_3_3_15);
+
+		textFieldTipo2 = new JTextField();
+		textFieldTipo2.setFont(new Font("Tahoma", Font.ITALIC, 28));
+		textFieldTipo2.setBackground(new Color(255, 250, 240));
+		textFieldTipo2.setOpaque(true);
+		textFieldTipo2.setBorder(new LineBorder(new Color(139, 69, 19), 2));
+		textFieldTipo2.setBounds(395, 215, 365, 40);
+		panelañadirpublicion.add(textFieldTipo2);
+
+		lblNewLabel_3_3_16 = new JLabel("Vistas:");
+		lblNewLabel_3_3_16.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		lblNewLabel_3_3_16.setBounds(31, 266, 354, 40);
+		panelañadirpublicion.add(lblNewLabel_3_3_16);
+
+		textFieldVistas2 = new JTextField();
+		textFieldVistas2.setFont(new Font("Tahoma", Font.ITALIC, 28));
+		textFieldVistas2.setBackground(new Color(255, 250, 240));
+		textFieldVistas2.setOpaque(true);
+		textFieldVistas2.setBorder(new LineBorder(new Color(139, 69, 19), 2));
+		textFieldVistas2.setBounds(395, 266, 365, 40);
+		panelañadirpublicion.add(textFieldVistas2);
+
+		lblNewLabel_3_3_18 = new JLabel("Me gustas:");
+		lblNewLabel_3_3_18.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		lblNewLabel_3_3_18.setBounds(31, 317, 354, 40);
+		panelañadirpublicion.add(lblNewLabel_3_3_18);
+
+		textFieldMeGsuta2 = new JTextField();
+		textFieldMeGsuta2.setFont(new Font("Tahoma", Font.ITALIC, 28));
+		textFieldMeGsuta2.setBackground(new Color(255, 250, 240));
+		textFieldMeGsuta2.setOpaque(true);
+		textFieldMeGsuta2.setBorder(new LineBorder(new Color(139, 69, 19), 2));
+		textFieldMeGsuta2.setBounds(395, 317, 365, 40);
+		panelañadirpublicion.add(textFieldMeGsuta2);
+
+		lblNewLabel_3_3_19 = new JLabel("Comentarios:");
+		lblNewLabel_3_3_19.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		lblNewLabel_3_3_19.setBounds(31, 368, 354, 40);
+		panelañadirpublicion.add(lblNewLabel_3_3_19);
+
+		textFieldComentarios2 = new JTextField();
+		textFieldComentarios2.setFont(new Font("Tahoma", Font.ITALIC, 28));
+		textFieldComentarios2.setBackground(new Color(255, 250, 240));
+		textFieldComentarios2.setOpaque(true);
+		textFieldComentarios2.setBorder(new LineBorder(new Color(139, 69, 19), 2));
+		textFieldComentarios2.setBounds(395, 368, 365, 40);
+		panelañadirpublicion.add(textFieldComentarios2);
+
+		lblNewLabel_3_3_20 = new JLabel("Compartidos");
+		lblNewLabel_3_3_20.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		lblNewLabel_3_3_20.setBounds(31, 419, 354, 40);
+		panelañadirpublicion.add(lblNewLabel_3_3_20);
+
+		textFieldCompartidos2 = new JTextField();
+		textFieldCompartidos2.setFont(new Font("Tahoma", Font.ITALIC, 28));
+		textFieldCompartidos2.setBackground(new Color(255, 250, 240));
+		textFieldCompartidos2.setOpaque(true);
+		textFieldCompartidos2.setBorder(new LineBorder(new Color(139, 69, 19), 2));
+		textFieldCompartidos2.setBounds(395, 419, 365, 40);
+		panelañadirpublicion.add(textFieldCompartidos2);
+
+		btnAñadirPublic = new JButton("AÑADIR NUEVA PUBLICACION");
+		btnAñadirPublic.setForeground(Color.WHITE);
+		btnAñadirPublic.setBackground(new Color(204, 102, 0));
+		btnAñadirPublic.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		btnAñadirPublic.setBounds(155, 470, 514, 54);
+		panelañadirpublicion.add(btnAñadirPublic);
+
+		lblIdCreadorSeleccionadoCSV = new JLabel("");
+		lblIdCreadorSeleccionadoCSV.setOpaque(true);
+		lblIdCreadorSeleccionadoCSV.setFont(new Font("Tahoma", Font.ITALIC, 28));
+		lblIdCreadorSeleccionadoCSV.setBorder(new LineBorder(new Color(139, 69, 19), 2));
+		lblIdCreadorSeleccionadoCSV.setBackground(new Color(255, 250, 240));
+		lblIdCreadorSeleccionadoCSV.setBounds(395, 11, 365, 40);
+		panelañadirpublicion.add(lblIdCreadorSeleccionadoCSV);
+
+		lblContenidoNuevo = new JLabel("");
+		lblContenidoNuevo.setOpaque(true);
+		lblContenidoNuevo.setFont(new Font("Tahoma", Font.ITALIC, 28));
+		lblContenidoNuevo.setBorder(new LineBorder(new Color(139, 69, 19), 2));
+		lblContenidoNuevo.setBackground(new Color(255, 250, 240));
+		lblContenidoNuevo.setBounds(395, 164, 365, 40);
+		panelañadirpublicion.add(lblContenidoNuevo);
+
+		comboBoxPlataformaCSV = new JComboBox();
+		comboBoxPlataformaCSV.setFont(new Font("Tahoma", Font.PLAIN, 28));
+		comboBoxPlataformaCSV.setBounds(395, 62, 365, 40);
+		panelañadirpublicion.add(comboBoxPlataformaCSV);
+
+		lblCreado3 = new JLabel("");
+		lblCreado3.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCreado3.setForeground(new Color(128, 0, 0));
+		lblCreado3.setFont(new Font("Dialog", Font.BOLD, 30));
+		lblCreado3.setBounds(10, 535, 798, 40);
+		panelañadirpublicion.add(lblCreado3);
+
 		// Configuración del segundo panel duplicado
 		panelMostrarColabs = new JPanel();
 		panelMostrarColabs.setBackground(new Color(200, 220, 240));
@@ -308,11 +836,11 @@ public class Vista extends JFrame {
 		contentPane.add(panelMostrarColabs);
 		panelMostrarColabs.setLayout(null);
 		panelMostrarColabs.setVisible(false);
-		
+
 		scrollPaneColaboradores = new JScrollPane();
 		scrollPaneColaboradores.setBounds(1012, 156, 280, 586);
 		panelMostrarColabs.add(scrollPaneColaboradores);
-		
+
 		lblColaboradores = new JLabel("Colaboradores");
 		lblColaboradores.setOpaque(true);
 		lblColaboradores.setHorizontalAlignment(SwingConstants.CENTER);
@@ -321,7 +849,7 @@ public class Vista extends JFrame {
 		lblColaboradores.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		lblColaboradores.setBackground(new Color(128, 128, 255));
 		scrollPaneColaboradores.setColumnHeaderView(lblColaboradores);
-		
+
 		listColaboradores = new JList();
 		listColaboradores.setForeground(Color.BLACK);
 		listColaboradores.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -367,7 +895,7 @@ public class Vista extends JFrame {
 		lblJlistColabs.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		lblJlistColabs.setFont(new Font("Tahoma", Font.BOLD, 30));
 		scrollPaneColabs.setColumnHeaderView(lblJlistColabs);
-		
+
 		// Panel para insertar colaboradores
 		panelInsertarColaboradores = new JPanel();
 		panelInsertarColaboradores.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
@@ -377,40 +905,34 @@ public class Vista extends JFrame {
 		panelInsertarColaboradores.setLayout(null);
 		panelInsertarColaboradores.setVisible(false);
 
-		// Ajustes generales para las fuentes y tamaños
-		Font labelFont = new Font("Tahoma", Font.PLAIN, 24);
-		Font textFieldFont = new Font("Tahoma", Font.PLAIN, 20);
-		int labelHeight = 30;
-		int textFieldHeight = 30;
-
 		// Etiqueta y campo para "ID CREADOR"
 		JLabel lblID = new JLabel("ID CREADOR:");
 		lblID.setHorizontalAlignment(SwingConstants.LEFT);
 		lblID.setForeground(Color.BLACK);
-		lblID.setFont(labelFont);
-		lblID.setBounds(10, 11, 180, labelHeight);
+		lblID.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblID.setBounds(10, 11, 180, 30);
 		panelInsertarColaboradores.add(lblID);
 
 		// Etiqueta y campo para "NOMBRE COLABORADOR"
 		JLabel lblNombreColab = new JLabel("NOMBRE COLABORADOR:");
 		lblNombreColab.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNombreColab.setForeground(Color.BLACK);
-		lblNombreColab.setFont(labelFont);
-		lblNombreColab.setBounds(10, 66, 300, labelHeight);
+		lblNombreColab.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblNombreColab.setBounds(10, 66, 300, 30);
 		panelInsertarColaboradores.add(lblNombreColab);
 
 		// Etiqueta y campo para "FECHA INICIO"
 		lblFechaInicio = new JLabel("FECHA INICIO:");
 		lblFechaInicio.setHorizontalAlignment(SwingConstants.LEFT);
 		lblFechaInicio.setForeground(Color.BLACK);
-		lblFechaInicio.setFont(labelFont);
-		lblFechaInicio.setBounds(10, 157, 200, labelHeight);
+		lblFechaInicio.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblFechaInicio.setBounds(10, 157, 200, 30);
 		panelInsertarColaboradores.add(lblFechaInicio);
 
 		textFieldFechaInicio = new JTextField();
-		textFieldFechaInicio.setFont(textFieldFont);
+		textFieldFechaInicio.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		textFieldFechaInicio.setColumns(10);
-		textFieldFechaInicio.setBounds(10, 197, 200, textFieldHeight);
+		textFieldFechaInicio.setBounds(10, 197, 200, 30);
 		textFieldFechaInicio.setBackground(Color.WHITE);
 		textFieldFechaInicio.setBorder(new LineBorder(Color.BLACK, 2));
 		panelInsertarColaboradores.add(textFieldFechaInicio);
@@ -419,14 +941,14 @@ public class Vista extends JFrame {
 		lblFechaFin = new JLabel("FECHA FIN:");
 		lblFechaFin.setHorizontalAlignment(SwingConstants.LEFT);
 		lblFechaFin.setForeground(Color.BLACK);
-		lblFechaFin.setFont(labelFont);
-		lblFechaFin.setBounds(240, 157, 200, labelHeight);
+		lblFechaFin.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblFechaFin.setBounds(240, 157, 200, 30);
 		panelInsertarColaboradores.add(lblFechaFin);
 
 		textFieldFechaFin = new JTextField();
-		textFieldFechaFin.setFont(textFieldFont);
+		textFieldFechaFin.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		textFieldFechaFin.setColumns(10);
-		textFieldFechaFin.setBounds(240, 197, 220, textFieldHeight);
+		textFieldFechaFin.setBounds(240, 197, 220, 30);
 		textFieldFechaFin.setBackground(Color.WHITE);
 		textFieldFechaFin.setBorder(new LineBorder(Color.BLACK, 2));
 		panelInsertarColaboradores.add(textFieldFechaFin);
@@ -435,14 +957,14 @@ public class Vista extends JFrame {
 		JLabel lblTematica = new JLabel("TEMATICA:");
 		lblTematica.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTematica.setForeground(Color.BLACK);
-		lblTematica.setFont(labelFont);
-		lblTematica.setBounds(10, 250, 200, labelHeight);
+		lblTematica.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblTematica.setBounds(10, 250, 200, 30);
 		panelInsertarColaboradores.add(lblTematica);
 
 		textFieldTematica = new JTextField();
-		textFieldTematica.setFont(textFieldFont);
+		textFieldTematica.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		textFieldTematica.setColumns(10);
-		textFieldTematica.setBounds(10, 291, 450, textFieldHeight);
+		textFieldTematica.setBounds(10, 291, 450, 30);
 		textFieldTematica.setBackground(Color.WHITE);
 		textFieldTematica.setBorder(new LineBorder(Color.BLACK, 2));
 		panelInsertarColaboradores.add(textFieldTematica);
@@ -451,21 +973,21 @@ public class Vista extends JFrame {
 		JLabel lblEstado = new JLabel("ESTADO DE LA COLABORACIÓN:");
 		lblEstado.setHorizontalAlignment(SwingConstants.LEFT);
 		lblEstado.setForeground(Color.BLACK);
-		lblEstado.setFont(labelFont);
+		lblEstado.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblEstado.setBounds(10, 332, 347, 30);
 		panelInsertarColaboradores.add(lblEstado);
 
 		comboBoxEstadoColaboracion = new JComboBox();
-		comboBoxEstadoColaboracion.setFont(textFieldFont);
-		comboBoxEstadoColaboracion.setBounds(10, 373, 200, textFieldHeight);
+		comboBoxEstadoColaboracion.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		comboBoxEstadoColaboracion.setBounds(10, 373, 200, 30);
 		panelInsertarColaboradores.add(comboBoxEstadoColaboracion);
 
 		// Etiqueta y campo para "TIPO COLABORACION"
 		lblTipoColab = new JLabel("TIPO COLABORACION:");
 		lblTipoColab.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTipoColab.setForeground(Color.BLACK);
-		lblTipoColab.setFont(labelFont);
-		lblTipoColab.setBounds(10, 414, 300, labelHeight);
+		lblTipoColab.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		lblTipoColab.setBounds(10, 414, 300, 30);
 		panelInsertarColaboradores.add(lblTipoColab);
 
 		// Botón de inserción
@@ -475,19 +997,19 @@ public class Vista extends JFrame {
 		btnInsertarCo.setFont(new Font("Tahoma", Font.BOLD, 20));
 		btnInsertarCo.setBounds(10, 495, 450, 33);
 		panelInsertarColaboradores.add(btnInsertarCo);
-		
+
 		lblCreado2 = new JLabel("");
 		lblCreado2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCreado2.setForeground(new Color(128, 0, 0));
 		lblCreado2.setFont(new Font("Dialog", Font.BOLD, 18));
 		lblCreado2.setBounds(10, 539, 454, 36);
 		panelInsertarColaboradores.add(lblCreado2);
-		
+
 		comboboxTipoColab = new JComboBox();
 		comboboxTipoColab.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		comboboxTipoColab.setBounds(10, 455, 300, 30);
 		panelInsertarColaboradores.add(comboboxTipoColab);
-		
+
 		lblIdMostrarIdSelec = new JLabel("");
 		lblIdMostrarIdSelec.setOpaque(true);
 		lblIdMostrarIdSelec.setFont(new Font("Tahoma", Font.ITALIC, 28));
@@ -495,7 +1017,7 @@ public class Vista extends JFrame {
 		lblIdMostrarIdSelec.setBackground(Color.WHITE);
 		lblIdMostrarIdSelec.setBounds(200, 11, 260, 30);
 		panelInsertarColaboradores.add(lblIdMostrarIdSelec);
-		
+
 		lblNombreColabSeleccionado = new JLabel("");
 		lblNombreColabSeleccionado.setOpaque(true);
 		lblNombreColabSeleccionado.setFont(new Font("Tahoma", Font.ITALIC, 28));
@@ -504,7 +1026,6 @@ public class Vista extends JFrame {
 		lblNombreColabSeleccionado.setBounds(10, 116, 430, 30);
 		panelInsertarColaboradores.add(lblNombreColabSeleccionado);
 
-		
 		// Panel de información duplicado
 		panelInfoColab = new JPanel();
 		panelInfoColab.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
@@ -591,180 +1112,20 @@ public class Vista extends JFrame {
 		lblEstadoColabMostrar.setOpaque(true); // Hacer el fondo blanco
 		lblEstadoColabMostrar.setBorder(new LineBorder(Color.BLACK, 2)); // Borde de 2 píxeles
 		panelInfoColab.add(lblEstadoColabMostrar);
-		
+
 		btnVerInfoColab = new JButton("Ver Información");
 		btnVerInfoColab.setForeground(Color.WHITE);
 		btnVerInfoColab.setBackground(new Color(25, 25, 112));
 		btnVerInfoColab.setFont(new Font("Tahoma", Font.BOLD, 17));
 		btnVerInfoColab.setBounds(535, 120, 231, 38);
 		panelMostrarColabs.add(btnVerInfoColab);
-		
+
 		btnAniadirColab = new JButton("Añadir Colaboración");
 		btnAniadirColab.setForeground(SystemColor.desktop);
 		btnAniadirColab.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnAniadirColab.setBackground(SystemColor.scrollbar);
 		btnAniadirColab.setBounds(766, 127, 242, 31);
 		panelMostrarColabs.add(btnAniadirColab);
-
-		// Configuración del tercer panel con colores cálidos
-		panelMostrarMetricasCSV = new JPanel();
-		panelMostrarMetricasCSV.setBackground(new Color(255, 239, 213)); // Color cálido beige
-		panelMostrarMetricasCSV.setBounds(0, 0, 1292, 752);
-		contentPane.add(panelMostrarMetricasCSV);
-		panelMostrarMetricasCSV.setLayout(null);
-		panelMostrarMetricasCSV.setVisible(false);
-
-		// Título del tercer panel
-		lblTituloMetrica = new JLabel("Información de las métricas de contenido");
-		lblTituloMetrica.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTituloMetrica.setForeground(new Color(139, 69, 19)); // Marrón oscuro
-		lblTituloMetrica.setFont(new Font("Dialog", Font.BOLD, 50));
-		lblTituloMetrica.setBounds(127, 10, 1155, 99);
-		panelMostrarMetricasCSV.add(lblTituloMetrica);
-
-		// Botón Salir en el tercer panel
-		btnSalirInfoGen2 = new JButton("");
-		btnSalirInfoGen2.setFont(new Font("Tahoma", Font.BOLD, 30));
-		btnSalirInfoGen2.setForeground(new Color(255, 255, 255));
-		btnSalirInfoGen2.setBackground(new Color(205, 92, 92)); // Rojo cálido
-		btnSalirInfoGen2.setBounds(10, 25, 107, 74);
-		btnSalirInfoGen2.setIcon(new ImageIcon(asignarImagenSalir(btnSalirInfoGen2)));
-		btnSalirInfoGen2.setOpaque(false);
-		panelMostrarMetricasCSV.add(btnSalirInfoGen2);
-
-		// ScrollPane para la nueva lista de métricas
-		scrollPaneMetricas = new JScrollPane();
-		scrollPaneMetricas.setBounds(30, 119, 495, 623);
-		panelMostrarMetricasCSV.add(scrollPaneMetricas);
-
-		listMetricas = new JList();
-		listMetricas.setFont(new Font("Tahoma", Font.PLAIN, 28));
-		listMetricas.setBackground(new Color(255, 245, 230)); // Fondo cálido crema
-		listMetricas.setBorder(new MatteBorder(0, 2, 2, 2, (Color) new Color(139, 69, 19))); // Borde marrón oscuro
-		scrollPaneMetricas.setViewportView(listMetricas);
-
-		// Título para la nueva lista
-		lblJlistMetricas = new JLabel("Métricas de contenido");
-		lblJlistMetricas.setHorizontalAlignment(SwingConstants.CENTER);
-		lblJlistMetricas.setForeground(Color.WHITE);
-		lblJlistMetricas.setBackground(new Color(210, 105, 30)); // Marrón cálido
-		lblJlistMetricas.setOpaque(true);
-		lblJlistMetricas.setBorder(new LineBorder(new Color(139, 69, 19), 2)); // Borde marrón oscuro
-		lblJlistMetricas.setFont(new Font("Tahoma", Font.BOLD, 30));
-		scrollPaneMetricas.setColumnHeaderView(lblJlistMetricas);
-
-		// Panel de información
-		panelInfoMetricas = new JPanel();
-		panelInfoMetricas.setBorder(new LineBorder(new Color(139, 69, 19), 2, true));
-		panelInfoMetricas.setBackground(new Color(255, 228, 181)); // Fondo melocotón claro
-		panelInfoMetricas.setBounds(535, 119, 707, 623);
-		panelMostrarMetricasCSV.add(panelInfoMetricas);
-		panelInfoMetricas.setLayout(null);
-
-		// Etiquetas y contenido
-		lblPlataformaMetrica = new JLabel("Plataforma:");
-		lblPlataformaMetrica.setBounds(10, 35, 354, 40);
-		lblPlataformaMetrica.setFont(new Font("Tahoma", Font.PLAIN, 32));
-		panelInfoMetricas.add(lblPlataformaMetrica);
-
-		lblMostrarPlataformaMetrica = new JLabel(""); // Campo vacío
-		lblMostrarPlataformaMetrica.setBounds(374, 35, 321, 40);
-		lblMostrarPlataformaMetrica.setFont(new Font("Tahoma", Font.ITALIC, 28));
-		lblMostrarPlataformaMetrica.setBackground(new Color(255, 250, 240)); // Fondo crema cálido
-		lblMostrarPlataformaMetrica.setOpaque(true);
-		lblMostrarPlataformaMetrica.setBorder(new LineBorder(new Color(139, 69, 19), 2));
-		panelInfoMetricas.add(lblMostrarPlataformaMetrica);
-
-		lblFechaMetrica = new JLabel("Fecha de la métrica:");
-		lblFechaMetrica.setBounds(10, 107, 354, 40);
-		lblFechaMetrica.setFont(new Font("Tahoma", Font.PLAIN, 32));
-		panelInfoMetricas.add(lblFechaMetrica);
-
-		lblFechaMetricaMostrar = new JLabel(""); // Campo vacío
-		lblFechaMetricaMostrar.setBounds(374, 107, 321, 40);
-		lblFechaMetricaMostrar.setFont(new Font("Tahoma", Font.ITALIC, 28));
-		lblFechaMetricaMostrar.setBackground(new Color(255, 250, 240));
-		lblFechaMetricaMostrar.setOpaque(true);
-		lblFechaMetricaMostrar.setBorder(new LineBorder(new Color(139, 69, 19), 2));
-		panelInfoMetricas.add(lblFechaMetricaMostrar);
-
-		lblContenidoMetrica = new JLabel("Contenido:");
-		lblContenidoMetrica.setBounds(10, 181, 354, 40);
-		lblContenidoMetrica.setFont(new Font("Tahoma", Font.PLAIN, 32));
-		panelInfoMetricas.add(lblContenidoMetrica);
-
-		lblContenidoMetricaMostrar = new JLabel(""); // Campo vacío
-		lblContenidoMetricaMostrar.setBounds(374, 181, 321, 40);
-		lblContenidoMetricaMostrar.setFont(new Font("Tahoma", Font.ITALIC, 28));
-		lblContenidoMetricaMostrar.setBackground(new Color(255, 250, 240));
-		lblContenidoMetricaMostrar.setOpaque(true);
-		lblContenidoMetricaMostrar.setBorder(new LineBorder(new Color(139, 69, 19), 2));
-		panelInfoMetricas.add(lblContenidoMetricaMostrar);
-
-		lblTipoContenidoMetrica = new JLabel("Tipo de contenido:");
-		lblTipoContenidoMetrica.setBounds(10, 256, 354, 40);
-		lblTipoContenidoMetrica.setFont(new Font("Tahoma", Font.PLAIN, 32));
-		panelInfoMetricas.add(lblTipoContenidoMetrica);
-
-		lblTipoContenidoMetricaMostrar = new JLabel(""); // Campo vacío
-		lblTipoContenidoMetricaMostrar.setBounds(374, 256, 321, 41);
-		lblTipoContenidoMetricaMostrar.setFont(new Font("Tahoma", Font.ITALIC, 28));
-		lblTipoContenidoMetricaMostrar.setBackground(new Color(255, 250, 240));
-		lblTipoContenidoMetricaMostrar.setOpaque(true);
-		lblTipoContenidoMetricaMostrar.setBorder(new LineBorder(new Color(139, 69, 19), 2));
-		panelInfoMetricas.add(lblTipoContenidoMetricaMostrar);
-
-		lblVistasMetricas = new JLabel("Vistas:");
-		lblVistasMetricas.setBounds(10, 330, 354, 40);
-		lblVistasMetricas.setFont(new Font("Tahoma", Font.PLAIN, 32));
-		panelInfoMetricas.add(lblVistasMetricas);
-
-		lblVistasMetricasMostrar = new JLabel(""); // Campo vacío
-		lblVistasMetricasMostrar.setBounds(374, 330, 321, 40);
-		lblVistasMetricasMostrar.setFont(new Font("Tahoma", Font.ITALIC, 28));
-		lblVistasMetricasMostrar.setBackground(new Color(255, 250, 240));
-		lblVistasMetricasMostrar.setOpaque(true);
-		lblVistasMetricasMostrar.setBorder(new LineBorder(new Color(139, 69, 19), 2));
-		panelInfoMetricas.add(lblVistasMetricasMostrar);
-
-		lblMeGustaMetricas = new JLabel("Me gustas:");
-		lblMeGustaMetricas.setBounds(10, 404, 354, 40);
-		lblMeGustaMetricas.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		panelInfoMetricas.add(lblMeGustaMetricas);
-
-		lblMeGustaMetricasMostrar = new JLabel(""); // Campo vacío
-		lblMeGustaMetricasMostrar.setBounds(374, 404, 321, 40);
-		lblMeGustaMetricasMostrar.setFont(new Font("Tahoma", Font.ITALIC, 28));
-		lblMeGustaMetricasMostrar.setBackground(new Color(255, 250, 240));
-		lblMeGustaMetricasMostrar.setOpaque(true);
-		lblMeGustaMetricasMostrar.setBorder(new LineBorder(new Color(139, 69, 19), 2));
-		panelInfoMetricas.add(lblMeGustaMetricasMostrar);
-
-		lblComentariosMetricas = new JLabel("Comentarios:");
-		lblComentariosMetricas.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		lblComentariosMetricas.setBounds(10, 481, 354, 40);
-		panelInfoMetricas.add(lblComentariosMetricas);
-
-		lblComentariosMetricasMostrar = new JLabel("");
-		lblComentariosMetricasMostrar.setOpaque(true);
-		lblComentariosMetricasMostrar.setFont(new Font("Tahoma", Font.ITALIC, 28));
-		lblComentariosMetricasMostrar.setBorder(new LineBorder(new Color(139, 69, 19), 2));
-		lblComentariosMetricasMostrar.setBackground(new Color(255, 250, 240));
-		lblComentariosMetricasMostrar.setBounds(374, 481, 321, 40);
-		panelInfoMetricas.add(lblComentariosMetricasMostrar);
-
-		lblCompartidosMetricas = new JLabel("Compartidos:");
-		lblCompartidosMetricas.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		lblCompartidosMetricas.setBounds(10, 560, 354, 40);
-		panelInfoMetricas.add(lblCompartidosMetricas);
-
-		lblCompartidosMetricasMostrar = new JLabel("");
-		lblCompartidosMetricasMostrar.setOpaque(true);
-		lblCompartidosMetricasMostrar.setFont(new Font("Tahoma", Font.ITALIC, 28));
-		lblCompartidosMetricasMostrar.setBorder(new LineBorder(new Color(139, 69, 19), 2));
-		lblCompartidosMetricasMostrar.setBackground(new Color(255, 250, 240));
-		lblCompartidosMetricasMostrar.setBounds(374, 560, 321, 40);
-		panelInfoMetricas.add(lblCompartidosMetricasMostrar);
 
 		panelMostrarTodo = new JPanel();
 		panelMostrarTodo.setBackground(Color.ORANGE);
@@ -1116,133 +1477,6 @@ public class Vista extends JFrame {
 		panelModifcar.setVisible(rootPaneCheckingEnabled);
 		panelModifcar.setVisible(false);
 
-		panelmodificarLikesComentarios = new JPanel();
-		panelmodificarLikesComentarios.setBackground(new Color(0, 0, 128));
-		panelmodificarLikesComentarios.setBounds(482, 217, 759, 444);
-		panelModifcar.add(panelmodificarLikesComentarios);
-		panelmodificarLikesComentarios.setLayout(null);
-		panelmodificarLikesComentarios.setVisible(false);
-		lblNewLabel_3_3_28 = new JLabel("ID CREADOR");
-		lblNewLabel_3_3_28.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_3_3_28.setForeground(Color.WHITE);
-		lblNewLabel_3_3_28.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		lblNewLabel_3_3_28.setBounds(49, 66, 164, 70);
-		panelmodificarLikesComentarios.add(lblNewLabel_3_3_28);
-
-		textFieldid_creador3 = new JTextField();
-		textFieldid_creador3.setColumns(10);
-		textFieldid_creador3.setBounds(49, 147, 164, 20);
-		panelmodificarLikesComentarios.add(textFieldid_creador3);
-
-		lblNewLabel_3_3_29 = new JLabel("Plataforma");
-		lblNewLabel_3_3_29.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_3_3_29.setForeground(Color.WHITE);
-		lblNewLabel_3_3_29.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		lblNewLabel_3_3_29.setBounds(287, 61, 164, 70);
-		panelmodificarLikesComentarios.add(lblNewLabel_3_3_29);
-
-		textFieldel_plataforma3 = new JTextField();
-		textFieldel_plataforma3.setColumns(10);
-		textFieldel_plataforma3.setBounds(287, 147, 164, 20);
-		panelmodificarLikesComentarios.add(textFieldel_plataforma3);
-
-		lblNewLabel_3_3_30 = new JLabel("Fecha");
-		lblNewLabel_3_3_30.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_3_3_30.setForeground(Color.WHITE);
-		lblNewLabel_3_3_30.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		lblNewLabel_3_3_30.setBounds(49, 178, 164, 70);
-		panelmodificarLikesComentarios.add(lblNewLabel_3_3_30);
-
-		textFieldFechaContenido3 = new JTextField();
-		textFieldFechaContenido3.setColumns(10);
-		textFieldFechaContenido3.setBounds(49, 259, 164, 20);
-		panelmodificarLikesComentarios.add(textFieldFechaContenido3);
-
-		lblNewLabel_3_3_31 = new JLabel("Likes");
-		lblNewLabel_3_3_31.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_3_3_31.setForeground(Color.WHITE);
-		lblNewLabel_3_3_31.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		lblNewLabel_3_3_31.setBounds(287, 178, 164, 70);
-		panelmodificarLikesComentarios.add(lblNewLabel_3_3_31);
-
-		textField_megusta2 = new JTextField();
-		textField_megusta2.setColumns(10);
-		textField_megusta2.setBounds(287, 259, 164, 20);
-		panelmodificarLikesComentarios.add(textField_megusta2);
-
-		lblNewLabel_3_3_32 = new JLabel("Comentarios");
-		lblNewLabel_3_3_32.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_3_3_32.setForeground(Color.WHITE);
-		lblNewLabel_3_3_32.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		lblNewLabel_3_3_32.setBounds(505, 178, 164, 70);
-		panelmodificarLikesComentarios.add(lblNewLabel_3_3_32);
-
-		textFieldComentarios3 = new JTextField();
-		textFieldComentarios3.setColumns(10);
-		textFieldComentarios3.setBounds(505, 259, 164, 20);
-		panelmodificarLikesComentarios.add(textFieldComentarios3);
-
-		btnModificarLikes = new JButton("Modificar");
-		btnModificarLikes.setBounds(49, 321, 620, 23);
-		panelmodificarLikesComentarios.add(btnModificarLikes);
-
-		panelModificarPublicacion = new JPanel();
-		panelModificarPublicacion.setBackground(new Color(0, 0, 128));
-		panelModificarPublicacion.setBounds(482, 217, 759, 444);
-		panelModifcar.add(panelModificarPublicacion);
-		panelModificarPublicacion.setLayout(null);
-		panelModificarPublicacion.setVisible(false);
-		lblNewLabel_3_3_24 = new JLabel("ID CREADOR");
-		lblNewLabel_3_3_24.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_3_3_24.setForeground(Color.WHITE);
-		lblNewLabel_3_3_24.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		lblNewLabel_3_3_24.setBounds(48, 44, 164, 70);
-		panelModificarPublicacion.add(lblNewLabel_3_3_24);
-
-		textFieldidstreamer = new JTextField();
-		textFieldidstreamer.setColumns(10);
-		textFieldidstreamer.setBounds(48, 108, 164, 20);
-		panelModificarPublicacion.add(textFieldidstreamer);
-
-		comboBoxparaModificar = new JComboBox();
-		comboBoxparaModificar.setBounds(353, 107, 288, 22);
-		panelModificarPublicacion.add(comboBoxparaModificar);
-
-		lblNewLabel_3_3_25 = new JLabel("¿Que quieres modificar?");
-		lblNewLabel_3_3_25.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_3_3_25.setForeground(Color.WHITE);
-		lblNewLabel_3_3_25.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		lblNewLabel_3_3_25.setBounds(317, 44, 356, 70);
-		panelModificarPublicacion.add(lblNewLabel_3_3_25);
-
-		lblNewLabel_3_3_26 = new JLabel("¿De que fecha?");
-		lblNewLabel_3_3_26.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_3_3_26.setForeground(Color.WHITE);
-		lblNewLabel_3_3_26.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		lblNewLabel_3_3_26.setBounds(22, 125, 235, 70);
-		panelModificarPublicacion.add(lblNewLabel_3_3_26);
-
-		textFieldfehca = new JTextField();
-		textFieldfehca.setColumns(10);
-		textFieldfehca.setBounds(48, 193, 164, 20);
-		panelModificarPublicacion.add(textFieldfehca);
-
-		lblNewLabel_3_3_27 = new JLabel("Dato");
-		lblNewLabel_3_3_27.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_3_3_27.setForeground(Color.WHITE);
-		lblNewLabel_3_3_27.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		lblNewLabel_3_3_27.setBounds(304, 125, 356, 70);
-		panelModificarPublicacion.add(lblNewLabel_3_3_27);
-
-		textFieldDato = new JTextField();
-		textFieldDato.setColumns(10);
-		textFieldDato.setBounds(339, 193, 302, 20);
-		panelModificarPublicacion.add(textFieldDato);
-
-		btnmodificarpublicacionenespecifico = new JButton("Modificar");
-		btnmodificarpublicacionenespecifico.setBounds(48, 289, 593, 23);
-		panelModificarPublicacion.add(btnmodificarpublicacionenespecifico);
-
 		paneleliminarminimovistas = new JPanel();
 		paneleliminarminimovistas.setBackground(new Color(0, 0, 128));
 		paneleliminarminimovistas.setBounds(482, 217, 759, 444);
@@ -1301,128 +1535,6 @@ public class Vista extends JFrame {
 		comboBoxOpcion = new JComboBox();
 		comboBoxOpcion.setBounds(191, 102, 351, 22);
 		panelEliminarpubli.add(comboBoxOpcion);
-		panelañadirpublicion = new JPanel();
-		panelañadirpublicion.setBackground(new Color(0, 0, 128));
-		panelañadirpublicion.setBounds(482, 217, 759, 444);
-		panelModifcar.add(panelañadirpublicion);
-		panelañadirpublicion.setLayout(null);
-
-		lblNewLabel_3_3_11 = new JLabel("ID CREADOR");
-		lblNewLabel_3_3_11.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_3_3_11.setForeground(Color.WHITE);
-		lblNewLabel_3_3_11.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		lblNewLabel_3_3_11.setBounds(102, 34, 164, 70);
-		panelañadirpublicion.add(lblNewLabel_3_3_11);
-
-		textFieldidcreador1 = new JTextField();
-		textFieldidcreador1.setColumns(10);
-		textFieldidcreador1.setBounds(102, 93, 164, 20);
-		panelañadirpublicion.add(textFieldidcreador1);
-
-		lblNewLabel_3_3_12 = new JLabel("Plataforma");
-		lblNewLabel_3_3_12.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_3_3_12.setForeground(Color.WHITE);
-		lblNewLabel_3_3_12.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		lblNewLabel_3_3_12.setBounds(102, 119, 164, 70);
-		panelañadirpublicion.add(lblNewLabel_3_3_12);
-
-		textFieldplataforma2 = new JTextField();
-		textFieldplataforma2.setColumns(10);
-		textFieldplataforma2.setBounds(102, 181, 164, 20);
-		panelañadirpublicion.add(textFieldplataforma2);
-
-		lblNewLabel_3_3_13 = new JLabel("Fecha");
-		lblNewLabel_3_3_13.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_3_3_13.setForeground(Color.WHITE);
-		lblNewLabel_3_3_13.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		lblNewLabel_3_3_13.setBounds(102, 196, 164, 70);
-		panelañadirpublicion.add(lblNewLabel_3_3_13);
-
-		textFieldFecha2 = new JTextField();
-		textFieldFecha2.setColumns(10);
-		textFieldFecha2.setBounds(102, 259, 164, 20);
-		panelañadirpublicion.add(textFieldFecha2);
-
-		lblNewLabel_3_3_14 = new JLabel("Contenido");
-		lblNewLabel_3_3_14.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_3_3_14.setForeground(Color.WHITE);
-		lblNewLabel_3_3_14.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		lblNewLabel_3_3_14.setBounds(511, 196, 164, 70);
-		panelañadirpublicion.add(lblNewLabel_3_3_14);
-
-		textFieldContenido2 = new JTextField();
-		textFieldContenido2.setColumns(10);
-		textFieldContenido2.setBounds(511, 259, 164, 20);
-		panelañadirpublicion.add(textFieldContenido2);
-
-		lblNewLabel_3_3_15 = new JLabel("Tipo");
-		lblNewLabel_3_3_15.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_3_3_15.setForeground(Color.WHITE);
-		lblNewLabel_3_3_15.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		lblNewLabel_3_3_15.setBounds(303, 34, 164, 70);
-		panelañadirpublicion.add(lblNewLabel_3_3_15);
-
-		textFieldTipo2 = new JTextField();
-		textFieldTipo2.setColumns(10);
-		textFieldTipo2.setBounds(303, 93, 164, 20);
-		panelañadirpublicion.add(textFieldTipo2);
-
-		lblNewLabel_3_3_16 = new JLabel("Visitas");
-		lblNewLabel_3_3_16.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_3_3_16.setForeground(Color.WHITE);
-		lblNewLabel_3_3_16.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		lblNewLabel_3_3_16.setBounds(303, 115, 164, 70);
-		panelañadirpublicion.add(lblNewLabel_3_3_16);
-
-		textFieldVistas2 = new JTextField();
-		textFieldVistas2.setColumns(10);
-		textFieldVistas2.setBounds(303, 169, 164, 20);
-		panelañadirpublicion.add(textFieldVistas2);
-
-		lblNewLabel_3_3_18 = new JLabel("Likes");
-		lblNewLabel_3_3_18.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_3_3_18.setForeground(Color.WHITE);
-		lblNewLabel_3_3_18.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		lblNewLabel_3_3_18.setBounds(511, 119, 164, 70);
-		panelañadirpublicion.add(lblNewLabel_3_3_18);
-
-		textFieldMeGsuta2 = new JTextField();
-		textFieldMeGsuta2.setColumns(10);
-		textFieldMeGsuta2.setBounds(511, 169, 164, 20);
-		panelañadirpublicion.add(textFieldMeGsuta2);
-
-		lblNewLabel_3_3_19 = new JLabel("Comentarios");
-		lblNewLabel_3_3_19.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_3_3_19.setForeground(Color.WHITE);
-		lblNewLabel_3_3_19.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		lblNewLabel_3_3_19.setBounds(303, 196, 164, 70);
-		panelañadirpublicion.add(lblNewLabel_3_3_19);
-
-		textFieldComentarios2 = new JTextField();
-		textFieldComentarios2.setColumns(10);
-		textFieldComentarios2.setBounds(303, 259, 164, 20);
-		panelañadirpublicion.add(textFieldComentarios2);
-
-		lblNewLabel_3_3_20 = new JLabel("Compartidos");
-		lblNewLabel_3_3_20.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_3_3_20.setForeground(Color.WHITE);
-		lblNewLabel_3_3_20.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		lblNewLabel_3_3_20.setBounds(511, 34, 164, 70);
-		panelañadirpublicion.add(lblNewLabel_3_3_20);
-
-		textFieldCompartidos2 = new JTextField();
-		textFieldCompartidos2.setColumns(10);
-		textFieldCompartidos2.setBounds(511, 93, 164, 20);
-		panelañadirpublicion.add(textFieldCompartidos2);
-
-		btnAñadirPublic = new JButton("Añadir");
-		btnAñadirPublic.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-
-		btnAñadirPublic.setBounds(186, 333, 376, 23);
-		panelañadirpublicion.add(btnAñadirPublic);
 
 		comboBoxelegiropciones = new JComboBox();
 		comboBoxelegiropciones.setBounds(63, 250, 365, 22);
@@ -1618,6 +1730,7 @@ public class Vista extends JFrame {
 		panelInsertarColaboradores.setVisible(false);
 		scrollPaneColaboradores.setVisible(false);
 		listColaboradores.setVisible(false);
+		panelañadirpublicion.setVisible(false);
 	}
 
 	private Image asignarImagenSalir(JButton btnSalir_1) {
