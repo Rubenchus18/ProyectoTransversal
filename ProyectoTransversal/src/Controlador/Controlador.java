@@ -123,7 +123,7 @@ public class Controlador implements ActionListener {
 		this.vista.btnVerInformacionStreamer.addActionListener(this);
 		this.vista.btnMayorRendimiento.addActionListener(this);
 		this.vista.btnCrecimientoTrimestre.addActionListener(this);
-
+		this.vista.comboBoxtipodepromedio_1.addActionListener(this);
 		streamer = leer();
 		contenido = abrirCSV("files/metricas_contenido.csv");
 		agregarcomboxestado();
@@ -133,10 +133,22 @@ public class Controlador implements ActionListener {
 		agregarPlataformas();
 		rellenarFotosIcon(fotosIcon);
 		agregarcomboboxmodificar1();
+		agregarcomboboxpromedio();
+		cambarvista();
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		// Nuevo
+		if(e.getSource()==this.vista.comboBoxtipodepromedio_1) {
+			
+			if(vista.comboBoxtipodepromedio_1.getSelectedItem().equals("Ver promedio contenido")) {
+				this.vista.panelcomparativarendimiento.setVisible(true);
+				this.vista.panelEliminarpubli.setVisible(false);
+			}else if(vista.comboBoxtipodepromedio_1.getSelectedItem().equals("Eliminar por paramentro")){
+				this.vista.panelcomparativarendimiento.setVisible(false);
+				this.vista.panelEliminarpubli.setVisible(true);
+			}
+		}
 		if (e.getSource() == this.vista.btnInsertarCo) {
 			try {
 				agregarColaboracion(streamer);
@@ -237,8 +249,8 @@ public class Controlador implements ActionListener {
 		}
 
 		if (e.getSource() == this.vista.btnVolverMenu) {
-			this.vista.panelMenu.setVisible(true);
-			this.vista.panelModifcar.setVisible(false);
+			this.vista.panelMenu.setVisible(true); 
+		
 		}
 		if (e.getSource() == this.vista.btnVerInformacionStreamer) {
 			habilitarInfoGeneral();
@@ -677,7 +689,15 @@ public class Controlador implements ActionListener {
 		this.vista.comboBoxOpcion.addItem("comentarios");
 		this.vista.comboBoxOpcion.addItem("compartidos");
 	}
-
+	public void agregarcomboboxpromedio() {
+		this.vista.comboBoxtipodepromedio.addItem("video");
+		this.vista.comboBoxtipodepromedio.addItem("imagen");
+		this.vista.comboBoxtipodepromedio.addItem("stream");
+	}
+	public void cambarvista() {
+		this.vista.comboBoxtipodepromedio_1.addItem("Ver promedio contenido");
+		this.vista.comboBoxtipodepromedio_1.addItem("Eliminar por paramentro");
+	}
 //Metodos generalizados y leer metodos
 
 	public ArrayNode leer() throws JsonProcessingException, IOException {
@@ -1764,11 +1784,10 @@ public class Controlador implements ActionListener {
 
 	// Método para calcular los promedios y mostrarlos en labels predefinidos
 	public void calcularPromedios(JsonNode creatorNode) {
-		// Mapas para asociar plataformas con labels de vistas y "me gusta"
+		
 		Map<String, JLabel> labelsPromedioVistas = new HashMap<>();
 		Map<String, JLabel> labelsPromedioMeGusta = new HashMap<>();
 
-		// Asociar nombres de plataformas con labels predefinidos
 		labelsPromedioVistas.put("YouTube", vista.lblYouTubeVistas);
 		labelsPromedioVistas.put("Twitch", vista.lblTwitchVistas);
 		labelsPromedioMeGusta.put("YouTube", vista.lblYouTubeMeGusta);
@@ -1779,17 +1798,15 @@ public class Controlador implements ActionListener {
 		labelsPromedioMeGusta.put("Instagram", vista.lblInstagrameGusta);
 		labelsPromedioMeGusta.put("TikTok", vista.lblTikTokMeGusta);
 
-		// Obtener las plataformas del nodo JSON
+		
 		ArrayNode plataformas = (ArrayNode) creatorNode.get("plataformas");
 
-		// Iterar sobre cada plataforma
 		for (JsonNode plataforma : plataformas) {
 			String nombrePlataforma = plataforma.get("nombre").asText();
 			int totalVistas = 0;
 			int totalMeGusta = 0;
 			int conteo = 0;
 
-			// Calcular totales y conteos para la plataforma actual
 			for (Contenido cont : contenido) {
 				if (cont.getPlataforma().equals(nombrePlataforma)
 						&& cont.getCreador_id().equals(creatorNode.get("id").asText())) {
@@ -1799,11 +1816,11 @@ public class Controlador implements ActionListener {
 				}
 			}
 
-			// Calcular los promedios
+			
 			double promedioVistas = (conteo > 0) ? (double) totalVistas / conteo : 0;
 			double promedioMeGusta = (conteo > 0) ? (double) totalMeGusta / conteo : 0;
 
-			// Actualizar los labels correspondientes
+			
 			if (labelsPromedioVistas.containsKey(nombrePlataforma)) {
 				labelsPromedioVistas.get(nombrePlataforma)
 						.setText(String.format("Promedio vistas: %.2f", promedioVistas));
@@ -1816,55 +1833,57 @@ public class Controlador implements ActionListener {
 	}
 
 	public void identificarMejorRendimiento(JsonNode creatorNode) {
-		ArrayNode plataformas = (ArrayNode) creatorNode.get("plataformas");
-		StringBuilder mejorRendimientoImagenes = new StringBuilder();
-		StringBuilder mejorRendimientoVideos = new StringBuilder();
+	    ArrayNode plataformas = (ArrayNode) creatorNode.get("plataformas");
+	    StringBuilder mejorRendimientoImagenes = new StringBuilder();
+	    StringBuilder mejorRendimientoVideos = new StringBuilder();
 
-		for (JsonNode plataforma : plataformas) {
-			String nombrePlataforma = plataforma.get("nombre").asText();
-			Map<String, Integer> rendimientoPorTipo = new HashMap<>();
+	    for (JsonNode plataforma : plataformas) {
+	        String nombrePlataforma = plataforma.get("nombre").asText();
+	        Map<String, Integer> rendimientoPorTipo = new HashMap<>();
 
-			for (Contenido cont : contenido) {
-				if (cont.getPlataforma().equals(nombrePlataforma)
-						&& cont.getCreador_id().equals(creatorNode.get("id").asText())) {
-					rendimientoPorTipo.put(cont.getTipo(),
-							rendimientoPorTipo.getOrDefault(cont.getTipo(), 0) + cont.getVistas());
-				}
-			}
-			String mejorTipoImagen = null;
-			int maxRendimientoImagen = 0;
-			String mejorTipoVideo = null;
-			int maxRendimientoVideo = 0;
-			for (Map.Entry<String, Integer> entry : rendimientoPorTipo.entrySet()) {
-				String tipo = entry.getKey();
-				int rendimiento = entry.getValue();
+	        for (Contenido cont : contenido) {
+	            if (cont.getPlataforma().equals(nombrePlataforma) && cont.getCreador_id().equals(creatorNode.get("id").asText())) {
+	                Integer rendimientoActual = 0;
+	                if (rendimientoPorTipo.containsKey(cont.getTipo())) {
+	                    rendimientoActual = rendimientoPorTipo.get(cont.getTipo());
+	                }
 
-				if (tipo.equalsIgnoreCase("imagen")) {
-					if (rendimiento > maxRendimientoImagen) {
-						maxRendimientoImagen = rendimiento;
-						mejorTipoImagen = tipo;
-					}
-				} else if (tipo.equalsIgnoreCase("video")) {
-					if (rendimiento > maxRendimientoVideo) {
-						maxRendimientoVideo = rendimiento;
-						mejorTipoVideo = tipo;
-					}
-				}
-			}
+	                rendimientoPorTipo.put(cont.getTipo(), rendimientoActual + cont.getVistas());
+	            }
+	        }
 
-			// Agregar resultados a los StringBuilder
-			if (mejorTipoImagen != null) {
-				mejorRendimientoImagenes.append(String.format("Plataforma: %s, Mejor Tipo: %s, Vistas: %d%n",
-						nombrePlataforma, mejorTipoImagen, maxRendimientoImagen));
-			}
-			if (mejorTipoVideo != null) {
-				mejorRendimientoVideos.append(String.format("Plataforma: %s, Mejor Tipo: %s, Vistas: %d%n",
-						nombrePlataforma, mejorTipoVideo, maxRendimientoVideo));
-			}
-		}
+	        String mejorTipoImagen = null;
+	        int maxRendimientoImagen = 0;
+	        String mejorTipoVideo = null;
+	        int maxRendimientoVideo = 0;
 
-		vista.lblMejorRendimientoImagenesMostrar.setText(mejorRendimientoImagenes.toString());
-		vista.lblMejorRendimientoVideosMostrar.setText(mejorRendimientoVideos.toString());
+	        for (Map.Entry<String, Integer> entry : rendimientoPorTipo.entrySet()) {
+	            String tipo = entry.getKey();
+	            int rendimiento = entry.getValue();
+
+	            if (tipo.equalsIgnoreCase("imagen")) {
+	                if (rendimiento > maxRendimientoImagen) {
+	                    maxRendimientoImagen = rendimiento;
+	                    mejorTipoImagen = tipo;
+	                }
+	            } else if (tipo.equalsIgnoreCase("video")) {
+	                if (rendimiento > maxRendimientoVideo) {
+	                    maxRendimientoVideo = rendimiento;
+	                    mejorTipoVideo = tipo;
+	                }
+	            }
+	        }
+
+	        if (mejorTipoImagen != null) {
+	            mejorRendimientoImagenes.append(String.format(nombrePlataforma));
+	        }
+	        if (mejorTipoVideo != null) {
+	            mejorRendimientoVideos.append(String.format(nombrePlataforma));
+	        }
+	    }
+
+	    vista.lblMejorRendimientoImagenesMostrar.setText(mejorRendimientoImagenes.toString());
+	    vista.lblMejorRendimientoVideosMostrar.setText(mejorRendimientoVideos.toString());
 	}
 
 	// 7
@@ -1964,97 +1983,38 @@ public class Controlador implements ActionListener {
 
 	// 9
 	// Cuando le de a la lista que aparezca el todos los campos en el panel
-	public JsonNode mostrarDatosStreamer2(ArrayNode streamer) {
-		String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
-		if (nombreSeleccionado == null || nombreSeleccionado.trim().isEmpty()) {
-			return null;
-		}
+	public void mostrarRendimientoPromedio(String tipo) {
+	    int totalVistas = 0;
+	    int totalMeGusta = 0;
+	    int conteo = 0;
 
-		String[] partes = nombreSeleccionado.split(" ");
-		if (partes.length < 2) {
-			return null;
-		}
+	    for (Contenido cont : contenido) {
+	        if (cont.getTipo().equalsIgnoreCase(tipo)) {
+	            totalVistas += cont.getVistas();
+	            totalMeGusta += cont.getMe_gustas();
+	            conteo++;
+	        }
+	    }
 
-		String idCreadorSeleccionado = partes[1];
-		JsonNode creador = null;
+	    double promedioVistas = (conteo > 0) ? (double) totalVistas / conteo : 0;
+	    double promedioMeGusta = (conteo > 0) ? (double) totalMeGusta / conteo : 0;
 
-		if (idCreadorSeleccionado != null) {
-			vista.comboBoxHistorial.removeAllItems();
-			for (JsonNode creatorNode : streamer) {
-				String idCreador = creatorNode.get("id").asText();
-				if (idCreador.equals(idCreadorSeleccionado)) {
-					String nombreCreador = creatorNode.get("nombre").asText();
-					String pais = creatorNode.get("pais").asText();
-					String tematica = creatorNode.get("tematica").asText();
-					String seguidoresTotales = creatorNode.get("seguidores_totales").asText();
-					JsonNode estadisticas = creatorNode.get("estadisticas");
-					String interaccionesTotales = estadisticas.get("interacciones_totales").asText();
-					String promedioVistasMensuales = estadisticas.get("promedio_vistas_mensuales").asText();
-					String promedioVistasMensuales1 = estadisticas.get("promedio_vistas_mensuales").asText();
-					Double tasaCrecimientoSeguidoresDouble = estadisticas.get("tasa_crecimiento_seguidores").asDouble();
-					String tasaCrecimientoSeguidores = String.format("%.2f%%", tasaCrecimientoSeguidoresDouble);
-
-					analizarRendimientoPorTipoContenido();
-					creador = creatorNode;
-					vista.comboBoxPlataforma.setSelectedIndex(0);
-					vista.lblIdMostrar.setText(idCreador);
-					vista.lblNombreMostrar.setText(nombreCreador);
-					vista.lblPaisMostrar.setText(pais);
-					vista.lblTematicaMostrar.setText(tematica);
-					vista.lblSeguidoresTotalesMostrar.setText(seguidoresTotales);
-					vista.lblInteraccionesTotalesMostrar.setText(interaccionesTotales);
-					vista.lblPromedioVistasMensualesMostrar.setText(promedioVistasMensuales1);
-					vista.lblTasaCrecimientoSeguidoresMostrar.setText(tasaCrecimientoSeguidores);
-				}
-			}
-		}
-		return creador;
-	}
-
-	public void analizarRendimientoPorTipoContenido() {
-		Map<String, Map<String, int[]>> rendimiento = new HashMap<>();
-
-		for (Contenido cont : contenido) {
-			String tipo = cont.getTipo();
-			String plataforma = cont.getPlataforma();
-			int vistas = cont.getVistas();
-			int meGusta = cont.getMe_gustas();
-
-			rendimiento.putIfAbsent(tipo, new HashMap<>());
-			rendimiento.get(tipo).putIfAbsent(plataforma, new int[2]);
-			rendimiento.get(tipo).get(plataforma)[0] += vistas;
-			rendimiento.get(tipo).get(plataforma)[1] += meGusta;
-		}
-
-		StringBuilder resultados = new StringBuilder();
-		for (String tipo : rendimiento.keySet()) {
-			resultados.append("Tipo de Contenido: ").append(tipo).append("\n");
-			for (String plataforma : rendimiento.get(tipo).keySet()) {
-				int totalVistas = rendimiento.get(tipo).get(plataforma)[0];
-				int totalMeGusta = rendimiento.get(tipo).get(plataforma)[1];
-				int conteo = 0;
-
-				for (Contenido c : contenido) {
-					if (c.getTipo().equals(tipo) && c.getPlataforma().equals(plataforma)) {
-						conteo++;
-					}
-				}
-
-				if (conteo > 0) {
-					double promedioVistas = (double) totalVistas / conteo;
-					double promedioMeGusta = (double) totalMeGusta / conteo;
-
-					resultados.append(String.format("Plataforma:  | Promedio Vistas:  | Promedio Me Gusta:", plataforma,
-							promedioVistas, promedioMeGusta));
-				} else {
-					resultados.append("Plataforma: ").append(plataforma).append(" | No hay datos suficientes.\n");
-				}
-			}
-			resultados.append("\n");
-		}
-
-		JOptionPane.showMessageDialog(vista, resultados.toString(), "Análisis Comparativo de Rendimiento",
-				JOptionPane.INFORMATION_MESSAGE);
+	    switch (tipo) {
+	        case "video":
+	            vista.lblIdMostrarIdSelec_1.setText(String.format("Promedio Vistas: %.2f, Promedio Me Gusta: %.2f", promedioVistas, promedioMeGusta));
+	           
+	            break;
+	        case "imagen":
+	            vista.lblIdMostrarIdSelec_1.setText(String.format("Promedio Vistas: %.2f, Promedio Me Gusta: %.2f", promedioVistas, promedioMeGusta));
+	       
+	            break;
+	        case "stream":
+	            vista.lblIdMostrarIdSelec_1.setText(String.format("Promedio Vistas: %.2f, Promedio Me Gusta: %.2f", promedioVistas, promedioMeGusta));
+	      
+	            break;
+	        default:
+	            break;
+	    }
 	}
 
 }
