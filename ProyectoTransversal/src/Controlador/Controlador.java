@@ -575,10 +575,7 @@ public class Controlador implements ActionListener {
 		this.vista.comboBoxOpcion.addItem("compartidos");
 	}
 
-	public void agregarcomboxopciones() {
-		this.vista.comboBoxelegiropciones.addItem("Eliminar publicaciones");
-		this.vista.comboBoxelegiropciones.addItem("Eliminar minimo de vistas");
-	}
+	
 //Metodos generalizados y leer metodos
 
 	public ArrayNode leer() throws JsonProcessingException, IOException {
