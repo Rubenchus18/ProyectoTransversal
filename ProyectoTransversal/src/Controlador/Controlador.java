@@ -982,116 +982,7 @@ public class Controlador implements ActionListener {
 	}
 
 	// 2
-	public JsonNode metricaderendimiento(ArrayNode streamer) {
-		String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
-		if (nombreSeleccionado == null || nombreSeleccionado.trim().isEmpty()) {
-			return null;
-		}
-
-		String[] partes = nombreSeleccionado.split(" ");
-		if (partes.length < 2) {
-			return null;
-		}
-
-		String idCreadorSeleccionado = partes[1];
-		JsonNode creador = null;
-
-		if (idCreadorSeleccionado != null) {
-			vista.comboBoxHistorial.removeAllItems();
-			for (JsonNode creatorNode : streamer) {
-				String idCreador = creatorNode.get("id").asText();
-				if (idCreador.equals(idCreadorSeleccionado)) {
-					String nombreCreador = creatorNode.get("nombre").asText();
-					String pais = creatorNode.get("pais").asText();
-					String tematica = creatorNode.get("tematica").asText();
-					String seguidoresTotales = creatorNode.get("seguidores_totales").asText();
-					JsonNode estadisticas = creatorNode.get("estadisticas");
-					String interaccionesTotales = estadisticas.get("interacciones_totales").asText();
-					String promedioVistasMensuales = estadisticas.get("promedio_vistas_mensuales").asText();
-					Double tasaCrecimientoSeguidoresDouble = estadisticas.get("tasa_crecimiento_seguidores").asDouble();
-					String tasaCrecimientoSeguidores = String.format("%.2f%%", tasaCrecimientoSeguidoresDouble);
-
-					vista.lblIdMostrar.setText(idCreador);
-					vista.lblNombreMostrar.setText(nombreCreador);
-					vista.lblPaisMostrar.setText(pais);
-					vista.lblTematicaMostrar.setText(tematica);
-					vista.lblSeguidoresTotalesMostrar.setText(seguidoresTotales);
-					vista.lblInteraccionesTotalesMostrar.setText(interaccionesTotales);
-					vista.lblPromedioVistasMensualesMostrar.setText(promedioVistasMensuales);
-					vista.lblTasaCrecimientoSeguidoresMostrar.setText(tasaCrecimientoSeguidores);
-
-					calcularPromedios(creatorNode);
-					identificarMejorRendimiento(creatorNode);
-
-					creador = creatorNode;
-					vista.comboBoxPlataforma.setSelectedIndex(0);
-				}
-			}
-		}
-		return creador;
-	}
-
-	public void calcularPromedios(JsonNode creatorNode) {
-		ArrayNode plataformas = (ArrayNode) creatorNode.get("plataformas");
-		for (JsonNode plataforma : plataformas) {
-			String nombrePlataforma = plataforma.get("nombre").asText();
-			int totalVistas = 0;
-			int totalMeGusta = 0;
-			int conteo = 0;
-
-			for (Contenido cont : contenido) {
-				if (cont.getPlataforma().equals(nombrePlataforma)
-						&& cont.getCreador_id().equals(creatorNode.get("id").asText())) {
-					totalVistas += cont.getVistas();
-					totalMeGusta += cont.getMe_gustas();
-					conteo++;
-				}
-			}
-
-			double promedioVistas;
-			double promedioMeGusta;
-
-			if (conteo > 0) {
-				promedioVistas = (double) totalVistas / conteo;
-				promedioMeGusta = (double) totalMeGusta / conteo;
-			} else {
-				promedioVistas = 0;
-				promedioMeGusta = 0;
-			}
-
-			// vista.lblPromedioVistasMostrar.setText(String.format(nombrePlataforma, promedioVistas));
-			// vista.lblPromedioMeGustaMostrar.setText(String.format(nombrePlataforma, promedioMeGusta));
-		}
-	}
-
-	public void identificarMejorRendimiento(JsonNode creatorNode) {
-		ArrayNode plataformas = (ArrayNode) creatorNode.get("plataformas");
-		for (JsonNode plataforma : plataformas) {
-			String nombrePlataforma = plataforma.get("nombre").asText();
-			Map<String, Integer> rendimientoPorTipo = new HashMap<>();
-
-			for (Contenido cont : contenido) {
-				if (cont.getPlataforma().equals(nombrePlataforma)
-						&& cont.getCreador_id().equals(creatorNode.get("id").asText())) {
-					rendimientoPorTipo.put(cont.getTipo(),
-							rendimientoPorTipo.getOrDefault(cont.getTipo(), 0) + cont.getVistas());
-				}
-			}
-
-			String mejorTipo = null;
-			int maxRendimiento = 0;
-			for (Map.Entry<String, Integer> entry : rendimientoPorTipo.entrySet()) {
-				if (entry.getValue() > maxRendimiento) {
-					maxRendimiento = entry.getValue();
-					mejorTipo = entry.getKey();
-				}
-			}
-
-			if (mejorTipo != null) {
-				// vista.lblMejorRendimientoMostrar.setText(String.format(nombrePlataforma, mejorTipo,maxRendimiento));
-			}
-		}
-	}
+	
 //3
 
 	public void agregarColaboracion(ArrayNode streamer)
@@ -1387,94 +1278,7 @@ public class Controlador implements ActionListener {
 	}
 
 	// 7
-	public JsonNode mostrarDatosStreamer1(ArrayNode streamer) {
-		String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
-		if (nombreSeleccionado == null || nombreSeleccionado.trim().isEmpty()) {
-			return null;
-		}
-
-		String[] partes = nombreSeleccionado.split(" ");
-		if (partes.length < 2) {
-			return null;
-		}
-		String idCreadorSeleccionado = partes[1];
-		JsonNode creador = null;
-
-		if (idCreadorSeleccionado != null) {
-			vista.comboBoxHistorial.removeAllItems();
-			for (JsonNode creatorNode : streamer) {
-				String idCreador = creatorNode.get("id").asText();
-				if (idCreador.equals(idCreadorSeleccionado)) {
-					String nombreCreador = creatorNode.get("nombre").asText();
-					String pais = creatorNode.get("pais").asText();
-					String tematica = creatorNode.get("tematica").asText();
-					String seguidoresTotales = creatorNode.get("seguidores_totales").asText();
-					JsonNode estadisticas = creatorNode.get("estadisticas");
-					String interaccionesTotales = estadisticas.get("interacciones_totales").asText();
-					String promedioVistasMensuales = estadisticas.get("promedio_vistas_mensuales").asText();
-					Double tasaCrecimientoSeguidoresDouble = estadisticas.get("tasa_crecimiento_seguidores").asDouble();
-					String tasaCrecimientoSeguidores = String.format("%.2f%%", tasaCrecimientoSeguidoresDouble);
-
-
-					calcularPromedios(creatorNode);
-					identificarMejorRendimiento(creatorNode);
-					calcularCrecimientoMensual(creatorNode);
-
-					creador = creatorNode;
-					vista.comboBoxPlataforma.setSelectedIndex(0);
-
-					vista.lblIdMostrar.setText(idCreador);
-					vista.lblNombreMostrar.setText(nombreCreador);
-					vista.lblPaisMostrar.setText(pais);
-					vista.lblTematicaMostrar.setText(tematica);
-					vista.lblSeguidoresTotalesMostrar.setText(seguidoresTotales);
-					vista.lblInteraccionesTotalesMostrar.setText(interaccionesTotales);
-					vista.lblPromedioVistasMensualesMostrar.setText(promedioVistasMensuales);
-					vista.lblTasaCrecimientoSeguidoresMostrar.setText(tasaCrecimientoSeguidores);
-				}
-			}
-		}
-		return creador;
-	}
-
-	public void calcularCrecimientoMensual(JsonNode creatorNode) {
-		ArrayNode plataformas = (ArrayNode) creatorNode.get("plataformas");
-		for (JsonNode plataforma : plataformas) {
-			String nombrePlataforma = plataforma.get("nombre").asText();
-			ArrayNode historico = (ArrayNode) plataforma.get("historico");
-
-			int seguidoresInicio = 0;
-			int seguidoresFin = 0;
-
-			for (JsonNode registro : historico) {
-				String fecha = registro.get("fecha").asText();
-				int nuevosSeguidores = registro.get("nuevos_seguidores").asInt();
-				if (fecha.startsWith("2023-01") || fecha.startsWith("2023-02") || fecha.startsWith("2023-03")) {
-					if (fecha.equals("2023-01-10")) {
-						seguidoresInicio += nuevosSeguidores;
-					}
-					if (fecha.equals("2023-03-30")) {
-						seguidoresFin += nuevosSeguidores;
-					}
-				}
-			}
-
-			double tasaCrecimiento = calcularTasaCrecimiento(seguidoresInicio, seguidoresFin);
-			// vista.lblCrecimientoMensualMostrar.setText(String.format( nombrePlataforma, tasaCrecimiento));
-		}
-	}
-
-	public double calcularTasaCrecimiento(int seguidoresInicio, int seguidoresFin) {
-		if (seguidoresInicio == 0) {
-			if (seguidoresFin > 0) {
-				return 100.0;
-			} else {
-				return 0.0;
-			}
-		} else {
-			return ((double) (seguidoresFin - seguidoresInicio) / seguidoresInicio) * 100;
-		}
-	}
+	
 
 	// 8
 	public void generarReporteColaboracionesCSV(ArrayNode streamer) throws IOException {
@@ -1503,101 +1307,7 @@ public class Controlador implements ActionListener {
 	}
 
 	// 9
-	public void analizarRendimientoPorTipoContenido() {
-		Map<String, Map<String, int[]>> rendimiento = new HashMap<>();
-
-		for (Contenido cont : contenido) {
-			String tipo = cont.getTipo();
-			String plataforma = cont.getPlataforma();
-			int vistas = cont.getVistas();
-			int meGusta = cont.getMe_gustas();
-
-			rendimiento.putIfAbsent(tipo, new HashMap<>());
-			rendimiento.get(tipo).putIfAbsent(plataforma, new int[2]);
-			rendimiento.get(tipo).get(plataforma)[0] += vistas;
-			rendimiento.get(tipo).get(plataforma)[1] += meGusta;
-		}
-
-		StringBuilder resultados = new StringBuilder();
-		for (String tipo : rendimiento.keySet()) {
-			resultados.append("Tipo de Contenido: ").append(tipo).append("\n");
-			for (String plataforma : rendimiento.get(tipo).keySet()) {
-				int totalVistas = rendimiento.get(tipo).get(plataforma)[0];
-				int totalMeGusta = rendimiento.get(tipo).get(plataforma)[1];
-				int conteo = 0;
-
-				for (Contenido c : contenido) {
-					if (c.getTipo().equals(tipo) && c.getPlataforma().equals(plataforma)) {
-						conteo++;
-					}
-				}
-
-				if (conteo > 0) {
-					double promedioVistas = (double) totalVistas / conteo;
-					double promedioMeGusta = (double) totalMeGusta / conteo;
-
-					resultados.append(String.format("Plataforma:  | Promedio Vistas:  | Promedio Me Gusta:", plataforma,
-							promedioVistas, promedioMeGusta));
-				} else {
-					resultados.append("Plataforma: ").append(plataforma).append(" | No hay datos suficientes.\n");
-				}
-			}
-			resultados.append("\n");
-		}
-
-		JOptionPane.showMessageDialog(vista, resultados.toString(), "Análisis Comparativo de Rendimiento",
-				JOptionPane.INFORMATION_MESSAGE);
-	}
-
-	public JsonNode mostrarDatosStreamer2(ArrayNode streamer) {
-		String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
-		if (nombreSeleccionado == null || nombreSeleccionado.trim().isEmpty()) {
-			return null;
-		}
-
-		String[] partes = nombreSeleccionado.split(" ");
-		if (partes.length < 2) {
-			return null;
-		}
-
-		String idCreadorSeleccionado = partes[1];
-		JsonNode creador = null;
-
-		if (idCreadorSeleccionado != null) {
-			vista.comboBoxHistorial.removeAllItems();
-			for (JsonNode creatorNode : streamer) {
-				String idCreador = creatorNode.get("id").asText();
-				if (idCreador.equals(idCreadorSeleccionado)) {
-					String nombreCreador = creatorNode.get("nombre").asText();
-					String pais = creatorNode.get("pais").asText();
-					String tematica = creatorNode.get("tematica").asText();
-					String seguidoresTotales = creatorNode.get("seguidores_totales").asText();
-					JsonNode estadisticas = creatorNode.get("estadisticas");
-					String interaccionesTotales = estadisticas.get("interacciones_totales").asText();
-					String promedioVistasMensuales = estadisticas.get("promedio_vistas_mensuales").asText();
-					String promedioVistasMensuales1 = estadisticas.get("promedio_vistas_mensuales").asText();
-					Double tasaCrecimientoSeguidoresDouble = estadisticas.get("tasa_crecimiento_seguidores").asDouble();
-					String tasaCrecimientoSeguidores = String.format("%.2f%%", tasaCrecimientoSeguidoresDouble);
-
-				
-
-					analizarRendimientoPorTipoContenido();
-
-					creador = creatorNode;
-					vista.comboBoxPlataforma.setSelectedIndex(0);
-					vista.lblIdMostrar.setText(idCreador);
-					vista.lblNombreMostrar.setText(nombreCreador);
-					vista.lblPaisMostrar.setText(pais);
-					vista.lblTematicaMostrar.setText(tematica);
-					vista.lblSeguidoresTotalesMostrar.setText(seguidoresTotales);
-					vista.lblInteraccionesTotalesMostrar.setText(interaccionesTotales);
-					vista.lblPromedioVistasMensualesMostrar.setText(promedioVistasMensuales1);
-					vista.lblTasaCrecimientoSeguidoresMostrar.setText(tasaCrecimientoSeguidores);
-				}
-			}
-		}
-		return creador;
-	}
+	
 
 	// 10
 	public void crearResumenRendimientoJSON(List<Contenido> contenido) throws IOException {
@@ -1911,5 +1621,301 @@ public class Controlador implements ActionListener {
 				}
 			}
 		}).start();
+	}
+	public JsonNode metricaderendimiento(ArrayNode streamer) {
+		String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
+		if (nombreSeleccionado == null || nombreSeleccionado.trim().isEmpty()) {
+			return null;
+		}
+
+		String[] partes = nombreSeleccionado.split(" ");
+		if (partes.length < 2) {
+			return null;
+		}
+
+		String idCreadorSeleccionado = partes[1];
+		JsonNode creador = null;
+
+		if (idCreadorSeleccionado != null) {
+			vista.comboBoxHistorial.removeAllItems();
+			for (JsonNode creatorNode : streamer) {
+				String idCreador = creatorNode.get("id").asText();
+				if (idCreador.equals(idCreadorSeleccionado)) {
+					String nombreCreador = creatorNode.get("nombre").asText();
+					String pais = creatorNode.get("pais").asText();
+					String tematica = creatorNode.get("tematica").asText();
+					String seguidoresTotales = creatorNode.get("seguidores_totales").asText();
+					JsonNode estadisticas = creatorNode.get("estadisticas");
+					String interaccionesTotales = estadisticas.get("interacciones_totales").asText();
+					String promedioVistasMensuales = estadisticas.get("promedio_vistas_mensuales").asText();
+					Double tasaCrecimientoSeguidoresDouble = estadisticas.get("tasa_crecimiento_seguidores").asDouble();
+					String tasaCrecimientoSeguidores = String.format("%.2f%%", tasaCrecimientoSeguidoresDouble);
+
+					vista.lblIdMostrar.setText(idCreador);
+					vista.lblNombreMostrar.setText(nombreCreador);
+					vista.lblPaisMostrar.setText(pais);
+					vista.lblTematicaMostrar.setText(tematica);
+					vista.lblSeguidoresTotalesMostrar.setText(seguidoresTotales);
+					vista.lblInteraccionesTotalesMostrar.setText(interaccionesTotales);
+					vista.lblPromedioVistasMensualesMostrar.setText(promedioVistasMensuales);
+					vista.lblTasaCrecimientoSeguidoresMostrar.setText(tasaCrecimientoSeguidores);
+
+					calcularPromedios(creatorNode);
+					identificarMejorRendimiento(creatorNode);
+
+					creador = creatorNode;
+					vista.comboBoxPlataforma.setSelectedIndex(0);
+				}
+			}
+		}
+		return creador;
+	}
+//
+	public void calcularPromedios(JsonNode creatorNode) {
+		ArrayNode plataformas = (ArrayNode) creatorNode.get("plataformas");
+		for (JsonNode plataforma : plataformas) {
+			String nombrePlataforma = plataforma.get("nombre").asText();
+			int totalVistas = 0;
+			int totalMeGusta = 0;
+			int conteo = 0;
+
+			for (Contenido cont : contenido) {
+				if (cont.getPlataforma().equals(nombrePlataforma)
+						&& cont.getCreador_id().equals(creatorNode.get("id").asText())) {
+					totalVistas += cont.getVistas();
+					totalMeGusta += cont.getMe_gustas();
+					conteo++;
+				}
+			}
+
+			double promedioVistas;
+			double promedioMeGusta;
+
+			if (conteo > 0) {
+				promedioVistas = (double) totalVistas / conteo;
+				promedioMeGusta = (double) totalMeGusta / conteo;
+			} else {
+				promedioVistas = 0;
+				promedioMeGusta = 0;
+			}
+
+			// vista.lblPromedioVistasMostrar.setText(String.format(nombrePlataforma, promedioVistas));
+			// vista.lblPromedioMeGustaMostrar.setText(String.format(nombrePlataforma, promedioMeGusta));
+		}
+	}
+
+	public void identificarMejorRendimiento(JsonNode creatorNode) {
+		ArrayNode plataformas = (ArrayNode) creatorNode.get("plataformas");
+		for (JsonNode plataforma : plataformas) {
+			String nombrePlataforma = plataforma.get("nombre").asText();
+			Map<String, Integer> rendimientoPorTipo = new HashMap<>();
+
+			for (Contenido cont : contenido) {
+				if (cont.getPlataforma().equals(nombrePlataforma)
+						&& cont.getCreador_id().equals(creatorNode.get("id").asText())) {
+					rendimientoPorTipo.put(cont.getTipo(),
+							rendimientoPorTipo.getOrDefault(cont.getTipo(), 0) + cont.getVistas());
+				}
+			}
+
+			String mejorTipo = null;
+			int maxRendimiento = 0;
+			for (Map.Entry<String, Integer> entry : rendimientoPorTipo.entrySet()) {
+				if (entry.getValue() > maxRendimiento) {
+					maxRendimiento = entry.getValue();
+					mejorTipo = entry.getKey();
+				}
+			}
+
+			if (mejorTipo != null) {
+				// vista.lblMejorRendimientoMostrar.setText(String.format(nombrePlataforma, mejorTipo,maxRendimiento));
+			}
+		}
+	}
+	
+//7
+	public JsonNode mostrarDatosStreamer1(ArrayNode streamer) {
+		String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
+		if (nombreSeleccionado == null || nombreSeleccionado.trim().isEmpty()) {
+			return null;
+		}
+
+		String[] partes = nombreSeleccionado.split(" ");
+		if (partes.length < 2) {
+			return null;
+		}
+		String idCreadorSeleccionado = partes[1];
+		JsonNode creador = null;
+
+		if (idCreadorSeleccionado != null) {
+			vista.comboBoxHistorial.removeAllItems();
+			for (JsonNode creatorNode : streamer) {
+				String idCreador = creatorNode.get("id").asText();
+				if (idCreador.equals(idCreadorSeleccionado)) {
+					String nombreCreador = creatorNode.get("nombre").asText();
+					String pais = creatorNode.get("pais").asText();
+					String tematica = creatorNode.get("tematica").asText();
+					String seguidoresTotales = creatorNode.get("seguidores_totales").asText();
+					JsonNode estadisticas = creatorNode.get("estadisticas");
+					String interaccionesTotales = estadisticas.get("interacciones_totales").asText();
+					String promedioVistasMensuales = estadisticas.get("promedio_vistas_mensuales").asText();
+					Double tasaCrecimientoSeguidoresDouble = estadisticas.get("tasa_crecimiento_seguidores").asDouble();
+					String tasaCrecimientoSeguidores = String.format("%.2f%%", tasaCrecimientoSeguidoresDouble);
+
+
+					calcularPromedios(creatorNode);
+					identificarMejorRendimiento(creatorNode);
+					calcularCrecimientoMensual(creatorNode);
+
+					creador = creatorNode;
+					vista.comboBoxPlataforma.setSelectedIndex(0);
+
+					vista.lblIdMostrar.setText(idCreador);
+					vista.lblNombreMostrar.setText(nombreCreador);
+					vista.lblPaisMostrar.setText(pais);
+					vista.lblTematicaMostrar.setText(tematica);
+					vista.lblSeguidoresTotalesMostrar.setText(seguidoresTotales);
+					vista.lblInteraccionesTotalesMostrar.setText(interaccionesTotales);
+					vista.lblPromedioVistasMensualesMostrar.setText(promedioVistasMensuales);
+					vista.lblTasaCrecimientoSeguidoresMostrar.setText(tasaCrecimientoSeguidores);
+				}
+			}
+		}
+		return creador;
+	}
+
+	public void calcularCrecimientoMensual(JsonNode creatorNode) {
+		ArrayNode plataformas = (ArrayNode) creatorNode.get("plataformas");
+		for (JsonNode plataforma : plataformas) {
+			String nombrePlataforma = plataforma.get("nombre").asText();
+			ArrayNode historico = (ArrayNode) plataforma.get("historico");
+
+			int seguidoresInicio = 0;
+			int seguidoresFin = 0;
+
+			for (JsonNode registro : historico) {
+				String fecha = registro.get("fecha").asText();
+				int nuevosSeguidores = registro.get("nuevos_seguidores").asInt();
+				if (fecha.startsWith("2023-01") || fecha.startsWith("2023-02") || fecha.startsWith("2023-03")) {
+					if (fecha.equals("2023-01-10")) {
+						seguidoresInicio += nuevosSeguidores;
+					}
+					if (fecha.equals("2023-03-30")) {
+						seguidoresFin += nuevosSeguidores;
+					}
+				}
+			}
+
+			double tasaCrecimiento = calcularTasaCrecimiento(seguidoresInicio, seguidoresFin);
+			// vista.lblCrecimientoMensualMostrar.setText(String.format( nombrePlataforma, tasaCrecimiento));
+		}
+	}
+
+	public double calcularTasaCrecimiento(int seguidoresInicio, int seguidoresFin) {
+		if (seguidoresInicio == 0) {
+			if (seguidoresFin > 0) {
+				return 100.0;
+			} else {
+				return 0.0;
+			}
+		} else {
+			return ((double) (seguidoresFin - seguidoresInicio) / seguidoresInicio) * 100;
+		}
+	}
+//9
+	public void analizarRendimientoPorTipoContenido() {
+		Map<String, Map<String, int[]>> rendimiento = new HashMap<>();
+
+		for (Contenido cont : contenido) {
+			String tipo = cont.getTipo();
+			String plataforma = cont.getPlataforma();
+			int vistas = cont.getVistas();
+			int meGusta = cont.getMe_gustas();
+
+			rendimiento.putIfAbsent(tipo, new HashMap<>());
+			rendimiento.get(tipo).putIfAbsent(plataforma, new int[2]);
+			rendimiento.get(tipo).get(plataforma)[0] += vistas;
+			rendimiento.get(tipo).get(plataforma)[1] += meGusta;
+		}
+
+		StringBuilder resultados = new StringBuilder();
+		for (String tipo : rendimiento.keySet()) {
+			resultados.append("Tipo de Contenido: ").append(tipo).append("\n");
+			for (String plataforma : rendimiento.get(tipo).keySet()) {
+				int totalVistas = rendimiento.get(tipo).get(plataforma)[0];
+				int totalMeGusta = rendimiento.get(tipo).get(plataforma)[1];
+				int conteo = 0;
+
+				for (Contenido c : contenido) {
+					if (c.getTipo().equals(tipo) && c.getPlataforma().equals(plataforma)) {
+						conteo++;
+					}
+				}
+
+				if (conteo > 0) {
+					double promedioVistas = (double) totalVistas / conteo;
+					double promedioMeGusta = (double) totalMeGusta / conteo;
+
+					resultados.append(String.format("Plataforma:  | Promedio Vistas:  | Promedio Me Gusta:", plataforma,
+							promedioVistas, promedioMeGusta));
+				} else {
+					resultados.append("Plataforma: ").append(plataforma).append(" | No hay datos suficientes.\n");
+				}
+			}
+			resultados.append("\n");
+		}
+
+		JOptionPane.showMessageDialog(vista, resultados.toString(), "Análisis Comparativo de Rendimiento",
+				JOptionPane.INFORMATION_MESSAGE);
+	}
+
+	public JsonNode mostrarDatosStreamer2(ArrayNode streamer) {
+		String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
+		if (nombreSeleccionado == null || nombreSeleccionado.trim().isEmpty()) {
+			return null;
+		}
+
+		String[] partes = nombreSeleccionado.split(" ");
+		if (partes.length < 2) {
+			return null;
+		}
+
+		String idCreadorSeleccionado = partes[1];
+		JsonNode creador = null;
+
+		if (idCreadorSeleccionado != null) {
+			vista.comboBoxHistorial.removeAllItems();
+			for (JsonNode creatorNode : streamer) {
+				String idCreador = creatorNode.get("id").asText();
+				if (idCreador.equals(idCreadorSeleccionado)) {
+					String nombreCreador = creatorNode.get("nombre").asText();
+					String pais = creatorNode.get("pais").asText();
+					String tematica = creatorNode.get("tematica").asText();
+					String seguidoresTotales = creatorNode.get("seguidores_totales").asText();
+					JsonNode estadisticas = creatorNode.get("estadisticas");
+					String interaccionesTotales = estadisticas.get("interacciones_totales").asText();
+					String promedioVistasMensuales = estadisticas.get("promedio_vistas_mensuales").asText();
+					String promedioVistasMensuales1 = estadisticas.get("promedio_vistas_mensuales").asText();
+					Double tasaCrecimientoSeguidoresDouble = estadisticas.get("tasa_crecimiento_seguidores").asDouble();
+					String tasaCrecimientoSeguidores = String.format("%.2f%%", tasaCrecimientoSeguidoresDouble);
+
+				
+
+					analizarRendimientoPorTipoContenido();
+
+					creador = creatorNode;
+					vista.comboBoxPlataforma.setSelectedIndex(0);
+					vista.lblIdMostrar.setText(idCreador);
+					vista.lblNombreMostrar.setText(nombreCreador);
+					vista.lblPaisMostrar.setText(pais);
+					vista.lblTematicaMostrar.setText(tematica);
+					vista.lblSeguidoresTotalesMostrar.setText(seguidoresTotales);
+					vista.lblInteraccionesTotalesMostrar.setText(interaccionesTotales);
+					vista.lblPromedioVistasMensualesMostrar.setText(promedioVistasMensuales1);
+					vista.lblTasaCrecimientoSeguidoresMostrar.setText(tasaCrecimientoSeguidores);
+				}
+			}
+		}
+		return creador;
 	}
 }
