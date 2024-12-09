@@ -383,39 +383,38 @@ public class Vista extends JFrame {
 		panelModifcar.add(panelModificarCSVEnfasis);
 		panelModificarCSVEnfasis.setLayout(null);
 
-		
-				panelcomparativarendimiento = new JPanel();
-				panelcomparativarendimiento.setBounds(70, 40, 1012, 507); // Tamaño ajustado similar a panelEliminarpubli
-				panelModificarCSVEnfasis.add(panelcomparativarendimiento);
-				panelcomparativarendimiento.setBackground(new Color(144, 238, 144)); // Fondo verde claro
-				panelcomparativarendimiento.setLayout(null);
-				panelcomparativarendimiento.setBorder(new LineBorder(new Color(34, 139, 34), 2, true)); // Borde verde oscuro
-				panelcomparativarendimiento.setVisible(false);
-				
-						comboBoxtipodepromedio = new JComboBox();
-						comboBoxtipodepromedio.setFont(new Font("Tahoma", Font.PLAIN, 28));
-						comboBoxtipodepromedio.setBounds(290, 159, 420, 59);
-						panelcomparativarendimiento.add(comboBoxtipodepromedio);
-						
-								lblNewLabel_1 = new JLabel("Elige el tipo de contido para ver su promedio:");
-								lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-								lblNewLabel_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-								lblNewLabel_1.setBounds(10, 63, 992, 68);
-								panelcomparativarendimiento.add(lblNewLabel_1);
-								
-										lblNewLabel_9 = new JLabel("Promedio de elemento");
-										lblNewLabel_9.setHorizontalAlignment(SwingConstants.CENTER);
-										lblNewLabel_9.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-										lblNewLabel_9.setBounds(10, 256, 992, 70);
-										panelcomparativarendimiento.add(lblNewLabel_9);
-										
-												lblIdMostrarIdSelec_1 = new JLabel("");
-												lblIdMostrarIdSelec_1.setOpaque(true);
-												lblIdMostrarIdSelec_1.setFont(new Font("Tahoma", Font.ITALIC, 28));
-												lblIdMostrarIdSelec_1.setBorder(new LineBorder(new Color(0, 51, 0), 2));
-												lblIdMostrarIdSelec_1.setBackground(Color.WHITE);
-												lblIdMostrarIdSelec_1.setBounds(99, 346, 783, 61);
-												panelcomparativarendimiento.add(lblIdMostrarIdSelec_1);
+		panelcomparativarendimiento = new JPanel();
+		panelcomparativarendimiento.setBounds(70, 40, 1012, 507); // Tamaño ajustado similar a panelEliminarpubli
+		panelModificarCSVEnfasis.add(panelcomparativarendimiento);
+		panelcomparativarendimiento.setBackground(new Color(144, 238, 144)); // Fondo verde claro
+		panelcomparativarendimiento.setLayout(null);
+		panelcomparativarendimiento.setBorder(new LineBorder(new Color(34, 139, 34), 2, true)); // Borde verde oscuro
+		panelcomparativarendimiento.setVisible(false);
+
+		comboBoxtipodepromedio = new JComboBox();
+		comboBoxtipodepromedio.setFont(new Font("Tahoma", Font.PLAIN, 28));
+		comboBoxtipodepromedio.setBounds(290, 159, 420, 59);
+		panelcomparativarendimiento.add(comboBoxtipodepromedio);
+
+		lblNewLabel_1 = new JLabel("Elige el tipo de contido para ver su promedio:");
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_1.setBounds(10, 63, 992, 68);
+		panelcomparativarendimiento.add(lblNewLabel_1);
+
+		lblNewLabel_9 = new JLabel("Promedio de elemento");
+		lblNewLabel_9.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_9.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_9.setBounds(10, 256, 992, 70);
+		panelcomparativarendimiento.add(lblNewLabel_9);
+
+		lblIdMostrarIdSelec_1 = new JLabel("");
+		lblIdMostrarIdSelec_1.setOpaque(true);
+		lblIdMostrarIdSelec_1.setFont(new Font("Tahoma", Font.ITALIC, 28));
+		lblIdMostrarIdSelec_1.setBorder(new LineBorder(new Color(0, 51, 0), 2));
+		lblIdMostrarIdSelec_1.setBackground(Color.WHITE);
+		lblIdMostrarIdSelec_1.setBounds(99, 346, 783, 61);
+		panelcomparativarendimiento.add(lblIdMostrarIdSelec_1);
 
 		// Panel eliminar publicación
 		panelEliminarpubli = new JPanel();
