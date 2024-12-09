@@ -200,6 +200,17 @@ public class Vista extends JFrame {
 	public JLabel lblTipoColab, lblTipoColabMostrar;
 	public JLabel lblEstadoColab, lblEstadoColabMostrar;
 
+	public JPanel panelMayorRendimiento;
+	public JLabel lblPromedioVistasMensuales2;
+	public JLabel lblPromedioVistasMensualesMostrar2;
+	public JLabel lblTasaCrecimientoSeguidores2;
+	public JLabel lblTasaCrecimientoSeguidoresMostrar2;
+	// Labels nuevos para las plataformas
+	public JLabel lblYouTubeVistas;
+	public JLabel lblYouTubeMeGusta;
+	public JLabel lblTwitchVistas;
+	public JLabel lblTwitchMeGusta;
+
 	// Panel principal para la nueva vista
 	public JPanel panelMostrarMetricasCSV;
 
@@ -272,6 +283,19 @@ public class Vista extends JFrame {
 	public JButton btnMayorRendimiento;
 	public JButton btnComparativaRendimiento;
 	public JButton btnCrecimientoTrimestre;
+	public JLabel lblInstagramVistas;
+	public JLabel lblTikTokVistas;
+	public JLabel lblInstagrameGusta;
+	public JLabel lblTikTokMeGusta;
+	public JLabel lblPromedioYoutube;
+	public JLabel lblPromedioTwitch;
+	public JLabel lblPromedioTiktok;
+	public JLabel lblPromedioInstagram;
+	public JLabel lblMejorRendimientoImagenesMostrar;
+	public JPanel panelRendimiento;
+	public JLabel lblMejorRendimientoImagenes;
+	public JLabel lblMejorRendimientoVideos;
+	public JLabel lblMejorRendimientoVideosMostrar;
 
 	/**
 	 * Launch the application.
@@ -351,6 +375,160 @@ public class Vista extends JFrame {
 		lblTituloJlist.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		lblTituloJlist.setFont(new Font("Tahoma", Font.BOLD, 30));
 		scrollPaneStreamers.setColumnHeaderView(lblTituloJlist);
+
+		panelMayorRendimiento = new JPanel();
+		panelMayorRendimiento.setBackground(SystemColor.scrollbar);
+		panelMayorRendimiento.setLayout(null);
+		panelMayorRendimiento.setBounds(382, 160, 843, 582);
+		panelMostrarTodo.add(panelMayorRendimiento);
+
+		// Crear y configurar los nuevos labels sin texto inicial
+		lblYouTubeVistas = new JLabel("");
+		lblYouTubeVistas.setBackground(new Color(255, 255, 128));
+		lblYouTubeVistas.setForeground(Color.DARK_GRAY);
+		lblYouTubeVistas.setHorizontalAlignment(SwingConstants.CENTER);
+		lblYouTubeVistas.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblYouTubeVistas.setBounds(10, 108, 396, 46);
+		lblYouTubeVistas.setOpaque(true);
+		lblYouTubeVistas.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		panelMayorRendimiento.add(lblYouTubeVistas);
+
+		lblYouTubeMeGusta = new JLabel("");
+		lblYouTubeMeGusta.setBackground(new Color(255, 255, 128));
+		lblYouTubeMeGusta.setForeground(Color.DARK_GRAY);
+		lblYouTubeMeGusta.setHorizontalAlignment(SwingConstants.CENTER);
+		lblYouTubeMeGusta.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblYouTubeMeGusta.setBounds(10, 165, 396, 46);
+		lblYouTubeMeGusta.setOpaque(true);
+		lblYouTubeMeGusta.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		panelMayorRendimiento.add(lblYouTubeMeGusta);
+
+		lblTwitchVistas = new JLabel("");
+		lblTwitchVistas.setBackground(new Color(255, 255, 128));
+		lblTwitchVistas.setForeground(Color.DARK_GRAY);
+		lblTwitchVistas.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTwitchVistas.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblTwitchVistas.setBounds(444, 319, 389, 46);
+		lblTwitchVistas.setOpaque(true);
+		lblTwitchVistas.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		panelMayorRendimiento.add(lblTwitchVistas);
+
+		lblTwitchMeGusta = new JLabel("");
+		lblTwitchMeGusta.setBackground(new Color(255, 255, 128));
+		lblTwitchMeGusta.setForeground(Color.DARK_GRAY);
+		lblTwitchMeGusta.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTwitchMeGusta.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblTwitchMeGusta.setBounds(444, 376, 389, 46);
+		lblTwitchMeGusta.setOpaque(true);
+		lblTwitchMeGusta.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		panelMayorRendimiento.add(lblTwitchMeGusta);
+
+		lblInstagramVistas = new JLabel("");
+		lblInstagramVistas.setBackground(new Color(255, 255, 128));
+		lblInstagramVistas.setForeground(Color.DARK_GRAY);
+		lblInstagramVistas.setHorizontalAlignment(SwingConstants.CENTER);
+		lblInstagramVistas.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblInstagramVistas.setBounds(444, 165, 389, 46);
+		lblInstagramVistas.setOpaque(true);
+		lblInstagramVistas.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		panelMayorRendimiento.add(lblInstagramVistas);
+
+		lblTikTokVistas = new JLabel("");
+		lblTikTokVistas.setBackground(new Color(255, 255, 128));
+		lblTikTokVistas.setForeground(Color.DARK_GRAY);
+		lblTikTokVistas.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTikTokVistas.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblTikTokVistas.setBounds(10, 376, 396, 46);
+		lblTikTokVistas.setOpaque(true);
+		lblTikTokVistas.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		panelMayorRendimiento.add(lblTikTokVistas);
+
+		lblInstagrameGusta = new JLabel("");
+		lblInstagrameGusta.setBackground(new Color(255, 255, 128));
+		lblInstagrameGusta.setForeground(Color.DARK_GRAY);
+		lblInstagrameGusta.setHorizontalAlignment(SwingConstants.CENTER);
+		lblInstagrameGusta.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblInstagrameGusta.setBounds(444, 108, 389, 46);
+		lblInstagrameGusta.setOpaque(true);
+		lblInstagrameGusta.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		panelMayorRendimiento.add(lblInstagrameGusta);
+
+		lblTikTokMeGusta = new JLabel("");
+		lblTikTokMeGusta.setBackground(new Color(255, 255, 128));
+		lblTikTokMeGusta.setForeground(Color.DARK_GRAY);
+		lblTikTokMeGusta.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTikTokMeGusta.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblTikTokMeGusta.setBounds(10, 319, 396, 46);
+		lblTikTokMeGusta.setOpaque(true);
+		lblTikTokMeGusta.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		panelMayorRendimiento.add(lblTikTokMeGusta);
+
+		lblPromedioYoutube = new JLabel("");
+		lblPromedioYoutube.setFont(new Font("Tahoma", Font.BOLD, 35));
+		lblPromedioYoutube.setBounds(81, 11, 213, 86);
+		lblPromedioYoutube.setIcon(new ImageIcon(asignarImgPlataforma(lblPromedioYoutube)));
+		panelMayorRendimiento.add(lblPromedioYoutube);
+
+		lblPromedioTwitch = new JLabel("");
+		lblPromedioTwitch.setFont(new Font("Tahoma", Font.BOLD, 35));
+		lblPromedioTwitch.setBounds(546, 222, 213, 86);
+		lblPromedioTwitch.setIcon(new ImageIcon(asignarImgPlataforma(lblPromedioTwitch)));
+
+		panelMayorRendimiento.add(lblPromedioTwitch);
+
+		lblPromedioTiktok = new JLabel("");
+		lblPromedioTiktok.setFont(new Font("Tahoma", Font.BOLD, 35));
+		lblPromedioTiktok.setBounds(81, 222, 213, 86);
+		lblPromedioTiktok.setIcon(new ImageIcon(asignarImgPlataforma(lblPromedioTiktok)));
+
+		panelMayorRendimiento.add(lblPromedioTiktok);
+
+		lblPromedioInstagram = new JLabel("");
+		lblPromedioInstagram.setFont(new Font("Tahoma", Font.BOLD, 35));
+		lblPromedioInstagram.setBounds(546, 11, 213, 86);
+		lblPromedioInstagram.setIcon(new ImageIcon(asignarImgPlataforma(lblPromedioInstagram)));
+
+		panelMayorRendimiento.add(lblPromedioInstagram);
+
+		panelRendimiento = new JPanel();
+		panelRendimiento.setBackground(Color.BLACK);
+		panelRendimiento.setBounds(10, 433, 823, 138);
+		panelMayorRendimiento.add(panelRendimiento);
+		panelRendimiento.setLayout(null);
+
+		lblMejorRendimientoImagenesMostrar = new JLabel("");
+		lblMejorRendimientoImagenesMostrar.setBounds(10, 79, 385, 46);
+		panelRendimiento.add(lblMejorRendimientoImagenesMostrar);
+		lblMejorRendimientoImagenesMostrar.setOpaque(true);
+		lblMejorRendimientoImagenesMostrar.setHorizontalAlignment(SwingConstants.CENTER);
+		lblMejorRendimientoImagenesMostrar.setForeground(Color.DARK_GRAY);
+		lblMejorRendimientoImagenesMostrar.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblMejorRendimientoImagenesMostrar.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		lblMejorRendimientoImagenesMostrar.setBackground(Color.WHITE);
+
+		lblMejorRendimientoVideosMostrar = new JLabel("");
+		lblMejorRendimientoVideosMostrar.setBounds(428, 79, 385, 46);
+		panelRendimiento.add(lblMejorRendimientoVideosMostrar);
+		lblMejorRendimientoVideosMostrar.setOpaque(true);
+		lblMejorRendimientoVideosMostrar.setHorizontalAlignment(SwingConstants.CENTER);
+		lblMejorRendimientoVideosMostrar.setForeground(Color.DARK_GRAY);
+		lblMejorRendimientoVideosMostrar.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblMejorRendimientoVideosMostrar.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		lblMejorRendimientoVideosMostrar.setBackground(Color.WHITE);
+
+		lblMejorRendimientoImagenes = new JLabel("Mejor rendimiento Imagenes:");
+		lblMejorRendimientoImagenes.setHorizontalAlignment(SwingConstants.CENTER);
+		lblMejorRendimientoImagenes.setForeground(Color.WHITE);
+		lblMejorRendimientoImagenes.setFont(new Font("Tahoma", Font.BOLD, 25));
+		lblMejorRendimientoImagenes.setBounds(10, 11, 385, 57);
+		panelRendimiento.add(lblMejorRendimientoImagenes);
+
+		lblMejorRendimientoVideos = new JLabel("Mejor rendimiento Videos:");
+		lblMejorRendimientoVideos.setHorizontalAlignment(SwingConstants.CENTER);
+		lblMejorRendimientoVideos.setForeground(Color.WHITE);
+		lblMejorRendimientoVideos.setFont(new Font("Tahoma", Font.BOLD, 25));
+		lblMejorRendimientoVideos.setBounds(428, 11, 385, 57);
+		panelRendimiento.add(lblMejorRendimientoVideos);
 
 		panelInfoCreador = new JPanel();
 		panelInfoCreador.setBackground(new Color(255, 228, 181));
@@ -654,28 +832,28 @@ public class Vista extends JFrame {
 		btnVerInformacionStreamer.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnVerInformacionStreamer.setBounds(382, 84, 187, 37);
 		panelMostrarTodo.add(btnVerInformacionStreamer);
-		
+
 		btnMayorRendimiento = new JButton("Mayor Rendimiento");
 		btnMayorRendimiento.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnMayorRendimiento.setBounds(569, 91, 198, 30);
 		btnMayorRendimiento.setForeground(SystemColor.desktop);
 		btnMayorRendimiento.setBackground(SystemColor.inactiveCaption);
 		panelMostrarTodo.add(btnMayorRendimiento);
-		
+
 		btnComparativaRendimiento = new JButton("Comparativa Rendimiento");
 		btnComparativaRendimiento.setForeground(SystemColor.desktop);
 		btnComparativaRendimiento.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnComparativaRendimiento.setBackground(SystemColor.inactiveCaption);
 		btnComparativaRendimiento.setBounds(766, 91, 231, 30);
 		panelMostrarTodo.add(btnComparativaRendimiento);
-		
+
 		btnCrecimientoTrimestre = new JButton("Crecimiento Trimestre");
 		btnCrecimientoTrimestre.setForeground(SystemColor.desktop);
 		btnCrecimientoTrimestre.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnCrecimientoTrimestre.setBackground(SystemColor.inactiveCaption);
 		btnCrecimientoTrimestre.setBounds(994, 91, 231, 30);
 		panelMostrarTodo.add(btnCrecimientoTrimestre);
-		
+
 		panelModifcar = new JPanel();
 		panelModifcar.setBackground(Color.ORANGE);
 		panelModifcar.setBounds(0, 0, 1292, 752);
@@ -1728,6 +1906,7 @@ public class Vista extends JFrame {
 		scrollPaneColaboradores.setVisible(false);
 		listColaboradores.setVisible(false);
 		panelañadirpublicion.setVisible(false);
+		panelMayorRendimiento.setVisible(false);
 	}
 
 	private Image asignarImagenSalir(JButton btnSalir_1) {
@@ -1757,7 +1936,7 @@ public class Vista extends JFrame {
 
 			// Escalar la imagen al tamaño del botón
 			imgEscalada1 = img1.getScaledInstance(btn.getWidth(), btn.getHeight(), Image.SCALE_DEFAULT);
-	
+
 		} else {
 			// Cargar la imagen desde los recursos
 			ImageIcon imagen1 = new ImageIcon(getClass().getResource("/img/apreton.jpeg"));
@@ -1765,6 +1944,49 @@ public class Vista extends JFrame {
 
 			// Escalar la imagen al tamaño del botón
 			imgEscalada1 = img1.getScaledInstance(btn.getWidth(), btn.getHeight(), Image.SCALE_SMOOTH);
+		}
+		// Retornamos la imagen escalada o null si no se cumplió la condición
+		return imgEscalada1;
+	}
+
+	private Image asignarImgPlataforma(JLabel label) {
+		// Inicializamos imgEscalada1 en null para evitar problemas si la condición no
+		// se cumple
+		Image imgEscalada1 = null;
+		
+		// Verificamos si el botón es el btnMetricasContenido
+		if (lblPromedioYoutube == label) {
+			// Cargar la imagen desde los recursos
+			ImageIcon imagen1 = new ImageIcon(getClass().getResource("/img/youtu.png"));
+			Image img1 = imagen1.getImage();
+
+			// Escalar la imagen al tamaño del botón
+			imgEscalada1 = img1.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_DEFAULT);
+
+		}  else if(lblPromedioTiktok==label) {
+			// Cargar la imagen desde los recursos
+			ImageIcon imagen1 = new ImageIcon(getClass().getResource( "/img/tiktok.png"));
+			Image img1 = imagen1.getImage();
+
+			// Escalar la imagen al tamaño del botón
+			imgEscalada1 = img1.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_DEFAULT);
+
+		}else if(lblPromedioInstagram==label) {
+			// Cargar la imagen desde los recursos
+			ImageIcon imagen1 = new ImageIcon(getClass().getResource( "/img/insta.png"));
+			Image img1 = imagen1.getImage();
+
+			// Escalar la imagen al tamaño del botón
+			imgEscalada1 = img1.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_DEFAULT);
+
+		}else if(lblPromedioTwitch==label) {
+			// Cargar la imagen desde los recursos
+			ImageIcon imagen1 = new ImageIcon(getClass().getResource( "/img/Twitch_logo.svg.png"));
+			Image img1 = imagen1.getImage();
+
+			// Escalar la imagen al tamaño del botón
+			imgEscalada1 = img1.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_DEFAULT);
+
 		}
 		// Retornamos la imagen escalada o null si no se cumplió la condición
 		return imgEscalada1;
