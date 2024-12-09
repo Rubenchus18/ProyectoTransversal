@@ -382,6 +382,7 @@ public class Vista extends JFrame {
 		panelModificarCSVEnfasis.setBounds(74, 149, 1153, 593);
 		panelModifcar.add(panelModificarCSVEnfasis);
 		panelModificarCSVEnfasis.setLayout(null);
+
 		
 				panelcomparativarendimiento = new JPanel();
 				panelcomparativarendimiento.setBounds(70, 40, 1012, 507); // Tamaño ajustado similar a panelEliminarpubli
@@ -472,7 +473,7 @@ public class Vista extends JFrame {
 		lblCreado.setFont(new Font("Dialog", Font.BOLD, 25));
 		lblCreado.setBounds(10, 427, 992, 70);
 		panelEliminarpubli.add(lblCreado);
-		
+
 		comboBoxtipodepromedio_1 = new JComboBox();
 		comboBoxtipodepromedio_1.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		comboBoxtipodepromedio_1.setBounds(70, 0, 420, 40);
