@@ -313,6 +313,7 @@ public class Vista extends JFrame {
 	public JLabel lblPromedioYoutube2, lblPromedioTwitch2, lblPromedioTiktok2, lblPromedioInstagram2;
 	public JLabel lblInstagramCrecimiento;
 	public JLabel lblCrecimientoTikTok;
+	public JPanel panel;
 
 	/**
 	 * Launch the application.
@@ -346,6 +347,147 @@ public class Vista extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		contentPane.setLayout(null);
 		setLocationRelativeTo(null);
+
+		panelModifcar = new JPanel();
+		panelModifcar.setBackground(Color.ORANGE);
+		panelModifcar.setBounds(0, 0, 1292, 752);
+		contentPane.add(panelModifcar);
+		panelModifcar.setLayout(null);
+		panelModifcar.setVisible(rootPaneCheckingEnabled);
+		panelModifcar.setVisible(false);
+
+		JLabel lblModificarCSV = new JLabel("Eliminación del CSV global");
+		lblModificarCSV.setBounds(127, 5, 1114, 104);
+		lblModificarCSV.setHorizontalAlignment(SwingConstants.CENTER);
+		lblModificarCSV.setForeground(new Color(0, 0, 128));
+		lblModificarCSV.setFont(new Font("Dialog", Font.BOLD, 75));
+		panelModifcar.add(lblModificarCSV);
+
+		btnVolverMenu = new JButton("");
+		btnVolverMenu.setForeground(new Color(255, 255, 255));
+		btnVolverMenu.setBackground(new Color(255, 204, 0));
+		btnVolverMenu.setBounds(10, 25, 107, 74);
+		btnVolverMenu.setIcon(new ImageIcon(asignarImagenSalir(btnVolverMenu)));
+		btnVolverMenu.setOpaque(false);
+
+		panelModifcar.add(btnVolverMenu);
+
+		panelModificarCSVEnfasis = new JPanel();
+		panelModificarCSVEnfasis.setBackground(new Color(0, 64, 0));
+		panelModificarCSVEnfasis.setBounds(74, 149, 1153, 593);
+		panelModifcar.add(panelModificarCSVEnfasis);
+		panelModificarCSVEnfasis.setLayout(null);
+		
+		panel = new JPanel();
+		panel.setBounds(70, 11, 1012, 536);
+		panelModificarCSVEnfasis.add(panel);
+
+		// Panel eliminar publicación
+		panelEliminarpubli = new JPanel();
+		panelEliminarpubli.setBounds(70, 40, 1012, 507); // Tamaño ajustado similar a panelInfoMetricas
+		panelModificarCSVEnfasis.add(panelEliminarpubli);
+		panelEliminarpubli.setBackground(new Color(144, 238, 144)); // Fondo verde claro
+		panelEliminarpubli.setLayout(null);
+		panelEliminarpubli.setBorder(new LineBorder(new Color(34, 139, 34), 2, true)); // Borde verde oscuro
+
+		// Título "¿Qué quieres eliminar?"
+		lblNewLabel_3_3_21 = new JLabel("¿Qué quieres eliminar?");
+		lblNewLabel_3_3_21.setBackground(Color.BLACK);
+		lblNewLabel_3_3_21.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_3_3_21.setForeground(Color.BLACK);
+		lblNewLabel_3_3_21.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_3_3_21.setBounds(10, 10, 992, 70);
+		panelEliminarpubli.add(lblNewLabel_3_3_21);
+
+		// Subtítulo "Mínimo eliminar"
+		lblNewLabel_3_3_22 = new JLabel("Numero de estadistica minima para eliminar:");
+		lblNewLabel_3_3_22.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_3_3_22.setForeground(Color.BLACK);
+		lblNewLabel_3_3_22.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
+		lblNewLabel_3_3_22.setBounds(10, 185, 992, 70);
+		panelEliminarpubli.add(lblNewLabel_3_3_22);
+
+		// Campo de texto para fecha
+		textFieldfecha = new JTextField();
+		textFieldfecha.setHorizontalAlignment(SwingConstants.CENTER);
+		textFieldfecha.setColumns(10);
+		textFieldfecha.setBounds(99, 275, 783, 61); // Aumenté el tamaño para más espacio
+		textFieldfecha.setFont(new Font("Tahoma", Font.PLAIN, 28));
+		textFieldfecha.setBorder(new LineBorder(new Color(34, 139, 34), 2)); // Borde verde
+		panelEliminarpubli.add(textFieldfecha);
+
+		// ComboBox para opciones
+		comboBoxOpcion = new JComboBox();
+		comboBoxOpcion.setBounds(290, 104, 420, 61); // Alineación y tamaño ajustados
+		comboBoxOpcion.setBackground(Color.WHITE); // Fondo verde claro
+		comboBoxOpcion.setForeground(Color.BLACK); // Texto verde oscuro
+		comboBoxOpcion.setFont(new Font("Tahoma", Font.PLAIN, 28));
+		panelEliminarpubli.add(comboBoxOpcion);
+
+		// Botón eliminar publicación
+		btnEliminarPublicacion = new JButton("ELIMINAR");
+		btnEliminarPublicacion.setBounds(290, 357, 420, 61); // Ajusté el tamaño
+		btnEliminarPublicacion.setFont(new Font("Tahoma", Font.BOLD, 30));
+		btnEliminarPublicacion.setBackground(new Color(0, 100, 0)); // Verde oscuro
+		btnEliminarPublicacion.setForeground(Color.WHITE);
+		panelEliminarpubli.add(btnEliminarPublicacion);
+
+		lblCreado = new JLabel("");
+		lblCreado.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCreado.setForeground(new Color(128, 0, 0));
+		lblCreado.setFont(new Font("Dialog", Font.BOLD, 25));
+		lblCreado.setBounds(10, 427, 992, 70);
+		panelEliminarpubli.add(lblCreado);
+
+		panelMenu = new JPanel();
+		panelMenu.setBackground(Color.ORANGE);
+		panelMenu.setBounds(0, 0, 1292, 765);
+		contentPane.add(panelMenu);
+		panelMenu.setLayout(null);
+
+		lblMenu = new JLabel("MENU");
+		lblMenu.setFont(new Font("Dialog", Font.BOLD, 99));
+		lblMenu.setForeground(SystemColor.controlText);
+		lblMenu.setHorizontalAlignment(SwingConstants.CENTER);
+		lblMenu.setBounds(0, 0, 1292, 146);
+		panelMenu.add(lblMenu);
+
+		panelBotones = new JPanel();
+		panelBotones.setBackground(Color.BLACK);
+		panelBotones.setBounds(154, 156, 1001, 579);
+		panelMenu.add(panelBotones);
+		panelBotones.setLayout(new GridLayout(3, 3, 0, 10));
+
+		btnVerStreamer = new JButton("Información General");
+		btnVerStreamer.setFont(new Font("Tahoma", Font.BOLD, 30));
+		btnVerStreamer.setForeground(Color.WHITE);
+		btnVerStreamer.setBackground(new Color(70, 130, 180));
+		btnVerStreamer.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+		panelBotones.add(btnVerStreamer);
+
+		// Botón de Información de Creador
+		btnInfoCreador = new JButton("Modificar y ver Parametros CSV");
+		btnInfoCreador.setForeground(Color.WHITE);
+		btnInfoCreador.setFont(new Font("Tahoma", Font.BOLD, 30));
+		btnInfoCreador.setBackground(new Color(70, 130, 180)); // Cambia el color de fondo para más atractivo
+		btnInfoCreador.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2)); // Añadir borde
+		panelBotones.add(btnInfoCreador);
+
+		// Botón de Métricas
+		btnMetricas = new JButton("Exportacion");
+		btnMetricas.setForeground(Color.WHITE);
+		btnMetricas.setFont(new Font("Tahoma", Font.BOLD, 30));
+		btnMetricas.setBackground(new Color(70, 130, 180)); // Cambia el color de fondo para más atractivo
+		btnMetricas.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2)); // Añadir borde
+		panelBotones.add(btnMetricas);
+
+		btnJoptionPaint = new JButton("");
+		btnJoptionPaint.setBackground(SystemColor.desktop);
+		btnJoptionPaint.setForeground(Color.RED);
+		btnJoptionPaint.setFont(new Font("Tahoma", Font.BOLD, 38));
+		btnJoptionPaint.setBounds(1219, 0, 73, 60);
+		btnJoptionPaint.setIcon(new ImageIcon(asignarImagenBomba(btnJoptionPaint)));
+		panelMenu.add(btnJoptionPaint);
 
 		panelMostrarTodo = new JPanel();
 		panelMostrarTodo.setBackground(Color.ORANGE);
@@ -561,527 +703,383 @@ public class Vista extends JFrame {
 		btnMayorRendimiento.setBackground(SystemColor.inactiveCaption);
 		panelMostrarTodo.add(btnMayorRendimiento);
 
-		btnComparativaRendimiento = new JButton("Comparativa Rendimiento");
-		btnComparativaRendimiento.setForeground(SystemColor.desktop);
-		btnComparativaRendimiento.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnComparativaRendimiento.setBackground(SystemColor.inactiveCaption);
-		btnComparativaRendimiento.setBounds(766, 91, 231, 30);
-		panelMostrarTodo.add(btnComparativaRendimiento);
-
 		btnCrecimientoTrimestre = new JButton("Crecimiento Trimestre");
 		btnCrecimientoTrimestre.setForeground(SystemColor.desktop);
 		btnCrecimientoTrimestre.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnCrecimientoTrimestre.setBackground(SystemColor.inactiveCaption);
-		btnCrecimientoTrimestre.setBounds(994, 91, 231, 30);
+		btnCrecimientoTrimestre.setBounds(766, 91, 231, 30);
 		panelMostrarTodo.add(btnCrecimientoTrimestre);
-		
-				// Set up the duplicated panel
-				panelMayorRendimiento2 = new JPanel();
-				panelMayorRendimiento2.setBackground(SystemColor.scrollbar);
-				panelMayorRendimiento2.setLayout(null);
-				panelMayorRendimiento2.setBounds(382, 160, 843, 582);
-				panelMostrarTodo.add(panelMayorRendimiento2);
-				
-						// Configure duplicated labels similarly but using different variable names
-						lblYouTubeCrecimiento = new JLabel("");
-						lblYouTubeCrecimiento.setBackground(new Color(255, 255, 128));
-						lblYouTubeCrecimiento.setForeground(Color.DARK_GRAY);
-						lblYouTubeCrecimiento.setHorizontalAlignment(SwingConstants.CENTER);
-						lblYouTubeCrecimiento.setFont(new Font("Tahoma", Font.BOLD, 22));
-						lblYouTubeCrecimiento.setBounds(10, 180, 396, 46);
-						lblYouTubeCrecimiento.setOpaque(true);
-						lblYouTubeCrecimiento.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-						panelMayorRendimiento2.add(lblYouTubeCrecimiento);
-						
-								// Repeat this for all remaining labels...
-						
-								lblTwitchCrecimiento = new JLabel("");
-								lblTwitchCrecimiento.setBackground(new Color(255, 255, 128));
-								lblTwitchCrecimiento.setForeground(Color.DARK_GRAY);
-								lblTwitchCrecimiento.setHorizontalAlignment(SwingConstants.CENTER);
-								lblTwitchCrecimiento.setFont(new Font("Tahoma", Font.BOLD, 22));
-								lblTwitchCrecimiento.setBounds(444, 445, 389, 46);
-								lblTwitchCrecimiento.setOpaque(true);
-								lblTwitchCrecimiento.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-								panelMayorRendimiento2.add(lblTwitchCrecimiento);
-								
-										// Average Labels for the duplicated panel
-										lblPromedioYoutube2 = new JLabel("");
-										lblPromedioYoutube2.setFont(new Font("Tahoma", Font.BOLD, 35));
-										lblPromedioYoutube2.setBounds(81, 49, 241, 120);
-										lblPromedioYoutube2.setIcon(new ImageIcon(asignarImgPlataforma(lblPromedioYoutube)));
-										panelMayorRendimiento2.add(lblPromedioYoutube2);
-										
-												lblPromedioTwitch2 = new JLabel("");
-												lblPromedioTwitch2.setFont(new Font("Tahoma", Font.BOLD, 35));
-												lblPromedioTwitch2.setBounds(515, 314, 241, 120);
-												lblPromedioTwitch2.setIcon(new ImageIcon(asignarImgPlataforma(lblPromedioTwitch)));
-												panelMayorRendimiento2.add(lblPromedioTwitch2);
-												
-														lblPromedioTiktok2 = new JLabel("");
-														lblPromedioTiktok2.setFont(new Font("Tahoma", Font.BOLD, 35));
-														lblPromedioTiktok2.setBounds(81, 314, 241, 120);
-														lblPromedioTiktok2.setIcon(new ImageIcon(asignarImgPlataforma(lblPromedioTiktok)));
-														panelMayorRendimiento2.add(lblPromedioTiktok2);
-														
-																lblPromedioInstagram2 = new JLabel("");
-																lblPromedioInstagram2.setFont(new Font("Tahoma", Font.BOLD, 35));
-																lblPromedioInstagram2.setBounds(515, 49, 241, 120);
-																lblPromedioInstagram2.setIcon(new ImageIcon(asignarImgPlataforma(lblPromedioInstagram)));
-																panelMayorRendimiento2.add(lblPromedioInstagram2);
-																
-																		lblInstagramCrecimiento = new JLabel("");
-																		lblInstagramCrecimiento.setOpaque(true);
-																		lblInstagramCrecimiento.setHorizontalAlignment(SwingConstants.CENTER);
-																		lblInstagramCrecimiento.setForeground(Color.DARK_GRAY);
-																		lblInstagramCrecimiento.setFont(new Font("Tahoma", Font.BOLD, 22));
-																		lblInstagramCrecimiento.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-																		lblInstagramCrecimiento.setBackground(new Color(255, 255, 128));
-																		lblInstagramCrecimiento.setBounds(437, 180, 396, 46);
-																		panelMayorRendimiento2.add(lblInstagramCrecimiento);
-																		
-																				lblCrecimientoTikTok = new JLabel("");
-																				lblCrecimientoTikTok.setOpaque(true);
-																				lblCrecimientoTikTok.setHorizontalAlignment(SwingConstants.CENTER);
-																				lblCrecimientoTikTok.setForeground(Color.DARK_GRAY);
-																				lblCrecimientoTikTok.setFont(new Font("Tahoma", Font.BOLD, 22));
-																				lblCrecimientoTikTok.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-																				lblCrecimientoTikTok.setBackground(new Color(255, 255, 128));
-																				lblCrecimientoTikTok.setBounds(10, 445, 396, 46);
-																				panelMayorRendimiento2.add(lblCrecimientoTikTok);
-																				
-																						panelInfoCreador = new JPanel();
-																						panelInfoCreador.setBackground(new Color(255, 228, 181));
-																						panelInfoCreador.setBounds(382, 119, 843, 623);
-																						panelMostrarTodo.add(panelInfoCreador);
-																						panelInfoCreador.setLayout(new BorderLayout(0, 0));
-																						
-																								lblTituloInformacion = new JLabel("Información");
-																								lblTituloInformacion.setOpaque(true);
-																								lblTituloInformacion.setHorizontalAlignment(SwingConstants.CENTER);
-																								lblTituloInformacion.setForeground(Color.WHITE);
-																								lblTituloInformacion.setFont(new Font("Tahoma", Font.BOLD, 30));
-																								lblTituloInformacion.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-																								lblTituloInformacion.setBackground(new Color(0, 0, 128));
-																								panelInfoCreador.add(lblTituloInformacion, BorderLayout.NORTH);
-																								
-																										panelInformacion = new JPanel();
-																										panelInformacion.setBackground(SystemColor.scrollbar);
-																										panelInfoCreador.add(panelInformacion, BorderLayout.CENTER);
-																										panelInformacion.setLayout(null);
-																										
-																												lblId = new JLabel("Id:");
-																												lblId.setFont(new Font("Tahoma", Font.BOLD, 22));
-																												lblId.setBounds(10, 10, 108, 46);
-																												panelInformacion.add(lblId);
-																												
-																														lblNombre = new JLabel("Nombre:");
-																														lblNombre.setFont(new Font("Tahoma", Font.BOLD, 22));
-																														lblNombre.setBounds(10, 66, 108, 46);
-																														panelInformacion.add(lblNombre);
-																														
-																																lblIdMostrar = new JLabel("");
-																																lblIdMostrar.setForeground(Color.DARK_GRAY);
-																																lblIdMostrar.setFont(new Font("Tahoma", Font.ITALIC, 20));
-																																lblIdMostrar.setBounds(128, 10, 202, 46);
-																																panelInformacion.add(lblIdMostrar);
-																																
-																																		lblNombreMostrar = new JLabel("");
-																																		lblNombreMostrar.setForeground(Color.DARK_GRAY);
-																																		lblNombreMostrar.setFont(new Font("Tahoma", Font.ITALIC, 20));
-																																		lblNombreMostrar.setBounds(128, 66, 202, 46);
-																																		panelInformacion.add(lblNombreMostrar);
-																																		
-																																				lblPais = new JLabel("País:");
-																																				lblPais.setFont(new Font("Tahoma", Font.BOLD, 22));
-																																				lblPais.setBounds(340, 10, 108, 46); // Adjust position
-																																				panelInformacion.add(lblPais);
-																																				
-																																						lblPaisMostrar = new JLabel("");
-																																						lblPaisMostrar.setFont(new Font("Tahoma", Font.ITALIC, 20));
-																																						lblPaisMostrar.setBounds(458, 10, 158, 46); // Adjust position
-																																						panelInformacion.add(lblPaisMostrar);
-																																						
-																																								lblTematica_1 = new JLabel("Temática:");
-																																								lblTematica_1.setFont(new Font("Tahoma", Font.BOLD, 22));
-																																								lblTematica_1.setBounds(340, 66, 121, 46); // Adjust position
-																																								panelInformacion.add(lblTematica_1);
-																																								
-																																										lblTematicaMostrar = new JLabel("");
-																																										lblTematicaMostrar.setFont(new Font("Tahoma", Font.ITALIC, 20));
-																																										lblTematicaMostrar.setBounds(458, 66, 158, 46); // Adjust position
-																																										panelInformacion.add(lblTematicaMostrar);
-																																										
-																																												lblSeguidoresTotales = new JLabel("Total Seguidores");
-																																												lblSeguidoresTotales.setHorizontalAlignment(SwingConstants.CENTER);
-																																												lblSeguidoresTotales.setFont(new Font("Tahoma", Font.BOLD, 23));
-																																												lblSeguidoresTotales.setBounds(620, 10, 213, 46); // Adjust position
-																																												panelInformacion.add(lblSeguidoresTotales);
-																																												
-																																														lblSeguidoresTotalesMostrar = new JLabel("");
-																																														lblSeguidoresTotalesMostrar.setBackground(new Color(255, 255, 128));
-																																														lblSeguidoresTotalesMostrar.setForeground(SystemColor.textHighlight);
-																																														lblSeguidoresTotalesMostrar.setHorizontalAlignment(SwingConstants.CENTER);
-																																														lblSeguidoresTotalesMostrar.setFont(new Font("Tahoma", Font.BOLD, 22));
-																																														lblSeguidoresTotalesMostrar.setBounds(626, 66, 207, 46); // Adjust position
-																																														lblSeguidoresTotalesMostrar.setOpaque(true);
-																																														lblSeguidoresTotalesMostrar.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-																																														panelInformacion.add(lblSeguidoresTotalesMostrar);
-																																														
-																																																// Initialize and configure the labels with the same style
-																																														
-																																																// Label for "Interacciones Totales"
-																																																lblInteraccionesTotales = new JLabel("Total Interaccion");
-																																																lblInteraccionesTotales.setHorizontalAlignment(SwingConstants.CENTER);
-																																																lblInteraccionesTotales.setFont(new Font("Tahoma", Font.BOLD, 22));
-																																																lblInteraccionesTotales.setBounds(10, 122, 202, 46); // Adjust position
-																																																panelInformacion.add(lblInteraccionesTotales);
-																																																
-																																																		// Label to display the total interactions (Interacciones Totales)
-																																																		lblInteraccionesTotalesMostrar = new JLabel("");
-																																																		lblInteraccionesTotalesMostrar.setBackground(new Color(255, 255, 128)); // Set background color
-																																																		lblInteraccionesTotalesMostrar.setForeground(Color.DARK_GRAY); // Set text color
-																																																		lblInteraccionesTotalesMostrar.setHorizontalAlignment(SwingConstants.CENTER); // Center the text
-																																																		lblInteraccionesTotalesMostrar.setFont(new Font("Tahoma", Font.BOLD, 22)); // Font style
-																																																		lblInteraccionesTotalesMostrar.setBounds(10, 178, 202, 46); // Adjust position
-																																																		lblInteraccionesTotalesMostrar.setOpaque(true); // Make the background opaque
-																																																		lblInteraccionesTotalesMostrar.setBorder(new LineBorder(new Color(0, 0, 0), 2)); // Add border
-																																																		panelInformacion.add(lblInteraccionesTotalesMostrar);
-																																																		
-																																																				// Label for "Promedio Vistas Mensuales"
-																																																				lblPromedioVistasMensuales = new JLabel("Promedio Vistas Mensuales:");
-																																																				lblPromedioVistasMensuales.setHorizontalAlignment(SwingConstants.CENTER);
-																																																				lblPromedioVistasMensuales.setFont(new Font("Tahoma", Font.BOLD, 20));
-																																																				lblPromedioVistasMensuales.setBounds(232, 122, 291, 46); // Adjust position
-																																																				panelInformacion.add(lblPromedioVistasMensuales);
-																																																				
-																																																						// Label to display the monthly average views (Promedio Vistas Mensuales)
-																																																						lblPromedioVistasMensualesMostrar = new JLabel("");
-																																																						lblPromedioVistasMensualesMostrar.setBackground(new Color(255, 255, 128)); // Set background color
-																																																						lblPromedioVistasMensualesMostrar.setForeground(Color.DARK_GRAY); // Set text color
-																																																						lblPromedioVistasMensualesMostrar.setHorizontalAlignment(SwingConstants.CENTER); // Center the text
-																																																						lblPromedioVistasMensualesMostrar.setFont(new Font("Tahoma", Font.BOLD, 22)); // Font style
-																																																						lblPromedioVistasMensualesMostrar.setBounds(232, 178, 280, 46); // Adjust position
-																																																						lblPromedioVistasMensualesMostrar.setOpaque(true); // Make the background opaque
-																																																						lblPromedioVistasMensualesMostrar.setBorder(new LineBorder(new Color(0, 0, 0), 2)); // Add border
-																																																						panelInformacion.add(lblPromedioVistasMensualesMostrar);
-																																																						
-																																																								// Label for "Tasa Crecimiento Seguidores"
-																																																								lblTasaCrecimientoSeguidores = new JLabel("Tasa Crecimiento Seguidores");
-																																																								lblTasaCrecimientoSeguidores.setHorizontalAlignment(SwingConstants.CENTER);
-																																																								lblTasaCrecimientoSeguidores.setFont(new Font("Tahoma", Font.BOLD, 20));
-																																																								lblTasaCrecimientoSeguidores.setBounds(533, 122, 300, 46); // Adjust position
-																																																								panelInformacion.add(lblTasaCrecimientoSeguidores);
-																																																								
-																																																										// Label to display the follower growth rate (Tasa Crecimiento Seguidores)
-																																																										lblTasaCrecimientoSeguidoresMostrar = new JLabel("");
-																																																										lblTasaCrecimientoSeguidoresMostrar.setBackground(new Color(255, 255, 128)); // Set background color
-																																																										lblTasaCrecimientoSeguidoresMostrar.setForeground(Color.DARK_GRAY); // Set text color
-																																																										lblTasaCrecimientoSeguidoresMostrar.setHorizontalAlignment(SwingConstants.CENTER); // Center the text
-																																																										lblTasaCrecimientoSeguidoresMostrar.setFont(new Font("Tahoma", Font.BOLD, 22)); // Font style
-																																																										lblTasaCrecimientoSeguidoresMostrar.setBounds(533, 178, 300, 46); // Adjust position
-																																																										lblTasaCrecimientoSeguidoresMostrar.setOpaque(true); // Make the background opaque
-																																																										lblTasaCrecimientoSeguidoresMostrar.setBorder(new LineBorder(new Color(0, 0, 0), 2)); // Add border
-																																																										panelInformacion.add(lblTasaCrecimientoSeguidoresMostrar);
-																																																										
-																																																												panelPlataforma = new JPanel();
-																																																												panelPlataforma.setBounds(10, 279, 606, 293);
-																																																												panelInformacion.add(panelPlataforma);
-																																																												panelPlataforma.setLayout(new BorderLayout(0, 0));
-																																																												
-																																																														comboBoxPlataforma = new JComboBox();
-																																																														comboBoxPlataforma.setFont(new Font("Tahoma", Font.PLAIN, 20));
-																																																														panelPlataforma.add(comboBoxPlataforma, BorderLayout.NORTH);
-																																																														
-																																																																panelYoutube = new JPanel();
-																																																																panelYoutube.setBackground(Color.BLACK);
-																																																																panelPlataforma.add(panelYoutube, BorderLayout.CENTER);
-																																																																panelYoutube.setLayout(null);
-																																																																
-																																																																		lblPlataformaUsuario = new JLabel("Usuario:");
-																																																																		lblPlataformaUsuario.setForeground(Color.WHITE);
-																																																																		lblPlataformaUsuario.setFont(new Font("Tahoma", Font.BOLD, 20));
-																																																																		lblPlataformaUsuario.setBounds(290, 22, 89, 46);
-																																																																		panelYoutube.add(lblPlataformaUsuario);
-																																																																		
-																																																																				lblPlataformaSeguidores = new JLabel("Seguidores:");
-																																																																				lblPlataformaSeguidores.setForeground(Color.WHITE);
-																																																																				lblPlataformaSeguidores.setFont(new Font("Tahoma", Font.BOLD, 18));
-																																																																				lblPlataformaSeguidores.setBounds(10, 86, 120, 26);
-																																																																				panelYoutube.add(lblPlataformaSeguidores);
-																																																																				
-																																																																						lblPlataformaFechaCreacion = new JLabel("Fecha Creación:");
-																																																																						lblPlataformaFechaCreacion.setForeground(Color.WHITE);
-																																																																						lblPlataformaFechaCreacion.setFont(new Font("Tahoma", Font.BOLD, 18));
-																																																																						lblPlataformaFechaCreacion.setBounds(290, 86, 157, 26);
-																																																																						panelYoutube.add(lblPlataformaFechaCreacion);
-																																																																						
-																																																																								// Initialize and configure the labels to display the actual values (with
-																																																																								// dynamic content)
-																																																																								lblFotoPlataforma = new JLabel("");
-																																																																								lblFotoPlataforma.setForeground(Color.DARK_GRAY);
-																																																																								lblFotoPlataforma.setFont(new Font("Tahoma", Font.ITALIC, 20));
-																																																																								lblFotoPlataforma.setBounds(22, 10, 233, 65);
-																																																																								panelYoutube.add(lblFotoPlataforma);
-																																																																								
-																																																																										lblPlataformaUsuarioMostrar = new JLabel("");
-																																																																										lblPlataformaUsuarioMostrar.setForeground(Color.WHITE);
-																																																																										lblPlataformaUsuarioMostrar.setFont(new Font("Tahoma", Font.ITALIC, 18));
-																																																																										lblPlataformaUsuarioMostrar.setBounds(389, 22, 207, 46);
-																																																																										panelYoutube.add(lblPlataformaUsuarioMostrar);
-																																																																										
-																																																																												lblPlataformaSeguidoresMostrar = new JLabel("");
-																																																																												lblPlataformaSeguidoresMostrar.setBackground(new Color(255, 255, 255));
-																																																																												lblPlataformaSeguidoresMostrar.setForeground(Color.DARK_GRAY);
-																																																																												lblPlataformaSeguidoresMostrar.setFont(new Font("Tahoma", Font.ITALIC, 16));
-																																																																												lblPlataformaSeguidoresMostrar.setBounds(130, 86, 150, 26);
-																																																																												lblPlataformaSeguidoresMostrar.setBorder(new LineBorder(new Color(0, 0, 0), 1));
-																																																																												lblPlataformaSeguidoresMostrar.setOpaque(true);
-																																																																												panelYoutube.add(lblPlataformaSeguidoresMostrar);
-																																																																												
-																																																																														lblPlataformaFechaCreacionMostrar = new JLabel("");
-																																																																														lblPlataformaFechaCreacionMostrar.setBackground(new Color(255, 255, 255));
-																																																																														lblPlataformaFechaCreacionMostrar.setForeground(Color.DARK_GRAY);
-																																																																														lblPlataformaFechaCreacionMostrar.setFont(new Font("Tahoma", Font.ITALIC, 16));
-																																																																														lblPlataformaFechaCreacionMostrar.setBounds(457, 86, 139, 26);
-																																																																														lblPlataformaFechaCreacionMostrar.setBorder(new LineBorder(new Color(0, 0, 0), 1));
-																																																																														lblPlataformaFechaCreacionMostrar.setOpaque(true);
-																																																																														panelYoutube.add(lblPlataformaFechaCreacionMostrar);
-																																																																														
-																																																																																lblHistorial = new JLabel("Historial:");
-																																																																																lblHistorial.setFont(new Font("Tahoma", Font.BOLD, 18));
-																																																																																lblHistorial.setForeground(new Color(255, 255, 255));
-																																																																																lblHistorial.setBounds(10, 123, 101, 31);
-																																																																																panelYoutube.add(lblHistorial);
-																																																																																
-																																																																																		comboBoxHistorial = new JComboBox();
-																																																																																		comboBoxHistorial.setBounds(129, 122, 151, 26);
-																																																																																		panelYoutube.add(comboBoxHistorial);
-																																																																																		
-																																																																																				panelHistorico = new JPanel();
-																																																																																				panelHistorico.setBackground(SystemColor.windowBorder);
-																																																																																				panelHistorico.setBounds(10, 148, 586, 112);
-																																																																																				panelYoutube.add(panelHistorico);
-																																																																																				panelHistorico.setLayout(null);
-																																																																																				
-																																																																																						// Initialize and configure the historical data labels (labels without actual
-																																																																																						// values)
-																																																																																						lblHistFecha1 = new JLabel("Fecha:");
-																																																																																						lblHistFecha1.setBounds(82, 5, 120, 26);
-																																																																																						panelHistorico.add(lblHistFecha1);
-																																																																																						lblHistFecha1.setForeground(Color.WHITE);
-																																																																																						lblHistFecha1.setFont(new Font("Tahoma", Font.BOLD, 18));
-																																																																																						
-																																																																																								lblHistNuevosSeguidores1Mostrar = new JLabel("");
-																																																																																								lblHistNuevosSeguidores1Mostrar.setBounds(268, 79, 201, 26);
-																																																																																								panelHistorico.add(lblHistNuevosSeguidores1Mostrar);
-																																																																																								lblHistNuevosSeguidores1Mostrar.setBackground(new Color(255, 255, 255));
-																																																																																								lblHistNuevosSeguidores1Mostrar.setForeground(Color.DARK_GRAY);
-																																																																																								lblHistNuevosSeguidores1Mostrar.setFont(new Font("Tahoma", Font.ITALIC, 15));
-																																																																																								lblHistNuevosSeguidores1Mostrar.setBorder(new LineBorder(new Color(0, 0, 0), 1));
-																																																																																								lblHistNuevosSeguidores1Mostrar.setOpaque(true);
-																																																																																								
-																																																																																										lblHistInteracciones1 = new JLabel("Interacciones:");
-																																																																																										lblHistInteracciones1.setBounds(82, 42, 176, 26);
-																																																																																										panelHistorico.add(lblHistInteracciones1);
-																																																																																										lblHistInteracciones1.setForeground(Color.WHITE);
-																																																																																										lblHistInteracciones1.setFont(new Font("Tahoma", Font.BOLD, 18));
-																																																																																										
-																																																																																												lblHistInteracciones1Mostrar = new JLabel("");
-																																																																																												lblHistInteracciones1Mostrar.setBounds(268, 42, 201, 26);
-																																																																																												panelHistorico.add(lblHistInteracciones1Mostrar);
-																																																																																												lblHistInteracciones1Mostrar.setBackground(new Color(255, 255, 255));
-																																																																																												lblHistInteracciones1Mostrar.setForeground(Color.DARK_GRAY);
-																																																																																												lblHistInteracciones1Mostrar.setFont(new Font("Tahoma", Font.ITALIC, 15));
-																																																																																												lblHistInteracciones1Mostrar.setBorder(new LineBorder(new Color(0, 0, 0), 1));
-																																																																																												lblHistInteracciones1Mostrar.setOpaque(true);
-																																																																																												
-																																																																																														lblHistFecha1Mostrar = new JLabel("");
-																																																																																														lblHistFecha1Mostrar.setBounds(268, 5, 201, 26);
-																																																																																														panelHistorico.add(lblHistFecha1Mostrar);
-																																																																																														lblHistFecha1Mostrar.setBackground(new Color(255, 255, 255));
-																																																																																														lblHistFecha1Mostrar.setForeground(Color.DARK_GRAY);
-																																																																																														lblHistFecha1Mostrar.setFont(new Font("Tahoma", Font.ITALIC, 15));
-																																																																																														lblHistFecha1Mostrar.setBorder(new LineBorder(new Color(0, 0, 0), 1));
-																																																																																														lblHistFecha1Mostrar.setOpaque(true);
-																																																																																														
-																																																																																																lblHistNuevosSeguidores1 = new JLabel("Nuevos Seguidores:");
-																																																																																																lblHistNuevosSeguidores1.setBounds(82, 79, 188, 26);
-																																																																																																panelHistorico.add(lblHistNuevosSeguidores1);
-																																																																																																lblHistNuevosSeguidores1.setForeground(Color.WHITE);
-																																																																																																lblHistNuevosSeguidores1.setFont(new Font("Tahoma", Font.BOLD, 18));
-																																																																																																
-																																																																																																		lblFotoPlataformaEnfasis = new JLabel("");
-																																																																																																		lblFotoPlataformaEnfasis.setForeground(Color.DARK_GRAY);
-																																																																																																		lblFotoPlataformaEnfasis.setFont(new Font("Tahoma", Font.ITALIC, 20));
-																																																																																																		lblFotoPlataformaEnfasis.setBounds(0, 0, 280, 82);
-																																																																																																		lblFotoPlataformaEnfasis.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-																																																																																																		lblFotoPlataformaEnfasis.setOpaque(true);
-																																																																																																		panelYoutube.add(lblFotoPlataformaEnfasis);
-																																																																																																		
-																																																																																																				lblPlataforma = new JLabel("Plataforma");
-																																																																																																				lblPlataforma.setFont(new Font("Tahoma", Font.BOLD, 22));
-																																																																																																				lblPlataforma.setBounds(10, 234, 606, 46);
-																																																																																																				panelInformacion.add(lblPlataforma);
-																																																																																																				
-																																																																																																						btnMetricasContenido = new JButton("");
-																																																																																																						btnMetricasContenido.setBounds(626, 314, 207, 102);
-																																																																																																						btnMetricasContenido.setIcon(new ImageIcon(asignarImgDatos(btnMetricasContenido)));
-																																																																																																						panelInformacion.add(btnMetricasContenido);
-																																																																																																						
-																																																																																																								lblNewLabel = new JLabel("Ver Métricas");
-																																																																																																								lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-																																																																																																								lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-																																																																																																								lblNewLabel.setBounds(626, 279, 207, 27);
-																																																																																																								panelInformacion.add(lblNewLabel);
-																																																																																																								
-																																																																																																										btnColaboraciones = new JButton("");
-																																																																																																										btnColaboraciones.setBounds(626, 470, 207, 102);
-																																																																																																										btnColaboraciones.setIcon(new ImageIcon(asignarImgDatos(btnColaboraciones)));
-																																																																																																										panelInformacion.add(btnColaboraciones);
-																																																																																																										
-																																																																																																												lblVerColaboraciones = new JLabel("Ver Colaboraciones");
-																																																																																																												lblVerColaboraciones.setHorizontalAlignment(SwingConstants.CENTER);
-																																																																																																												lblVerColaboraciones.setFont(new Font("Tahoma", Font.BOLD, 20));
-																																																																																																												lblVerColaboraciones.setBounds(626, 435, 207, 27);
-																																																																																																												panelInformacion.add(lblVerColaboraciones);
 
-		panelModifcar = new JPanel();
-		panelModifcar.setBackground(Color.ORANGE);
-		panelModifcar.setBounds(0, 0, 1292, 752);
-		contentPane.add(panelModifcar);
-		panelModifcar.setLayout(null);
-		panelModifcar.setVisible(rootPaneCheckingEnabled);
-		panelModifcar.setVisible(false);
+		// Set up the duplicated panel
+		panelMayorRendimiento2 = new JPanel();
+		panelMayorRendimiento2.setBackground(SystemColor.scrollbar);
+		panelMayorRendimiento2.setLayout(null);
+		panelMayorRendimiento2.setBounds(382, 160, 843, 582);
+		panelMostrarTodo.add(panelMayorRendimiento2);
 
-		JLabel lblModificarCSV = new JLabel("Eliminación del CSV global");
-		lblModificarCSV.setBounds(127, 5, 1114, 104);
-		lblModificarCSV.setHorizontalAlignment(SwingConstants.CENTER);
-		lblModificarCSV.setForeground(new Color(0, 0, 128));
-		lblModificarCSV.setFont(new Font("Dialog", Font.BOLD, 75));
-		panelModifcar.add(lblModificarCSV);
+		// Configure duplicated labels similarly but using different variable names
+		lblYouTubeCrecimiento = new JLabel("");
+		lblYouTubeCrecimiento.setBackground(new Color(255, 255, 128));
+		lblYouTubeCrecimiento.setForeground(Color.DARK_GRAY);
+		lblYouTubeCrecimiento.setHorizontalAlignment(SwingConstants.CENTER);
+		lblYouTubeCrecimiento.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblYouTubeCrecimiento.setBounds(10, 180, 396, 46);
+		lblYouTubeCrecimiento.setOpaque(true);
+		lblYouTubeCrecimiento.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		panelMayorRendimiento2.add(lblYouTubeCrecimiento);
 
-		btnVolverMenu = new JButton("");
-		btnVolverMenu.setForeground(new Color(255, 255, 255));
-		btnVolverMenu.setBackground(new Color(255, 204, 0));
-		btnVolverMenu.setBounds(10, 25, 107, 74);
-		btnVolverMenu.setIcon(new ImageIcon(asignarImagenSalir(btnVolverMenu)));
-		btnVolverMenu.setOpaque(false);
+		// Repeat this for all remaining labels...
 
-		panelModifcar.add(btnVolverMenu);
+		lblTwitchCrecimiento = new JLabel("");
+		lblTwitchCrecimiento.setBackground(new Color(255, 255, 128));
+		lblTwitchCrecimiento.setForeground(Color.DARK_GRAY);
+		lblTwitchCrecimiento.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTwitchCrecimiento.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblTwitchCrecimiento.setBounds(444, 445, 389, 46);
+		lblTwitchCrecimiento.setOpaque(true);
+		lblTwitchCrecimiento.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		panelMayorRendimiento2.add(lblTwitchCrecimiento);
 
-		panelModificarCSVEnfasis = new JPanel();
-		panelModificarCSVEnfasis.setBackground(new Color(0, 64, 0));
-		panelModificarCSVEnfasis.setBounds(74, 149, 1153, 593);
-		panelModifcar.add(panelModificarCSVEnfasis);
-		panelModificarCSVEnfasis.setLayout(null);
+		// Average Labels for the duplicated panel
+		lblPromedioYoutube2 = new JLabel("");
+		lblPromedioYoutube2.setFont(new Font("Tahoma", Font.BOLD, 35));
+		lblPromedioYoutube2.setBounds(81, 49, 241, 120);
+		lblPromedioYoutube2.setIcon(new ImageIcon(asignarImgPlataforma(lblPromedioYoutube)));
+		panelMayorRendimiento2.add(lblPromedioYoutube2);
 
-		// Panel eliminar publicación
-		panelEliminarpubli = new JPanel();
-		panelEliminarpubli.setBounds(70, 40, 1012, 507); // Tamaño ajustado similar a panelInfoMetricas
-		panelModificarCSVEnfasis.add(panelEliminarpubli);
-		panelEliminarpubli.setBackground(new Color(144, 238, 144)); // Fondo verde claro
-		panelEliminarpubli.setLayout(null);
-		panelEliminarpubli.setBorder(new LineBorder(new Color(34, 139, 34), 2, true)); // Borde verde oscuro
+		lblPromedioTwitch2 = new JLabel("");
+		lblPromedioTwitch2.setFont(new Font("Tahoma", Font.BOLD, 35));
+		lblPromedioTwitch2.setBounds(515, 314, 241, 120);
+		lblPromedioTwitch2.setIcon(new ImageIcon(asignarImgPlataforma(lblPromedioTwitch)));
+		panelMayorRendimiento2.add(lblPromedioTwitch2);
 
-		// Título "¿Qué quieres eliminar?"
-		lblNewLabel_3_3_21 = new JLabel("¿Qué quieres eliminar?");
-		lblNewLabel_3_3_21.setBackground(Color.BLACK);
-		lblNewLabel_3_3_21.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_3_3_21.setForeground(Color.BLACK);
-		lblNewLabel_3_3_21.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		lblNewLabel_3_3_21.setBounds(10, 10, 992, 70);
-		panelEliminarpubli.add(lblNewLabel_3_3_21);
+		lblPromedioTiktok2 = new JLabel("");
+		lblPromedioTiktok2.setFont(new Font("Tahoma", Font.BOLD, 35));
+		lblPromedioTiktok2.setBounds(81, 314, 241, 120);
+		lblPromedioTiktok2.setIcon(new ImageIcon(asignarImgPlataforma(lblPromedioTiktok)));
+		panelMayorRendimiento2.add(lblPromedioTiktok2);
 
-		// Subtítulo "Mínimo eliminar"
-		lblNewLabel_3_3_22 = new JLabel("Numero de estadistica minima para eliminar:");
-		lblNewLabel_3_3_22.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_3_3_22.setForeground(Color.BLACK);
-		lblNewLabel_3_3_22.setFont(new Font("Tw Cen MT Condensed", Font.PLAIN, 40));
-		lblNewLabel_3_3_22.setBounds(10, 185, 992, 70);
-		panelEliminarpubli.add(lblNewLabel_3_3_22);
+		lblPromedioInstagram2 = new JLabel("");
+		lblPromedioInstagram2.setFont(new Font("Tahoma", Font.BOLD, 35));
+		lblPromedioInstagram2.setBounds(515, 49, 241, 120);
+		lblPromedioInstagram2.setIcon(new ImageIcon(asignarImgPlataforma(lblPromedioInstagram)));
+		panelMayorRendimiento2.add(lblPromedioInstagram2);
 
-		// Campo de texto para fecha
-		textFieldfecha = new JTextField();
-		textFieldfecha.setHorizontalAlignment(SwingConstants.CENTER);
-		textFieldfecha.setColumns(10);
-		textFieldfecha.setBounds(99, 275, 783, 61); // Aumenté el tamaño para más espacio
-		textFieldfecha.setFont(new Font("Tahoma", Font.PLAIN, 28));
-		textFieldfecha.setBorder(new LineBorder(new Color(34, 139, 34), 2)); // Borde verde
-		panelEliminarpubli.add(textFieldfecha);
+		lblInstagramCrecimiento = new JLabel("");
+		lblInstagramCrecimiento.setOpaque(true);
+		lblInstagramCrecimiento.setHorizontalAlignment(SwingConstants.CENTER);
+		lblInstagramCrecimiento.setForeground(Color.DARK_GRAY);
+		lblInstagramCrecimiento.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblInstagramCrecimiento.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		lblInstagramCrecimiento.setBackground(new Color(255, 255, 128));
+		lblInstagramCrecimiento.setBounds(437, 180, 396, 46);
+		panelMayorRendimiento2.add(lblInstagramCrecimiento);
 
-		// ComboBox para opciones
-		comboBoxOpcion = new JComboBox();
-		comboBoxOpcion.setBounds(290, 104, 420, 61); // Alineación y tamaño ajustados
-		comboBoxOpcion.setBackground(Color.WHITE); // Fondo verde claro
-		comboBoxOpcion.setForeground(Color.BLACK); // Texto verde oscuro
-		comboBoxOpcion.setFont(new Font("Tahoma", Font.PLAIN, 28));
-		panelEliminarpubli.add(comboBoxOpcion);
+		lblCrecimientoTikTok = new JLabel("");
+		lblCrecimientoTikTok.setOpaque(true);
+		lblCrecimientoTikTok.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCrecimientoTikTok.setForeground(Color.DARK_GRAY);
+		lblCrecimientoTikTok.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblCrecimientoTikTok.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		lblCrecimientoTikTok.setBackground(new Color(255, 255, 128));
+		lblCrecimientoTikTok.setBounds(10, 445, 396, 46);
+		panelMayorRendimiento2.add(lblCrecimientoTikTok);
 
-		// Botón eliminar publicación
-		btnEliminarPublicacion = new JButton("ELIMINAR");
-		btnEliminarPublicacion.setBounds(290, 357, 420, 61); // Ajusté el tamaño
-		btnEliminarPublicacion.setFont(new Font("Tahoma", Font.BOLD, 30));
-		btnEliminarPublicacion.setBackground(new Color(0, 100, 0)); // Verde oscuro
-		btnEliminarPublicacion.setForeground(Color.WHITE);
-		panelEliminarpubli.add(btnEliminarPublicacion);
+		panelInfoCreador = new JPanel();
+		panelInfoCreador.setBackground(new Color(255, 228, 181));
+		panelInfoCreador.setBounds(382, 119, 843, 623);
+		panelMostrarTodo.add(panelInfoCreador);
+		panelInfoCreador.setLayout(new BorderLayout(0, 0));
 
-		lblCreado = new JLabel("");
-		lblCreado.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCreado.setForeground(new Color(128, 0, 0));
-		lblCreado.setFont(new Font("Dialog", Font.BOLD, 25));
-		lblCreado.setBounds(10, 427, 992, 70);
-		panelEliminarpubli.add(lblCreado);
+		lblTituloInformacion = new JLabel("Información");
+		lblTituloInformacion.setOpaque(true);
+		lblTituloInformacion.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTituloInformacion.setForeground(Color.WHITE);
+		lblTituloInformacion.setFont(new Font("Tahoma", Font.BOLD, 30));
+		lblTituloInformacion.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		lblTituloInformacion.setBackground(new Color(0, 0, 128));
+		panelInfoCreador.add(lblTituloInformacion, BorderLayout.NORTH);
 
-		panelMenu = new JPanel();
-		panelMenu.setBackground(Color.ORANGE);
-		panelMenu.setBounds(0, 0, 1292, 765);
-		contentPane.add(panelMenu);
-		panelMenu.setLayout(null);
+		panelInformacion = new JPanel();
+		panelInformacion.setBackground(SystemColor.scrollbar);
+		panelInfoCreador.add(panelInformacion, BorderLayout.CENTER);
+		panelInformacion.setLayout(null);
 
-		lblMenu = new JLabel("MENU");
-		lblMenu.setFont(new Font("Dialog", Font.BOLD, 99));
-		lblMenu.setForeground(SystemColor.controlText);
-		lblMenu.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMenu.setBounds(0, 0, 1292, 146);
-		panelMenu.add(lblMenu);
+		lblId = new JLabel("Id:");
+		lblId.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblId.setBounds(10, 10, 108, 46);
+		panelInformacion.add(lblId);
 
-		panelBotones = new JPanel();
-		panelBotones.setBackground(Color.BLACK);
-		panelBotones.setBounds(154, 156, 1001, 579);
-		panelMenu.add(panelBotones);
-		panelBotones.setLayout(new GridLayout(3, 3, 0, 10));
+		lblNombre = new JLabel("Nombre:");
+		lblNombre.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblNombre.setBounds(10, 66, 108, 46);
+		panelInformacion.add(lblNombre);
 
-		btnVerStreamer = new JButton("Información General");
-		btnVerStreamer.setFont(new Font("Tahoma", Font.BOLD, 30));
-		btnVerStreamer.setForeground(Color.WHITE);
-		btnVerStreamer.setBackground(new Color(70, 130, 180));
-		btnVerStreamer.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
-		panelBotones.add(btnVerStreamer);
+		lblIdMostrar = new JLabel("");
+		lblIdMostrar.setForeground(Color.DARK_GRAY);
+		lblIdMostrar.setFont(new Font("Tahoma", Font.ITALIC, 20));
+		lblIdMostrar.setBounds(128, 10, 202, 46);
+		panelInformacion.add(lblIdMostrar);
 
-		// Botón de Información de Creador
-		btnInfoCreador = new JButton("Eliminar publicaciones por Parametro Mínimo");
-		btnInfoCreador.setForeground(Color.WHITE);
-		btnInfoCreador.setFont(new Font("Tahoma", Font.BOLD, 30));
-		btnInfoCreador.setBackground(new Color(70, 130, 180)); // Cambia el color de fondo para más atractivo
-		btnInfoCreador.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2)); // Añadir borde
-		panelBotones.add(btnInfoCreador);
+		lblNombreMostrar = new JLabel("");
+		lblNombreMostrar.setForeground(Color.DARK_GRAY);
+		lblNombreMostrar.setFont(new Font("Tahoma", Font.ITALIC, 20));
+		lblNombreMostrar.setBounds(128, 66, 202, 46);
+		panelInformacion.add(lblNombreMostrar);
 
-		// Botón de Métricas
-		btnMetricas = new JButton("Exportacion");
-		btnMetricas.setForeground(Color.WHITE);
-		btnMetricas.setFont(new Font("Tahoma", Font.BOLD, 30));
-		btnMetricas.setBackground(new Color(70, 130, 180)); // Cambia el color de fondo para más atractivo
-		btnMetricas.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2)); // Añadir borde
-		panelBotones.add(btnMetricas);
+		lblPais = new JLabel("País:");
+		lblPais.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblPais.setBounds(340, 10, 108, 46); // Adjust position
+		panelInformacion.add(lblPais);
 
-		btnJoptionPaint = new JButton("");
-		btnJoptionPaint.setBackground(SystemColor.desktop);
-		btnJoptionPaint.setForeground(Color.RED);
-		btnJoptionPaint.setFont(new Font("Tahoma", Font.BOLD, 38));
-		btnJoptionPaint.setBounds(1219, 0, 73, 60);
-		btnJoptionPaint.setIcon(new ImageIcon(asignarImagenBomba(btnJoptionPaint)));
-		panelMenu.add(btnJoptionPaint);
+		lblPaisMostrar = new JLabel("");
+		lblPaisMostrar.setFont(new Font("Tahoma", Font.ITALIC, 20));
+		lblPaisMostrar.setBounds(458, 10, 158, 46); // Adjust position
+		panelInformacion.add(lblPaisMostrar);
+
+		lblTematica_1 = new JLabel("Temática:");
+		lblTematica_1.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblTematica_1.setBounds(340, 66, 121, 46); // Adjust position
+		panelInformacion.add(lblTematica_1);
+
+		lblTematicaMostrar = new JLabel("");
+		lblTematicaMostrar.setFont(new Font("Tahoma", Font.ITALIC, 20));
+		lblTematicaMostrar.setBounds(458, 66, 158, 46); // Adjust position
+		panelInformacion.add(lblTematicaMostrar);
+
+		lblSeguidoresTotales = new JLabel("Total Seguidores");
+		lblSeguidoresTotales.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSeguidoresTotales.setFont(new Font("Tahoma", Font.BOLD, 23));
+		lblSeguidoresTotales.setBounds(620, 10, 213, 46); // Adjust position
+		panelInformacion.add(lblSeguidoresTotales);
+
+		lblSeguidoresTotalesMostrar = new JLabel("");
+		lblSeguidoresTotalesMostrar.setBackground(new Color(255, 255, 128));
+		lblSeguidoresTotalesMostrar.setForeground(SystemColor.textHighlight);
+		lblSeguidoresTotalesMostrar.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSeguidoresTotalesMostrar.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblSeguidoresTotalesMostrar.setBounds(626, 66, 207, 46); // Adjust position
+		lblSeguidoresTotalesMostrar.setOpaque(true);
+		lblSeguidoresTotalesMostrar.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		panelInformacion.add(lblSeguidoresTotalesMostrar);
+
+		// Initialize and configure the labels with the same style
+
+		// Label for "Interacciones Totales"
+		lblInteraccionesTotales = new JLabel("Total Interaccion");
+		lblInteraccionesTotales.setHorizontalAlignment(SwingConstants.CENTER);
+		lblInteraccionesTotales.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblInteraccionesTotales.setBounds(10, 122, 202, 46); // Adjust position
+		panelInformacion.add(lblInteraccionesTotales);
+
+		// Label to display the total interactions (Interacciones Totales)
+		lblInteraccionesTotalesMostrar = new JLabel("");
+		lblInteraccionesTotalesMostrar.setBackground(new Color(255, 255, 128)); // Set background color
+		lblInteraccionesTotalesMostrar.setForeground(Color.DARK_GRAY); // Set text color
+		lblInteraccionesTotalesMostrar.setHorizontalAlignment(SwingConstants.CENTER); // Center the text
+		lblInteraccionesTotalesMostrar.setFont(new Font("Tahoma", Font.BOLD, 22)); // Font style
+		lblInteraccionesTotalesMostrar.setBounds(10, 178, 202, 46); // Adjust position
+		lblInteraccionesTotalesMostrar.setOpaque(true); // Make the background opaque
+		lblInteraccionesTotalesMostrar.setBorder(new LineBorder(new Color(0, 0, 0), 2)); // Add border
+		panelInformacion.add(lblInteraccionesTotalesMostrar);
+
+		// Label for "Promedio Vistas Mensuales"
+		lblPromedioVistasMensuales = new JLabel("Promedio Vistas Mensuales:");
+		lblPromedioVistasMensuales.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPromedioVistasMensuales.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblPromedioVistasMensuales.setBounds(232, 122, 291, 46); // Adjust position
+		panelInformacion.add(lblPromedioVistasMensuales);
+
+		// Label to display the monthly average views (Promedio Vistas Mensuales)
+		lblPromedioVistasMensualesMostrar = new JLabel("");
+		lblPromedioVistasMensualesMostrar.setBackground(new Color(255, 255, 128)); // Set background color
+		lblPromedioVistasMensualesMostrar.setForeground(Color.DARK_GRAY); // Set text color
+		lblPromedioVistasMensualesMostrar.setHorizontalAlignment(SwingConstants.CENTER); // Center the text
+		lblPromedioVistasMensualesMostrar.setFont(new Font("Tahoma", Font.BOLD, 22)); // Font style
+		lblPromedioVistasMensualesMostrar.setBounds(232, 178, 280, 46); // Adjust position
+		lblPromedioVistasMensualesMostrar.setOpaque(true); // Make the background opaque
+		lblPromedioVistasMensualesMostrar.setBorder(new LineBorder(new Color(0, 0, 0), 2)); // Add border
+		panelInformacion.add(lblPromedioVistasMensualesMostrar);
+
+		// Label for "Tasa Crecimiento Seguidores"
+		lblTasaCrecimientoSeguidores = new JLabel("Tasa Crecimiento Seguidores");
+		lblTasaCrecimientoSeguidores.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTasaCrecimientoSeguidores.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblTasaCrecimientoSeguidores.setBounds(533, 122, 300, 46); // Adjust position
+		panelInformacion.add(lblTasaCrecimientoSeguidores);
+
+		// Label to display the follower growth rate (Tasa Crecimiento Seguidores)
+		lblTasaCrecimientoSeguidoresMostrar = new JLabel("");
+		lblTasaCrecimientoSeguidoresMostrar.setBackground(new Color(255, 255, 128)); // Set background color
+		lblTasaCrecimientoSeguidoresMostrar.setForeground(Color.DARK_GRAY); // Set text color
+		lblTasaCrecimientoSeguidoresMostrar.setHorizontalAlignment(SwingConstants.CENTER); // Center the text
+		lblTasaCrecimientoSeguidoresMostrar.setFont(new Font("Tahoma", Font.BOLD, 22)); // Font style
+		lblTasaCrecimientoSeguidoresMostrar.setBounds(533, 178, 300, 46); // Adjust position
+		lblTasaCrecimientoSeguidoresMostrar.setOpaque(true); // Make the background opaque
+		lblTasaCrecimientoSeguidoresMostrar.setBorder(new LineBorder(new Color(0, 0, 0), 2)); // Add border
+		panelInformacion.add(lblTasaCrecimientoSeguidoresMostrar);
+
+		panelPlataforma = new JPanel();
+		panelPlataforma.setBounds(10, 279, 606, 293);
+		panelInformacion.add(panelPlataforma);
+		panelPlataforma.setLayout(new BorderLayout(0, 0));
+
+		comboBoxPlataforma = new JComboBox();
+		comboBoxPlataforma.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		panelPlataforma.add(comboBoxPlataforma, BorderLayout.NORTH);
+
+		panelYoutube = new JPanel();
+		panelYoutube.setBackground(Color.BLACK);
+		panelPlataforma.add(panelYoutube, BorderLayout.CENTER);
+		panelYoutube.setLayout(null);
+
+		lblPlataformaUsuario = new JLabel("Usuario:");
+		lblPlataformaUsuario.setForeground(Color.WHITE);
+		lblPlataformaUsuario.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblPlataformaUsuario.setBounds(290, 22, 89, 46);
+		panelYoutube.add(lblPlataformaUsuario);
+
+		lblPlataformaSeguidores = new JLabel("Seguidores:");
+		lblPlataformaSeguidores.setForeground(Color.WHITE);
+		lblPlataformaSeguidores.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblPlataformaSeguidores.setBounds(10, 86, 120, 26);
+		panelYoutube.add(lblPlataformaSeguidores);
+
+		lblPlataformaFechaCreacion = new JLabel("Fecha Creación:");
+		lblPlataformaFechaCreacion.setForeground(Color.WHITE);
+		lblPlataformaFechaCreacion.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblPlataformaFechaCreacion.setBounds(290, 86, 157, 26);
+		panelYoutube.add(lblPlataformaFechaCreacion);
+
+		// Initialize and configure the labels to display the actual values (with
+		// dynamic content)
+		lblFotoPlataforma = new JLabel("");
+		lblFotoPlataforma.setForeground(Color.DARK_GRAY);
+		lblFotoPlataforma.setFont(new Font("Tahoma", Font.ITALIC, 20));
+		lblFotoPlataforma.setBounds(22, 10, 233, 65);
+		panelYoutube.add(lblFotoPlataforma);
+
+		lblPlataformaUsuarioMostrar = new JLabel("");
+		lblPlataformaUsuarioMostrar.setForeground(Color.WHITE);
+		lblPlataformaUsuarioMostrar.setFont(new Font("Tahoma", Font.ITALIC, 18));
+		lblPlataformaUsuarioMostrar.setBounds(389, 22, 207, 46);
+		panelYoutube.add(lblPlataformaUsuarioMostrar);
+
+		lblPlataformaSeguidoresMostrar = new JLabel("");
+		lblPlataformaSeguidoresMostrar.setBackground(new Color(255, 255, 255));
+		lblPlataformaSeguidoresMostrar.setForeground(Color.DARK_GRAY);
+		lblPlataformaSeguidoresMostrar.setFont(new Font("Tahoma", Font.ITALIC, 16));
+		lblPlataformaSeguidoresMostrar.setBounds(130, 86, 150, 26);
+		lblPlataformaSeguidoresMostrar.setBorder(new LineBorder(new Color(0, 0, 0), 1));
+		lblPlataformaSeguidoresMostrar.setOpaque(true);
+		panelYoutube.add(lblPlataformaSeguidoresMostrar);
+
+		lblPlataformaFechaCreacionMostrar = new JLabel("");
+		lblPlataformaFechaCreacionMostrar.setBackground(new Color(255, 255, 255));
+		lblPlataformaFechaCreacionMostrar.setForeground(Color.DARK_GRAY);
+		lblPlataformaFechaCreacionMostrar.setFont(new Font("Tahoma", Font.ITALIC, 16));
+		lblPlataformaFechaCreacionMostrar.setBounds(457, 86, 139, 26);
+		lblPlataformaFechaCreacionMostrar.setBorder(new LineBorder(new Color(0, 0, 0), 1));
+		lblPlataformaFechaCreacionMostrar.setOpaque(true);
+		panelYoutube.add(lblPlataformaFechaCreacionMostrar);
+
+		lblHistorial = new JLabel("Historial:");
+		lblHistorial.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblHistorial.setForeground(new Color(255, 255, 255));
+		lblHistorial.setBounds(10, 123, 101, 31);
+		panelYoutube.add(lblHistorial);
+
+		comboBoxHistorial = new JComboBox();
+		comboBoxHistorial.setBounds(129, 122, 151, 26);
+		panelYoutube.add(comboBoxHistorial);
+
+		panelHistorico = new JPanel();
+		panelHistorico.setBackground(SystemColor.windowBorder);
+		panelHistorico.setBounds(10, 148, 586, 112);
+		panelYoutube.add(panelHistorico);
+		panelHistorico.setLayout(null);
+
+		// Initialize and configure the historical data labels (labels without actual
+		// values)
+		lblHistFecha1 = new JLabel("Fecha:");
+		lblHistFecha1.setBounds(82, 5, 120, 26);
+		panelHistorico.add(lblHistFecha1);
+		lblHistFecha1.setForeground(Color.WHITE);
+		lblHistFecha1.setFont(new Font("Tahoma", Font.BOLD, 18));
+
+		lblHistNuevosSeguidores1Mostrar = new JLabel("");
+		lblHistNuevosSeguidores1Mostrar.setBounds(268, 79, 201, 26);
+		panelHistorico.add(lblHistNuevosSeguidores1Mostrar);
+		lblHistNuevosSeguidores1Mostrar.setBackground(new Color(255, 255, 255));
+		lblHistNuevosSeguidores1Mostrar.setForeground(Color.DARK_GRAY);
+		lblHistNuevosSeguidores1Mostrar.setFont(new Font("Tahoma", Font.ITALIC, 15));
+		lblHistNuevosSeguidores1Mostrar.setBorder(new LineBorder(new Color(0, 0, 0), 1));
+		lblHistNuevosSeguidores1Mostrar.setOpaque(true);
+
+		lblHistInteracciones1 = new JLabel("Interacciones:");
+		lblHistInteracciones1.setBounds(82, 42, 176, 26);
+		panelHistorico.add(lblHistInteracciones1);
+		lblHistInteracciones1.setForeground(Color.WHITE);
+		lblHistInteracciones1.setFont(new Font("Tahoma", Font.BOLD, 18));
+
+		lblHistInteracciones1Mostrar = new JLabel("");
+		lblHistInteracciones1Mostrar.setBounds(268, 42, 201, 26);
+		panelHistorico.add(lblHistInteracciones1Mostrar);
+		lblHistInteracciones1Mostrar.setBackground(new Color(255, 255, 255));
+		lblHistInteracciones1Mostrar.setForeground(Color.DARK_GRAY);
+		lblHistInteracciones1Mostrar.setFont(new Font("Tahoma", Font.ITALIC, 15));
+		lblHistInteracciones1Mostrar.setBorder(new LineBorder(new Color(0, 0, 0), 1));
+		lblHistInteracciones1Mostrar.setOpaque(true);
+
+		lblHistFecha1Mostrar = new JLabel("");
+		lblHistFecha1Mostrar.setBounds(268, 5, 201, 26);
+		panelHistorico.add(lblHistFecha1Mostrar);
+		lblHistFecha1Mostrar.setBackground(new Color(255, 255, 255));
+		lblHistFecha1Mostrar.setForeground(Color.DARK_GRAY);
+		lblHistFecha1Mostrar.setFont(new Font("Tahoma", Font.ITALIC, 15));
+		lblHistFecha1Mostrar.setBorder(new LineBorder(new Color(0, 0, 0), 1));
+		lblHistFecha1Mostrar.setOpaque(true);
+
+		lblHistNuevosSeguidores1 = new JLabel("Nuevos Seguidores:");
+		lblHistNuevosSeguidores1.setBounds(82, 79, 188, 26);
+		panelHistorico.add(lblHistNuevosSeguidores1);
+		lblHistNuevosSeguidores1.setForeground(Color.WHITE);
+		lblHistNuevosSeguidores1.setFont(new Font("Tahoma", Font.BOLD, 18));
+
+		lblFotoPlataformaEnfasis = new JLabel("");
+		lblFotoPlataformaEnfasis.setForeground(Color.DARK_GRAY);
+		lblFotoPlataformaEnfasis.setFont(new Font("Tahoma", Font.ITALIC, 20));
+		lblFotoPlataformaEnfasis.setBounds(0, 0, 280, 82);
+		lblFotoPlataformaEnfasis.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		lblFotoPlataformaEnfasis.setOpaque(true);
+		panelYoutube.add(lblFotoPlataformaEnfasis);
+
+		lblPlataforma = new JLabel("Plataforma");
+		lblPlataforma.setFont(new Font("Tahoma", Font.BOLD, 22));
+		lblPlataforma.setBounds(10, 234, 606, 46);
+		panelInformacion.add(lblPlataforma);
+
+		btnMetricasContenido = new JButton("");
+		btnMetricasContenido.setBounds(626, 314, 207, 102);
+		btnMetricasContenido.setIcon(new ImageIcon(asignarImgDatos(btnMetricasContenido)));
+		panelInformacion.add(btnMetricasContenido);
+
+		lblNewLabel = new JLabel("Ver Métricas");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblNewLabel.setBounds(626, 279, 207, 27);
+		panelInformacion.add(lblNewLabel);
+
+		btnColaboraciones = new JButton("");
+		btnColaboraciones.setBounds(626, 470, 207, 102);
+		btnColaboraciones.setIcon(new ImageIcon(asignarImgDatos(btnColaboraciones)));
+		panelInformacion.add(btnColaboraciones);
+
+		lblVerColaboraciones = new JLabel("Ver Colaboraciones");
+		lblVerColaboraciones.setHorizontalAlignment(SwingConstants.CENTER);
+		lblVerColaboraciones.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblVerColaboraciones.setBounds(626, 435, 207, 27);
+		panelInformacion.add(lblVerColaboraciones);
 
 		// Configuración del segundo panel duplicado
 		panelMostrarColabs = new JPanel();
