@@ -1160,13 +1160,15 @@ public class Controlador implements ActionListener {
 		String estadoColaboracion = (String) this.vista.comboBoxEstadoColaboracion.getSelectedItem();
 
 		if (!ValidarDate(fechaInicio) || !ValidarDate(fechaFin)) {
-			this.vista.lblCreado2.setText("Las fechas deben estar en el formato dd/mm/yyyy.");
+			mostrarMensajeTemporal(this.vista.lblCreado2,"Las fechas deben estar en el formato dd-mm-yyyy.");
+
 			return;
 		}
 
 		if (idCreador1.equals("") || colaborador.equals("") || tematica.equals("") || fechaInicio.equals("")
 				|| fechaFin.equals("") || tipoColaboracion.equals("") || estadoColaboracion == null) {
-			this.vista.lblCreado2.setText("Error: Todos los campos deben estar rellenos.");
+			mostrarMensajeTemporal(this.vista.lblCreado2,"Error: Todos los campos deben estar rellenos.");
+
 		} else {
 			for (JsonNode creatorNode : streamer) {
 				String creatorId = creatorNode.get("id").asText();
