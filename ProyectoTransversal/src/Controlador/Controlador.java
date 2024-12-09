@@ -1879,7 +1879,7 @@ public class Controlador implements ActionListener {
 				dialog.setSize(300, 150);
 				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
-				JLabel label = new JLabel("Asieri Villalibre", SwingConstants.CENTER);
+				JLabel label = new JLabel("No debiste pulsarme (pulsa aceptar para salir)", SwingConstants.CENTER);
 				label.setForeground(Color.RED);
 				dialog.add(label, BorderLayout.CENTER);
 
@@ -1916,7 +1916,7 @@ public class Controlador implements ActionListener {
 				}
 
 				try {
-					Thread.sleep(1);
+					Thread.sleep(10);
 				} catch (InterruptedException ex) {
 					ex.printStackTrace();
 				}
