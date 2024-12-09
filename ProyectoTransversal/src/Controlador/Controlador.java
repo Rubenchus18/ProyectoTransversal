@@ -1622,6 +1622,8 @@ public class Controlador implements ActionListener {
 			}
 		}).start();
 	}
+//2 
+	//Aqui tiene que cuando le de a la lista esta anidado con los otros 3
 	public JsonNode metricaderendimiento(ArrayNode streamer) {
 		String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
 		if (nombreSeleccionado == null || nombreSeleccionado.trim().isEmpty()) {
@@ -1670,7 +1672,6 @@ public class Controlador implements ActionListener {
 		}
 		return creador;
 	}
-//
 	public void calcularPromedios(JsonNode creatorNode) {
 		ArrayNode plataformas = (ArrayNode) creatorNode.get("plataformas");
 		for (JsonNode plataforma : plataformas) {
@@ -1734,6 +1735,7 @@ public class Controlador implements ActionListener {
 	}
 	
 //7
+	//Que cuando le de al jlist de stremaer ponga los labels de primer segundo y tercermetodo que estan comentado 
 	public JsonNode mostrarDatosStreamer1(ArrayNode streamer) {
 		String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
 		if (nombreSeleccionado == null || nombreSeleccionado.trim().isEmpty()) {
@@ -1823,6 +1825,55 @@ public class Controlador implements ActionListener {
 		}
 	}
 //9
+	//Cuando le de a la lista que aparezca el todos los campos en el panel 
+	public JsonNode mostrarDatosStreamer2(ArrayNode streamer) {
+		String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
+		if (nombreSeleccionado == null || nombreSeleccionado.trim().isEmpty()) {
+			return null;
+		}
+
+		String[] partes = nombreSeleccionado.split(" ");
+		if (partes.length < 2) {
+			return null;
+		}
+
+		String idCreadorSeleccionado = partes[1];
+		JsonNode creador = null;
+
+		if (idCreadorSeleccionado != null) {
+			vista.comboBoxHistorial.removeAllItems();
+			for (JsonNode creatorNode : streamer) {
+				String idCreador = creatorNode.get("id").asText();
+				if (idCreador.equals(idCreadorSeleccionado)) {
+					String nombreCreador = creatorNode.get("nombre").asText();
+					String pais = creatorNode.get("pais").asText();
+					String tematica = creatorNode.get("tematica").asText();
+					String seguidoresTotales = creatorNode.get("seguidores_totales").asText();
+					JsonNode estadisticas = creatorNode.get("estadisticas");
+					String interaccionesTotales = estadisticas.get("interacciones_totales").asText();
+					String promedioVistasMensuales = estadisticas.get("promedio_vistas_mensuales").asText();
+					String promedioVistasMensuales1 = estadisticas.get("promedio_vistas_mensuales").asText();
+					Double tasaCrecimientoSeguidoresDouble = estadisticas.get("tasa_crecimiento_seguidores").asDouble();
+					String tasaCrecimientoSeguidores = String.format("%.2f%%", tasaCrecimientoSeguidoresDouble);
+
+				
+
+					analizarRendimientoPorTipoContenido();
+					creador = creatorNode;
+					vista.comboBoxPlataforma.setSelectedIndex(0);
+					vista.lblIdMostrar.setText(idCreador);
+					vista.lblNombreMostrar.setText(nombreCreador);
+					vista.lblPaisMostrar.setText(pais);
+					vista.lblTematicaMostrar.setText(tematica);
+					vista.lblSeguidoresTotalesMostrar.setText(seguidoresTotales);
+					vista.lblInteraccionesTotalesMostrar.setText(interaccionesTotales);
+					vista.lblPromedioVistasMensualesMostrar.setText(promedioVistasMensuales1);
+					vista.lblTasaCrecimientoSeguidoresMostrar.setText(tasaCrecimientoSeguidores);
+				}
+			}
+		}
+		return creador;
+	}
 	public void analizarRendimientoPorTipoContenido() {
 		Map<String, Map<String, int[]>> rendimiento = new HashMap<>();
 
@@ -1867,55 +1918,5 @@ public class Controlador implements ActionListener {
 
 		JOptionPane.showMessageDialog(vista, resultados.toString(), "Análisis Comparativo de Rendimiento",
 				JOptionPane.INFORMATION_MESSAGE);
-	}
-
-	public JsonNode mostrarDatosStreamer2(ArrayNode streamer) {
-		String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
-		if (nombreSeleccionado == null || nombreSeleccionado.trim().isEmpty()) {
-			return null;
-		}
-
-		String[] partes = nombreSeleccionado.split(" ");
-		if (partes.length < 2) {
-			return null;
-		}
-
-		String idCreadorSeleccionado = partes[1];
-		JsonNode creador = null;
-
-		if (idCreadorSeleccionado != null) {
-			vista.comboBoxHistorial.removeAllItems();
-			for (JsonNode creatorNode : streamer) {
-				String idCreador = creatorNode.get("id").asText();
-				if (idCreador.equals(idCreadorSeleccionado)) {
-					String nombreCreador = creatorNode.get("nombre").asText();
-					String pais = creatorNode.get("pais").asText();
-					String tematica = creatorNode.get("tematica").asText();
-					String seguidoresTotales = creatorNode.get("seguidores_totales").asText();
-					JsonNode estadisticas = creatorNode.get("estadisticas");
-					String interaccionesTotales = estadisticas.get("interacciones_totales").asText();
-					String promedioVistasMensuales = estadisticas.get("promedio_vistas_mensuales").asText();
-					String promedioVistasMensuales1 = estadisticas.get("promedio_vistas_mensuales").asText();
-					Double tasaCrecimientoSeguidoresDouble = estadisticas.get("tasa_crecimiento_seguidores").asDouble();
-					String tasaCrecimientoSeguidores = String.format("%.2f%%", tasaCrecimientoSeguidoresDouble);
-
-				
-
-					analizarRendimientoPorTipoContenido();
-
-					creador = creatorNode;
-					vista.comboBoxPlataforma.setSelectedIndex(0);
-					vista.lblIdMostrar.setText(idCreador);
-					vista.lblNombreMostrar.setText(nombreCreador);
-					vista.lblPaisMostrar.setText(pais);
-					vista.lblTematicaMostrar.setText(tematica);
-					vista.lblSeguidoresTotalesMostrar.setText(seguidoresTotales);
-					vista.lblInteraccionesTotalesMostrar.setText(interaccionesTotales);
-					vista.lblPromedioVistasMensualesMostrar.setText(promedioVistasMensuales1);
-					vista.lblTasaCrecimientoSeguidoresMostrar.setText(tasaCrecimientoSeguidores);
-				}
-			}
-		}
-		return creador;
 	}
 }
