@@ -91,7 +91,7 @@ public class Controlador implements ActionListener {
 		this.vista.listStreamers.addListSelectionListener(e -> {
 			if (vista.panelInformacion.isVisible()) {
 				creadorSeleccionado = mostrarDatosStreamer(streamer);
-			} else  {
+			} else {
 				metricaderendimiento(streamer);
 			}
 		});
@@ -241,86 +241,20 @@ public class Controlador implements ActionListener {
 			this.vista.panelModifcar.setVisible(false);
 		}
 		if (e.getSource() == this.vista.btnVerInformacionStreamer) {
-			// cambiar paneles y titulo
-			vista.panelInformacion.setVisible(true);
-			vista.panelMayorRendimiento2.setVisible(false);
-			vista.panelMayorRendimiento.setVisible(false);
-			vista.lblTituloInformacion.setText("Información");
-
-			// boton VetINFO activo
-			vista.btnVerInformacionStreamer.setForeground(new Color(255, 255, 255));
-			vista.btnVerInformacionStreamer.setBackground(Color.DARK_GRAY);
-			vista.btnVerInformacionStreamer.setFont(new Font("Tahoma", Font.BOLD, 15));
-			vista.btnVerInformacionStreamer.setBounds(382, 84, 187, 37);
-
-			// botonMayorRendimiento inactivo
-			vista.btnMayorRendimiento.setFont(new Font("Tahoma", Font.BOLD, 14));
-			vista.btnMayorRendimiento.setBounds(569, 91, 198, 30);
-			vista.btnMayorRendimiento.setForeground(SystemColor.desktop);
-			vista.btnMayorRendimiento.setBackground(SystemColor.inactiveCaption);
-
-			// botonCrecimiento inactivo
-			vista.btnCrecimientoTrimestre.setForeground(SystemColor.desktop);
-			vista.btnCrecimientoTrimestre.setFont(new Font("Tahoma", Font.BOLD, 14));
-			vista.btnCrecimientoTrimestre.setBackground(SystemColor.inactiveCaption);
-			vista.btnCrecimientoTrimestre.setBounds(994, 91, 231, 30);
+			habilitarInfoGeneral();
 
 		}
 		if (e.getSource() == this.vista.btnCrecimientoTrimestre) {
 
-			// cambiar paneles y titulo
-			vista.panelMayorRendimiento.setVisible(false);
-			vista.panelInformacion.setVisible(false);
-			vista.panelMayorRendimiento2.setVisible(true);
-			vista.lblTituloInformacion.setText("Crecimiento Trimestral");
+			habilitarCrecimiento();
 
-			// boton VetINFO inactivo
-
-			vista.btnVerInformacionStreamer.setBounds(382, 91, 187, 30);
-			vista.btnVerInformacionStreamer.setForeground(SystemColor.desktop);
-			vista.btnVerInformacionStreamer.setBackground(SystemColor.inactiveCaption);
-			vista.btnVerInformacionStreamer.setFont(new Font("Tahoma", Font.BOLD, 14));
-
-			// botonMayorRendimiento inactivo
-			vista.btnMayorRendimiento.setFont(new Font("Tahoma", Font.BOLD, 14));
-			vista.btnMayorRendimiento.setBounds(569, 91, 198, 30);
-			vista.btnMayorRendimiento.setForeground(SystemColor.desktop);
-			vista.btnMayorRendimiento.setBackground(SystemColor.inactiveCaption);
-
-			// botonMayorRendimiento activo
-			vista.btnCrecimientoTrimestre.setForeground(new Color(255, 255, 255));
-			vista.btnCrecimientoTrimestre.setBackground(Color.DARK_GRAY);
-			vista.btnCrecimientoTrimestre.setFont(new Font("Tahoma", Font.BOLD, 15));
-			vista.btnCrecimientoTrimestre.setBounds(994, 84, 231, 37);
 		}
 
 		// Verificar si el origen del evento es btnMayorRendimiento
 		if (e.getSource() == this.vista.btnMayorRendimiento) {
 
-			// cambiar paneles y titulo
-			vista.panelMayorRendimiento.setVisible(true);
-			vista.panelInformacion.setVisible(false);
-			vista.panelMayorRendimiento2.setVisible(false);
-			vista.lblTituloInformacion.setText("Mayor Rendimiento");
+			habilitarRendimiento();
 
-			// boton VetINFO inactivo
-
-			vista.btnVerInformacionStreamer.setBounds(382, 91, 187, 30);
-			vista.btnVerInformacionStreamer.setForeground(SystemColor.desktop);
-			vista.btnVerInformacionStreamer.setBackground(SystemColor.inactiveCaption);
-			vista.btnVerInformacionStreamer.setFont(new Font("Tahoma", Font.BOLD, 14));
-
-			// botonMayorRendimiento activo
-			vista.btnMayorRendimiento.setBounds(569, 84, 198, 37);
-			vista.btnMayorRendimiento.setForeground(new Color(255, 255, 255));
-			vista.btnMayorRendimiento.setBackground(Color.DARK_GRAY);
-			vista.btnMayorRendimiento.setFont(new Font("Tahoma", Font.BOLD, 15));
-
-			// botonCrecimiento inactivo
-			vista.btnCrecimientoTrimestre.setForeground(SystemColor.desktop);
-			vista.btnCrecimientoTrimestre.setFont(new Font("Tahoma", Font.BOLD, 14));
-			vista.btnCrecimientoTrimestre.setBackground(SystemColor.inactiveCaption);
-			vista.btnCrecimientoTrimestre.setBounds(994, 91, 231, 30);
 		}
 
 		if (e.getSource() == vista.btnColaboraciones) {
@@ -372,6 +306,89 @@ public class Controlador implements ActionListener {
 			bomba();
 		}
 
+	}
+
+	private void habilitarInfoGeneral() {
+		// cambiar paneles y titulo
+		vista.panelInformacion.setVisible(true);
+		vista.panelMayorRendimiento2.setVisible(false);
+		vista.panelMayorRendimiento.setVisible(false);
+		vista.lblTituloInformacion.setText("Información");
+
+		// boton VetINFO activo
+		vista.btnVerInformacionStreamer.setForeground(new Color(255, 255, 255));
+		vista.btnVerInformacionStreamer.setBackground(Color.DARK_GRAY);
+		vista.btnVerInformacionStreamer.setFont(new Font("Tahoma", Font.BOLD, 15));
+		vista.btnVerInformacionStreamer.setBounds(382, 84, 187, 37);
+
+		// botonMayorRendimiento inactivo
+		vista.btnMayorRendimiento.setFont(new Font("Tahoma", Font.BOLD, 14));
+		vista.btnMayorRendimiento.setBounds(569, 91, 198, 30);
+		vista.btnMayorRendimiento.setForeground(SystemColor.desktop);
+		vista.btnMayorRendimiento.setBackground(SystemColor.inactiveCaption);
+
+		// botonCrecimiento inactivo
+		vista.btnCrecimientoTrimestre.setForeground(SystemColor.desktop);
+		vista.btnCrecimientoTrimestre.setFont(new Font("Tahoma", Font.BOLD, 14));
+		vista.btnCrecimientoTrimestre.setBackground(SystemColor.inactiveCaption);
+		vista.btnCrecimientoTrimestre.setBounds(766, 91, 231, 30);
+		vista.listStreamers.clearSelection();
+	}
+
+	private void habilitarCrecimiento() {
+		// cambiar paneles y titulo
+		vista.panelMayorRendimiento.setVisible(false);
+		vista.panelInformacion.setVisible(false);
+		vista.panelMayorRendimiento2.setVisible(true);
+		vista.lblTituloInformacion.setText("Crecimiento Trimestral");
+
+		// boton VetINFO inactivo
+
+		vista.btnVerInformacionStreamer.setBounds(382, 91, 187, 30);
+		vista.btnVerInformacionStreamer.setForeground(SystemColor.desktop);
+		vista.btnVerInformacionStreamer.setBackground(SystemColor.inactiveCaption);
+		vista.btnVerInformacionStreamer.setFont(new Font("Tahoma", Font.BOLD, 14));
+
+		// botonMayorRendimiento inactivo
+		vista.btnMayorRendimiento.setFont(new Font("Tahoma", Font.BOLD, 14));
+		vista.btnMayorRendimiento.setBounds(569, 91, 198, 30);
+		vista.btnMayorRendimiento.setForeground(SystemColor.desktop);
+		vista.btnMayorRendimiento.setBackground(SystemColor.inactiveCaption);
+
+		// botonCrecimientoTrimestre activo
+		vista.btnCrecimientoTrimestre.setForeground(new Color(255, 255, 255));
+		vista.btnCrecimientoTrimestre.setBackground(Color.DARK_GRAY);
+		vista.btnCrecimientoTrimestre.setFont(new Font("Tahoma", Font.BOLD, 15));
+		vista.btnCrecimientoTrimestre.setBounds(766, 84, 231, 37);
+		vista.listStreamers.clearSelection();
+	}
+
+	private void habilitarRendimiento() {
+		// cambiar paneles y titulo
+		vista.panelMayorRendimiento.setVisible(true);
+		vista.panelInformacion.setVisible(false);
+		vista.panelMayorRendimiento2.setVisible(false);
+		vista.lblTituloInformacion.setText("Mayor Rendimiento");
+
+		// boton VetINFO inactivo
+
+		vista.btnVerInformacionStreamer.setBounds(382, 91, 187, 30);
+		vista.btnVerInformacionStreamer.setForeground(SystemColor.desktop);
+		vista.btnVerInformacionStreamer.setBackground(SystemColor.inactiveCaption);
+		vista.btnVerInformacionStreamer.setFont(new Font("Tahoma", Font.BOLD, 14));
+
+		// botonMayorRendimiento activo
+		vista.btnMayorRendimiento.setBounds(569, 84, 198, 37);
+		vista.btnMayorRendimiento.setForeground(new Color(255, 255, 255));
+		vista.btnMayorRendimiento.setBackground(Color.DARK_GRAY);
+		vista.btnMayorRendimiento.setFont(new Font("Tahoma", Font.BOLD, 15));
+
+		// botonCrecimiento inactivo
+		vista.btnCrecimientoTrimestre.setForeground(SystemColor.desktop);
+		vista.btnCrecimientoTrimestre.setFont(new Font("Tahoma", Font.BOLD, 14));
+		vista.btnCrecimientoTrimestre.setBackground(SystemColor.inactiveCaption);
+		vista.btnCrecimientoTrimestre.setBounds(766, 91, 231, 30);
+		vista.listStreamers.clearSelection();
 	}
 
 	public void habilitarModificarCSVLikes() {
@@ -1739,8 +1756,6 @@ public class Controlador implements ActionListener {
 					calcularPromedios(creatorNode);
 					identificarMejorRendimiento(creatorNode);
 					calcularCrecimientoMensual(creatorNode);
-
-
 				}
 			}
 		}
@@ -1897,18 +1912,18 @@ public class Controlador implements ActionListener {
 			int seguidoresInicio = 0;
 			int seguidoresFin = 0;
 
-			// Procesar el histórico para calcular las tasas de crecimiento
+			boolean primerRegistro = true; // Indicador para determinar la primera iteración
+
 			for (JsonNode registro : historico) {
-				String fecha = registro.get("fecha").asText();
 				int nuevosSeguidores = registro.get("nuevos_seguidores").asInt();
 
-				if (fecha.startsWith("2023-01") || fecha.startsWith("2023-02") || fecha.startsWith("2023-03")) {
-					if (fecha.equals("2023-01-10")) {
-						seguidoresInicio += nuevosSeguidores;
-					}
-					if (fecha.equals("2023-03-30")) {
-						seguidoresFin += nuevosSeguidores;
-					}
+				if (primerRegistro) {
+					// Guardar en la primera iteración
+					seguidoresInicio += nuevosSeguidores;
+					primerRegistro = false; // Cambiar la bandera para la siguiente iteración
+				} else {
+					// Guardar en la siguiente iteración
+					seguidoresFin += nuevosSeguidores;
 				}
 			}
 
