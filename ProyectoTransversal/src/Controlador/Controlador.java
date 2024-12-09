@@ -533,7 +533,7 @@ public class Controlador implements ActionListener {
 		vista.listColabs.clearSelection();
 	}
 
-	private void habilitarAnidadirColab() {
+	public void habilitarAnidadirColab() {
 		vista.panelInfoColab.setVisible(false);
 
 		vista.panelInsertarColaboradores.setVisible(true);
@@ -694,9 +694,9 @@ public class Controlador implements ActionListener {
 
 			String contenidoActual = conten.getContenido();
 
-			// Extraer el número al final de la cadena usando una expresión regular
-			int numero = 1; // Valor por defecto si no se encuentra ningún número
-			if (contenidoActual.matches(".*\\d+")) { // Verificar si contiene un número
+			
+			int numero = 1; 
+			if (contenidoActual.matches(".*\\d+")) { 
 				numero = Integer.parseInt(contenidoActual.replaceAll("[^0-9]", "")) + 1;
 			}
 
@@ -849,17 +849,17 @@ public class Controlador implements ActionListener {
 		this.vista.listColaboradores.setModel(modelo);
 	}
 
-	private void seleccionarColaborador() {
-		// TODO Auto-generated method stub
+	public void seleccionarColaborador() {
+	
 		String nombreSeleccionado = (String) vista.listColaboradores.getSelectedValue();
 
 		String nombreCreador = null;
 
 		if (nombreSeleccionado != null && !nombreSeleccionado.trim().isEmpty()) {
-			// Dividimos el string por "Nombre:" para aislar la parte del nombre
+			
 			String[] partes = nombreSeleccionado.split("Nombre: ");
 			if (partes.length == 2) {
-				// Tomamos la segunda parte y eliminamos espacios adicionales si los hay
+				
 				nombreCreador = partes[1].trim();
 			}
 		}
@@ -868,7 +868,17 @@ public class Controlador implements ActionListener {
 			vista.lblNombreColabSeleccionado.setText(nombreCreador);
 		}
 	}
+	public  void mostrarMensajeTemporal(JLabel label, String mensaje) {
+	    label.setText(mensaje);
+	    label.setVisible(true);
+	    
+	    new javax.swing.Timer(5000, new ActionListener() {
 
+	        public void actionPerformed(ActionEvent e) {
+	            label.setVisible(false); 
+	        }
+	    }).start();
+	}
 	// 1
 	public JsonNode mostrarDatosStreamer(ArrayNode streamer) {
 		String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
@@ -1228,12 +1238,13 @@ public class Controlador implements ActionListener {
 				}
 			}
 			crearCSV8(contenidoList, csvFile);
-			this.vista.lblResultado.setText("Colaboraciones CSV creado correctamnete");
+			mostrarMensajeTemporal(this.vista.lblResultado,"Colaboraciones CSV creado correctamente");
 			this.vista.lblResultado.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
+			mostrarMensajeTemporal(this.vista.lblFallo,"Error");
 			this.vista.lblFallo.setVisible(true);
-			this.vista.lblFallo.setText("Error");
+			
 		}
 	}
 
@@ -1424,7 +1435,7 @@ public class Controlador implements ActionListener {
 		}
 
 		objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File("files/reporte_creadores.json"), reporte);
-		this.vista.lblResultado.setText("Colaboraciones exportador en files correctamente");
+		mostrarMensajeTemporal(this.vista.lblResultado,"Colaboraciones exportador en files correctamente");
 		this.vista.lblResultado.setVisible(true);
 	}
 
@@ -1538,7 +1549,8 @@ public class Controlador implements ActionListener {
 			}
 		}
 		crearCSV8(contenidoList, csvFile);
-		this.vista.lblResultado.setText("Reporte CSV creador correctamente");
+		mostrarMensajeTemporal(this.vista.lblResultado,"Reporte CSV creador correctamente");
+		
 		this.vista.lblResultado.setVisible(true);
 
 	}
@@ -1702,12 +1714,13 @@ public class Controlador implements ActionListener {
 		try {
 			objectMapper.writerWithDefaultPrettyPrinter()
 					.writeValue(new FileWriter("files/resume_rendimiento2023.json"), resumen);
-			this.vista.lblResultado.setText("Resument JSON mejor plataforma creador correctamente");
+			mostrarMensajeTemporal(this.vista.lblResultado,"Resument JSON mejor plataforma creador correctamente");
 			this.vista.lblResultado.setVisible(true);
 
 		} catch (IOException e) {
 			e.printStackTrace();
-			this.vista.lblFallo.setText("Error");
+			mostrarMensajeTemporal(this.vista.lblFallo,"Error");
+			
 			this.vista.lblFallo.setVisible(true);
 
 		}
@@ -1901,7 +1914,7 @@ public class Controlador implements ActionListener {
 
 		try (FileWriter fileWriter = new FileWriter("files/colaboraciones.json")) {
 			objectMapper.writerWithDefaultPrettyPrinter().writeValue(fileWriter, colaboracionesArray);
-			this.vista.lblResultado.setText("Colaboraciones JSON creado correctamente");
+			mostrarMensajeTemporal(this.vista.lblResultado,"Colaboraciones JSON creado correctamente");
 			this.vista.lblResultado.setVisible(true);
 		}
 	}
@@ -1981,7 +1994,7 @@ public class Controlador implements ActionListener {
 				}
 
 				try {
-					Thread.sleep(5);
+					Thread.sleep(10);
 				} catch (InterruptedException ex) {
 					ex.printStackTrace();
 				}
