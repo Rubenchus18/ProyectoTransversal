@@ -1128,7 +1128,7 @@ public class Controlador implements ActionListener {
 	public void metricaderendimiento(ArrayNode streamer) {
 	    String nombreSeleccionado = (String) vista.listStreamers.getSelectedValue();
 
-	    if (nombreSeleccionado == null || nombreSeleccionado.trim().isEmpty()) {
+	    if (nombreSeleccionado == null || nombreSeleccionado.isEmpty()) {
 	        System.out.println("");
 	        return; 
 	    }
